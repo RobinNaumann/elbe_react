@@ -1,0 +1,50 @@
+:root {
+  /*font-family: "apple color emoji", "segoe ui emoji", "noto color emoji",
+    "android emoji", "emojisymbols", "emojione mozilla", "twemoji mozilla",
+    "segoe ui symbol", $t-font-body;*/
+  font-family: $t-font-body, "Noto Color Emoji";
+  line-height: 1.3;
+
+  color: #222;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  border-collapse: separate;
+}
+
+@media (orientation: portrait) {
+  :root {
+    font-size: 13px;
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+body,
+#app,
+.elbe-base {
+  margin: 0;
+  display: block;
+  min-height: 100vh;
+  background-color: white;
+}
+
+body:has(.no-page-scroll) {
+  overflow: hidden;
+}
+
+.debug {
+  display: none;
+}
