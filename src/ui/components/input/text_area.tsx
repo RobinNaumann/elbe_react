@@ -1,4 +1,4 @@
-import { applyProps, type ElbeProps } from "../box";
+import { applyProps, type ElbeProps } from "../base/box";
 
 export function _TextArea({
   label,

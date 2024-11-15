@@ -1,5 +1,5 @@
 import { _ElbeErr } from "../../util/error_view";
-import { applyProps, type ElbeProps } from "../box";
+import { applyProps, type ElbeProps } from "../base/box";
 
 export function Range({
   value,

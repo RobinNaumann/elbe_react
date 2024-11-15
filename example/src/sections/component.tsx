@@ -5,7 +5,8 @@ import {
   Button,
   Card,
   Checkbox,
-  Column,
+  ChooseButton,
+  cManners,
   ElbeDialog,
   Field,
   IconButton,
@@ -14,90 +15,37 @@ import {
   Select,
   showConfirmDialog,
   showToast,
-  Text,
+  Spinner,
   ToggleButton,
 } from "elbe-ui";
 import { useState } from "preact/hooks";
-import { ExampleGroup, ExampleSection, useConfigSignal } from "./util/util";
+import { ExampleGroup, ExampleSection, useConfigSignal } from "../util/section";
 
-export function Home() {
-  const [count, setCount] = useState(0);
-  const [value, setValue] = useState("heart");
-
+export function ComponentsSection() {
   return (
-    <div class="primary">
-      <_HeroSection />
-      <div class="base-limited">
-        <Box mode="light" scheme="primary" padding={1}>
-          <Column stretch gap={6}>
-            <_InstallSection />
-            <ExampleSection title="Components">
-              <_BoxGroup />
-              <_CardGroup />
-              <_IconGroup />
-              <_IconButtonGroup />
-              <_ButtonGroup />
-              <_TextInputGroup />
-              <_ToggleButtonGroup />
-              <_SelectGroup />
-              <_RangeGroup />
-              <_CheckBoxGroup />
-              <_BadgeGroup />
-              <_TooltipGroup />
-            </ExampleSection>
-            <ExampleSection title="Dialogs">
-              <_ConfirmDialog />
-              <_DialogGroup />
-              <_ToastGroup />
-            </ExampleSection>
-
-            <div style="height: 10rem" />
-          </Column>
-        </Box>
-      </div>
-    </div>
-  );
-}
-
-function _InstallSection({}) {
-  return (
-    <ExampleSection title="install">
-      <div class="column cross-stretch gap-half">
-        <div>
-          you can install elbe in React using the npm package{" "}
-          <Text.code v="elbe-ui" />
-        </div>
-        <div>
-          then, in your main .scss/.sass file, import the styles with your
-          definitions:
-        </div>
-        <Card colorScheme="secondary" class="code">
-          <span>@use "elbe-ui/elbe.scss" with (</span>
-          <br />
-          <span> $c-accent: #5e1e9a,</span>
-          <br />
-          <span style="opacity: .5"> //$g-radius: 0,</span>
-          <br />
-          <span style="opacity: .5"> //$t-font-body: "Comic Sans MS",</span>
-          <br />
-          <span style="opacity: .5"> //...</span>
-          <br />
-          <span>);</span>
-        </Card>
-        <div> you can now use elbe components in your React app! 🎉</div>
-      </div>
-    </ExampleSection>
-  );
-}
-
-function _HeroSection({}) {
-  return (
-    <Box mode="light" scheme="secondary" padding={1}>
-      <div class="column cross-center main-center" style="height: 15rem;">
-        <Text.h1 v="elbe" />
-        <div>a cross-platform UI framework for React & Flutter</div>
-      </div>
-    </Box>
+    <>
+      {" "}
+      <ExampleSection title="Components" anchor="components">
+        <_BoxGroup />
+        <_CardGroup />
+        <_IconGroup />
+        <_IconButtonGroup />
+        <_ButtonGroup />
+        <_ToggleButtonGroup />
+        <_ChooseButtonGroup />
+        <_SelectGroup />
+        <_RangeGroup />
+        <_BadgeGroup />
+        <_SpinnerGroup />
+        <_CheckBoxGroup />
+        <_TextInputGroup />
+      </ExampleSection>
+      <ExampleSection title="Modals" anchor="modals">
+        <_DialogGroup />
+        <_ConfirmDialog />
+        <_ToastGroup />
+      </ExampleSection>
+    </>
   );
 }
 
@@ -105,7 +53,7 @@ function _TextInputGroup() {
   return (
     <ExampleGroup
       title="Text Input"
-      description="this is some input for text"
+      description="use these to get text input from the user. Where possible, they use system dialogs."
       classes="row wrap"
       code={`
 <Field.text
@@ -142,8 +90,7 @@ function _BoxGroup() {
       title="Box"
       description={"the basis for all components. Also selects a color scheme."}
       classes="row wrap"
-      code={`
-<Box scheme="primary">...</Box>`}
+      code={`<Box.secondary>...</Box.secondary>`}
     >
       {["primary", "secondary", "inverse"].map((v) => (
         <Box scheme={v as any} padding={0.5}>
@@ -160,11 +107,10 @@ function _CardGroup() {
       title="Card"
       description={"a container with border and padding"}
       classes="row wrap"
-      code={`
-<Box colorScheme="primary">...</Box>`}
+      code={`<Card scheme="primary">...</Card>`}
     >
       {["primary", "secondary", "inverse"].map((v) => (
-        <Card colorScheme={v as any}>{v}</Card>
+        <Card scheme={v as any}>{v}</Card>
       ))}
     </ExampleGroup>
   );
@@ -176,8 +122,7 @@ function _IconGroup() {
       title="Icon"
       description={"a collection of icon widgets"}
       classes="row wrap"
-      code={`
-<Icons.Leaf />`}
+      code={`<Icons.Leaf />`}
     >
       <Icons.Leaf />
       <Icons.TreePine />
@@ -195,12 +140,11 @@ function _IconButtonGroup() {
       description="a button with one icon child"
       classes="row wrap"
       config={[enabledSig]}
-      code={`
-<IconButton.action icon={Icons.leaf} onTap={...} />`}
+      code={`<IconButton.minor icon={Icons.leaf} onTap={...} />`}
     >
-      {["major", "minor", "action", "integrated"].map((v) => (
+      {cManners.map((v) => (
         <IconButton
-          colorManner={v as any}
+          manner={v}
           icon={Icons.Leaf}
           onTap={
             enabledSig.signal.value && (() => showToast("button was tapped"))
@@ -221,13 +165,13 @@ function _ButtonGroup() {
       description="a versatile button with different styles"
       classes="row wrap"
       config={[enabledSig, iconSig]}
-      code={`<Button.action icon={Icons.leaf} message="hey" onTap={...} />`}
+      code={`<Button.minor icon={Icons.leaf} label="hey" onTap={...} />`}
     >
-      {["major", "minor", "action", "integrated"].map((v) => (
+      {cManners.map((v) => (
         <Button
-          colorManner={v as any}
+          manner={v}
           icon={iconSig.signal.value && Icons.Leaf}
-          message={v}
+          label={v}
           onTap={
             enabledSig.signal.value && (() => showToast("button was tapped"))
           }
@@ -238,52 +182,95 @@ function _ButtonGroup() {
 }
 
 function _ToggleButtonGroup() {
-  const [val, setVal] = useState("leaf");
-  const enabledSig = useConfigSignal("enabled", true);
   const iconSig = useConfigSignal("icon", true);
+  const enabledSig = useConfigSignal("enabled", true);
+  const selSig = useSignal(true);
 
   return (
     <ExampleGroup
       title="Toggle Button"
-      description="value selection button"
+      description="a button that toggles a value"
       classes="row wrap"
       config={[enabledSig, iconSig]}
       code={`
 <ToggleButton
-  onSelect={enabledSig.signal.value ? (key) => setVal(key) : null}
-  value={val}
-  items={[
-    {
-      icon: iconSig.signal.value ? Icons.Leaf : null,
-      label: "leaf",
-      key: "leaf",
-    },
-    {
-      icon: iconSig.signal.value ? Icons.TreePine : null,
-      label: "pine tree",
-      key: "pine",}]}/>`}
+  icon={Icons.Leaf}
+  label="foliage"
+  value={true}
+  onChange={...}
+/>
+        `}
     >
       <ToggleButton
+        icon={iconSig.signal.value ? Icons.Leaf : null}
+        label="foliage"
+        onChange={enabledSig.signal.value ? (v) => (selSig.value = v) : null}
+        value={selSig.value}
+      />
+    </ExampleGroup>
+  );
+}
+
+function _ChooseButtonGroup() {
+  const [val, setVal] = useState("leaf");
+  const enabledSig = useConfigSignal("enabled", true);
+  const iconSig = useConfigSignal("icon", true);
+  const columnSig = useConfigSignal("column", false);
+
+  return (
+    <ExampleGroup
+      title="Choose Button"
+      description="value selection button"
+      classes="row wrap"
+      config={[enabledSig, iconSig, columnSig]}
+      code={`
+<ChooseButton      
+  items={[
+    {value: "leaf", label: "leaf", icon: Icons.Leaf},
+    {value: "pine", label: "pine"},
+  ]}
+  value={"leaf"}
+  onChange={...}
+  column={true}
+/>`}
+    >
+      <ChooseButton
+        column={columnSig.signal.value}
         items={[
           {
             icon: iconSig.signal.value ? Icons.Leaf : null,
             label: "leaf",
-            key: "leaf",
+            value: "leaf",
           },
           {
             icon: iconSig.signal.value ? Icons.TreePine : null,
             label: "pine tree",
-            key: "pine",
+            value: "pine",
           },
           {
             icon: iconSig.signal.value ? Icons.TreePalm : null,
             label: "palm tree",
-            key: "palm",
+            value: "palm",
           },
         ]}
-        onSelect={enabledSig.signal.value ? (key) => setVal(key) : null}
+        onChange={enabledSig.signal.value ? (key) => setVal(key) : null}
         value={val}
       />
+    </ExampleGroup>
+  );
+}
+
+function _SpinnerGroup() {
+  return (
+    <ExampleGroup
+      title="Spinner"
+      description="a component for showing active progress"
+      classes="row wrap"
+      code={`<Spinner.flat />`}
+    >
+      {["flat", "plain"].map((m) => (
+        <Spinner manner={m as any} />
+      ))}
     </ExampleGroup>
   );
 }
@@ -291,13 +278,14 @@ function _ToggleButtonGroup() {
 function _SelectGroup() {
   return (
     <ExampleGroup
-      title="Toggle Button"
+      title="Select"
       description="drop down menu for value selection"
       classes="row wrap"
       code={`
  <Select
-  onChange={() => {}}
-  options={[{ key: "leaf", label: "leaf" }]}/>`}
+  onChange={(v) => ...}
+  options={[{ key: "leaf", label: "leaf" }]}
+/>`}
     >
       <div />
       <Select
@@ -363,28 +351,25 @@ function _BadgeGroup() {
       description="a small indicator for a value"
       classes="row wrap"
       config={[showSig]}
-      code={`<Badge.error message="2">hello</Badge.error>`}
+      code={`<Badge.error label="2">hello</Badge.error>`}
     >
-      <Badge hidden={!showSig.signal.value} colorStyle="error" message="">
+      <Badge.error hidden={!showSig.signal.value} label="">
         <IconButton.minor icon={Icons.TreePalm} onTap={() => {}} />
-      </Badge>
-      <Badge hidden={!showSig.signal.value} colorStyle="success" message="2">
-        <Button.minor
-          message="hey"
-          icon={Icons.TreeDeciduous}
-          onTap={() => {}}
-        />
-      </Badge>
-      <Badge hidden={!showSig.signal.value} colorStyle="warning" message="9+">
-        <Button.action message="plants" onTap={() => {}} />
-      </Badge>
-      <Badge hidden={!showSig.signal.value} colorStyle="info" message="info">
+      </Badge.error>
+      <Badge.success hidden={!showSig.signal.value} label="2">
+        <Button.minor label="hey" icon={Icons.TreeDeciduous} onTap={() => {}} />
+      </Badge.success>
+      <Badge.warning hidden={!showSig.signal.value} label="9+">
+        <Button.plain label="plants" onTap={() => {}} />
+      </Badge.warning>
+      <Badge.info hidden={!showSig.signal.value} label="info">
         <IconButton.major icon={Icons.Leaf} onTap={() => {}} />
-      </Badge>
+      </Badge.info>
     </ExampleGroup>
   );
 }
 
+/*
 function _TooltipGroup() {
   return (
     <ExampleGroup
@@ -410,7 +395,7 @@ function _TooltipGroup() {
       <Text tooltip="happy" v="I'm very" />
     </ExampleGroup>
   );
-}
+}*/
 
 function _ConfirmDialog() {
   return (
@@ -423,7 +408,7 @@ const v:boolean = await showConfirmDialog({
   message: "this is a message" })`}
     >
       <Button.minor
-        message="show confirm dialog"
+        label="show confirm dialog"
         onTap={async () => {
           const res = await showConfirmDialog({
             title: "are you sure?",
@@ -440,7 +425,7 @@ function _DialogGroup() {
   const openSig = useSignal(false);
   return (
     <ExampleGroup
-      title="Confirm Dialog"
+      title="Dialog"
       description="show a custom dialog"
       code={`
 <ElbeDialog title="custom dialog"
@@ -449,7 +434,7 @@ function _DialogGroup() {
 </ElbeDialog>`}
     >
       <Button.minor
-        message="open custom dialog"
+        label="show dialog"
         onTap={async () => (openSig.value = true)}
       />
       <ElbeDialog
@@ -474,7 +459,7 @@ function _ToastGroup() {
       code={`showToast("hello")`}
     >
       <Button.minor
-        message="open custom dialog"
+        label="show toast"
         onTap={async () => showToast("this is a toast")}
       />
     </ExampleGroup>

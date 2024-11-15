@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import type { ElbeChildren } from "../util/util";
-import { Spaced } from "./util";
+import { IconButton } from "./button/icon_button";
+import { Spaced } from "./layout/spaced";
 
 export function ElbeDialog({
   title,
@@ -22,24 +23,20 @@ export function ElbeDialog({
       style={"text-align: start" + (_style ?? "")}
     >
       <div
-        class=" card plain-opaque padding-none"
+        class="primary card plain-opaque padding-none"
         style="max-width: 40rem; min-width: 10rem"
       >
-        <div class="row cross-start padded">
-          <div class="flex-1 b" style="margin-top: 0.6rem; font-size: 1.2rem">
-            {title}
-          </div>
-          <button
-            class="integrated"
-            style="width: 3rem"
-            onClick={(e) => {
+        <div class="row cross-center padded main-between">
+          <div class="body-l b">{title}</div>
+
+          <IconButton.plain
+            icon={X}
+            onTap={(e) => {
               e.stopPropagation();
               e.preventDefault();
               onClose();
             }}
-          >
-            <X />
-          </button>
+          />
         </div>
         <Spaced amount={0.5} />
         <div class="padded" style="max-height: 80vh; overflow: auto">

@@ -8,15 +8,16 @@
   },
   "dependencies": {
     "@preact/signals": "^1.3.0",
-    "elbe-ui": "file:..",
-    "preact": "^10.13.1",
+    "elbe-ui": "^0.2.37",
+    "preact": "^10.24.2",
     "preact-iso": "^2.6.3",
-    "preact-render-to-string": "^6.5.10"
+    "preact-render-to-string": "^6.5.11",
+    "preact-router": "^4.1.2"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.5.0",
-    "sass": "^1.77.8",
-    "typescript": "^5.5.4",
-    "vite": "^4.3.2"
+    "@preact/preset-vite": "^2.9.1",
+    "sass": "^1.79.4",
+    "typescript": "^5.6.2",
+    "vite": "^4.5.5"
   }
 }

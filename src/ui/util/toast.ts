@@ -6,6 +6,7 @@
 export function showToast(message: string) {
   const toast = document.createElement("div");
   toast.classList.add("toast");
+  toast.classList.add("inverse");
   toast.innerText = message;
   document.body.appendChild(toast);
   setTimeout(() => {

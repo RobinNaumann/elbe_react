@@ -1,5 +1,5 @@
 import React from "preact/compat";
-import { applyProps, type ElbeProps } from "../box";
+import { applyProps, type ElbeProps } from "../base/box";
 import { _TextArea } from "./text_area";
 
 export type InputFieldProps = {

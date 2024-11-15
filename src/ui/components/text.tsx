@@ -1,7 +1,7 @@
 import React from "preact/compat";
-import type { ElbeTypeStyles } from "../color_theme";
+import type { ElbeTypeVariants } from "../theme/type_theme";
 import type { ElbeChildren } from "../util/util";
-import { applyProps, type ElbeProps } from "./box";
+import { applyProps, type ElbeProps } from "./base/box";
 
 export type TextProps = {
   align?: "start" | "center" | "end";
@@ -16,24 +16,24 @@ export type TextProps = {
 } & ElbeProps;
 
 export class Text extends React.Component<
-  TextProps & { typeStyle?: ElbeTypeStyles }
+  TextProps & { variant?: ElbeTypeVariants }
 > {
-  static h1 = (p: TextProps) => <Text {...p} typeStyle="header-1" />;
-  static h2 = (p: TextProps) => <Text {...p} typeStyle="header-2" />;
-  static h3 = (p: TextProps) => <Text {...p} typeStyle="header-3" />;
-  static h4 = (p: TextProps) => <Text {...p} typeStyle="header-4" />;
-  static h5 = (p: TextProps) => <Text {...p} typeStyle="header-5" />;
-  static h6 = (p: TextProps) => <Text {...p} typeStyle="header-6" />;
-  static s = (p: TextProps) => <Text {...p} typeStyle="text-s" />;
-  static m = (p: TextProps) => <Text {...p} typeStyle="text-m" />;
-  static l = (p: TextProps) => <Text {...p} typeStyle="text-l" />;
-  static code = (p: TextProps) => <Text {...p} typeStyle="code" />;
+  static h1 = (p: TextProps) => <Text {...p} variant="h1" />;
+  static h2 = (p: TextProps) => <Text {...p} variant="h2" />;
+  static h3 = (p: TextProps) => <Text {...p} variant="h3" />;
+  static h4 = (p: TextProps) => <Text {...p} variant="h4" />;
+  static h5 = (p: TextProps) => <Text {...p} variant="h5" />;
+  static h6 = (p: TextProps) => <Text {...p} variant="h6" />;
+  static s = (p: TextProps) => <Text {...p} variant="body-s" />;
+  static m = (p: TextProps) => <Text {...p} variant="body-m" />;
+  static l = (p: TextProps) => <Text {...p} variant="body-l" />;
+  static code = (p: TextProps) => <Text {...p} variant="code" />;
 
   constructor({
-    typeStyle = "text-m",
+    variant = "body-m",
     ...props
-  }: TextProps & { typeStyle?: ElbeTypeStyles }) {
-    super({ ...props, typeStyle });
+  }: TextProps & { variant?: ElbeTypeVariants }) {
+    super({ ...props, variant });
   }
 
   render() {
@@ -46,7 +46,7 @@ export class Text extends React.Component<
       color,
       size,
       children,
-      typeStyle,
+      variant,
       v,
       ...elbe
     } = this.props;
@@ -62,11 +62,12 @@ export class Text extends React.Component<
             underline && "underline",
             striked && "striked",
             color,
-            typeStyle,
+            variant,
           ],
           {
             fontSize: size ? `${size}rem` : "",
             color: color || "",
+            scrollMarginTop: "2rem",
           }
         )}
       >

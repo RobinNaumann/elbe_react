@@ -1,45 +1,45 @@
 import React from "preact/compat";
-import type { ElbeColorStyles } from "../color_theme";
+import type { ElbeColorKinds } from "../theme/colors";
 import type { ElbeChild, ElbeChildren } from "../util/util";
-import type { ElbeProps } from "./box";
+import type { ElbeProps } from "./base/box";
 
 export type BadgeProps = {
   count?: number;
-  message?: string;
+  label?: string;
   child?: ElbeChild;
   hidden?: boolean;
   children?: ElbeChildren;
 } & ElbeProps;
 
 export function TestBadge(p: BadgeProps) {
-  return new Badge({ ...p, colorStyle: "accent" });
+  return new Badge({ ...p, kind: "accent" });
 }
 
 export class Badge extends React.Component<
-  BadgeProps & { colorStyle: ElbeColorStyles }
+  BadgeProps & { kind: ElbeColorKinds }
 > {
-  constructor(props: BadgeProps & { colorStyle: ElbeColorStyles }) {
+  constructor(props: BadgeProps & { kind: ElbeColorKinds }) {
     super(props);
   }
 
   static accent(p: BadgeProps) {
-    return <Badge {...p} colorStyle="accent" />;
+    return <Badge {...p} kind="accent" />;
   }
 
   static error(p: BadgeProps) {
-    return <Badge {...p} colorStyle="error" />;
+    return <Badge {...p} kind="error" />;
   }
 
   static warning(p: BadgeProps) {
-    return <Badge {...p} colorStyle="warning" />;
+    return <Badge {...p} kind="warning" />;
   }
 
   static success(p: BadgeProps) {
-    return <Badge {...p} colorStyle="success" />;
+    return <Badge {...p} kind="success" />;
   }
 
   static info(p: BadgeProps) {
-    return <Badge {...p} colorStyle="info" />;
+    return <Badge {...p} kind="info" />;
   }
 
   render() {
@@ -53,7 +53,7 @@ export class Badge extends React.Component<
         {this.props.child}
         {this.props.children}
         <div
-          class={`b ${this.props.colorStyle} ${this.props.class ?? ""}`}
+          class={`b ${this.props.kind} major ${this.props.class ?? ""}`}
           style={{
             position: "absolute",
             top: "-0.25rem",
@@ -70,7 +70,7 @@ export class Badge extends React.Component<
             ...this.props.style,
           }}
         >
-          {this.props.message ?? this.props.count}
+          {this.props.label ?? this.props.count}
         </div>
       </div>
     );

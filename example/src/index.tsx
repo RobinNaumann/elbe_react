@@ -1,12 +1,22 @@
+import { ElbeTheme } from "elbe-ui";
+import "elbe-ui/dist/elbe.css";
 import { render } from "preact";
-
-import { Home } from "./components.js";
+import { Home } from "./home";
 import "./style.scss";
+import { ThemeBit } from "./util/b_theme";
 
-//import "elbe-ui/elbe.scss";
-
-export function App() {
-  return <Home />;
+function App() {
+  const themeBit = ThemeBit.use();
+  return themeBit.onData((v) => (
+    <ElbeTheme seed={v.seed} dark={v.dark}>
+      <Home />
+    </ElbeTheme>
+  ));
 }
 
-render(<App />, document.getElementById("app"));
+render(
+  <ThemeBit.Provide>
+    <App />
+  </ThemeBit.Provide>,
+  document.getElementById("app")
+);

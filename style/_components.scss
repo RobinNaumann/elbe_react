@@ -1,0 +1,266 @@
+.c_from_context {
+  background-color: var(--c-context-back);
+  color: var(--c-context-front);
+  border: var(--g-border-width) solid var(--c-context-border);
+}
+
+.borderless {
+  border: none;
+}
+
+.bordered {
+  border: var(--g-border-width) solid var(--c-context-border);
+}
+
+
+button {
+  @extend .card;
+  @extend .row;
+  @extend .b;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  gap: 0.5rem;
+  min-height: 3rem;
+  cursor: pointer;
+  color: inherit;
+  background-color: inherit;
+
+  &:not(.dummy_class_001) {
+    border: none;
+  }
+
+  /*& > .lucide {
+    & + div {
+      text-align: center;
+      flex: 1;
+      text-align: center;
+    }
+  }
+
+  &.text-left {
+    text-align: left;
+    div {
+      margin-left: 0.25rem;
+      text-align: left;
+    }
+  }*/
+}
+
+.icon {
+  aspect-ratio: 1;
+  border-radius: 25%;
+  object-fit: cover;
+}
+
+.toast {
+  @extend .card;
+  @extend .b;
+  @extend .raised;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 200;
+  left: 50%;
+  width: min(40rem, 90%);
+  transform: translateX(-50%);
+}
+
+select {
+  @extend .card;
+  @extend .c_from_context;
+  padding: 0 0.75rem;
+  height: 3rem;
+  min-width: 12rem;
+  width: 100%;
+}
+
+dialog {
+  @extend .column;
+  @extend .cross-center;
+  @extend .main-center;
+
+  z-index: 100;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  border: none;
+
+  pointer-events: none;
+
+  background-color: transparent;
+
+  transition: background-color 0.3s ease-in-out;
+  transition: backdrop-filter 0.3s ease-in-out;
+
+  & > * {
+    display: none;
+  }
+
+  &[open=""] {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    pointer-events: all;
+    & > * {
+      display: unset;
+    }
+  }
+}
+
+.expandable {
+  max-height: 0px;
+  transition: max-height 0.25s ease-out;
+  overflow: hidden;
+}
+
+.expandable:has(*) {
+  max-height: 500px;
+  transition: max-height 0.25s ease-in;
+}
+
+.header {
+	@extend .box;
+	@extend .row;
+	width: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	display: flex;
+	font-size: larger;
+	font-weight: 900;
+	border-width: 20px;
+	border-style: solid;
+	border-width: 0 0 2px 0;
+  padding: 0 .75rem;
+	//border-width: 0 0 2px 0;
+
+	background-color: color-mix(in srgb, var(--c-context-back) 50%, transparent);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	z-index: 20;
+	// place border inside the element:
+	box-sizing: border-box;
+	height: 4.5rem;
+	justify-content: space-between;
+	align-items: center;
+  }
+
+// =============== INPUTS ===============
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+textarea
+{
+  @extend .card;
+  @extend .c_from_context;
+
+  padding: 0 0.75rem;
+  height: 3rem;
+  min-width: 12rem;
+  width: 100%;
+}
+
+textarea {
+  height: 6rem;
+  padding: 0.6rem 0.75rem;
+  resize: vertical;
+  min-height: 3rem;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 15rem;
+
+  &::-moz-range-track{
+    background-color: var(--c-context-border);
+    border-radius: 100px;
+    border: none;
+    height: 0.5rem;
+  }
+
+  &::-webkit-slider-runnable-track
+  {
+    border-radius: 100px;
+    border: none;
+    height: 0.5rem;
+  }
+
+  &::-webkit-slider-thumb
+  {
+    
+    border: none;
+    -webkit-appearance: none; // Override default look
+    appearance: none;
+    margin-top: -6px;
+    border-radius: 100px;
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+}
+
+
+// =============== CHECKBOX ===============
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+
+  font: inherit;
+  color: black;
+  //margin: 0.6rem 0.6rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 0.16em solid var(--c-context-border);
+  border-radius: 25%;
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+  outline: none;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.95rem;
+  height: 0.75rem;
+  clip-path: polygon(10% 41%, 37% 75%, 91% 0, 100% 13%, 38% 100%, 0 55%);
+  // check tick clip path outlined:
+  transform: scale(0);
+  transform-origin: center;
+  transition: 0.2s all ease-in-out;
+  //box-shadow: inset 1em 1em green;
+}
+
+input[type="checkbox"]:checked {
+  border-color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 20%, transparent);
+  &::before {
+    transform: scale(1);
+    background-color: var(--c-accent);
+  }
+
+
+}
+
+input[type="checkbox"]:focus {
+  outline: max(2px, 0.15em) solid var(--c-accent);
+  outline-offset: 0;
+}
+
+input[type="checkbox"]:not(:checked):disabled {
+  cursor: not-allowed;
+  border: 0.16em solid var(--c-context-border);
+}
+
+

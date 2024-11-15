@@ -1,0 +1,3030 @@
+:root {
+  --c-accent: rgba(60, 119, 246, 1);
+  --c-info: rgba(32, 89, 153, 1);
+  --c-success: rgba(35, 144, 78, 1);
+  --c-warning: rgba(240, 221, 21, 1);
+  --c-error: rgba(243, 67, 67, 1);
+}
+.elbe {
+  .primary {
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 1);
+    border-color: transparent;
+
+    &.action:hover,
+    button:hover,
+    a:hover,
+    input:hover,
+    select:hover {
+      background-color: rgba(235.875, 235.875, 235.875, 1);
+      color: rgba(19.125, 19.125, 19.125, 1);
+      border-color: transparent;
+    }
+    &.action:active,
+    button:active,
+    a:active,
+    input:active,
+    select:active {
+      background-color: rgba(191.25, 191.25, 191.25, 1);
+      color: rgba(63.75, 63.75, 63.75, 1);
+      border-color: transparent;
+    }
+    &.action:disabled,
+    button:disabled,
+    a:disabled,
+    input:disabled,
+    select:disabled {
+      background-color: rgba(255, 255, 255, 1);
+      color: rgba(0, 0, 0, 1);
+      border-color: transparent;
+    }
+    &.flat {
+      background-color: rgba(255, 255, 255, 1);
+      color: rgba(0, 0, 0, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(235.875, 235.875, 235.875, 1);
+        color: rgba(19.125, 19.125, 19.125, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(191.25, 191.25, 191.25, 1);
+        color: rgba(63.75, 63.75, 63.75, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(255, 255, 255, 1);
+        color: rgba(0, 0, 0, 1);
+        border-color: transparent;
+      }
+    }
+
+    .major {
+      background-color: rgba(60, 119, 246, 1);
+      color: rgba(255, 255, 255, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(55.5, 110.075, 227.55, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(45, 89.25, 184.5, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(
+          141.66666666666666,
+          141.66666666666666,
+          141.66666666666666,
+          1
+        );
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+      }
+    }
+    .minor {
+      background-color: rgba(60, 119, 246, 0.25);
+      color: rgba(60, 119, 246, 1);
+      border-color: rgba(60, 119, 246, 1);
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(55.5, 110.075, 227.55, 0.30625);
+        color: rgba(74.625, 129.2, 246.675, 1);
+        border-color: rgba(55.5, 110.075, 227.55, 0.925);
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(45, 89.25, 184.5, 0.4375);
+        color: rgba(108.75, 153, 248.25, 1);
+        border-color: rgba(45, 89.25, 184.5, 0.75);
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(
+          141.66666666666666,
+          141.66666666666666,
+          141.66666666666666,
+          0.25
+        );
+        color: rgba(
+          141.66666666666666,
+          141.66666666666666,
+          141.66666666666666,
+          1
+        );
+        border-color: rgba(
+          141.66666666666666,
+          141.66666666666666,
+          141.66666666666666,
+          1
+        );
+      }
+    }
+
+    .plain {
+      background-color: rgba(255, 255, 255, 1);
+      color: rgba(0, 0, 0, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(235.875, 235.875, 235.875, 1);
+        color: rgba(19.125, 19.125, 19.125, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(191.25, 191.25, 191.25, 1);
+        color: rgba(63.75, 63.75, 63.75, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(255, 255, 255, 1);
+        color: rgba(0, 0, 0, 1);
+        border-color: transparent;
+      }
+      &.flat {
+        background-color: rgba(255, 255, 255, 1);
+        color: rgba(0, 0, 0, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(235.875, 235.875, 235.875, 1);
+          color: rgba(19.125, 19.125, 19.125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(191.25, 191.25, 191.25, 1);
+          color: rgba(63.75, 63.75, 63.75, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(255, 255, 255, 1);
+          color: rgba(0, 0, 0, 1);
+          border-color: transparent;
+        }
+      }
+    }
+    .accent {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(60, 119, 246, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+        color: rgba(74.625, 129.2, 246.675, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(95.625, 95.625, 95.625, 0.25);
+        color: rgba(108.75, 153, 248.25, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(
+          141.66666666666666,
+          141.66666666666666,
+          141.66666666666666,
+          1
+        );
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(60, 119, 246, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(55.5, 110.075, 227.55, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(45, 89.25, 184.5, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            141.66666666666666,
+            141.66666666666666,
+            141.66666666666666,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(60, 119, 246, 0.25);
+        color: rgba(60, 119, 246, 1);
+        border-color: rgba(60, 119, 246, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(55.5, 110.075, 227.55, 0.30625);
+          color: rgba(74.625, 129.2, 246.675, 1);
+          border-color: rgba(55.5, 110.075, 227.55, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(45, 89.25, 184.5, 0.4375);
+          color: rgba(108.75, 153, 248.25, 1);
+          border-color: rgba(45, 89.25, 184.5, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            141.66666666666666,
+            141.66666666666666,
+            141.66666666666666,
+            0.25
+          );
+          color: rgba(
+            141.66666666666666,
+            141.66666666666666,
+            141.66666666666666,
+            1
+          );
+          border-color: rgba(
+            141.66666666666666,
+            141.66666666666666,
+            141.66666666666666,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(60, 119, 246, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+          color: rgba(74.625, 129.2, 246.675, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(95.625, 95.625, 95.625, 0.25);
+          color: rgba(108.75, 153, 248.25, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            141.66666666666666,
+            141.66666666666666,
+            141.66666666666666,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .info {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(32, 89, 153, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+        color: rgba(48.724999999999994, 101.45, 160.65, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(95.625, 95.625, 95.625, 0.25);
+        color: rgba(87.75, 130.5, 178.5, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(91.33333333333333, 91.33333333333333, 91.33333333333333, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(32, 89, 153, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(29.6, 82.325, 141.525, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(24, 66.75, 114.75, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            91.33333333333333,
+            91.33333333333333,
+            91.33333333333333,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(32, 89, 153, 0.25);
+        color: rgba(32, 89, 153, 1);
+        border-color: rgba(32, 89, 153, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(29.6, 82.325, 141.525, 0.30625);
+          color: rgba(48.724999999999994, 101.45, 160.65, 1);
+          border-color: rgba(29.6, 82.325, 141.525, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(24, 66.75, 114.75, 0.4375);
+          color: rgba(87.75, 130.5, 178.5, 1);
+          border-color: rgba(24, 66.75, 114.75, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            91.33333333333333,
+            91.33333333333333,
+            91.33333333333333,
+            0.25
+          );
+          color: rgba(
+            91.33333333333333,
+            91.33333333333333,
+            91.33333333333333,
+            1
+          );
+          border-color: rgba(
+            91.33333333333333,
+            91.33333333333333,
+            91.33333333333333,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(32, 89, 153, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+          color: rgba(48.724999999999994, 101.45, 160.65, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(95.625, 95.625, 95.625, 0.25);
+          color: rgba(87.75, 130.5, 178.5, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            91.33333333333333,
+            91.33333333333333,
+            91.33333333333333,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .success {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(35, 144, 78, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+        color: rgba(51.5, 152.325, 91.275, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(95.625, 95.625, 95.625, 0.25);
+        color: rgba(90, 171.75, 122.25, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(85.66666666666667, 85.66666666666667, 85.66666666666667, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(35, 144, 78, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(32.375, 133.2, 72.15, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(26.25, 108, 58.5, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            85.66666666666667,
+            85.66666666666667,
+            85.66666666666667,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(35, 144, 78, 0.25);
+        color: rgba(35, 144, 78, 1);
+        border-color: rgba(35, 144, 78, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(32.375, 133.2, 72.15, 0.30625);
+          color: rgba(51.5, 152.325, 91.275, 1);
+          border-color: rgba(32.375, 133.2, 72.15, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(26.25, 108, 58.5, 0.4375);
+          color: rgba(90, 171.75, 122.25, 1);
+          border-color: rgba(26.25, 108, 58.5, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            85.66666666666667,
+            85.66666666666667,
+            85.66666666666667,
+            0.25
+          );
+          color: rgba(
+            85.66666666666667,
+            85.66666666666667,
+            85.66666666666667,
+            1
+          );
+          border-color: rgba(
+            85.66666666666667,
+            85.66666666666667,
+            85.66666666666667,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(35, 144, 78, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+          color: rgba(51.5, 152.325, 91.275, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(95.625, 95.625, 95.625, 0.25);
+          color: rgba(90, 171.75, 122.25, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            85.66666666666667,
+            85.66666666666667,
+            85.66666666666667,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .warning {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(96, 88.4, 8.4, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+        color: rgba(107.925, 100.89500000000001, 26.894999999999996, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(95.625, 95.625, 95.625, 0.25);
+        color: rgba(135.75, 130.05, 70.05, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(64.26666666666667, 64.26666666666667, 64.26666666666667, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(240, 221, 21, 1);
+        color: rgba(0, 0, 0, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(222, 204.425, 19.425, 1);
+          color: rgba(19.125, 19.125, 19.125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(180, 165.75, 15.75, 1);
+          color: rgba(63.75, 63.75, 63.75, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            160.66666666666666,
+            160.66666666666666,
+            160.66666666666666,
+            1
+          );
+          color: rgba(0, 0, 0, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(240, 221, 21, 0.25);
+        color: rgba(96, 88.4, 8.4, 1);
+        border-color: rgba(168, 154.7, 14.7, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(222, 204.425, 19.425, 0.30625);
+          color: rgba(107.925, 100.89500000000001, 26.894999999999996, 1);
+          border-color: rgba(155.4, 143.0975, 13.5975, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(180, 165.75, 15.75, 0.4375);
+          color: rgba(135.75, 130.05, 70.05, 1);
+          border-color: rgba(126, 116.02499999999999, 11.024999999999999, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            160.66666666666666,
+            160.66666666666666,
+            160.66666666666666,
+            0.25
+          );
+          color: rgba(
+            64.26666666666667,
+            64.26666666666667,
+            64.26666666666667,
+            1
+          );
+          border-color: rgba(
+            112.46666666666665,
+            112.46666666666665,
+            112.46666666666665,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(96, 88.4, 8.4, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+          color: rgba(107.925, 100.89500000000001, 26.894999999999996, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(95.625, 95.625, 95.625, 0.25);
+          color: rgba(135.75, 130.05, 70.05, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            64.26666666666667,
+            64.26666666666667,
+            64.26666666666667,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .error {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(243, 67, 67, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+        color: rgba(243.9, 81.1, 81.1, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(95.625, 95.625, 95.625, 0.25);
+        color: rgba(246, 114, 114, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(
+          125.66666666666667,
+          125.66666666666667,
+          125.66666666666667,
+          1
+        );
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(243, 67, 67, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(224.775, 61.975, 61.975, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(182.25, 50.25, 50.25, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            125.66666666666667,
+            125.66666666666667,
+            125.66666666666667,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(243, 67, 67, 0.25);
+        color: rgba(
+          97.20000000000002,
+          26.800000000000004,
+          26.800000000000004,
+          1
+        );
+        border-color: rgba(
+          170.10000000000002,
+          46.900000000000006,
+          46.900000000000006,
+          1
+        );
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(224.775, 61.975, 61.975, 0.30625);
+          color: rgba(
+            109.03500000000001,
+            43.915000000000006,
+            43.915000000000006,
+            1
+          );
+          border-color: rgba(
+            157.34250000000003,
+            43.38250000000001,
+            43.38250000000001,
+            0.925
+          );
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(182.25, 50.25, 50.25, 0.4375);
+          color: rgba(136.65, 83.85, 83.85, 1);
+          border-color: rgba(
+            127.57500000000002,
+            35.175000000000004,
+            35.175000000000004,
+            0.75
+          );
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            125.66666666666667,
+            125.66666666666667,
+            125.66666666666667,
+            0.25
+          );
+          color: rgba(
+            50.26666666666668,
+            50.26666666666668,
+            50.26666666666668,
+            1
+          );
+          border-color: rgba(
+            87.96666666666668,
+            87.96666666666668,
+            87.96666666666668,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(243, 67, 67, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(117.9375, 117.9375, 117.9375, 0.075);
+          color: rgba(243.9, 81.1, 81.1, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(95.625, 95.625, 95.625, 0.25);
+          color: rgba(246, 114, 114, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            125.66666666666667,
+            125.66666666666667,
+            125.66666666666667,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+  }
+  .secondary {
+    background-color: rgba(237, 238, 238, 1);
+    color: rgba(24.225, 24.225, 24.225, 1);
+    border-color: transparent;
+
+    &.action:hover,
+    button:hover,
+    a:hover,
+    input:hover,
+    select:hover {
+      background-color: rgba(220.56375, 221.48875, 221.48875, 1);
+      color: rgba(39.71625, 39.71625, 39.71625, 1);
+      border-color: transparent;
+    }
+    &.action:active,
+    button:active,
+    a:active,
+    input:active,
+    select:active {
+      background-color: rgba(182.2125, 182.9625, 182.9625, 1);
+      color: rgba(75.86250000000001, 75.86250000000001, 75.86250000000001, 1);
+      border-color: transparent;
+    }
+    &.action:disabled,
+    button:disabled,
+    a:disabled,
+    input:disabled,
+    select:disabled {
+      background-color: rgba(
+        237.66666666666666,
+        237.66666666666666,
+        237.66666666666666,
+        1
+      );
+      color: rgba(
+        24.225000000000005,
+        24.225000000000005,
+        24.225000000000005,
+        1
+      );
+      border-color: transparent;
+    }
+    &.flat {
+      background-color: rgba(237, 238, 238, 1);
+      color: rgba(24.225, 24.225, 24.225, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(220.56375, 221.48875, 221.48875, 1);
+        color: rgba(39.71625, 39.71625, 39.71625, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(182.2125, 182.9625, 182.9625, 1);
+        color: rgba(75.86250000000001, 75.86250000000001, 75.86250000000001, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(
+          237.66666666666666,
+          237.66666666666666,
+          237.66666666666666,
+          1
+        );
+        color: rgba(
+          24.225000000000005,
+          24.225000000000005,
+          24.225000000000005,
+          1
+        );
+        border-color: transparent;
+      }
+    }
+
+    .major {
+      background-color: rgba(54, 107.1, 221.4, 1);
+      color: rgba(255, 255, 255, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(51.28875, 100.40625, 206.13375000000002, 1);
+        color: rgba(253.183125, 253.183125, 253.183125, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(44.9625, 84.7875, 170.5125, 1);
+        color: rgba(248.94375, 248.94375, 248.94375, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+      }
+    }
+    .minor {
+      background-color: rgba(54, 107.1, 221.4, 0.25);
+      color: rgba(54, 107.1, 221.4, 1);
+      border-color: rgba(54, 107.1, 221.4, 1);
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(
+          51.28875,
+          100.40625,
+          206.13375000000002,
+          0.30625
+        );
+        color: rgba(67.258125, 116.375625, 222.103125, 1);
+        border-color: rgba(49.95, 99.0675, 204.79500000000002, 0.925);
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(44.9625, 84.7875, 170.5125, 0.4375);
+        color: rgba(98.19375, 138.01875, 223.74375, 1);
+        border-color: rgba(40.5, 80.32499999999999, 166.05, 0.75);
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0.25);
+        color: rgba(127.5, 127.5, 127.5, 1);
+        border-color: rgba(127.5, 127.5, 127.5, 1);
+      }
+    }
+
+    .plain {
+      background-color: rgba(237, 238, 238, 1);
+      color: rgba(24.225, 24.225, 24.225, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(220.56375, 221.48875, 221.48875, 1);
+        color: rgba(39.71625, 39.71625, 39.71625, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(182.2125, 182.9625, 182.9625, 1);
+        color: rgba(75.86250000000001, 75.86250000000001, 75.86250000000001, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(
+          237.66666666666666,
+          237.66666666666666,
+          237.66666666666666,
+          1
+        );
+        color: rgba(
+          24.225000000000005,
+          24.225000000000005,
+          24.225000000000005,
+          1
+        );
+        border-color: transparent;
+      }
+      &.flat {
+        background-color: rgba(237, 238, 238, 1);
+        color: rgba(24.225, 24.225, 24.225, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(220.56375, 221.48875, 221.48875, 1);
+          color: rgba(39.71625, 39.71625, 39.71625, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(182.2125, 182.9625, 182.9625, 1);
+          color: rgba(
+            75.86250000000001,
+            75.86250000000001,
+            75.86250000000001,
+            1
+          );
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            237.66666666666666,
+            237.66666666666666,
+            237.66666666666666,
+            1
+          );
+          color: rgba(
+            24.225000000000005,
+            24.225000000000005,
+            24.225000000000005,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .accent {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(54, 107.1, 221.4, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+        color: rgba(67.258125, 116.375625, 222.103125, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+        color: rgba(98.19375, 138.01875, 223.74375, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(127.5, 127.5, 127.5, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(54, 107.1, 221.4, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(51.28875, 100.40625, 206.13375000000002, 1);
+          color: rgba(253.183125, 253.183125, 253.183125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(44.9625, 84.7875, 170.5125, 1);
+          color: rgba(248.94375, 248.94375, 248.94375, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(54, 107.1, 221.4, 0.25);
+        color: rgba(54, 107.1, 221.4, 1);
+        border-color: rgba(54, 107.1, 221.4, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(
+            51.28875,
+            100.40625,
+            206.13375000000002,
+            0.30625
+          );
+          color: rgba(67.258125, 116.375625, 222.103125, 1);
+          border-color: rgba(49.95, 99.0675, 204.79500000000002, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(44.9625, 84.7875, 170.5125, 0.4375);
+          color: rgba(98.19375, 138.01875, 223.74375, 1);
+          border-color: rgba(40.5, 80.32499999999999, 166.05, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0.25);
+          color: rgba(127.5, 127.5, 127.5, 1);
+          border-color: rgba(127.5, 127.5, 127.5, 1);
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(54, 107.1, 221.4, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+          color: rgba(67.258125, 116.375625, 222.103125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+          color: rgba(98.19375, 138.01875, 223.74375, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(127.5, 127.5, 127.5, 1);
+          border-color: transparent;
+        }
+      }
+    }
+    .info {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(28.8, 80.1, 137.7, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+        color: rgba(43.948125, 91.40062499999999, 144.680625, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+        color: rgba(79.29375, 117.76875, 160.96875, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(82.19999999999999, 82.19999999999999, 82.19999999999999, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(28.8, 80.1, 137.7, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(
+            27.97875,
+            75.43124999999999,
+            128.71124999999998,
+            1
+          );
+          color: rgba(253.183125, 253.183125, 253.183125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(26.0625, 64.5375, 107.73749999999998, 1);
+          color: rgba(248.94375, 248.94375, 248.94375, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            82.19999999999999,
+            82.19999999999999,
+            82.19999999999999,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(28.8, 80.1, 137.7, 0.25);
+        color: rgba(28.8, 80.1, 137.7, 1);
+        border-color: rgba(28.8, 80.1, 137.7, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(
+            27.97875,
+            75.43124999999999,
+            128.71124999999998,
+            0.30625
+          );
+          color: rgba(43.948125, 91.40062499999999, 144.680625, 1);
+          border-color: rgba(26.64, 74.0925, 127.37249999999999, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(26.0625, 64.5375, 107.73749999999998, 0.4375);
+          color: rgba(79.29375, 117.76875, 160.96875, 1);
+          border-color: rgba(
+            21.6,
+            60.074999999999996,
+            103.27499999999999,
+            0.75
+          );
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            82.19999999999999,
+            82.19999999999999,
+            82.19999999999999,
+            0.25
+          );
+          color: rgba(
+            82.19999999999999,
+            82.19999999999999,
+            82.19999999999999,
+            1
+          );
+          border-color: rgba(
+            82.19999999999999,
+            82.19999999999999,
+            82.19999999999999,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(28.8, 80.1, 137.7, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+          color: rgba(43.948125, 91.40062499999999, 144.680625, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+          color: rgba(79.29375, 117.76875, 160.96875, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            82.19999999999999,
+            82.19999999999999,
+            82.19999999999999,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .success {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(31.5, 129.6, 70.2, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+        color: rgba(46.445625, 137.18812499999999, 82.243125, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+        color: rgba(81.31875, 154.89375, 110.34375, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(77.10000000000001, 77.10000000000001, 77.10000000000001, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(31.5, 129.6, 70.2, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(30.47625, 121.21875, 66.27375, 1);
+          color: rgba(253.183125, 253.183125, 253.183125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(28.0875, 101.6625, 57.112500000000004, 1);
+          color: rgba(248.94375, 248.94375, 248.94375, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            77.10000000000001,
+            77.10000000000001,
+            77.10000000000001,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(31.5, 129.6, 70.2, 0.25);
+        color: rgba(31.5, 129.6, 70.2, 1);
+        border-color: rgba(31.5, 129.6, 70.2, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(30.47625, 121.21875, 66.27375, 0.30625);
+          color: rgba(46.445625, 137.18812499999999, 82.243125, 1);
+          border-color: rgba(29.1375, 119.88, 64.935, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(28.0875, 101.6625, 57.112500000000004, 0.4375);
+          color: rgba(81.31875, 154.89375, 110.34375, 1);
+          border-color: rgba(
+            23.625,
+            97.19999999999999,
+            52.650000000000006,
+            0.75
+          );
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            77.10000000000001,
+            77.10000000000001,
+            77.10000000000001,
+            0.25
+          );
+          color: rgba(
+            77.10000000000001,
+            77.10000000000001,
+            77.10000000000001,
+            1
+          );
+          border-color: rgba(
+            77.10000000000001,
+            77.10000000000001,
+            77.10000000000001,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(31.5, 129.6, 70.2, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+          color: rgba(46.445625, 137.18812499999999, 82.243125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+          color: rgba(81.31875, 154.89375, 110.34375, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            77.10000000000001,
+            77.10000000000001,
+            77.10000000000001,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .warning {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(97.11, 90.27, 18.27, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+        color: rgba(107.134875, 100.807875, 34.207875, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+        color: rgba(130.52625, 125.39625, 71.39625, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(68.55, 68.55, 68.55, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(216, 198.9, 18.9, 1);
+        color: rgba(0, 0, 0, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(201.13875, 185.32125, 18.82125, 1);
+          color: rgba(17.308125, 17.308125, 17.308125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(166.4625, 153.6375, 18.6375, 1);
+          color: rgba(57.69375, 57.69375, 57.69375, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(144.6, 144.6, 144.6, 1);
+          color: rgba(0, 0, 0, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(216, 198.9, 18.9, 0.25);
+        color: rgba(97.11, 90.27, 18.27, 1);
+        border-color: rgba(156.555, 144.585, 18.585, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(201.13875, 185.32125, 18.82125, 0.30625);
+          color: rgba(107.134875, 100.807875, 34.207875, 1);
+          border-color: rgba(144.813375, 133.741125, 17.191125, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(166.4625, 153.6375, 18.6375, 0.4375);
+          color: rgba(130.52625, 125.39625, 71.39625, 1);
+          border-color: rgba(117.41625, 108.43875, 13.93875, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(144.6, 144.6, 144.6, 0.25);
+          color: rgba(68.55, 68.55, 68.55, 1);
+          border-color: rgba(
+            106.57499999999999,
+            106.57499999999999,
+            106.57499999999999,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(97.11, 90.27, 18.27, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+          color: rgba(107.134875, 100.807875, 34.207875, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+          color: rgba(130.52625, 125.39625, 71.39625, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(68.55, 68.55, 68.55, 1);
+          border-color: transparent;
+        }
+      }
+    }
+    .error {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(218.7, 60.3, 60.3, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+        color: rgba(219.605625, 73.085625, 73.085625, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+        color: rgba(221.71875, 102.91875, 102.91875, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(
+          113.10000000000001,
+          113.10000000000001,
+          113.10000000000001,
+          1
+        );
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(218.7, 60.3, 60.3, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(203.63625, 57.11625, 57.11625, 1);
+          color: rgba(253.183125, 253.183125, 253.183125, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(168.48749999999998, 49.6875, 49.6875, 1);
+          color: rgba(248.94375, 248.94375, 248.94375, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            113.10000000000001,
+            113.10000000000001,
+            113.10000000000001,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(218.7, 60.3, 60.3, 0.25);
+        color: rgba(98.19, 34.83, 34.83, 1);
+        border-color: rgba(158.445, 47.565, 47.565, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(203.63625, 57.11625, 57.11625, 0.30625);
+          color: rgba(108.133875, 49.525875, 49.525875, 1);
+          border-color: rgba(146.561625, 43.997625, 43.997625, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(168.48749999999998, 49.6875, 49.6875, 0.4375);
+          color: rgba(131.33625, 83.81625, 83.81625, 1);
+          border-color: rgba(118.83375, 35.67375, 35.67375, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            113.10000000000001,
+            113.10000000000001,
+            113.10000000000001,
+            0.25
+          );
+          color: rgba(
+            55.94999999999999,
+            55.94999999999999,
+            55.94999999999999,
+            1
+          );
+          border-color: rgba(
+            84.52499999999999,
+            84.52499999999999,
+            84.52499999999999,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(218.7, 60.3, 60.3, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(119.27625, 119.27625, 119.27625, 0.075);
+          color: rgba(219.605625, 73.085625, 73.085625, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(100.0875, 100.0875, 100.0875, 0.25);
+          color: rgba(221.71875, 102.91875, 102.91875, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            113.10000000000001,
+            113.10000000000001,
+            113.10000000000001,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+  }
+  .inverse {
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 1);
+    border-color: transparent;
+
+    &.action:hover,
+    button:hover,
+    a:hover,
+    input:hover,
+    select:hover {
+      background-color: rgba(19.125, 19.125, 19.125, 1);
+      color: rgba(235.875, 235.875, 235.875, 1);
+      border-color: transparent;
+    }
+    &.action:active,
+    button:active,
+    a:active,
+    input:active,
+    select:active {
+      background-color: rgba(63.75, 63.75, 63.75, 1);
+      color: rgba(191.25, 191.25, 191.25, 1);
+      border-color: transparent;
+    }
+    &.action:disabled,
+    button:disabled,
+    a:disabled,
+    input:disabled,
+    select:disabled {
+      background-color: rgba(0, 0, 0, 1);
+      color: rgba(255, 255, 255, 1);
+      border-color: transparent;
+    }
+    &.flat {
+      background-color: rgba(0, 0, 0, 1);
+      color: rgba(255, 255, 255, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(19.125, 19.125, 19.125, 1);
+        color: rgba(235.875, 235.875, 235.875, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(63.75, 63.75, 63.75, 1);
+        color: rgba(191.25, 191.25, 191.25, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(0, 0, 0, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+      }
+    }
+
+    .major {
+      background-color: rgba(79.5, 132.6, 246.9, 1);
+      color: rgba(255, 255, 255, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(92.6625, 141.78, 247.5075, 1);
+        color: rgba(235.875, 235.875, 235.875, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(123.375, 163.2, 248.925, 1);
+        color: rgba(191.25, 191.25, 191.25, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(153, 153, 153, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+      }
+    }
+    .minor {
+      background-color: rgba(79.5, 132.6, 246.9, 0.25);
+      color: rgba(79.5, 132.6, 246.9, 1);
+      border-color: rgba(79.5, 132.6, 246.9, 1);
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(92.6625, 141.78, 247.5075, 0.30625);
+        color: rgba(73.5375, 122.655, 228.3825, 1);
+        border-color: rgba(73.5375, 122.655, 228.3825, 0.925);
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(123.375, 163.2, 248.925, 0.4375);
+        color: rgba(59.625, 99.44999999999999, 185.175, 1);
+        border-color: rgba(59.625, 99.44999999999999, 185.175, 0.75);
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(153, 153, 153, 0.25);
+        color: rgba(153, 153, 153, 1);
+        border-color: rgba(153, 153, 153, 1);
+      }
+    }
+
+    .plain {
+      background-color: rgba(0, 0, 0, 1);
+      color: rgba(255, 255, 255, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(19.125, 19.125, 19.125, 1);
+        color: rgba(235.875, 235.875, 235.875, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(63.75, 63.75, 63.75, 1);
+        color: rgba(191.25, 191.25, 191.25, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(0, 0, 0, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+      }
+      &.flat {
+        background-color: rgba(0, 0, 0, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(19.125, 19.125, 19.125, 1);
+          color: rgba(235.875, 235.875, 235.875, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(63.75, 63.75, 63.75, 1);
+          color: rgba(191.25, 191.25, 191.25, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(0, 0, 0, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+    }
+    .accent {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(79.5, 132.6, 246.9, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+        color: rgba(73.5375, 122.655, 228.3825, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(159.375, 159.375, 159.375, 0.25);
+        color: rgba(59.625, 99.44999999999999, 185.175, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(153, 153, 153, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(79.5, 132.6, 246.9, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(92.6625, 141.78, 247.5075, 1);
+          color: rgba(235.875, 235.875, 235.875, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(123.375, 163.2, 248.925, 1);
+          color: rgba(191.25, 191.25, 191.25, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(153, 153, 153, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(79.5, 132.6, 246.9, 0.25);
+        color: rgba(79.5, 132.6, 246.9, 1);
+        border-color: rgba(79.5, 132.6, 246.9, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(92.6625, 141.78, 247.5075, 0.30625);
+          color: rgba(73.5375, 122.655, 228.3825, 1);
+          border-color: rgba(73.5375, 122.655, 228.3825, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(123.375, 163.2, 248.925, 0.4375);
+          color: rgba(59.625, 99.44999999999999, 185.175, 1);
+          border-color: rgba(59.625, 99.44999999999999, 185.175, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(153, 153, 153, 0.25);
+          color: rgba(153, 153, 153, 1);
+          border-color: rgba(153, 153, 153, 1);
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(79.5, 132.6, 246.9, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+          color: rgba(73.5375, 122.655, 228.3825, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(159.375, 159.375, 159.375, 0.25);
+          color: rgba(59.625, 99.44999999999999, 185.175, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(153, 153, 153, 1);
+          border-color: transparent;
+        }
+      }
+    }
+    .info {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(54.3, 105.6, 163.2, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+        color: rgba(50.2275, 97.67999999999999, 150.95999999999998, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(159.375, 159.375, 159.375, 0.25);
+        color: rgba(
+          40.724999999999994,
+          79.19999999999999,
+          122.39999999999999,
+          1
+        );
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(
+          107.69999999999999,
+          107.69999999999999,
+          107.69999999999999,
+          1
+        );
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(54.3, 105.6, 163.2, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(
+            69.35249999999999,
+            116.80499999999999,
+            170.08499999999998,
+            1
+          );
+          color: rgba(235.875, 235.875, 235.875, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(104.475, 142.95, 186.14999999999998, 1);
+          color: rgba(191.25, 191.25, 191.25, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            107.69999999999999,
+            107.69999999999999,
+            107.69999999999999,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(54.3, 105.6, 163.2, 0.25);
+        color: rgba(54.3, 105.6, 163.2, 1);
+        border-color: rgba(54.3, 105.6, 163.2, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(
+            69.35249999999999,
+            116.80499999999999,
+            170.08499999999998,
+            0.30625
+          );
+          color: rgba(50.2275, 97.67999999999999, 150.95999999999998, 1);
+          border-color: rgba(
+            50.2275,
+            97.67999999999999,
+            150.95999999999998,
+            0.925
+          );
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(104.475, 142.95, 186.14999999999998, 0.4375);
+          color: rgba(
+            40.724999999999994,
+            79.19999999999999,
+            122.39999999999999,
+            1
+          );
+          border-color: rgba(
+            40.724999999999994,
+            79.19999999999999,
+            122.39999999999999,
+            0.75
+          );
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            107.69999999999999,
+            107.69999999999999,
+            107.69999999999999,
+            0.25
+          );
+          color: rgba(
+            107.69999999999999,
+            107.69999999999999,
+            107.69999999999999,
+            1
+          );
+          border-color: rgba(
+            107.69999999999999,
+            107.69999999999999,
+            107.69999999999999,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(54.3, 105.6, 163.2, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+          color: rgba(50.2275, 97.67999999999999, 150.95999999999998, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(159.375, 159.375, 159.375, 0.25);
+          color: rgba(
+            40.724999999999994,
+            79.19999999999999,
+            122.39999999999999,
+            1
+          );
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            107.69999999999999,
+            107.69999999999999,
+            107.69999999999999,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .success {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(57, 155.1, 95.7, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+        color: rgba(52.725, 143.4675, 88.52250000000001, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(159.375, 159.375, 159.375, 0.25);
+        color: rgba(42.75, 116.32499999999999, 71.775, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(
+          102.60000000000001,
+          102.60000000000001,
+          102.60000000000001,
+          1
+        );
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(57, 155.1, 95.7, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(71.85, 162.5925, 107.64750000000001, 1);
+          color: rgba(235.875, 235.875, 235.875, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(106.5, 180.075, 135.525, 1);
+          color: rgba(191.25, 191.25, 191.25, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            102.60000000000001,
+            102.60000000000001,
+            102.60000000000001,
+            1
+          );
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(57, 155.1, 95.7, 0.25);
+        color: rgba(57, 155.1, 95.7, 1);
+        border-color: rgba(57, 155.1, 95.7, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(71.85, 162.5925, 107.64750000000001, 0.30625);
+          color: rgba(52.725, 143.4675, 88.52250000000001, 1);
+          border-color: rgba(52.725, 143.4675, 88.52250000000001, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(106.5, 180.075, 135.525, 0.4375);
+          color: rgba(42.75, 116.32499999999999, 71.775, 1);
+          border-color: rgba(42.75, 116.32499999999999, 71.775, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(
+            102.60000000000001,
+            102.60000000000001,
+            102.60000000000001,
+            0.25
+          );
+          color: rgba(
+            102.60000000000001,
+            102.60000000000001,
+            102.60000000000001,
+            1
+          );
+          border-color: rgba(
+            102.60000000000001,
+            102.60000000000001,
+            102.60000000000001,
+            1
+          );
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(57, 155.1, 95.7, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+          color: rgba(52.725, 143.4675, 88.52250000000001, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(159.375, 159.375, 159.375, 0.25);
+          color: rgba(42.75, 116.32499999999999, 71.775, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(
+            102.60000000000001,
+            102.60000000000001,
+            102.60000000000001,
+            1
+          );
+          border-color: transparent;
+        }
+      }
+    }
+    .warning {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(241.5, 224.4, 44.400000000000006, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+        color: rgba(223.3875, 207.57, 41.07000000000001, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(159.375, 159.375, 159.375, 0.25);
+        color: rgba(181.125, 168.3, 33.300000000000004, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(170.1, 170.1, 170.1, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(241.5, 224.4, 44.400000000000006, 1);
+        color: rgba(0, 0, 0, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(242.5125, 226.695, 60.19500000000001, 1);
+          color: rgba(0, 0, 0, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(244.875, 232.05, 97.05000000000001, 1);
+          color: rgba(0, 0, 0, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(170.1, 170.1, 170.1, 1);
+          color: rgba(0, 0, 0, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(241.5, 224.4, 44.400000000000006, 0.25);
+        color: rgba(241.5, 224.4, 44.400000000000006, 1);
+        border-color: rgba(241.5, 224.4, 44.400000000000006, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(242.5125, 226.695, 60.19500000000001, 0.30625);
+          color: rgba(223.3875, 207.57, 41.07000000000001, 1);
+          border-color: rgba(223.3875, 207.57, 41.07000000000001, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(244.875, 232.05, 97.05000000000001, 0.4375);
+          color: rgba(181.125, 168.3, 33.300000000000004, 1);
+          border-color: rgba(181.125, 168.3, 33.300000000000004, 0.75);
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(170.1, 170.1, 170.1, 0.25);
+          color: rgba(170.1, 170.1, 170.1, 1);
+          border-color: rgba(170.1, 170.1, 170.1, 1);
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(241.5, 224.4, 44.400000000000006, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+          color: rgba(223.3875, 207.57, 41.07000000000001, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(159.375, 159.375, 159.375, 0.25);
+          color: rgba(181.125, 168.3, 33.300000000000004, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(170.1, 170.1, 170.1, 1);
+          border-color: transparent;
+        }
+      }
+    }
+    .error {
+      background-color: rgba(127.5, 127.5, 127.5, 0);
+      color: rgba(244.2, 85.8, 85.8, 1);
+      border-color: transparent;
+
+      &.action:hover,
+      button:hover,
+      a:hover,
+      input:hover,
+      select:hover {
+        background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+        color: rgba(225.885, 79.365, 79.365, 1);
+        border-color: transparent;
+      }
+      &.action:active,
+      button:active,
+      a:active,
+      input:active,
+      select:active {
+        background-color: rgba(159.375, 159.375, 159.375, 0.25);
+        color: rgba(183.14999999999998, 64.35, 64.35, 1);
+        border-color: transparent;
+      }
+      &.action:disabled,
+      button:disabled,
+      a:disabled,
+      input:disabled,
+      select:disabled {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(138.6, 138.6, 138.6, 1);
+        border-color: transparent;
+      }
+      &.major {
+        background-color: rgba(244.2, 85.8, 85.8, 1);
+        color: rgba(255, 255, 255, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(245.01, 98.49, 98.49, 1);
+          color: rgba(235.875, 235.875, 235.875, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(246.89999999999998, 128.1, 128.1, 1);
+          color: rgba(191.25, 191.25, 191.25, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(138.6, 138.6, 138.6, 1);
+          color: rgba(255, 255, 255, 1);
+          border-color: transparent;
+        }
+      }
+      &.minor {
+        background-color: rgba(244.2, 85.8, 85.8, 0.25);
+        color: rgba(244.2, 85.8, 85.8, 1);
+        border-color: rgba(244.2, 85.8, 85.8, 1);
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(245.01, 98.49, 98.49, 0.30625);
+          color: rgba(225.885, 79.365, 79.365, 1);
+          border-color: rgba(225.885, 79.365, 79.365, 0.925);
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(246.89999999999998, 128.1, 128.1, 0.4375);
+          color: rgba(183.14999999999998, 64.35, 64.35, 1);
+          border-color: rgba(183.14999999999998, 64.35, 64.35, 0.75);
+        }
+        &.action:disabled,
+        :matches(button):disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(138.6, 138.6, 138.6, 0.25);
+          color: rgba(138.6, 138.6, 138.6, 1);
+          border-color: rgba(138.6, 138.6, 138.6, 1);
+        }
+      }
+      &.flat {
+        background-color: rgba(127.5, 127.5, 127.5, 0);
+        color: rgba(244.2, 85.8, 85.8, 1);
+        border-color: transparent;
+
+        &.action:hover,
+        button:hover,
+        a:hover,
+        input:hover,
+        select:hover {
+          background-color: rgba(137.0625, 137.0625, 137.0625, 0.075);
+          color: rgba(225.885, 79.365, 79.365, 1);
+          border-color: transparent;
+        }
+        &.action:active,
+        button:active,
+        a:active,
+        input:active,
+        select:active {
+          background-color: rgba(159.375, 159.375, 159.375, 0.25);
+          color: rgba(183.14999999999998, 64.35, 64.35, 1);
+          border-color: transparent;
+        }
+        &.action:disabled,
+        button:disabled,
+        a:disabled,
+        input:disabled,
+        select:disabled {
+          background-color: rgba(127.5, 127.5, 127.5, 0);
+          color: rgba(138.6, 138.6, 138.6, 1);
+          border-color: transparent;
+        }
+      }
+    }
+  }
+}
+
+a {
+  :hello {
+    color: gray;
+  }
+}

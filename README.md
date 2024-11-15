@@ -21,8 +21,16 @@ so far, it has been optimized for React. It provides a variety of Widgets and th
    );
    ```
 
-3. start using the components :)
+3. add class `primary` to your page `body` element<br>
+   (`<body class="primary">...</body>`)
+4. start using the components :)
 
 # contribute
 
 as of now, this is mainly a personal project for different stuff I built. So things might be a little rough around the edges. If you find any issues or want to help make elbe better, I'd love to hear from you :)
+
+## publish
+
+1. increment `version` number in `package.json`
+2. run `bun run build`
+3. run `npm publish`

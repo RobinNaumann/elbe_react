@@ -1,4 +1,4 @@
-import { applyProps, type ElbeProps } from "./box";
+import { applyProps, type ElbeProps } from "../base/box";
 
 export type FlexProps = {
   children: any;
@@ -30,7 +30,7 @@ export function FlexSpace({}) {
 export function Column({
   gap = 1,
   main = "start",
-  cross,
+  cross = "stretch",
   stretch = false,
   children,
   ...p

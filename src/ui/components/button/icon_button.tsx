@@ -1,33 +1,37 @@
-import React from "preact/compat";
-import type { ElbeColorManners, ElbeColorStyles } from "../color_theme";
-import type { ElbeChild } from "../util/util";
-import { applyProps, type ElbeProps } from "./box";
+import { Component } from "preact";
+import {
+  applyProps,
+  type ElbeChild,
+  type ElbeColorKinds,
+  type ElbeColorManners,
+  type ElbeProps,
+} from "../../..";
 
 export type IconChild = ElbeChild | ((_: any) => ElbeChild);
 
 export type IconButtonProps = {
   icon?: IconChild;
-  colorStyle?: ElbeColorStyles;
+  kind?: ElbeColorKinds;
 
-  onTap?: () => void;
+  onTap?: (e: Event) => void;
 } & ElbeProps;
 
-export class IconButton extends React.Component<
-  IconButtonProps & { colorManner?: ElbeColorManners }
+export class IconButton extends Component<
+  IconButtonProps & { manner?: ElbeColorManners }
 > {
   static major = (p: IconButtonProps) => _btn(p, "major");
   static minor = (p: IconButtonProps) => _btn(p, "minor");
-  static action = (p: IconButtonProps) => _btn(p, "action");
-  static integrated = (p: IconButtonProps) => _btn(p, "integrated");
+  static flat = (p: IconButtonProps) => _btn(p, "flat");
+  static plain = (p: IconButtonProps) => _btn(p, "plain");
 
   render() {
-    return _btn(this.props, this.props.colorManner);
+    return _btn(this.props, this.props.manner);
   }
 }
 
 function _btn(
   { icon, onTap, ...elbe }: IconButtonProps,
-  colorManner: ElbeColorManners = "major"
+  manner: ElbeColorManners = "major"
 ) {
   return (
     <button
@@ -37,8 +41,8 @@ function _btn(
           "row",
           "main-center",
           "gap-half",
-          elbe.colorStyle,
-          colorManner,
+          elbe.kind ?? (manner != "plain" && "accent"),
+          manner,
           !onTap && "disabled",
         ],
         {
@@ -48,7 +52,7 @@ function _btn(
           width: "3rem",
         }
       )}
-      onClick={() => onTap && onTap()}
+      onClick={(e) => onTap && onTap(e)}
     >
       {typeof icon === "function" ? icon({}) : icon}
     </button>

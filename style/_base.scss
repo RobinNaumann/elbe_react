@@ -1,0 +1,151 @@
+/* ========= SPACING ========= */
+
+.padded,
+.card {
+  padding: var(--g-padding);
+}
+
+.padding-none {
+  padding: 0rem;
+}
+
+.margined {
+  margin: var(--g-padding);
+}
+
+.margined-none {
+  margin: 0rem;
+}
+
+
+/* ========= ELEMENT_STYLE ========= */
+
+.sharp {
+  border-radius: 0;
+}
+.rounded,
+.card {
+  border-radius: var(--g-radius);
+  border-color: inherit;
+  overflow: hidden;
+}
+.round {
+  border-radius: 50%;
+}
+
+img.round,
+img.rounded {
+  object-fit: cover;
+}
+
+.borderless {
+  border: none;
+}
+.raised {
+  box-shadow: 0 0.1rem 1rem #00000033;
+}
+
+.scrollbars-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-centered {
+  text-align: center;
+}
+.text-start {
+  text-align: start;
+}
+.text-end {
+  text-align: end;
+}
+
+body:has(dialog[open=""]) {
+  overflow: hidden;
+}
+
+.transparent {
+  background-color: transparent;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+/* ========= CARD ========= */
+
+.box,
+.card {
+  border-style: solid;
+  border-width: var(--g-border-width);
+
+}
+
+
+/* ========= UTIL ========= */
+
+.action {
+  cursor: pointer;
+}
+
+.base-limited {
+  @extend .box;
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ========= MARKUP ========= */
+
+i,
+.i {
+  font-style: italic;
+}
+b,
+.b {
+  font-weight: bold;
+}
+.u {
+  text-decoration: underline;
+}
+.ni {
+  font-style: normal;
+}
+.nb {
+  font-weight: normal;
+}
+.nu {
+  text-decoration: none;
+}
+.striked {
+  text-decoration: line-through;
+}
+.code {
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+/* ========= ANIMATIONS ========= */
+
+.rotate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: rotation 1.5s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
