@@ -7,6 +7,8 @@ export type ElbeProps = {
   class?: string;
   style?: React.CSSProperties;
   tooltip?: string;
+  flex?: boolean | number;
+  typeLabel?: string;
 };
 
 export function applyProps(
@@ -20,8 +22,13 @@ export function applyProps(
   return {
     id: p.id,
     class: `${classes || ""} ${p.class || ""}`,
-    style: { ...(style ?? {}), ...(p.style ?? {}) },
+    style: {
+      ...(style ?? {}),
+      ...(p.style ?? {}),
+      ...(p.flex ? { flex: p.flex === true ? 1 : p.flex } : {}),
+    },
     ...(p.tooltip ? { ["data-tooltip"]: p.tooltip } : {}),
+    ["data-type"]: p.typeLabel,
   };
 }
 

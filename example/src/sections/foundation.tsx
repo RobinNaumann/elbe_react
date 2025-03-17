@@ -28,7 +28,7 @@ function _ScaffoldGroup({}) {
           title="Title"
           back="close"
           scheme="primary"
-          limitedHeight={20}
+          height={20}
           padded={false}
           actions={[
             <IconButton.plain icon={Icons.ShoppingBag} onTap={() => {}} />,

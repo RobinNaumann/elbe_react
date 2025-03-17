@@ -80,7 +80,7 @@ export type ColorThemeSeed = ColorSeedColors & {
   };
 };
 
-class RGBAColor {
+export class RGBAColor {
   constructor(
     public r: number,
     public g: number,
@@ -116,7 +116,7 @@ class RGBAColor {
     return `#${c.join("")}${a}`;
   }
 
-  public static _fromHex(hex: string | null): RGBAColor {
+  public static fromHex(hex: string | null): RGBAColor {
     if (!hex) return new RGBAColor(0, 0, 0, 0);
 
     const c = hex.replace("#", "").padEnd(6, "0").padEnd(8, "f").toLowerCase();
@@ -249,12 +249,12 @@ export class LayerColor extends RGBAColor {
     border?: string | null
   ): LayerColor {
     if (front === undefined && border === undefined) {
-      return LayerColor.fromBack(RGBAColor._fromHex(back));
+      return LayerColor.fromBack(RGBAColor.fromHex(back));
     }
     return new LayerColor(
-      RGBAColor._fromHex(back),
-      RGBAColor._fromHex(front ?? null),
-      RGBAColor._fromHex(border ?? null)
+      RGBAColor.fromHex(back),
+      RGBAColor.fromHex(front ?? null),
+      RGBAColor.fromHex(border ?? null)
     );
   }
 

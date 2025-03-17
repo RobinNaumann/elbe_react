@@ -52,7 +52,7 @@ export function colorThemePreset(
     variant: {
       major:
         seed.variant?.major ??
-        ((_, b, s) => LayerColor.fromBack(s.back, { border: s.back })),
+        ((_, __, s) => LayerColor.fromBack(s.back, { border: s.back })),
       minor:
         seed.variant?.minor ??
         ((_, b, s) => {

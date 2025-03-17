@@ -2,6 +2,7 @@ import { Box, Button, Column, Icons, scrollToId, Text } from "elbe-ui";
 import { ColorsSection, TypographySection } from "./sections/colors";
 import { ComponentsSection } from "./sections/component";
 import { FoundationSection } from "./sections/foundation";
+import { UtilSection } from "./sections/utils";
 import { ThemeEdit } from "./theme_edit";
 import { ExampleSection } from "./util/section";
 
@@ -11,7 +12,7 @@ export function Home() {
       <_HeroSection />
       <div class="base-limited" style="border: none">
         <Box mode="light" scheme="primary" padding={1}>
-          <Column stretch gap={6}>
+          <Column gap={6}>
             <div />
             <_InstallSection />
             <_OverviewSection />
@@ -20,6 +21,7 @@ export function Home() {
             <FoundationSection />
             <ColorsSection />
             <TypographySection />
+            <UtilSection />
             <div style="height: 10rem" />
           </Column>
         </Box>
@@ -31,16 +33,42 @@ export function Home() {
 function _InstallSection({}) {
   return (
     <ExampleSection title="install" anchor="install">
-      <div class="column cross-stretch">
+      <Column>
         <div>you can install elbe in React/Preact using the npm package</div>
-        <div class="card secondary code" style="padding: .75rem">
+        <div
+          class="card secondary code"
+          style="padding: .75rem; margin-bottom: .5rem"
+        >
           npm i <b>elbe-ui</b>
         </div>
-        <div>and import the CSS:</div>
-        <div class="card secondary code" style="padding: .75rem">
+        <div>import the CSS</div>
+        <div
+          class="card secondary code"
+          style="padding: .75rem; margin-bottom: .5rem"
+        >
           import "elbe-ui/dist/elbe.css";
         </div>
-      </div>
+        <div>
+          add the <b>elbe</b> class to your app's base in the index.html
+        </div>
+        <div
+          class="card secondary code"
+          style="padding: .75rem;margin-bottom: .5rem"
+        >
+          {'<div id="app" '}
+          <b>class="elbe"</b>
+          {"></div>"}
+        </div>
+        <div>
+          wrap your App into <b>ElbeTheme</b>
+        </div>
+        <div
+          class="card secondary code"
+          style="padding: .75rem;margin-bottom: .5rem"
+        >
+          {"<ElbeTheme> ... </ElbeTheme>"}
+        </div>
+      </Column>
     </ExampleSection>
   );
 }
@@ -77,6 +105,11 @@ function _OverviewSection({}) {
         icon={Icons.AppWindowMac}
         label="foundation"
         onTap={() => scrollToId("foundation")}
+      />
+      <Button.flat
+        icon={Icons.Hammer}
+        label="utilities"
+        onTap={() => scrollToId("utilities")}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { Signal, useSignal } from "@preact/signals";
-import { Button, FlexSpace, IconButton, Row, Text } from "elbe-ui";
+import { Button, FlexSpace, Row, Text } from "elbe-ui";
 import { icons } from "lucide-react";
 import { useState } from "preact/compat";
 
@@ -56,10 +56,10 @@ export function ExampleGroup({
   return (
     <div class="column cross-stretch">
       <Row>
-        <Text.h3 v={title} />
+        <Text.h4 v={title} />
         <FlexSpace />
         {code && (
-          <IconButton.plain
+          <Button.plain
             icon={icons.Code}
             onTap={() => setShowCode(!showCode)}
           />

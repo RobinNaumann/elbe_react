@@ -1,23 +1,24 @@
 import React from "preact/compat";
+import { applyProps, ElbeProps } from "./box";
 
-export type PaddedProps = {
+export type PaddedProps = ElbeProps & {
   children: any;
 };
 
 export class Padded extends React.Component<
   PaddedProps & {
-    top: number;
-    right: number;
-    bottom: number;
-    left: number;
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
   }
 > {
   constructor(
     props: PaddedProps & {
-      top: number;
-      right: number;
-      bottom: number;
-      left: number;
+      top?: number;
+      right?: number;
+      bottom?: number;
+      left?: number;
     }
   ) {
     super(props);
@@ -48,12 +49,12 @@ export class Padded extends React.Component<
   render() {
     return (
       <div
-        style={{
-          paddingTop: `${this.props.top}rem`,
-          paddingRight: `${this.props.right}rem`,
-          paddingBottom: `${this.props.bottom}rem`,
-          paddingLeft: `${this.props.left}rem`,
-        }}
+        {...applyProps(this.props, [], {
+          paddingTop: `${this.props.top || 0}rem`,
+          paddingRight: `${this.props.right || 0}rem`,
+          paddingBottom: `${this.props.bottom || 0}rem`,
+          paddingLeft: `${this.props.left || 0}rem`,
+        })}
       >
         {this.props.children}
       </div>

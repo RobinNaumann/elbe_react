@@ -3,8 +3,6 @@ import { applyProps, type ElbeProps } from "../base/box";
 export type FlexProps = {
   children: any;
   gap?: number;
-  // shorthand for cross="stretch"
-  stretch?: boolean;
   main?:
     | "start"
     | "center"
@@ -31,30 +29,29 @@ export function Column({
   gap = 1,
   main = "start",
   cross = "stretch",
-  stretch = false,
   children,
   ...p
 }: FlexProps) {
-  return _Flex(false, { gap, main, cross, stretch, children }, p);
+  return _Flex(false, { gap, main, cross, children }, p, false);
 }
 
 export function Row({
   gap = 1,
   main = "start",
   cross,
-  stretch = false,
+  wrap = false,
   children,
   ...p
-}: FlexProps) {
-  return _Flex(true, { gap, main, cross, stretch, children }, p);
+}: FlexProps & { wrap?: boolean }) {
+  return _Flex(true, { gap, main, cross, children }, p, wrap);
 }
 
-function _Flex(row: boolean, p: FlexProps, elbe: ElbeProps) {
+function _Flex(row: boolean, p: FlexProps, elbe: ElbeProps, wraps: boolean) {
   return (
     <div
-      {...applyProps(elbe, row ? "row" : "column", {
+      {...applyProps(elbe, [row ? "row" : "column", wraps && "wrap"], {
         justifyContent: p.main,
-        alignItems: p.cross || (p.stretch ? "stretch" : "center"),
+        alignItems: p.cross,
         gap: `${p.gap}rem`,
       })}
     >

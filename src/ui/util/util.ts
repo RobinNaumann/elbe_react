@@ -8,6 +8,13 @@ export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
+export function classString(
+  classes: (string | false | null | undefined)[]
+): string {
+  console.log(classes);
+  return classes.filter((c) => c).join(" ");
+}
+
 /**
  * use the web share api if available, otherwise copy the data to the clipboard
  * @param data the data you want to share

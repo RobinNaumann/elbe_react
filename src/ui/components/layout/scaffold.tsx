@@ -1,62 +1,6 @@
-import { useEffect, useState } from "preact/hooks";
-import { Icons, Text, type ElbeColorSchemes } from "../../..";
-import { IconButton } from "../button/icon_button";
-import { Column, Row } from "./flex";
-
-type HeaderParams = {
-  title?: string;
-  back: null | "close" | "back";
-  actions?: any;
-  limitedHeight?: number;
-};
-
-/**
- * Header is a layout component that provides a header for a page.
- * It is used to create a consistent header for pages.
- * @param back - The back button type. If null, no back button is shown. If "close", a close button is shown. If "back", a back button is shown.
- * @param title - The title of the page.
- * @param actions - The actions to show on the right side of the header.
- */
-export function Header({ back, title, actions, limitedHeight }: HeaderParams) {
-  if (history.length == 0) back = null;
-  const goBack = () => history.go(-1);
-
-  const [isScrolledTop, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const _handle = () => setIsScrolled(window.scrollY > 0);
-    window.addEventListener("scroll", _handle);
-    return () => {
-      window.removeEventListener("scroll", _handle);
-    };
-  }, []);
-
-  return (
-    <div>
-      <div style="height: 4.5rem"></div>
-      <div
-        class="header"
-        style={{
-          borderColor: isScrolledTop ? "" : "transparent",
-          position: limitedHeight ? "absolute" : "fixed",
-        }}
-      >
-        <div class="flex-1">
-          {back ? (
-            <IconButton.plain
-              icon={back === "back" ? Icons.ArrowLeft : Icons.X}
-              onTap={goBack}
-            />
-          ) : null}
-        </div>
-        <Text.h4 v={title} />
-        <Row class="flex-1" gap={0.5} main="end">
-          {actions}
-        </Row>
-      </div>
-    </div>
-  );
-}
+import { classString, type ElbeColorSchemes } from "../../..";
+import { Column } from "./flex";
+import { Header, HeaderParams } from "./header";
 
 /**
  * Scaffold is a layout component that provides a header and a content area.
@@ -64,33 +8,48 @@ export function Header({ back, title, actions, limitedHeight }: HeaderParams) {
  */
 export function Scaffold({
   children,
-  limited = false,
+  baseLimited = false,
   gap = 1,
   padded = true,
   scheme,
+  scroll = false,
+  height,
   ...header
 }: {
-  limited?: boolean;
+  baseLimited?: boolean;
   children: any;
   gap?: number;
   padded?: boolean;
   scheme?: ElbeColorSchemes;
+  scroll?: boolean;
+  height?: number;
 } & HeaderParams) {
   return (
     <Column
       cross="stretch"
       gap={0}
+      typeLabel="Scaffold"
       class={`${scheme ?? "primary"}`}
       style={{
-        overflowY: header.limitedHeight ? "scroll" : null,
-        maxHeight: header.limitedHeight ? `${header.limitedHeight}rem` : null,
+        overflowY: height ? "scroll" : null,
+        height: height ? `${height}rem` : scroll ? null : "100vh",
         //height: header.limitToParent ? "100px" : null,
       }}
     >
-      <Header {...header} />
+      <Header {...header} _absolute={height ? true : false} />
 
-      <div class={`${padded ? "padded" : ""} ${limited ? "base-limited" : ""}`}>
-        <Column cross="stretch" gap={gap ?? 1}>
+      <div
+        class={classString([
+          !scroll && "flex-1",
+          padded && "padded",
+          baseLimited && "base-limited",
+        ])}
+      >
+        <Column
+          cross="stretch"
+          style={{ height: scroll ? null : "100%" }}
+          gap={gap ?? 1}
+        >
           {children}
         </Column>
       </div>

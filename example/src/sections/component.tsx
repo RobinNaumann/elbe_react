@@ -7,11 +7,13 @@ import {
   Checkbox,
   ChooseButton,
   cManners,
+  Column,
   ElbeDialog,
   Field,
   IconButton,
   Icons,
   Range,
+  Row,
   Select,
   showConfirmDialog,
   showToast,
@@ -24,7 +26,6 @@ import { ExampleGroup, ExampleSection, useConfigSignal } from "../util/section";
 export function ComponentsSection() {
   return (
     <>
-      {" "}
       <ExampleSection title="Components" anchor="components">
         <_BoxGroup />
         <_CardGroup />
@@ -44,6 +45,10 @@ export function ComponentsSection() {
         <_DialogGroup />
         <_ConfirmDialog />
         <_ToastGroup />
+      </ExampleSection>
+      <ExampleSection title="Layout" anchor="layout">
+        <_RowColGroup />
+        <_RowColGroup column />
       </ExampleSection>
     </>
   );
@@ -327,8 +332,8 @@ function _CheckBoxGroup() {
 
   return (
     <ExampleGroup
-      title="Range Select"
-      description="a slider for selecting a value"
+      title="Checkbox"
+      description="a toggle for a boolean value"
       classes="column cross-stretch"
       config={[enabledSig]}
       code={`<Checkbox value={val} label="agree" onChange={(v) => ...} />`}
@@ -462,6 +467,41 @@ function _ToastGroup() {
         label="show toast"
         onTap={async () => showToast("this is a toast")}
       />
+    </ExampleGroup>
+  );
+}
+
+function _RowColGroup({ column = false }: { column?: boolean }) {
+  const betweenSig = useConfigSignal("space between", false);
+  const gapSig = useConfigSignal("gap", true);
+  const wrapSig = useConfigSignal("wraps", false);
+
+  const RowCol = column ? Column : Row;
+  const name = column ? "Column" : "Row";
+
+  return (
+    <ExampleGroup
+      title={name}
+      description={`a ${column ? "vertical" : "horizontal"} layout`}
+      code={`<${name} main="${
+        betweenSig.signal.value ? "space-between" : "start"
+      }" gap={${gapSig.signal.value ? 1 : 0}}>...</${name}>`}
+      config={[gapSig, betweenSig, ...(column ? [] : [wrapSig])]}
+    >
+      <RowCol
+        main={betweenSig.signal.value ? "space-between" : "start"}
+        gap={gapSig.signal.value ? 1 : 0}
+        class={wrapSig.signal.value ? "wrap" : ""}
+        flex
+        style={{
+          //width: "100%",
+          minHeight: column ? "21rem" : "auto",
+        }}
+      >
+        {["one", "two", "three", "four", "five", "six"].map((v) => (
+          <Box.secondary padding={0.5}>item {v}</Box.secondary>
+        ))}
+      </RowCol>
     </ExampleGroup>
   );
 }

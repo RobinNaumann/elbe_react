@@ -1,3 +1,4 @@
+import { ToDo } from "../components/dev/todo";
 import { ColorTheme, type ColorThemeSeed } from "./colors";
 import { GeometryTheme, type GeometryThemeSeed } from "./geometry_theme";
 import { TypeTheme, type TypeThemeSeed } from "./type_theme";
@@ -36,14 +37,16 @@ export class ElbeThemeData {
 }
 
 export function ElbeTheme(
-  p: { children: any; dark?: boolean } & (
-    | { seed: ElbeThemeSeed }
+  p: { children: any; dark?: boolean; todoOverlay?: boolean } & (
     | { theme: ElbeThemeData }
+    | { seed?: ElbeThemeSeed }
   )
 ) {
-  const theme = "seed" in p ? ElbeThemeData.fromSeed(p.seed) : p.theme;
+  const theme = "theme" in p ? p.theme : ElbeThemeData.fromSeed(p.seed ?? {});
   return (
     <div class={`elbe ${p.dark ? "dark" : ""}`}>
+      {p.todoOverlay && <ToDo.Overlay />}
+
       <style>{theme.asCss()}</style>
       {p.children}
     </div>

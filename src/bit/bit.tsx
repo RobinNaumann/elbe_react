@@ -9,7 +9,13 @@ export interface BitUseInterface<C, T> {
   signal: Signal<BitState<T>>;
   ctrl: C;
   map: <D>(m: TriMap<T, D>) => D | preact.JSX.Element;
-  onData: <D>(f: (d: T) => any) => any;
+  onData: <D>(
+    f: (d: T) => any,
+    {
+      onLoading,
+      onError,
+    }?: { onLoading?: () => any; onError?: (e: string) => any }
+  ) => any;
 }
 
 interface BitData<C, T> {

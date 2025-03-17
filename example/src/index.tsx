@@ -1,4 +1,4 @@
-import { ElbeTheme } from "elbe-ui";
+import { ElbeTheme, Scaffold, ToDo } from "elbe-ui";
 import "elbe-ui/dist/elbe.css";
 import { render } from "preact";
 import { Home } from "./home";
@@ -20,3 +20,15 @@ render(
   </ThemeBit.Provide>,
   document.getElementById("app")
 );
+
+function _Scaffold({}) {
+  return (
+    <Scaffold back={null} title="hello">
+      <span>
+        hello <ToDo.Inline msg="hello" /> how
+      </span>
+      <ToDo.Block msg="hello this is how we are" />
+      <ToDo.Placeholder flex />
+    </Scaffold>
+  );
+}
