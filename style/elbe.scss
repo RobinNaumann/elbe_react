@@ -61,6 +61,15 @@ body,
   @import "base";
   @import "flex";
   @import "components";
+
+  //focus management (focus, active)
+  :focus-visible {
+    outline: .15rem solid var(--c-accent);
+  }
+  :active {
+     outline: none;
+  }
+
 }
 
 .toast {

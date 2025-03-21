@@ -30,6 +30,7 @@ export function ElbeDialog({
           <div class="body-l b">{title}</div>
 
           <IconButton.plain
+            ariaLabel={"Close"}
             icon={X}
             onTap={(e) => {
               e.stopPropagation();

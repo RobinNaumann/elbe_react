@@ -100,6 +100,11 @@
   .row-resp {
     flex-direction: column;
   }
+  
+  .resp-reversed {
+    flex-direction: column-reverse;
+  }
+
   .if-wide {
     display: none;
   }

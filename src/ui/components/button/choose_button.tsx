@@ -8,6 +8,7 @@ export interface ChooseItem<T> {
   value: T;
   label?: string;
   icon?: IconChild;
+  ariaLabel?: string;
 }
 
 export function ChooseButton<T>({
@@ -30,10 +31,11 @@ export function ChooseButton<T>({
       } gap-none rounded accent minor card padding-none cross-stretch ${
         !onChange ? "disabled" : ""
       }`}
-      style="background: transparent"
+      style="background: transparent; overflow: hidden"
     >
       {items.map((e) => (
         <Button
+          ariaLabel={e.ariaLabel ?? e.label ?? null}
           manner={e.value === value ? "minor" : "flat"}
           kind={kind}
           onTap={onChange && (() => onChange(e.value))}

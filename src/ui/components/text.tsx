@@ -53,10 +53,11 @@ export class Text extends React.Component<
     return (
       <span
         {...applyProps(
+          "text",
           elbe,
           [
             "text",
-            align,
+            //align,
             bold && "b",
             italic && "i",
             underline && "underline",
@@ -68,6 +69,7 @@ export class Text extends React.Component<
             fontSize: size ? `${size}rem` : "",
             color: color || "",
             scrollMarginTop: "2rem",
+            textAlign: align,
           }
         )}
       >

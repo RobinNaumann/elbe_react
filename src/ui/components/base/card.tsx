@@ -16,6 +16,8 @@ export function Card({
   margin = 0,
   onTap,
   onLongTap,
+  frosted,
+  bordered,
   children,
   ...elbe
 }: {
@@ -27,14 +29,29 @@ export function Card({
   margin?: number;
   onTap?: () => void;
   onLongTap?: () => void;
+  frosted?: boolean;
+  bordered?: boolean;
   children?: ElbeChildren;
 } & ElbeProps) {
   return (
     <div
-      {...applyProps(elbe, ["card", mode, scheme, kind, manner], {
-        padding: `${padding}rem`,
-        margin: `${margin}rem`,
-      })}
+      {...applyProps(
+        "card",
+        elbe,
+        [
+          "card",
+          mode,
+          scheme,
+          kind,
+          manner,
+          frosted && "frosted",
+          bordered && "bordered",
+        ],
+        {
+          padding: `${padding}rem`,
+          margin: `${margin}rem`,
+        }
+      )}
       onClick={onTap}
       onContextMenu={onLongTap}
     >

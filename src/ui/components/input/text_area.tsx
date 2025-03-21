@@ -1,4 +1,4 @@
-import { applyProps, type ElbeProps } from "../base/box";
+import { ActionElbeProps, applyProps } from "../base/box";
 
 export function _TextArea({
   label,
@@ -17,7 +17,7 @@ export function _TextArea({
   readonly?: boolean;
   value: string | number;
   onInput?: (value: string) => void;
-} & ElbeProps) {
+} & ActionElbeProps) {
   return (
     <div
       style={{
@@ -29,7 +29,7 @@ export function _TextArea({
       data-tooltip={elbe.tooltip}
     >
       <textarea
-        {...applyProps(elbe, null, { width: "100%" })}
+        {...applyProps("text_area", elbe, null, { width: "100%" })}
         label={label}
         size={5}
         cols={5}

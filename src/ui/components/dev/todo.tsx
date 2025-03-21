@@ -55,7 +55,7 @@ export namespace ToDo {
   }: { msg: string; width?: number; height?: number } & ElbeProps) {
     return (
       <div
-        {...applyProps({ ...elbe, typeLabel: "todo" }, [], {
+        {...applyProps("todo", elbe, [], {
           ..._toDoStyle,
           display: "inline",
         })}
@@ -74,7 +74,7 @@ export namespace ToDo {
   }: { msg: string; width?: number; height?: number } & ElbeProps) {
     return (
       <div
-        {...applyProps({ ...elbe, typeLabel: "todo" }, [], {
+        {...applyProps("todo", elbe, [], {
           ..._toDoStyle,
           display: "flex",
           flexDirection: "column",
@@ -100,7 +100,7 @@ export namespace ToDo {
   }: { width?: number; height?: number } & ElbeProps) {
     return (
       <div
-        {...applyProps({ ...elbe, typeLabel: "placeholder" }, [], {
+        {...applyProps("placeholder", elbe, [], {
           padding: "0",
           width: width ? width + "rem" : "auto",
           height: height ? height + "rem" : "auto",

@@ -1,11 +1,12 @@
 import { Component } from "preact";
 import type { ElbeColorKinds, ElbeColorManners } from "../../theme/colors";
 import { _ElbeErr } from "../../util/error_view";
-import { applyProps, type ElbeProps } from "../base/box";
+import { ActionElbeProps, applyProps } from "../base/box";
 import type { IconChild } from "./icon_button";
 
-export type ButtonProps = ElbeProps & {
+export type ButtonProps = ActionElbeProps & {
   kind?: ElbeColorKinds;
+  transparent?: boolean;
   onTap?: (e: Event) => void;
 } & { icon?: IconChild; label?: string; children?: any };
 
@@ -30,14 +31,21 @@ function _btn(
 ) {
   return label || icon || children ? (
     <button
-      {...applyProps(elbe, [
-        "row",
-        "gap-half",
-        "main-center",
-        kind ?? (manner != "plain" && "accent"),
-        manner,
-        !onTap && "disabled",
-      ])}
+      {...applyProps(
+        "button",
+        elbe,
+        [
+          "row",
+          "gap-half",
+          "main-center",
+          kind ?? (manner != "plain" && "accent"),
+          manner,
+          !onTap && "disabled",
+        ],
+        {
+          backgroundColor: elbe.transparent ? "transparent" : null,
+        }
+      )}
       disabled={!onTap}
       onClick={(e) => onTap && onTap(e)}
     >

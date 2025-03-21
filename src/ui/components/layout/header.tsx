@@ -49,7 +49,7 @@ export function Header({
     <div>
       <div style={{ height: `${height}rem` }}></div>
       <div
-        class="header"
+        class="header frosted"
         style={{
           height: `${height}rem`,
           borderColor: isScrolled
@@ -59,23 +59,45 @@ export function Header({
           position: _absolute ? "absolute" : "fixed",
         }}
       >
-        <div class="flex-1">
-          {back ? (
-            typeof back !== "string" ? (
-              back
-            ) : (
-              <IconButton.plain
-                icon={back === "back" ? Icons.ArrowLeft : Icons.X}
-                onTap={goBack}
-              />
-            )
-          ) : null}
-        </div>
-        {children ? children : <Text.h5 v={title} />}
-        <Row class="flex-1" gap={0.5} main="end">
-          {actions}
-        </Row>
+        {back ? (
+          typeof back !== "string" ? (
+            back
+          ) : (
+            <IconButton.plain
+              ariaLabel={back === "back" ? "go back" : "close"}
+              icon={back === "back" ? Icons.ArrowLeft : Icons.X}
+              onTap={goBack}
+            />
+          )
+        ) : null}
+
+        {children ? children : <_PageCenteredTitle text={title || ""} />}
+
+        {actions ? (
+          <Row gap={0.5} main="end">
+            {actions}
+          </Row>
+        ) : null}
       </div>
     </div>
   );
+}
+
+function _PageCenteredTitle({ text }: { text: string }) {
+  return <Text.h5 v={text} class="flex-1" align="center" />;
+
+  /* CENTER TO PAGE:
+  return (
+    <div class="flex-1" style={{ height: "0rem" }}>
+      <div
+        style={{
+          position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%) translateY(-50%)",
+        }}
+      >
+        <Text.h5 v={text} align="center" />
+      </div>
+    </div>
+  );*/
 }

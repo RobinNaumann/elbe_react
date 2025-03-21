@@ -1,4 +1,4 @@
-import { applyProps, type ElbeProps } from "../base/box";
+import { ActionElbeProps, applyProps } from "../base/box";
 
 export function Select({
   options,
@@ -11,10 +11,10 @@ export function Select({
   value?: string;
   label?: string;
   onChange: (value: string) => any;
-} & ElbeProps) {
+} & ActionElbeProps) {
   return (
     <select
-      {...applyProps(elbe)}
+      {...applyProps("select", elbe)}
       value={value}
       label={label}
       onChange={(e) => onChange(e.currentTarget.value)}

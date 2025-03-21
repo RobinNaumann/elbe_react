@@ -24,7 +24,7 @@ export class Scroll extends Component<_ScrollProps> {
   render() {
     return (
       <div
-        {...applyProps(this.props, null, {
+        {...applyProps("scroll", this.props, null, {
           overflowY: this.props.axis === "vertical" ? "scroll" : "hidden",
           overflowX: this.props.axis === "horizontal" ? "scroll" : "hidden",
         })}

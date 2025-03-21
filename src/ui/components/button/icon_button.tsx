@@ -1,10 +1,10 @@
 import { Component } from "preact";
 import {
+  ActionElbeProps,
   applyProps,
   type ElbeChild,
   type ElbeColorKinds,
   type ElbeColorManners,
-  type ElbeProps,
 } from "../../..";
 
 export type IconChild = ElbeChild | ((_: any) => ElbeChild);
@@ -12,9 +12,10 @@ export type IconChild = ElbeChild | ((_: any) => ElbeChild);
 export type IconButtonProps = {
   icon?: IconChild;
   kind?: ElbeColorKinds;
+  transparent?: boolean;
 
   onTap?: (e: Event) => void;
-} & ElbeProps;
+} & ActionElbeProps;
 
 export class IconButton extends Component<
   IconButtonProps & { manner?: ElbeColorManners }
@@ -36,6 +37,7 @@ function _btn(
   return (
     <button
       {...applyProps(
+        "icon_button",
         elbe,
         [
           "row",
@@ -46,6 +48,7 @@ function _btn(
           !onTap && "disabled",
         ],
         {
+          backgroundColor: elbe.transparent ? "transparent" : null,
           border: "none",
           borderRadius: "3rem",
           height: "3rem",

@@ -1,5 +1,5 @@
 import React from "preact/compat";
-import { applyProps, type ElbeProps } from "../base/box";
+import { ActionElbeProps, applyProps } from "../base/box";
 import { _TextArea } from "./text_area";
 
 export type InputFieldProps = {
@@ -8,7 +8,7 @@ export type InputFieldProps = {
   readonly?: boolean;
   value: string | number;
   onInput?: (value: string) => void;
-} & ElbeProps;
+} & ActionElbeProps;
 
 export class Field extends React.Component<
   InputFieldProps & {
@@ -39,7 +39,7 @@ export class Field extends React.Component<
       >
         <input
           type={this.props.type}
-          {...applyProps(this.props, null, {
+          {...applyProps("text_field", this.props, null, {
             width: "100%",
           })}
           size={5}

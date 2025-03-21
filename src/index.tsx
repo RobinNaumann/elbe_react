@@ -18,7 +18,9 @@ export * from "./ui/components/button/choose_button";
 export * from "./ui/components/button/icon_button";
 export * from "./ui/components/button/toggle_button";
 
+export * from "./ui/components/layout/alignment";
 export * from "./ui/components/layout/flex";
+export * from "./ui/components/layout/header";
 export * from "./ui/components/layout/scaffold";
 export * from "./ui/components/layout/scroll";
 export * from "./ui/components/layout/spaced";
@@ -27,11 +29,13 @@ export * from "./ui/components/input/checkbox";
 export * from "./ui/components/input/input_field";
 export * from "./ui/components/input/range";
 export * from "./ui/components/input/select";
+export * from "./ui/components/input/switch";
 export * from "./ui/components/input/text_area";
 
 export * from "./ui/components/badge";
 export * from "./ui/components/dialog";
 export * from "./ui/components/error_view";
+export * from "./ui/components/progress_bar";
 export * from "./ui/components/spinner";
 export * from "./ui/components/text";
 

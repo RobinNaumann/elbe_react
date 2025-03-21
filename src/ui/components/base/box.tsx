@@ -9,9 +9,15 @@ export type ElbeProps = {
   tooltip?: string;
   flex?: boolean | number;
   typeLabel?: string;
+  ariaLabel?: string | null;
+};
+
+export type ActionElbeProps = ElbeProps & {
+  ariaLabel: string | null;
 };
 
 export function applyProps(
+  typeLabel: string,
   p: ElbeProps,
   classes?: string | null | (string | false | null | undefined)[],
   style?: React.CSSProperties
@@ -28,7 +34,10 @@ export function applyProps(
       ...(p.flex ? { flex: p.flex === true ? 1 : p.flex } : {}),
     },
     ...(p.tooltip ? { ["data-tooltip"]: p.tooltip } : {}),
-    ["data-type"]: p.typeLabel,
+    ["aria-label"]: p.ariaLabel ?? undefined,
+    ariaLabel: p.ariaLabel ?? null,
+    ["data-type"]:
+      p.typeLabel ?? (!!typeLabel ? `elbe_${typeLabel}` : undefined),
   };
 }
 
@@ -55,7 +64,7 @@ export class Box extends Component<
     const { scheme, mode, padding, margin, children, ...elbe } = this.props;
     return h(
       "div",
-      applyProps(elbe, [scheme, mode], {
+      applyProps("box", elbe, [scheme, mode], {
         padding: `${padding}rem`,
         margin: `${margin}rem`,
         ...elbe.style,

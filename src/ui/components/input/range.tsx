@@ -1,5 +1,5 @@
 import { _ElbeErr } from "../../util/error_view";
-import { applyProps, type ElbeProps } from "../base/box";
+import { ActionElbeProps, applyProps } from "../base/box";
 import { Card } from "../base/card";
 
 export function Range({
@@ -15,11 +15,12 @@ export function Range({
   step?: number;
   max?: number;
   onChange?: ((value: number) => void) | null;
-} & ElbeProps) {
+} & ActionElbeProps) {
   return min > max ? (
     _ElbeErr("Range: max is smaller than min")
   ) : (
     <Card
+      ariaLabel={null}
       scheme="secondary"
       kind="accent"
       manner="minor"
@@ -34,7 +35,7 @@ export function Range({
     >
       <input
         type="range"
-        {...applyProps(elbe, null, {
+        {...applyProps("range", elbe, null, {
           filter: onChange ? "" : "grayscale(1)",
           opacity: onChange ? "" : "0.5",
           cursor: onChange ? "pointer" : "not-allowed",

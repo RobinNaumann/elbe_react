@@ -9,6 +9,17 @@ import { ExampleSection } from "./util/section";
 export function Home() {
   return (
     <div class="primary">
+      {/*<Header
+        title="hello"
+        actions={
+          <>
+            <IconButton icon={Icons.Github} onTap={() => {}} />
+            <IconButton icon={Icons.Github} onTap={() => {}} />
+            <IconButton icon={Icons.Github} onTap={() => {}} />
+          </>
+        }
+      ></Header>*/}
+
       <_HeroSection />
       <div class="base-limited" style="border: none">
         <Box mode="light" scheme="primary" padding={1}>
@@ -77,36 +88,43 @@ function _OverviewSection({}) {
   return (
     <div class="column cross-stretch">
       <Button.flat
+        ariaLabel="view components"
         icon={Icons.Boxes}
         label="components"
         onTap={() => scrollToId("components")}
       />
       <Button.flat
+        ariaLabel="view colors"
         icon={Icons.SwatchBook}
         label="colors"
         onTap={() => scrollToId("color")}
       />
       <Button.flat
+        ariaLabel="view typography"
         icon={Icons.Type}
         label="typography"
         onTap={() => scrollToId("typography")}
       />
       <Button.flat
+        ariaLabel="view modals"
         icon={Icons.Layers2}
         label="modals"
         onTap={() => scrollToId("modals")}
       />
       <Button.flat
+        ariaLabel="view layout"
         icon={Icons.LayoutTemplate}
         label="layout"
         onTap={() => scrollToId("layout")}
       />
       <Button.flat
+        ariaLabel="view foundation"
         icon={Icons.AppWindowMac}
         label="foundation"
         onTap={() => scrollToId("foundation")}
       />
       <Button.flat
+        ariaLabel="view utilities"
         icon={Icons.Hammer}
         label="utilities"
         onTap={() => scrollToId("utilities")}
@@ -122,6 +140,7 @@ function _HeroSection({}) {
         <Text.h1 v="elbe" />
         <div>a cross-platform UI framework for React & Flutter</div>
         <Button.minor
+          ariaLabel="go to the Flutter Demo"
           label="Flutter Demo"
           icon={Icons.ExternalLink}
           onTap={() => window.open("https://robbb.in/elbe_flutter", "_blank")}

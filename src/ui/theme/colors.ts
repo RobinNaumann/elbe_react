@@ -4,13 +4,8 @@ import { colorThemePreset } from "./color_theme";
 
 export type ElbeColorModes = "light" | "dark";
 export type ElbeColorSchemes = "primary" | "secondary" | "inverse";
-export type ElbeColorKinds =
-  | "plain"
-  | "accent"
-  | "info"
-  | "success"
-  | "warning"
-  | "error";
+export type ElbeAlertKinds = "success" | "warning" | "error" | "info";
+export type ElbeColorKinds = ElbeAlertKinds | "plain" | "accent";
 export type ElbeColorManners = "major" | "minor" | "flat" | "plain";
 
 export const cModes: ElbeColorModes[] = ["light", "dark"];

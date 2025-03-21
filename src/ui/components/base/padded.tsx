@@ -49,7 +49,7 @@ export class Padded extends React.Component<
   render() {
     return (
       <div
-        {...applyProps(this.props, [], {
+        {...applyProps("padded", this.props, [], {
           paddingTop: `${this.props.top || 0}rem`,
           paddingRight: `${this.props.right || 0}rem`,
           paddingBottom: `${this.props.bottom || 0}rem`,

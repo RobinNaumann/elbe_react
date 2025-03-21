@@ -82,7 +82,7 @@ export function colorThemePreset(
             b.back, //.withAlpha(0),
             front,
             null,
-            !s ? b.front.withAlpha(0.3) : b.front
+            !s ? b.front.inter(b.back, 0.9) : b.front
           );
         }),
     },

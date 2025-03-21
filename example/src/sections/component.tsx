@@ -12,15 +12,18 @@ import {
   Field,
   IconButton,
   Icons,
+  ProgressBar,
   Range,
   Row,
   Select,
   showConfirmDialog,
   showToast,
   Spinner,
+  Switch,
   ToggleButton,
 } from "elbe-ui";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
+import { Banner } from "../_bar";
 import { ExampleGroup, ExampleSection, useConfigSignal } from "../util/section";
 
 export function ComponentsSection() {
@@ -37,8 +40,11 @@ export function ComponentsSection() {
         <_SelectGroup />
         <_RangeGroup />
         <_BadgeGroup />
+        <_BannerGroup />
         <_SpinnerGroup />
+        <_ProgressBarGroup />
         <_CheckBoxGroup />
+        <_SwitchGroup />
         <_TextInputGroup />
       </ExampleSection>
       <ExampleSection title="Modals" anchor="modals">
@@ -69,22 +75,25 @@ function _TextInputGroup() {
 <Field.multiLine hint="message" value="" />`}
     >
       <Field.text
+        ariaLabel="name"
         hint="your name"
         value=""
         onInput={(value) => console.log(value)}
       />
       <Field.password
+        ariaLabel="password"
         hint="password"
         tooltip="heyoo"
         value=""
         onInput={(value) => console.log(value)}
       />
       <Field.date
+        ariaLabel="birthday"
         hint="birthday"
         value=""
         onInput={(value) => console.log(value)}
       />
-      <Field.multiLine hint="message" value={""} />
+      <Field.multiLine ariaLabel="message" hint="message" value={""} />
     </ExampleGroup>
   );
 }
@@ -107,15 +116,20 @@ function _BoxGroup() {
 }
 
 function _CardGroup() {
+  const borderedSig = useConfigSignal("bordered", true);
+
   return (
     <ExampleGroup
       title="Card"
       description={"a container with border and padding"}
       classes="row wrap"
       code={`<Card scheme="primary">...</Card>`}
+      config={[borderedSig]}
     >
       {["primary", "secondary", "inverse"].map((v) => (
-        <Card scheme={v as any}>{v}</Card>
+        <Card scheme={v as any} bordered={borderedSig.signal.value}>
+          {v}
+        </Card>
       ))}
     </ExampleGroup>
   );
@@ -149,6 +163,7 @@ function _IconButtonGroup() {
     >
       {cManners.map((v) => (
         <IconButton
+          ariaLabel="icon button"
           manner={v}
           icon={Icons.Leaf}
           onTap={
@@ -174,6 +189,7 @@ function _ButtonGroup() {
     >
       {cManners.map((v) => (
         <Button
+          ariaLabel="a button"
           manner={v}
           icon={iconSig.signal.value && Icons.Leaf}
           label={v}
@@ -207,6 +223,7 @@ function _ToggleButtonGroup() {
         `}
     >
       <ToggleButton
+        ariaLabel="a toggle button"
         icon={iconSig.signal.value ? Icons.Leaf : null}
         label="foliage"
         onChange={enabledSig.signal.value ? (v) => (selSig.value = v) : null}
@@ -265,6 +282,34 @@ function _ChooseButtonGroup() {
   );
 }
 
+function _ProgressBarGroup() {
+  const [loadVal, setLoadVal] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadVal((v) => (v + 10) % 110);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [loadVal]);
+
+  return (
+    <ExampleGroup
+      title="Progress Bar"
+      description="a component for showing active progress"
+      classes="column cross-stretch gap-double"
+      code={`<ProgressBar value={5} max={100} plain />`}
+    >
+      {[false, true].map((m) => (
+        <ProgressBar
+          value={m ? loadVal : (loadVal + 30) % 100}
+          max={100}
+          plain={m}
+        />
+      ))}
+    </ExampleGroup>
+  );
+}
+
 function _SpinnerGroup() {
   return (
     <ExampleGroup
@@ -294,6 +339,7 @@ function _SelectGroup() {
     >
       <div />
       <Select
+        ariaLabel="select"
         onChange={(v) => showToast(`selected ${v}`)}
         options={[
           { key: "leaf", label: "leaf" },
@@ -318,6 +364,7 @@ function _RangeGroup() {
       code={`<Range value={val} onChange={(v) => ...} />`}
     >
       <Range
+        ariaLabel="range"
         value={val}
         onChange={enabledSig.signal.value ? (v) => setVal(v) : null}
       />
@@ -339,10 +386,64 @@ function _CheckBoxGroup() {
       code={`<Checkbox value={val} label="agree" onChange={(v) => ...} />`}
     >
       <Checkbox
+        ariaLabel="checkbox"
         value={val}
         label="agree"
         onChange={enabledSig.signal.value ? (v) => setVal(!val) : null}
       />
+    </ExampleGroup>
+  );
+}
+
+function _SwitchGroup() {
+  const [val, setVal] = useState(false);
+  const enabledSig = useConfigSignal("enabled", true);
+
+  return (
+    <ExampleGroup
+      title="Switch"
+      description="an alternative toggle for a boolean value"
+      classes="column cross-stretch"
+      config={[enabledSig]}
+      code={`<Switch value={val} onChange={(v) => ...} />`}
+    >
+      <Switch
+        ariaLabel="switch"
+        value={val}
+        onChange={enabledSig.signal.value ? (v) => setVal(!val) : null}
+      />
+    </ExampleGroup>
+  );
+}
+
+function _BannerGroup() {
+  const minorSig = useConfigSignal("minor", false);
+  const dismissSig = useConfigSignal("dismissable", true);
+
+  return (
+    <ExampleGroup
+      title="Banner"
+      description="a banner for important messages"
+      classes="column cross-stretch"
+      config={[minorSig, dismissSig]}
+      code={`<Banner kind="info">hello</Banner>`}
+    >
+      {["info", "warning", "error", "success"].map((v) => (
+        <Banner
+          kind={v as any}
+          manner={minorSig.signal.value ? "minor" : "major"}
+          onDismiss={
+            dismissSig.signal.value
+              ? () => {
+                  showToast("you can act on dismiss");
+                }
+              : null
+          }
+          title={v}
+        >
+          this is a {v} banner
+        </Banner>
+      ))}
     </ExampleGroup>
   );
 }
@@ -358,18 +459,27 @@ function _BadgeGroup() {
       config={[showSig]}
       code={`<Badge.error label="2">hello</Badge.error>`}
     >
-      <Badge.error hidden={!showSig.signal.value} label="">
-        <IconButton.minor icon={Icons.TreePalm} onTap={() => {}} />
-      </Badge.error>
-      <Badge.success hidden={!showSig.signal.value} label="2">
-        <Button.minor label="hey" icon={Icons.TreeDeciduous} onTap={() => {}} />
-      </Badge.success>
-      <Badge.warning hidden={!showSig.signal.value} label="9+">
-        <Button.plain label="plants" onTap={() => {}} />
-      </Badge.warning>
-      <Badge.info hidden={!showSig.signal.value} label="info">
-        <IconButton.major icon={Icons.Leaf} onTap={() => {}} />
+      <Badge.info hidden={!showSig.signal.value} label="">
+        <IconButton.minor
+          ariaLabel={null}
+          icon={Icons.TreePalm}
+          onTap={() => {}}
+        />
       </Badge.info>
+      <Badge.warning hidden={!showSig.signal.value} label="2">
+        <Button.minor
+          ariaLabel={null}
+          label="hey"
+          icon={Icons.TreeDeciduous}
+          onTap={() => {}}
+        />
+      </Badge.warning>
+      <Badge.error hidden={!showSig.signal.value} label="9+">
+        <Button.plain ariaLabel={null} label="plants" onTap={() => {}} />
+      </Badge.error>
+      <Badge.success hidden={!showSig.signal.value} label="done">
+        <IconButton.major ariaLabel={null} icon={Icons.Leaf} onTap={() => {}} />
+      </Badge.success>
     </ExampleGroup>
   );
 }
@@ -413,6 +523,7 @@ const v:boolean = await showConfirmDialog({
   message: "this is a message" })`}
     >
       <Button.minor
+        ariaLabel="confirm dialog"
         label="show confirm dialog"
         onTap={async () => {
           const res = await showConfirmDialog({
@@ -439,6 +550,7 @@ function _DialogGroup() {
 </ElbeDialog>`}
     >
       <Button.minor
+        ariaLabel="dialog"
         label="show dialog"
         onTap={async () => (openSig.value = true)}
       />
@@ -464,6 +576,7 @@ function _ToastGroup() {
       code={`showToast("hello")`}
     >
       <Button.minor
+        ariaLabel="toast"
         label="show toast"
         onTap={async () => showToast("this is a toast")}
       />

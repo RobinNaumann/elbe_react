@@ -1,6 +1,6 @@
 import { CheckIcon } from "lucide-react";
 import type { ElbeColorKinds } from "../../theme/colors";
-import { applyProps, type ElbeProps } from "../base/box";
+import { ActionElbeProps, applyProps } from "../base/box";
 import { Spaced } from "../layout/spaced";
 import { Button } from "./button";
 import type { IconChild } from "./icon_button";
@@ -18,13 +18,13 @@ export function ToggleButton({
   kind?: ElbeColorKinds;
   label: string;
   icon?: IconChild;
-} & ElbeProps) {
+} & ActionElbeProps) {
   return (
     <Button
       manner={value ? "minor" : "flat"}
       kind={kind}
       onTap={onChange && (() => onChange(!value))}
-      {...applyProps(elbe, "main-between", { gap: "1.5rem" })}
+      {...applyProps("toggle_button", elbe, "main-between", { gap: "1.5rem" })}
     >
       <div class="row gap-half">
         {typeof icon === "function" ? icon({}) : icon}

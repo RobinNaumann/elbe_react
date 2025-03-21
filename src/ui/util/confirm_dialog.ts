@@ -17,7 +17,7 @@ export function showConfirmDialog({
     dialog.classList.add("dialog");
     dialog.innerHTML = `<dialog open>
         <div
-          class="elbe card primary"
+          class="card primary"
           style="max-width: 30rem; min-width: 10rem"
         >
           <div class="row cross-center">
@@ -44,9 +44,11 @@ export function showConfirmDialog({
         </div>
       </dialog>
     `;
-    document.body.appendChild(dialog);
+
+    document.getElementsByClassName("elbe")[0]?.appendChild(dialog);
+    //document.body.appendChild(dialog);
     (window as any)["conf_resolve"] = (v: any) => {
-      document.body.removeChild(dialog);
+      document.getElementsByClassName("elbe")[0]?.removeChild(dialog);
       resolve(v);
     };
   });

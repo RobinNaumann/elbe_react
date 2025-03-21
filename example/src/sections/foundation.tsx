@@ -20,6 +20,7 @@ function _ScaffoldGroup({}) {
       <div
         class="rounded"
         style={{
+          overflow: "hidden",
           border: "1px solid var(--c-context-border)",
           position: "relative",
         }}
@@ -31,8 +32,16 @@ function _ScaffoldGroup({}) {
           height={20}
           padded={false}
           actions={[
-            <IconButton.plain icon={Icons.ShoppingBag} onTap={() => {}} />,
-            <IconButton.plain icon={Icons.LogOut} onTap={() => {}} />,
+            <IconButton.plain
+              ariaLabel={null}
+              icon={Icons.ShoppingBag}
+              onTap={() => {}}
+            />,
+            <IconButton.plain
+              ariaLabel={null}
+              icon={Icons.LogOut}
+              onTap={() => {}}
+            />,
           ]}
         >
           <img src="./assets/example_hamburg.jpg" />

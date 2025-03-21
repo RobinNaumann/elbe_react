@@ -23,6 +23,7 @@ export function ThemeEdit() {
       <_TypeSelect />
       <_RoundSelect />
       <Button.flat
+        ariaLabel="view seed"
         icon={Icons.Sprout}
         label="view seed"
         onTap={() => (openSig.value = true)}
@@ -54,6 +55,7 @@ function _RoundSelect() {
         <Text v="roundness" style={labelStyle} />
 
         <Range
+          ariaLabel="set roundness"
           style={{ flex: 1 }}
           value={v.seed?.geometry?.radius ?? 0}
           onChange={(v) => themeBit.ctrl.setGeometry({ radius: v })}
@@ -64,6 +66,7 @@ function _RoundSelect() {
       <div class="row">
         <Text v="border width" style={labelStyle} />
         <Range
+          ariaLabel="set border width"
           style={{ flex: 1 }}
           value={v.seed?.geometry?.borderWidth ?? 0}
           onChange={(v) => themeBit.ctrl.setGeometry({ borderWidth: v })}
@@ -82,7 +85,10 @@ function _TypeSelect() {
       <Text.h5 v="typography" />
       <div class="row">
         <Text v="title font" style={labelStyle} />
-        <div class="row main-start" style={{ overflowX: "auto", flex: 1 }}>
+        <div
+          class="row main-start"
+          style={{ overflowX: "auto", flex: 1, padding: ".25rem 0" }}
+        >
           <div class="row main-start" style={{ minWidth: "max-content" }}>
             {[
               "Calistoga",
@@ -92,6 +98,7 @@ function _TypeSelect() {
               "Atkinson Hyperlegible",
             ].map((f) => (
               <Button
+                ariaLabel={`set ${f} as title font`}
                 label={f}
                 style={{ fontFamily: f }}
                 manner={

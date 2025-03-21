@@ -1,4 +1,4 @@
-import { applyProps, type ElbeProps } from "../base/box";
+import { ActionElbeProps, applyProps } from "../base/box";
 
 export function Checkbox({
   value,
@@ -9,7 +9,7 @@ export function Checkbox({
   value: boolean;
   label?: string;
   onChange?: ((checked: boolean) => void) | null;
-} & ElbeProps) {
+} & ActionElbeProps) {
   return (
     <div
       class={`row ${onChange ? "" : "disabled"}`}
@@ -21,7 +21,7 @@ export function Checkbox({
     >
       <input
         type="checkbox"
-        {...applyProps(elbe)}
+        {...applyProps("checkbox", elbe)}
         disabled={!onChange}
         checked={value}
         onChange={(e) => onChange?.(e.currentTarget.checked)}

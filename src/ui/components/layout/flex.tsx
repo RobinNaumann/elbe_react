@@ -49,7 +49,7 @@ export function Row({
 function _Flex(row: boolean, p: FlexProps, elbe: ElbeProps, wraps: boolean) {
   return (
     <div
-      {...applyProps(elbe, [row ? "row" : "column", wraps && "wrap"], {
+      {...applyProps("flex", elbe, [row ? "row" : "column", wraps && "wrap"], {
         justifyContent: p.main,
         alignItems: p.cross,
         gap: `${p.gap}rem`,

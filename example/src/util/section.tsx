@@ -60,6 +60,7 @@ export function ExampleGroup({
         <FlexSpace />
         {code && (
           <Button.plain
+            ariaLabel={showCode ? "Hide Code" : "Show Code"}
             icon={icons.Code}
             onTap={() => setShowCode(!showCode)}
           />
@@ -77,10 +78,11 @@ export function ExampleGroup({
       {config && (
         <div
           class="card secondary row wrap gap-0"
-          style="padding: 0; overflow: hidden;"
+          style="padding: 0; overflow: visible;"
         >
           {config.map((c) =>
             Button.flat({
+              ariaLabel: c.label,
               icon: c.signal.value ? icons.CircleCheckBig : icons.Circle,
               label: c.label,
               onTap: () => (c.signal.value = !c.signal.value),
