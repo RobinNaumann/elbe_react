@@ -20,7 +20,7 @@
 
 /* ========= ELEMENT_STYLE ========= */
 
-.sharp {
+.sharp.sharp.sharp {
   border-radius: 0;
 }
 .rounded,
@@ -71,7 +71,7 @@ body:has(dialog[open=""]) {
   overflow: hidden;
 }
 
-.transparent {
+.transparent.transparent {
   background-color: transparent;
 }
 
@@ -147,5 +147,16 @@ b,
   }
   to {
     transform: rotate(359deg);
+  }
+}
+
+
+&.high_vis a {
+  text-decoration: underline;
+}
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
   }
 }

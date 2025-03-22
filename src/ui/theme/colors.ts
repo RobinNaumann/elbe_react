@@ -1,6 +1,7 @@
 import { hslToRgb, rgbToHsl } from "colors-convert";
 import { clamp } from "../util/util";
 import { colorThemePreset } from "./color_theme";
+import { ColorSeedColors, ColorThemeSeed, PartialColorThemeSeed } from "./seed";
 
 export type ElbeColorModes = "light" | "dark";
 export type ElbeColorSchemes = "primary" | "secondary" | "inverse";
@@ -38,42 +39,6 @@ export type SeedStyleSelector = (
   base: LayerColor,
   style: LayerColor
 ) => LayerColor;
-
-export type ColorSeedColors = {
-  base: LayerColor;
-  accent: LayerColor;
-  info: LayerColor;
-  success: LayerColor;
-  warning: LayerColor;
-  error: LayerColor;
-};
-
-export type ColorThemeSeed = ColorSeedColors & {
-  mode: {
-    light: SeedSelector;
-    dark: SeedSelector;
-  };
-
-  scheme: {
-    primary: SeedSelector;
-    secondary: SeedSelector;
-    inverse: SeedSelector;
-  };
-
-  style: {
-    accent: SeedStyleSelector;
-    info: SeedStyleSelector;
-    success: SeedStyleSelector;
-    warning: SeedStyleSelector;
-    error: SeedStyleSelector;
-  };
-
-  variant: {
-    major: SeedStyleSelector;
-    minor: SeedStyleSelector;
-    flat: SeedFlatSelector;
-  };
-};
 
 export class RGBAColor {
   constructor(
@@ -251,6 +216,10 @@ export class LayerColor extends RGBAColor {
       RGBAColor.fromHex(front ?? null),
       RGBAColor.fromHex(border ?? null)
     );
+  }
+
+  public withBorder(border: RGBAColor): LayerColor {
+    return new LayerColor(this.back, this.front, border);
   }
 
   public static fromBack(
@@ -484,19 +453,21 @@ export class ColorTheme {
 
   public asCss(): string {
     return (
-      ":root {" +
-      `--c-accent: ${this.colors.accent.back.asCss()};` +
-      `--c-info: ${this.colors.info.back.asCss()};` +
-      `--c-success: ${this.colors.success.back.asCss()};` +
-      `--c-warning: ${this.colors.warning.back.asCss()};` +
-      `--c-error: ${this.colors.error.back.asCss()};` +
-      "}\n" +
-      this.color.asCss()
+      `:root {
+  --c-accent: ${this.colors.accent.back.asCss()};
+  --c-info: ${this.colors.info.back.asCss()};
+  --c-success: ${this.colors.success.back.asCss()};
+  --c-warning: ${this.colors.warning.back.asCss()};
+  --c-error: ${this.colors.error.back.asCss()};
+}` + this.color.asCss()
     );
   }
 
-  public static generate(seed?: Partial<ColorThemeSeed>): ColorTheme {
-    const s: ColorThemeSeed = colorThemePreset(seed);
+  public static generate(
+    seed?: Partial<PartialColorThemeSeed>,
+    highVis?: boolean
+  ): ColorTheme {
+    const s: ColorThemeSeed = colorThemePreset(seed, highVis ?? false);
     return new ColorTheme(s, ModeColor.generate(s));
   }
 }

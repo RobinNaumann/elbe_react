@@ -18,6 +18,7 @@ export function Card({
   onLongTap,
   frosted,
   bordered,
+  sharp,
   children,
   ...elbe
 }: {
@@ -31,6 +32,7 @@ export function Card({
   onLongTap?: () => void;
   frosted?: boolean;
   bordered?: boolean;
+  sharp?: boolean;
   children?: ElbeChildren;
 } & ElbeProps) {
   return (
@@ -46,6 +48,7 @@ export function Card({
           manner,
           frosted && "frosted",
           bordered && "bordered",
+          sharp && "sharp",
         ],
         {
           padding: `${padding}rem`,

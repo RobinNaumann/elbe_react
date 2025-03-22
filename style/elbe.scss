@@ -70,7 +70,12 @@ body,
      outline: none;
   }
 
+  &.dark :focus-visible{
+    outline: .15rem solid white;
+  }
+
 }
+
 
 .toast {
   @extend .card;

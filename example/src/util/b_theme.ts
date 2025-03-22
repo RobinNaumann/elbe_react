@@ -12,6 +12,7 @@ import {
 type Inputs = {};
 type Data = {
   dark: boolean;
+  highVis: boolean;
   seed: ElbeThemeSeed;
 };
 
@@ -19,6 +20,7 @@ class _Ctrl extends WorkerControl<Inputs, Data> {
   async worker() {
     return {
       dark: false,
+      highVis: false,
       seed: {
         color: {
           accent: LayerColor.fromBack(colors.blueAccent),
@@ -60,6 +62,16 @@ class _Ctrl extends WorkerControl<Inputs, Data> {
               ...s,
             },
           },
+        }),
+    });
+  }
+
+  setHighVis(highVis: boolean) {
+    this.bit.map({
+      onData: (v) =>
+        this.bit.emit({
+          ...v,
+          highVis,
         }),
     });
   }

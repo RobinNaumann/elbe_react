@@ -33,6 +33,7 @@ export * from "./ui/components/input/switch";
 export * from "./ui/components/input/text_area";
 
 export * from "./ui/components/badge";
+export * from "./ui/components/banner";
 export * from "./ui/components/dialog";
 export * from "./ui/components/error_view";
 export * from "./ui/components/progress_bar";
@@ -41,6 +42,7 @@ export * from "./ui/components/text";
 
 export * from "./ui/components/dev/todo";
 
+export * from "./ui/theme/seed";
 export * from "./ui/theme/theme";
 
 function None({}) {

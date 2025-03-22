@@ -1,4 +1,4 @@
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, XIcon } from "lucide-react";
 import { ActionElbeProps, applyProps } from "../../..";
 
 export function Switch({
@@ -11,24 +11,22 @@ export function Switch({
   label?: string;
   onChange?: ((checked: boolean) => void) | null;
 } & ActionElbeProps) {
-  const cFront = value ? "var(--c-accent)" : "var(--c-context-front)";
-
   return (
     <button
       onClick={() => onChange?.(!value)}
-      {...applyProps("switch", elbe, ["bordered card"], {
-        border: "0.15rem solid",
+      {...applyProps("switch", elbe, ["bordered card accent"], {
         minHeight: 0,
         minWidth: 0,
         filter: onChange ? "" : "grayscale(1)",
         opacity: onChange ? "" : "0.5",
-        borderColor: cFront,
-        borderRadius: "5rem",
         height: "1.8rem",
         width: "2.7rem",
         position: "relative",
         padding: "0rem",
-        borderWidth: value ? "0.20rem" : "0.15rem",
+        borderColor: "var(--c-context-front)",
+        backgroundColor: value
+          ? "var(--c-context-front)"
+          : "var(--c-context-back)",
         display: "flex",
         alignItems: "center",
         transition: "border-color 0.25s, border-width 0.25s",
@@ -37,26 +35,28 @@ export function Switch({
       <div
         style={{
           position: "absolute",
-          left: value ? "1.05rem" : "0.2rem",
-
-          width: "1.2rem",
-          height: "1.2rem",
-          borderRadius: "1rem",
-          backgroundColor: cFront,
+          left: value ? "1.2rem" : "0.4rem",
+          height: ".8rem",
+          width: ".8rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          transition: "background-color 0.25s, left 0.25s",
-          paddingRight: "0.00rem",
-          paddingTop: "0.03rem",
+          transition: "left 0.25s",
         }}
       >
-        {value && (
+        {value ? (
           <CheckIcon
-            // @ts-ignore
             color="var(--c-context-back)"
-            width=".75rem"
-            height=".75rem"
+            //width=".8rem"
+            //height=".8rem"
+            absoluteStrokeWidth={false}
+            strokeWidth="0.3rem"
+          />
+        ) : (
+          <XIcon
+            color="var(--c-context-front)"
+            //width=".8rem"
+            //height=".8rem"
             absoluteStrokeWidth={false}
             strokeWidth="0.3rem"
           />

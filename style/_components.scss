@@ -8,7 +8,7 @@
   border: none;
 }
 
-.bordered.bordered {
+.bordered.bordered.bordered {
   border: var(--g-border-width) solid var(--c-context-border);
 }
 
@@ -59,6 +59,12 @@ select {
   height: 3rem;
   min-width: 12rem;
   width: 100%;
+}
+
+&.dark dialog[open=""] > div {
+  border-width: var(--g-border-width);
+  border-style: solid;
+  border-color: var(--c-context-border);
 }
 
 dialog {
@@ -174,6 +180,20 @@ textarea {
   cursor: pointer; 
 }
 
+&.high_vis input[type="range"] {
+  &::-webkit-slider-thumb {
+    border-width: var(--g-border-width);
+    border-style: solid;
+    border-color: var(--c-context-back);
+  }
+
+  &::-moz-range-thumb {
+    border-width: var(--g-border-width);
+    border-style: solid;
+    border-color: var(--c-context-back);
+  }
+}
+
 input[type="range"] {
   -webkit-appearance: none;  
   appearance: none;
@@ -247,12 +267,11 @@ input[type="checkbox"] {
   margin: 0;
 
   font: inherit;
-  color: black;
-  //margin: 0.6rem 0.6rem;
   width: 1.8rem;
   height: 1.8rem;
-  border: 0.16em solid var(--c-context-front);
-  border-radius: 25%;
+  border-width: var(--g-border-width);
+  border-radius: var(--g-radius);
+  border-style: solid;
   transform: translateY(-0.075em);
 
   display: grid;
@@ -272,15 +291,9 @@ input[type="checkbox"]::before {
   //box-shadow: inset 1em 1em green;
 }
 
-input[type="checkbox"]:checked {
-  border-color: var(--c-accent);
-  background: color-mix(in srgb, var(--c-accent) 20%, transparent);
-  &::before {
-    transform: scale(1);
-    background-color: var(--c-accent);
-  }
-
-
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  background-color: var(--c-context-front);
 }
 
 input[type="checkbox"]:focus {
@@ -294,5 +307,16 @@ input[type="checkbox"]:not(:checked):disabled {
 }
 
 
+// progress bar
+&.high_vis div[data-type="elbe_progress_bar"] > * {
+  outline-width: var(--g-border-width);
+  outline-style: solid;
+  outline-color: var(--c-context-back);
+}
 
 // UTILS
+hr {
+  border: none;
+  border-top: var(--g-border-width) solid var(--c-context-border);
+  width: 100%;
+}

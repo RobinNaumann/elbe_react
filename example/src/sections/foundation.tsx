@@ -1,11 +1,83 @@
-import { IconButton, Icons, Scaffold } from "elbe-ui";
+import { Header, IconButton, Icons, Scaffold } from "elbe-ui";
+import { Footer } from "../_bar";
 import { ExampleGroup, ExampleSection } from "../util/section";
 
 export function FoundationSection({}) {
   return (
     <ExampleSection title="Foundation" anchor="foundation">
       <_ScaffoldGroup />
+      <_HeaderGroup />
+      <_FooterGroup />
     </ExampleSection>
+  );
+}
+
+function _HeaderGroup({}) {
+  return (
+    <ExampleGroup
+      title="Header"
+      description="a layout component that provides a title and an optional back button and actions."
+      classes="column"
+      code={`<Header title="Title" back="close" actions={[]}/>`}
+    >
+      <div
+        class="rounded"
+        style={{
+          overflow: "hidden",
+          border: "1px solid var(--c-context-border)",
+          position: "relative",
+        }}
+      >
+        <Header
+          title="Title"
+          back="close"
+          _absolute
+          actions={[
+            <IconButton.plain
+              ariaLabel={null}
+              icon={Icons.ShoppingBag}
+              onTap={() => {}}
+            />,
+            <IconButton.plain
+              ariaLabel={null}
+              icon={Icons.LogOut}
+              onTap={() => {}}
+            />,
+          ]}
+        />
+      </div>
+    </ExampleGroup>
+  );
+}
+
+function _FooterGroup({}) {
+  return (
+    <ExampleGroup
+      title="Footer"
+      description="show links and legal information"
+      classes="column"
+      code={`<Footer/>`}
+    >
+      <div
+        class="rounded"
+        style={{
+          overflow: "hidden",
+          border: "1px solid var(--c-context-border)",
+          position: "relative",
+        }}
+      >
+        <Footer
+          left={[
+            { label: "banana", href: "#" },
+            { label: "apple", href: "#" },
+          ]}
+          right={[{ label: "orange", href: "#" }]}
+          legal={{ label: "legal info", href: "#" }}
+          copyright="© 2025 elbe"
+          version="v1.2.3"
+        />
+      </div>
+    </ExampleGroup>
   );
 }
 
@@ -15,7 +87,7 @@ function _ScaffoldGroup({}) {
       title="Scaffold"
       description="Scaffold is a layout component that provides a header and a content area. It is used to create a consistent layout for pages."
       classes="column"
-      code={`TODO`}
+      code={`<Scaffold/>`}
     >
       <div
         class="rounded"

@@ -21,7 +21,14 @@ export function Checkbox({
     >
       <input
         type="checkbox"
-        {...applyProps("checkbox", elbe)}
+        {...applyProps(
+          "checkbox",
+          elbe,
+          value ? ["accent major"] : "accent minor",
+          {
+            background: value ? null : "transparent",
+          }
+        )}
         disabled={!onChange}
         checked={value}
         onChange={(e) => onChange?.(e.currentTarget.checked)}

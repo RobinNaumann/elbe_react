@@ -1,4 +1,5 @@
 import { Box, Button, Column, Icons, scrollToId, Text } from "elbe-ui";
+import { _WrittenIn, Footer } from "./_bar";
 import { ColorsSection, TypographySection } from "./sections/colors";
 import { ComponentsSection } from "./sections/component";
 import { FoundationSection } from "./sections/foundation";
@@ -8,7 +9,7 @@ import { ExampleSection } from "./util/section";
 
 export function Home() {
   return (
-    <div class="primary">
+    <Column>
       {/*<Header
         title="hello"
         actions={
@@ -24,10 +25,9 @@ export function Home() {
       <div class="base-limited" style="border: none">
         <Box mode="light" scheme="primary" padding={1}>
           <Column gap={6}>
-            <div />
             <_InstallSection />
-            <_OverviewSection />
             <ThemeEdit />
+            <_OverviewSection />
             <ComponentsSection />
             <FoundationSection />
             <ColorsSection />
@@ -37,7 +37,19 @@ export function Home() {
           </Column>
         </Box>
       </div>
-    </div>
+      <Footer
+        right={[<_WrittenIn href="https://robbb.in" />]}
+        legal={{ label: "imprint/impressum", href: "#" }}
+        left={[
+          {
+            label: "source code",
+            href: "https://github.com/RobinNaumann/elbe_react",
+          },
+        ]}
+        //copyright="© 2025 Robin Naumann"
+        version="elbe v0.0.1"
+      />
+    </Column>
   );
 }
 
@@ -51,24 +63,6 @@ function _InstallSection({}) {
           style="padding: .75rem; margin-bottom: .5rem"
         >
           npm i <b>elbe-ui</b>
-        </div>
-        <div>import the CSS</div>
-        <div
-          class="card secondary code"
-          style="padding: .75rem; margin-bottom: .5rem"
-        >
-          import "elbe-ui/dist/elbe.css";
-        </div>
-        <div>
-          add the <b>elbe</b> class to your app's base in the index.html
-        </div>
-        <div
-          class="card secondary code"
-          style="padding: .75rem;margin-bottom: .5rem"
-        >
-          {'<div id="app" '}
-          <b>class="elbe"</b>
-          {"></div>"}
         </div>
         <div>
           wrap your App into <b>ElbeTheme</b>

@@ -1,6 +1,7 @@
 import { useSignal } from "@preact/signals";
 import {
   Badge,
+  Banner,
   Box,
   Button,
   Card,
@@ -23,7 +24,7 @@ import {
   ToggleButton,
 } from "elbe-ui";
 import { useEffect, useState } from "preact/hooks";
-import { Banner } from "../_bar";
+import { Link } from "../_bar";
 import { ExampleGroup, ExampleSection, useConfigSignal } from "../util/section";
 
 export function ComponentsSection() {
@@ -39,6 +40,8 @@ export function ComponentsSection() {
         <_ChooseButtonGroup />
         <_SelectGroup />
         <_RangeGroup />
+        <_HRGroup />
+        <_LinkGroup />
         <_BadgeGroup />
         <_BannerGroup />
         <_SpinnerGroup />
@@ -301,7 +304,7 @@ function _ProgressBarGroup() {
     >
       {[false, true].map((m) => (
         <ProgressBar
-          value={m ? loadVal : (loadVal + 30) % 100}
+          value={(loadVal + (m ? 0 : 30)) % 110}
           max={100}
           plain={m}
         />
@@ -444,6 +447,47 @@ function _BannerGroup() {
           this is a {v} banner
         </Banner>
       ))}
+    </ExampleGroup>
+  );
+}
+
+function _HRGroup() {
+  return (
+    <ExampleGroup
+      title="Rule"
+      description="a horizontal rule"
+      classes="column"
+      code={`<hr />`}
+    >
+      <hr />
+    </ExampleGroup>
+  );
+}
+
+function _LinkGroup() {
+  const plainSig = useConfigSignal("plain", false);
+  const boldSig = useConfigSignal("bold", false);
+  const noIconSig = useConfigSignal("no icon", false);
+  return (
+    <ExampleGroup
+      title="Link"
+      description="a convenience wrapper for 'a'"
+      classes="column"
+      config={[plainSig, boldSig, noIconSig]}
+      code={`<hr />`}
+    >
+      <span>
+        Hello,{" "}
+        <Link
+          bold={boldSig.signal.value}
+          plain={plainSig.signal.value}
+          noIcon={noIconSig.signal.value}
+          href="https://robbb.in"
+          label="this"
+          external
+        />{" "}
+        is a link.
+      </span>
     </ExampleGroup>
   );
 }

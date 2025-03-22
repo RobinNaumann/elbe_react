@@ -1,4 +1,4 @@
-import { applyProps, ElbeProps } from "../..";
+import { applyProps, clamp, ElbeProps } from "../..";
 
 export function ProgressBar({
   value,
@@ -16,13 +16,12 @@ export function ProgressBar({
         width: "100%",
         height: "0.5rem",
         borderRadius: "1rem",
-        overflow: "hidden",
         border: "none",
       })}
     >
       <div
         style={{
-          width: `${(value / max) * 100}%`,
+          width: `${clamp((value / max) * 100, 0, 100)}%`,
           height: "100%",
           backgroundColor: "var(--c-context-front)",
           transition: "width 0.25s",

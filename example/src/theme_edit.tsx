@@ -8,6 +8,7 @@ import {
   LayerColor,
   Range,
   Text,
+  ToggleButton,
 } from "elbe-ui";
 import { ThemeBit } from "./util/b_theme";
 
@@ -19,6 +20,7 @@ export function ThemeEdit() {
       <div>
         Edit the theme in real time. There are even more options in the code
       </div>
+
       <_AccentSelect />
       <_TypeSelect />
       <_RoundSelect />
@@ -139,6 +141,16 @@ function _AccentSelect() {
           }
           value={v.dark}
           onChange={(v) => themeBit.ctrl.setDark(v)}
+        />
+      </div>
+      <div class="row">
+        <Text v="contrast" style={labelStyle} />
+
+        <ToggleButton
+          ariaLabel="high visibility"
+          value={v.highVis}
+          label="high visibility"
+          onChange={(v) => themeBit.ctrl.setHighVis(v)}
         />
       </div>
 
