@@ -1,14 +1,21 @@
 import { hslToRgb, rgbToHsl } from "colors-convert";
 import { clamp } from "../util/util";
 import { colorThemePreset } from "./color_theme";
-import { ColorSeedColors, ColorThemeSeed, PartialColorThemeSeed } from "./seed";
+import {
+  ColorThemeSeed,
+  lColor,
+  PartialColorThemeSeed,
+  ThemeColors,
+} from "./seed";
 
+export type ElbeColorContrasts = "normal" | "highvis";
 export type ElbeColorModes = "light" | "dark";
 export type ElbeColorSchemes = "primary" | "secondary" | "inverse";
 export type ElbeAlertKinds = "success" | "warning" | "error" | "info";
 export type ElbeColorKinds = ElbeAlertKinds | "plain" | "accent";
 export type ElbeColorManners = "major" | "minor" | "flat" | "plain";
 
+export const cContrasts: ElbeColorContrasts[] = ["normal", "highvis"];
 export const cModes: ElbeColorModes[] = ["light", "dark"];
 export const cSchemes: ElbeColorSchemes[] = ["primary", "secondary", "inverse"];
 export const cKinds: ElbeColorKinds[] = [
@@ -23,21 +30,25 @@ export const cManners: ElbeColorManners[] = ["major", "minor", "flat", "plain"];
 export const cStates = ["neutral", "hover", "active", "disabled"];
 export const cLayers = ["back", "front", "border"];
 
-export type SeedSelector = (
-  seed: ColorThemeSeed,
-  base: LayerColor
-) => LayerColor;
+type _SeedSelInput = {
+  path: string[];
+  seed: ColorThemeSeed;
+  base: LayerColor;
+};
+
+export type SeedSelector = (p: _SeedSelInput) => LayerColor;
+export type SeedModifier = (p: _SeedSelInput) => ColorThemeSeed;
 
 export type SeedFlatSelector = (
-  seed: ColorThemeSeed,
-  base: LayerColor,
-  style?: LayerColor
+  p: _SeedSelInput & {
+    style?: LayerColor;
+  }
 ) => LayerColor;
 
 export type SeedStyleSelector = (
-  seed: ColorThemeSeed,
-  base: LayerColor,
-  style: LayerColor
+  p: _SeedSelInput & {
+    style: LayerColor;
+  }
 ) => LayerColor;
 
 export class RGBAColor {
@@ -274,6 +285,7 @@ export class StateColor extends LayerColor {
   }
 
   public static generate(
+    p: string[],
     _: ColorThemeSeed,
     context: LayerColor,
     style: LayerColor,
@@ -334,14 +346,35 @@ export class MannerColor extends StateColor {
   }
 
   public static generate(
-    s: ColorThemeSeed,
-    c: LayerColor,
+    path: string[],
+    seed: ColorThemeSeed,
+    base: LayerColor,
     style?: LayerColor
   ): MannerColor {
     return new MannerColor(
-      style ? StateColor.generate(s, c, s.variant.major(s, c, style)) : null,
-      style ? StateColor.generate(s, c, s.variant.minor(s, c, style)) : null,
-      StateColor.generate(s, c, s.variant.flat(s, c, style), true)
+      style
+        ? StateColor.generate(
+            [...path, "major"],
+            seed,
+            base,
+            seed.variant.major({ path, seed, base, style })
+          )
+        : null,
+      style
+        ? StateColor.generate(
+            [...path, "minor"],
+            seed,
+            base,
+            seed.variant.minor({ path, seed, base, style })
+          )
+        : null,
+      StateColor.generate(
+        [...path, "flat"],
+        seed,
+        base,
+        seed.variant.flat({ path, seed, base, style }),
+        true
+      )
     );
 
     /*
@@ -382,14 +415,43 @@ export class KindColor extends MannerColor {
     );
   }
 
-  public static generate(s: ColorThemeSeed, c: LayerColor): KindColor {
+  public static generate(
+    path: string[],
+    seed: ColorThemeSeed,
+    base: LayerColor
+  ): KindColor {
     return new KindColor(
-      MannerColor.generate(s, c),
-      MannerColor.generate(s, c, s.style.accent(s, c, s.accent)),
-      MannerColor.generate(s, c, s.style.info(s, c, s.info)),
-      MannerColor.generate(s, c, s.style.success(s, c, s.success)),
-      MannerColor.generate(s, c, s.style.warning(s, c, s.warning)),
-      MannerColor.generate(s, c, s.style.error(s, c, s.error))
+      MannerColor.generate([...path, "plain"], seed, base),
+      MannerColor.generate(
+        [...path, "accent"],
+        seed,
+        base,
+        seed.style.accent({ path, seed, base, style: lColor(seed.accent) })
+      ),
+      MannerColor.generate(
+        [...path, "info"],
+        seed,
+        base,
+        seed.style.info({ path, seed, base, style: lColor(seed.info) })
+      ),
+      MannerColor.generate(
+        [...path, "success"],
+        seed,
+        base,
+        seed.style.success({ path, seed, base, style: lColor(seed.success) })
+      ),
+      MannerColor.generate(
+        [...path, "warning"],
+        seed,
+        base,
+        seed.style.warning({ path, seed, base, style: lColor(seed.warning) })
+      ),
+      MannerColor.generate(
+        [...path, "error"],
+        seed,
+        base,
+        seed.style.error({ path, seed, base, style: lColor(seed.error) })
+      )
     );
   }
 }
@@ -419,12 +481,28 @@ export class SchemeColor extends KindColor {
     );
   }
 
-  public static generate(seed: ColorThemeSeed, c: LayerColor): SchemeColor {
+  public static generate(
+    path: string[],
+    seed: ColorThemeSeed,
+    base: LayerColor
+  ): SchemeColor {
     const m = seed.scheme;
     return new SchemeColor(
-      KindColor.generate(seed, m.primary(seed, c)),
-      KindColor.generate(seed, m.secondary(seed, c)),
-      KindColor.generate(seed, m.inverse(seed, c))
+      KindColor.generate(
+        [...path, "primary"],
+        seed,
+        m.primary({ path, seed, base })
+      ),
+      KindColor.generate(
+        [...path, "secondary"],
+        seed,
+        m.secondary({ path, seed, base })
+      ),
+      KindColor.generate(
+        [...path, "inverse"],
+        seed,
+        m.inverse({ path, seed, base })
+      )
     );
   }
 }
@@ -435,40 +513,67 @@ export class ModeColor extends SchemeColor {
   }
 
   public asCss(): string {
+    return `&{ ${this.light.asCss()}}` + `&.dark { ${this.dark.asCss()}}`;
+  }
+
+  public static generate(path: string[], seed: ColorThemeSeed): ModeColor {
+    return new ModeColor(
+      SchemeColor.generate(path, seed, lColor(seed.base)),
+      SchemeColor.generate(
+        [...path, "dark"],
+        seed,
+        seed.mode.dark({ path, seed, base: lColor(seed.base) })
+      )
+    );
+  }
+}
+
+export class ContrastColor extends ModeColor {
+  constructor(public normal: ModeColor, public highvis: ModeColor) {
+    super(normal.light, normal.dark);
+  }
+
+  public asCss(): string {
     return (
-      `.elbe { ${this.light.asCss()}}` + `.elbe.dark { ${this.dark.asCss()}}`
+      `& { ${this.normal.asCss()}}` + `&.highvis { ${this.highvis.asCss()}}`
     );
   }
 
-  public static generate(seed: ColorThemeSeed): ModeColor {
-    return new ModeColor(
-      SchemeColor.generate(seed, seed.base),
-      SchemeColor.generate(seed, seed.mode.dark(seed, seed.base))
+  public static generate(path: string[], seed: ColorThemeSeed): ContrastColor {
+    const p = { path, base: lColor(seed.base), seed };
+    return new ContrastColor(
+      ModeColor.generate(path, seed.contrast.normal(p)),
+      ModeColor.generate([...path, "highvis"], seed.contrast.highvis(p))
     );
   }
 }
 
 export class ColorTheme {
-  constructor(public colors: ColorSeedColors, public color: ModeColor) {}
+  constructor(public colors: ThemeColors, public color: ContrastColor) {}
 
   public asCss(): string {
-    return (
-      `:root {
+    return `
   --c-accent: ${this.colors.accent.back.asCss()};
   --c-info: ${this.colors.info.back.asCss()};
   --c-success: ${this.colors.success.back.asCss()};
   --c-warning: ${this.colors.warning.back.asCss()};
   --c-error: ${this.colors.error.back.asCss()};
-}` + this.color.asCss()
-    );
+  ${this.color.asCss()}`;
   }
 
-  public static generate(
-    seed?: Partial<PartialColorThemeSeed>,
-    highVis?: boolean
-  ): ColorTheme {
-    const s: ColorThemeSeed = colorThemePreset(seed, highVis ?? false);
-    return new ColorTheme(s, ModeColor.generate(s));
+  public static generate(seed?: Partial<PartialColorThemeSeed>): ColorTheme {
+    const s: ColorThemeSeed = colorThemePreset(seed);
+    return new ColorTheme(
+      {
+        base: lColor(s.base),
+        accent: lColor(s.accent),
+        info: lColor(s.info),
+        success: lColor(s.success),
+        warning: lColor(s.warning),
+        error: lColor(s.error),
+      },
+      ContrastColor.generate([], s)
+    );
   }
 }
 

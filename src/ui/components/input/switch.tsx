@@ -1,5 +1,6 @@
 import { CheckIcon, XIcon } from "lucide-react";
 import { ActionElbeProps, applyProps } from "../../..";
+import { useThemeConfig } from "../../theme/theme_context";
 
 export function Switch({
   value,
@@ -11,6 +12,8 @@ export function Switch({
   label?: string;
   onChange?: ((checked: boolean) => void) | null;
 } & ActionElbeProps) {
+  const tConfig = useThemeConfig();
+
   return (
     <button
       onClick={() => onChange?.(!value)}
@@ -29,7 +32,7 @@ export function Switch({
           : "var(--c-context-back)",
         display: "flex",
         alignItems: "center",
-        transition: "border-color 0.25s, border-width 0.25s",
+        transition: tConfig.reducedMotion ? "none" : "background-color 0.25s",
       })}
     >
       <div
@@ -41,7 +44,7 @@ export function Switch({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          transition: "left 0.25s",
+          transition: tConfig.reducedMotion ? "none" : "left 0.25s",
         }}
       >
         {value ? (

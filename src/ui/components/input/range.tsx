@@ -1,3 +1,4 @@
+import { useTheme } from "../../theme/theme_context";
 import { _ElbeErr } from "../../util/error_view";
 import { ActionElbeProps, applyProps } from "../base/box";
 import { Card } from "../base/card";
@@ -16,6 +17,7 @@ export function Range({
   max?: number;
   onChange?: ((value: number) => void) | null;
 } & ActionElbeProps) {
+  const theme = useTheme();
   return min > max ? (
     _ElbeErr("Range: max is smaller than min")
   ) : (
@@ -40,6 +42,7 @@ export function Range({
           opacity: onChange ? "" : "0.5",
           cursor: onChange ? "pointer" : "not-allowed",
           width: "100%",
+          borderRadius: theme.geometry.radius + "rem",
         })}
         min={min}
         max={max}

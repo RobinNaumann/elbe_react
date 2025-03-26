@@ -15,12 +15,10 @@ export class GeometryTheme {
 
   public asCss(): string {
     return (
-      `:root{` +
       `--g-size: ${this.size}px;` +
       `--g-radius: ${this.radius}rem;` +
       `--g-padding: ${this.padding}rem;` +
-      `--g-border-width: ${this.borderWidth}rem;` +
-      "}"
+      `--g-border-width: ${this.borderWidth}rem;`
     );
   }
 

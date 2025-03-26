@@ -13,6 +13,7 @@ import {
   Field,
   IconButton,
   Icons,
+  Link,
   ProgressBar,
   Range,
   Row,
@@ -21,10 +22,11 @@ import {
   showToast,
   Spinner,
   Switch,
+  Text,
   ToggleButton,
 } from "elbe-ui";
 import { useEffect, useState } from "preact/hooks";
-import { Link } from "../_bar";
+
 import { ExampleGroup, ExampleSection, useConfigSignal } from "../util/section";
 
 export function ComponentsSection() {
@@ -33,6 +35,7 @@ export function ComponentsSection() {
       <ExampleSection title="Components" anchor="components">
         <_BoxGroup />
         <_CardGroup />
+        <_TextGroup />
         <_IconGroup />
         <_IconButtonGroup />
         <_ButtonGroup />
@@ -134,6 +137,20 @@ function _CardGroup() {
           {v}
         </Card>
       ))}
+    </ExampleGroup>
+  );
+}
+
+function _TextGroup() {
+  return (
+    <ExampleGroup
+      title="Text"
+      description="texts with predefined styles"
+      classes="row wrap"
+      code={`<Text.h6 v="a small title"/>\n<Text.code> hello </Text.code>`}
+    >
+      <Text.h6 v="a small title" />
+      <Text.code>some code</Text.code>
     </ExampleGroup>
   );
 }
@@ -421,6 +438,7 @@ function _SwitchGroup() {
 
 function _BannerGroup() {
   const minorSig = useConfigSignal("minor", false);
+  const titleSig = useConfigSignal("title", false);
   const dismissSig = useConfigSignal("dismissable", true);
 
   return (
@@ -428,7 +446,7 @@ function _BannerGroup() {
       title="Banner"
       description="a banner for important messages"
       classes="column cross-stretch"
-      config={[minorSig, dismissSig]}
+      config={[minorSig, titleSig, dismissSig]}
       code={`<Banner kind="info">hello</Banner>`}
     >
       {["info", "warning", "error", "success"].map((v) => (
@@ -442,7 +460,7 @@ function _BannerGroup() {
                 }
               : null
           }
-          title={v}
+          title={titleSig.signal.value ? `a ${v} banner` : undefined}
         >
           this is a {v} banner
         </Banner>

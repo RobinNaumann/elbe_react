@@ -1,3 +1,4 @@
+import { useThemeConfig } from "../../..";
 import { ActionElbeProps, applyProps } from "../base/box";
 
 export function Checkbox({
@@ -10,6 +11,7 @@ export function Checkbox({
   label?: string;
   onChange?: ((checked: boolean) => void) | null;
 } & ActionElbeProps) {
+  const tConfig = useThemeConfig();
   return (
     <div
       class={`row ${onChange ? "" : "disabled"}`}
@@ -27,6 +29,7 @@ export function Checkbox({
           value ? ["accent major"] : "accent minor",
           {
             background: value ? null : "transparent",
+            transition: tConfig.reducedMotion ? "none" : null,
           }
         )}
         disabled={!onChange}

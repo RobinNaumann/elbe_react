@@ -99,6 +99,7 @@ dialog {
     pointer-events: all;
     & > * {
       display: unset;
+      max-width: 100vw;
     }
   }
 }
@@ -180,7 +181,7 @@ textarea {
   cursor: pointer; 
 }
 
-&.high_vis input[type="range"] {
+&.highvis input[type="range"] {
   &::-webkit-slider-thumb {
     border-width: var(--g-border-width);
     border-style: solid;
@@ -199,7 +200,6 @@ input[type="range"] {
   appearance: none;
   width: 100%; 
   height: .4rem; 
-  border-radius: 1rem;
 
   background-color: var(--c-context-back);
   outline: none; 
@@ -291,6 +291,10 @@ input[type="checkbox"]::before {
   //box-shadow: inset 1em 1em green;
 }
 
+&.reduced_motion input[type="checkbox"]::before {
+  transition: none;
+}
+
 input[type="checkbox"]:checked::before {
   transform: scale(1);
   background-color: var(--c-context-front);
@@ -308,7 +312,7 @@ input[type="checkbox"]:not(:checked):disabled {
 
 
 // progress bar
-&.high_vis div[data-type="elbe_progress_bar"] > * {
+&.highvis div[data-type="elbe_progress_bar"] > * {
   outline-width: var(--g-border-width);
   outline-style: solid;
   outline-color: var(--c-context-back);

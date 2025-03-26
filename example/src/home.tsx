@@ -1,5 +1,15 @@
-import { Box, Button, Column, Icons, scrollToId, Text } from "elbe-ui";
-import { _WrittenIn, Footer } from "./_bar";
+import {
+  _WrittenIn,
+  Box,
+  Button,
+  Card,
+  Column,
+  Footer,
+  Icons,
+  scrollToId,
+  Text,
+} from "elbe-ui";
+import { AccessibilityEdit } from "./accessibility_edit";
 import { ColorsSection, TypographySection } from "./sections/colors";
 import { ComponentsSection } from "./sections/component";
 import { FoundationSection } from "./sections/foundation";
@@ -26,7 +36,9 @@ export function Home() {
         <Box mode="light" scheme="primary" padding={1}>
           <Column gap={6}>
             <_InstallSection />
+            <hr />
             <ThemeEdit />
+            <AccessibilityEdit />
             <_OverviewSection />
             <ComponentsSection />
             <FoundationSection />
@@ -39,15 +51,17 @@ export function Home() {
       </div>
       <Footer
         right={[<_WrittenIn href="https://robbb.in" />]}
-        legal={{ label: "imprint/impressum", href: "#" }}
+        legal={{
+          label: "imprint/impressum",
+          href: "https://robbb.in/impressum.html",
+        }}
         left={[
           {
             label: "source code",
             href: "https://github.com/RobinNaumann/elbe_react",
           },
         ]}
-        //copyright="© 2025 Robin Naumann"
-        version="elbe v0.0.1"
+        version="elbe v0.3.1"
       />
     </Column>
   );
@@ -129,10 +143,14 @@ function _OverviewSection({}) {
 
 function _HeroSection({}) {
   return (
-    <Box mode="light" scheme="secondary" padding={1}>
+    <Card mode="light" scheme="secondary" padding={1} sharp>
       <div class="column cross-center main-center" style="height: 15rem;">
         <Text.h1 v="elbe" />
-        <div>a cross-platform UI framework for React & Flutter</div>
+        <div style={{ textAlign: "center" }}>
+          an <b>accessibility first</b> cross-platform
+          <br />
+          UI framework for React & Flutter
+        </div>
         <Button.minor
           ariaLabel="go to the Flutter Demo"
           label="Flutter Demo"
@@ -140,6 +158,6 @@ function _HeroSection({}) {
           onTap={() => window.open("https://robbb.in/elbe_flutter", "_blank")}
         />
       </div>
-    </Box>
+    </Card>
   );
 }

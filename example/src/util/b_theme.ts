@@ -13,6 +13,7 @@ type Inputs = {};
 type Data = {
   dark: boolean;
   highVis: boolean;
+  reducedMotion: boolean;
   seed: ElbeThemeSeed;
 };
 
@@ -21,6 +22,7 @@ class _Ctrl extends WorkerControl<Inputs, Data> {
     return {
       dark: false,
       highVis: false,
+      reducedMotion: false,
       seed: {
         color: {
           accent: LayerColor.fromBack(colors.blueAccent),
@@ -76,6 +78,16 @@ class _Ctrl extends WorkerControl<Inputs, Data> {
     });
   }
 
+  setReducedMotion(reducedMotion: boolean) {
+    this.bit.map({
+      onData: (v) =>
+        this.bit.emit({
+          ...v,
+          reducedMotion,
+        }),
+    });
+  }
+
   setType(s: Partial<TypeThemeSeed>) {
     this.bit.map({
       onData: (v) =>
@@ -111,5 +123,5 @@ class _Ctrl extends WorkerControl<Inputs, Data> {
 
 export const ThemeBit = CtrlBit<Inputs, Data, _Ctrl>(
   (p, b) => new _Ctrl(p, b),
-  "ThemeBit"
+  "Theme"
 );

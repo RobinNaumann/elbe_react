@@ -1,17 +1,28 @@
 import {
   LayerColor,
   SeedFlatSelector,
+  SeedModifier,
   SeedSelector,
   SeedStyleSelector,
 } from "../..";
 
-export type ColorSeedColors = {
-  base: LayerColor;
-  accent: LayerColor;
-  info: LayerColor;
-  success: LayerColor;
-  warning: LayerColor;
-  error: LayerColor;
+export type HexColor = `#${string}`;
+
+export type ColorSeedColors = _Colors<LayerColor | HexColor>;
+export type ThemeColors = _Colors<LayerColor>;
+
+type _Colors<T> = {
+  base: T;
+  accent: T;
+  info: T;
+  success: T;
+  warning: T;
+  error: T;
+};
+
+type _ContrastSeed = {
+  highvis: SeedModifier;
+  normal: SeedModifier;
 };
 
 type _ModeSeed = {
@@ -40,6 +51,7 @@ type _VariantSeed = {
 };
 
 export type ColorThemeSeed = ColorSeedColors & {
+  contrast: _ContrastSeed;
   mode: _ModeSeed;
   scheme: _SchemeSeed;
   style: _StyleSeed;
@@ -47,8 +59,13 @@ export type ColorThemeSeed = ColorSeedColors & {
 };
 
 export type PartialColorThemeSeed = Partial<ColorSeedColors> & {
+  contrast?: Partial<_ContrastSeed>;
   mode?: Partial<_ModeSeed>;
   scheme?: Partial<_SchemeSeed>;
   style?: Partial<_StyleSeed>;
   variant?: Partial<_VariantSeed>;
 };
+
+export function lColor(color: LayerColor | HexColor): LayerColor {
+  return typeof color === "string" ? LayerColor.fromHex(color) : color;
+}

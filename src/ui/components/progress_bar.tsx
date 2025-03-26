@@ -1,4 +1,4 @@
-import { applyProps, clamp, ElbeProps } from "../..";
+import { applyProps, clamp, ElbeProps, useTheme, useThemeConfig } from "../..";
 
 export function ProgressBar({
   value,
@@ -10,12 +10,14 @@ export function ProgressBar({
   max?: number;
   plain?: boolean;
 } & ElbeProps) {
+  const tConfig = useThemeConfig();
+  const theme = useTheme();
   return (
     <div
       {...applyProps("progress_bar", elbe, [plain ? "plain" : "accent minor"], {
         width: "100%",
         height: "0.5rem",
-        borderRadius: "1rem",
+        borderRadius: theme.geometry.radius + "rem",
         border: "none",
       })}
     >
@@ -24,8 +26,8 @@ export function ProgressBar({
           width: `${clamp((value / max) * 100, 0, 100)}%`,
           height: "100%",
           backgroundColor: "var(--c-context-front)",
-          transition: "width 0.25s",
-          borderRadius: "1rem",
+          transition: tConfig.reducedMotion ? "none" : "width 0.25s",
+          borderRadius: theme.geometry.radius + "rem",
         }}
       />
     </div>

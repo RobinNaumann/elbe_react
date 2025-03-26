@@ -1,5 +1,5 @@
-import { Header, IconButton, Icons, Scaffold } from "elbe-ui";
-import { Footer } from "../_bar";
+import { Footer, Header, IconButton, Icons, Scaffold } from "elbe-ui";
+
 import { ExampleGroup, ExampleSection } from "../util/section";
 
 export function FoundationSection({}) {

@@ -36,6 +36,8 @@ export * from "./ui/components/badge";
 export * from "./ui/components/banner";
 export * from "./ui/components/dialog";
 export * from "./ui/components/error_view";
+export * from "./ui/components/footer";
+export * from "./ui/components/link";
 export * from "./ui/components/progress_bar";
 export * from "./ui/components/spinner";
 export * from "./ui/components/text";
@@ -44,6 +46,7 @@ export * from "./ui/components/dev/todo";
 
 export * from "./ui/theme/seed";
 export * from "./ui/theme/theme";
+export * from "./ui/theme/theme_context";
 
 function None({}) {
   return <div style={{ width: "1.5rem", height: "1.5rem" }} />;

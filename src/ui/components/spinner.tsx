@@ -1,6 +1,7 @@
 import { useComputed, useSignal } from "@preact/signals";
 import { Component } from "preact";
 import { useEffect } from "preact/hooks";
+import { useThemeConfig } from "../theme/theme_context";
 
 function _toPath(
   c: [number, number][],
@@ -34,10 +35,12 @@ export class Spinner extends Component<
     new Spinner({ manner: "plain", ...p }).render();
 
   render() {
+    const tConfig = useThemeConfig();
     const flat = (this.props.manner ?? "flat") === "flat";
     const xSig = useSignal(0);
 
     useEffect(() => {
+      if (tConfig.reducedMotion) return;
       const interval = setInterval(() => {
         xSig.value = (xSig.value + 2) % 100;
       }, 16);

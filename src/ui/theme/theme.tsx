@@ -3,6 +3,11 @@ import { ToDo } from "../components/dev/todo";
 import { ColorTheme } from "./colors";
 import { GeometryTheme, type GeometryThemeSeed } from "./geometry_theme";
 import { PartialColorThemeSeed } from "./seed";
+import {
+  ElbeThemeConfig,
+  ThemeConfigContext,
+  ThemeContext,
+} from "./theme_context";
 import { TypeTheme, type TypeThemeSeed } from "./type_theme";
 
 export * from "./color_theme";
@@ -24,23 +29,24 @@ export class ElbeThemeData {
   ) {}
 
   public asCss(): string {
-    return [this.color, this.type, this.geometry]
+    const inner = [this.color, this.type, this.geometry]
       .map((s) => s.asCss())
       .join("\n");
+    return `.elbe {${inner}}`;
   }
 
-  _pageBackground(dark?: boolean): string {
-    const c = this.color.color;
-    return `html,:root {${(!!dark ? c.dark : c.light).asCss()};`;
-  }
-
-  public static fromSeed(seed: ElbeThemeSeed, highVis: boolean): ElbeThemeData {
+  public static fromSeed(seed: ElbeThemeSeed): ElbeThemeData {
     return new ElbeThemeData(
-      ColorTheme.generate(seed.color, highVis),
+      ColorTheme.generate(seed.color),
       TypeTheme.generate(seed.type),
       GeometryTheme.generate(seed.geometry)
     );
   }
+}
+
+function _configCss(t: ElbeThemeData, c: ElbeThemeConfig): string {
+  const cBack = c.dark ? t.color.color.dark : t.color.color.light;
+  return `html,:root {${cBack.asCss()};}`;
 }
 
 export function ElbeTheme(
@@ -49,19 +55,33 @@ export function ElbeTheme(
     dark?: boolean;
     todoOverlay?: boolean;
     highVis?: boolean;
+    reducedMotion?: boolean;
   } & ({ theme: ElbeThemeData } | { seed?: ElbeThemeSeed })
 ) {
-  const theme =
-    "theme" in p
-      ? p.theme
-      : ElbeThemeData.fromSeed(p.seed ?? {}, p.highVis ?? false);
+  const theme = "theme" in p ? p.theme : ElbeThemeData.fromSeed(p.seed ?? {});
+
+  const config: ElbeThemeConfig = {
+    dark: p.dark ?? false,
+    highVis: p.highVis ?? false,
+    reducedMotion: p.reducedMotion ?? false,
+  };
+
   return (
-    <div class={`elbe ${p.dark ? "dark" : ""} ${p.highVis ? "high_vis" : ""}`}>
+    <div
+      class={`elbe ${p.dark ? "dark" : ""} ${p.highVis ? "highvis" : ""} ${
+        p.reducedMotion ? "reduced_motion" : ""
+      }`}
+    >
       {p.todoOverlay && <ToDo.Overlay />}
 
       <style>{theme.asCss()}</style>
-      <style>{theme._pageBackground(p.dark)}</style>
-      {p.children}
+      <style>{_configCss(theme, config)}</style>
+
+      <ThemeConfigContext.Provider value={config}>
+        <ThemeContext.Provider value={theme}>
+          {p.children}
+        </ThemeContext.Provider>
+      </ThemeConfigContext.Provider>
     </div>
   );
 }

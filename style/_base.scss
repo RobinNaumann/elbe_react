@@ -79,6 +79,10 @@ body:has(dialog[open=""]) {
   cursor: not-allowed;
 }
 
+.plain.disabled {
+  opacity: 0.5;
+}
+
 /* ========= CARD ========= */
 
 .box,
@@ -151,7 +155,7 @@ b,
 }
 
 
-&.high_vis a {
+&.highvis a {
   text-decoration: underline;
 }
 a {
