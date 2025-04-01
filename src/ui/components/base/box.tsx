@@ -1,6 +1,7 @@
 import { Component, h } from "preact";
 import type { ElbeColorModes, ElbeColorSchemes } from "../../theme/colors";
 import type { ElbeChildren } from "../../util/util";
+import { AriaRoles } from "./roles";
 
 export type ElbeProps = {
   id?: string;
@@ -10,6 +11,7 @@ export type ElbeProps = {
   flex?: boolean | number;
   typeLabel?: string;
   ariaLabel?: string | null;
+  role?: AriaRoles | null;
 };
 
 export type ActionElbeProps = ElbeProps & {

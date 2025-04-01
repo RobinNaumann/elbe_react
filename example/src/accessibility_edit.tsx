@@ -27,15 +27,21 @@ function _OptionsSelect() {
     <Row wrap>
       <ToggleButton
         ariaLabel="high visibility"
-        value={v.highVis}
+        value={v.config.highVis}
         label="high visibility"
-        onChange={(v) => themeBit.ctrl.setHighVis(v)}
+        onChange={(v) => themeBit.ctrl.setConfig({ highVis: v })}
       />
       <ToggleButton
         ariaLabel="reduced motion"
-        value={v.reducedMotion}
+        value={v.config.reducedMotion}
         label="reduced motion"
-        onChange={(v) => themeBit.ctrl.setReducedMotion(v)}
+        onChange={(v) => themeBit.ctrl.setConfig({ reducedMotion: v })}
+      />
+      <ToggleButton
+        ariaLabel="larger text"
+        value={v.config.scale > 1}
+        label="larger text"
+        onChange={(v) => themeBit.ctrl.setConfig({ scale: v ? 1.25 : 1 })}
       />
     </Row>
   ));

@@ -1,9 +1,9 @@
 import {
-  AlertTriangle,
-  CheckCircle2,
-  CircleHelp,
+  AlertTriangleIcon,
+  CheckCircle2Icon,
+  CircleHelpIcon,
   InfoIcon,
-  OctagonAlert,
+  OctagonAlertIcon,
   XIcon,
 } from "lucide-react";
 import {
@@ -17,12 +17,24 @@ import {
   Text,
 } from "../..";
 
-export function KindAlertIcon({ kind }: { kind: ElbeAlertKinds }) {
-  if (kind === "info") return <InfoIcon />;
-  if (kind === "warning") return <AlertTriangle />;
-  if (kind === "error") return <OctagonAlert />;
-  if (kind === "success") return <CheckCircle2 />;
-  return <CircleHelp />;
+export function KindAlertIcon({
+  kind,
+  size = "body-m",
+}: {
+  kind: ElbeAlertKinds;
+  size?: "body-s" | "body-m" | "body-l";
+}) {
+  let icon = CircleHelpIcon;
+  if (kind === "info") icon = InfoIcon;
+  if (kind === "warning") icon = AlertTriangleIcon;
+  if (kind === "error") icon = OctagonAlertIcon;
+  if (kind === "success") icon = CheckCircle2Icon;
+
+  let scale = 1;
+  if (size === "body-s") scale = 0.8;
+  if (size === "body-l") scale = 1.2;
+
+  return icon({ size: `${scale * 1.5}rem` });
 }
 
 export function Banner({

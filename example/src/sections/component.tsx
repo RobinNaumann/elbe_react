@@ -67,11 +67,17 @@ export function ComponentsSection() {
 }
 
 function _TextInputGroup() {
+  const disabledSig = useConfigSignal("disabled", false);
+  const msgSig = useConfigSignal("message", false);
+  const hideLabelSig = useConfigSignal("hide label", false);
+  const flexSig = useConfigSignal("flex", false);
+
   return (
     <ExampleGroup
       title="Text Input"
       description="use these to get text input from the user. Where possible, they use system dialogs."
-      classes="row wrap"
+      classes={!flexSig.signal.value ? "row wrap cross-start" : "column"}
+      config={[disabledSig, msgSig, hideLabelSig, flexSig]}
       code={`
 <Field.text
   hint="your name" 
@@ -83,23 +89,44 @@ function _TextInputGroup() {
       <Field.text
         ariaLabel="name"
         hint="your name"
+        label="name"
+        hideLabel={hideLabelSig.signal.value}
         value=""
-        onInput={(value) => console.log(value)}
+        flex={flexSig.signal.value}
+        leading={Icons.User}
+        trailing={Icons.Leaf}
+        onTrailingTap={() => showToast("trailing icon click")}
+        onInput={disabledSig.signal.value ? null : () => {}}
+        infoMessage={msgSig.signal.value ? "this is an info" : undefined}
       />
       <Field.password
-        ariaLabel="password"
-        hint="password"
+        label="password"
+        hideLabel={hideLabelSig.signal.value}
+        flex={flexSig.signal.value}
+        hint="your password"
         tooltip="heyoo"
         value=""
-        onInput={(value) => console.log(value)}
+        onInput={disabledSig.signal.value ? null : () => {}}
+        warningMessage={msgSig.signal.value ? "this is a warning" : undefined}
       />
       <Field.date
         ariaLabel="birthday"
-        hint="birthday"
+        hideLabel={hideLabelSig.signal.value}
+        label="birthday"
         value=""
-        onInput={(value) => console.log(value)}
+        flex={flexSig.signal.value}
+        onInput={disabledSig.signal.value ? null : () => {}}
+        errorMessage={msgSig.signal.value ? "this is an error" : undefined}
       />
-      <Field.multiLine ariaLabel="message" hint="message" value={""} />
+      <Field.multiLine
+        label="message"
+        hideLabel={hideLabelSig.signal.value}
+        hint="message"
+        value=""
+        flex={flexSig.signal.value}
+        successMessage={msgSig.signal.value ? "this is a success" : undefined}
+        onInput={disabledSig.signal.value ? null : () => {}}
+      />
     </ExampleGroup>
   );
 }
@@ -396,18 +423,20 @@ function _RangeGroup() {
 function _CheckBoxGroup() {
   const [val, setVal] = useState(false);
   const enabledSig = useConfigSignal("enabled", true);
+  const compactSig = useConfigSignal("compact", false);
 
   return (
     <ExampleGroup
       title="Checkbox"
       description="a toggle for a boolean value"
-      classes="column cross-stretch"
-      config={[enabledSig]}
+      classes="row wrap"
+      config={[enabledSig, compactSig]}
       code={`<Checkbox value={val} label="agree" onChange={(v) => ...} />`}
     >
       <Checkbox
         ariaLabel="checkbox"
         value={val}
+        compact={compactSig.signal.value}
         label="agree"
         onChange={enabledSig.signal.value ? (v) => setVal(!val) : null}
       />
@@ -419,17 +448,20 @@ function _SwitchGroup() {
   const [val, setVal] = useState(false);
   const enabledSig = useConfigSignal("enabled", true);
 
+  const compactSig = useConfigSignal("compact", false);
+
   return (
     <ExampleGroup
       title="Switch"
       description="an alternative toggle for a boolean value"
-      classes="column cross-stretch"
-      config={[enabledSig]}
+      classes="row wrap"
+      config={[enabledSig, compactSig]}
       code={`<Switch value={val} onChange={(v) => ...} />`}
     >
       <Switch
         ariaLabel="switch"
         value={val}
+        compact={compactSig.signal.value}
         onChange={enabledSig.signal.value ? (v) => setVal(!val) : null}
       />
     </ExampleGroup>

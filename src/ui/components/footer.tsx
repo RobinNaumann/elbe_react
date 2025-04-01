@@ -25,6 +25,8 @@ export function Footer({
     <Card
       scheme="secondary"
       sharp
+      role="contentinfo"
+      ariaLabel="footer"
       style={{
         borderLeft: "none",
         borderRight: "none",

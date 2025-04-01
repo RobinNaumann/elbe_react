@@ -1,6 +1,8 @@
 import type React from "preact/compat";
 import { showToast } from "./toast";
 
+export type int = number;
+export type float = number;
 export type ElbeChild = React.ReactNode;
 export type ElbeChildren = ElbeChild[] | ElbeChild;
 
@@ -49,4 +51,13 @@ export function copyToClipboard(
 export function scrollToId(id: string) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+
+export function randomAlphaNum(length: int, prefix = ""): string {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let result = prefix;
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
 }

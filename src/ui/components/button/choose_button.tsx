@@ -1,5 +1,6 @@
 import { CheckIcon } from "lucide-react";
 import type { ElbeColorKinds } from "../../theme/colors";
+import { Card } from "../base/card";
 import { Spaced } from "../layout/spaced";
 import { Button } from "./button";
 import type { IconChild } from "./icon_button";
@@ -25,18 +26,19 @@ export function ChooseButton<T>({
   column?: boolean;
 }) {
   return (
-    <div
-      class={`${
-        column ? "column" : "row"
-      } gap-none rounded accent minor card padding-none cross-stretch ${
-        !onChange ? "disabled" : ""
-      }`}
-      style="background: transparent; overflow: hidden"
+    <Card
+      kind="accent"
+      manner="major"
+      padding={0}
+      overflow="hidden"
+      role="radiogroup"
+      disabled={!onChange}
+      class={`${column ? "column" : "row"} gap-none`}
     >
       {items.map((e) => (
         <Button
           ariaLabel={e.ariaLabel ?? e.label ?? null}
-          manner={e.value === value ? "minor" : "flat"}
+          manner={e.value === value ? "major" : "flat"}
           kind={kind}
           onTap={onChange && (() => onChange(e.value))}
           class={`sharp ${column ? "main-between gap-double" : ""}`}
@@ -49,6 +51,6 @@ export function ChooseButton<T>({
             (e.value === value ? <CheckIcon /> : <Spaced amount={1.5} />)}
         </Button>
       ))}
-    </div>
+    </Card>
   );
 }

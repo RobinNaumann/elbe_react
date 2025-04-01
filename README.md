@@ -34,3 +34,15 @@ as of now, this is mainly a personal project for different stuff I built. So thi
 1. increment `version` number in `package.json`
 2. run `bun run build`
 3. run `npm publish`
+
+- [x] contrast (test with WAVE, Axe)
+- [x] dark mode
+- [x] no color based differentiation
+- [x] adjustable text size
+- [x] adjustable UI size
+- [x] responsive design
+- [ ] label fields with `label` tag
+- [ ] add `aria-*` attributes
+- [ ] add `role` attributes
+- [ ] add `tabindex` attributes
+- [ ] force alt text for images

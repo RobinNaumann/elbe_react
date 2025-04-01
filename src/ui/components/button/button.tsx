@@ -33,7 +33,10 @@ function _btn(
     <button
       {...applyProps(
         "button",
-        elbe,
+        {
+          role: "button",
+          ...elbe,
+        },
         [
           "row",
           "gap-half",

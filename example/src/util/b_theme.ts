@@ -1,28 +1,23 @@
 import {
   colors,
-  ColorThemeSeed,
   CtrlBit,
+  ElbeThemeConfig,
   ElbeThemeSeed,
-  GeometryThemeSeed,
   LayerColor,
-  TypeThemeSeed,
+  makeThemeConfig,
   WorkerControl,
 } from "elbe-ui";
 
 type Inputs = {};
 type Data = {
-  dark: boolean;
-  highVis: boolean;
-  reducedMotion: boolean;
+  config: Partial<ElbeThemeConfig>;
   seed: ElbeThemeSeed;
 };
 
 class _Ctrl extends WorkerControl<Inputs, Data> {
   async worker() {
     return {
-      dark: false,
-      highVis: false,
-      reducedMotion: false,
+      config: makeThemeConfig({}),
       seed: {
         color: {
           accent: LayerColor.fromBack(colors.blueAccent),
@@ -42,81 +37,31 @@ class _Ctrl extends WorkerControl<Inputs, Data> {
     };
   }
 
-  setDark(dark: boolean) {
+  setConfig(c: Partial<ElbeThemeConfig>) {
     this.bit.map({
-      onData: (v) =>
+      onData: (v) => {
         this.bit.emit({
           ...v,
-          dark,
-        }),
+          config: {
+            ...v.config,
+            ...c,
+          },
+        });
+      },
     });
   }
 
-  setColor(s: Partial<ColorThemeSeed>) {
+  setSeed(s: Partial<ElbeThemeSeed>) {
     this.bit.map({
-      onData: (v) =>
+      onData: (v) => {
         this.bit.emit({
           ...v,
           seed: {
             ...v.seed,
-            color: {
-              ...v.seed.color,
-              ...s,
-            },
+            ...s,
           },
-        }),
-    });
-  }
-
-  setHighVis(highVis: boolean) {
-    this.bit.map({
-      onData: (v) =>
-        this.bit.emit({
-          ...v,
-          highVis,
-        }),
-    });
-  }
-
-  setReducedMotion(reducedMotion: boolean) {
-    this.bit.map({
-      onData: (v) =>
-        this.bit.emit({
-          ...v,
-          reducedMotion,
-        }),
-    });
-  }
-
-  setType(s: Partial<TypeThemeSeed>) {
-    this.bit.map({
-      onData: (v) =>
-        this.bit.emit({
-          ...v,
-          seed: {
-            ...v.seed,
-            type: {
-              ...v.seed.type,
-              ...s,
-            },
-          },
-        }),
-    });
-  }
-
-  setGeometry(s: Partial<GeometryThemeSeed>) {
-    this.bit.map({
-      onData: (v) =>
-        this.bit.emit({
-          ...v,
-          seed: {
-            ...v.seed,
-            geometry: {
-              ...v.seed.geometry,
-              ...s,
-            },
-          },
-        }),
+        });
+      },
     });
   }
 }

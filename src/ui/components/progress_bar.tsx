@@ -14,12 +14,21 @@ export function ProgressBar({
   const theme = useTheme();
   return (
     <div
-      {...applyProps("progress_bar", elbe, [plain ? "plain" : "accent minor"], {
-        width: "100%",
-        height: "0.5rem",
-        borderRadius: theme.geometry.radius + "rem",
-        border: "none",
-      })}
+      {...applyProps(
+        "progress_bar",
+        {
+          role: "progressbar",
+          ...elbe,
+        },
+        [plain ? "plain" : "accent minor"],
+        {
+          width: "100%",
+          height: "0.5rem",
+
+          borderRadius: theme.geometry.radius + "rem",
+          border: "none",
+        }
+      )}
     >
       <div
         style={{

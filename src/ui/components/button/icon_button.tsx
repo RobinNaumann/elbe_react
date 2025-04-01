@@ -57,7 +57,13 @@ function _btn(
       )}
       onClick={(e) => onTap && onTap(e)}
     >
-      {typeof icon === "function" ? icon({}) : icon}
+      <_IconChild icon={icon} />
     </button>
   );
+}
+
+export function _IconChild(p: { icon: IconChild | null }) {
+  if (!p.icon) return null;
+  if (typeof p.icon === "function") return p.icon({});
+  return p.icon;
 }

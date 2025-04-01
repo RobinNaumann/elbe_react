@@ -1,3 +1,19 @@
-export function Spaced({ amount = 1 }) {
-  return <div style={{ width: amount + "rem", height: amount + "rem" }}></div>;
+export function Spaced({
+  width,
+  height,
+  amount = 1,
+}: {
+  amount?: number;
+  width?: number;
+  height?: number;
+}) {
+  const fromWH: boolean = !!(width || height);
+  return (
+    <div
+      style={{
+        width: (fromWH ? width ?? 0 : amount) + "rem",
+        height: (fromWH ? height ?? 0 : amount) + "rem",
+      }}
+    ></div>
+  );
 }

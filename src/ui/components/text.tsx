@@ -58,10 +58,6 @@ export class Text extends React.Component<
           [
             "text",
             //align,
-            bold && "b",
-            italic && "i",
-            underline && "underline",
-            striked && "striked",
             color,
             variant,
           ],
@@ -70,6 +66,10 @@ export class Text extends React.Component<
             color: color || "",
             scrollMarginTop: "2rem",
             textAlign: align,
+            fontWeight: bold ? "bold" : "",
+            fontStyle: italic ? "italic" : "",
+            textDecoration: underline ? "underline" : "",
+            textDecorationLine: striked ? "line-through" : "",
           }
         )}
       >

@@ -37,13 +37,21 @@ export function Range({
     >
       <input
         type="range"
-        {...applyProps("range", elbe, null, {
-          filter: onChange ? "" : "grayscale(1)",
-          opacity: onChange ? "" : "0.5",
-          cursor: onChange ? "pointer" : "not-allowed",
-          width: "100%",
-          borderRadius: theme.geometry.radius + "rem",
-        })}
+        {...applyProps(
+          "range",
+          {
+            role: "slider",
+            ...elbe,
+          },
+          null,
+          {
+            filter: onChange ? "" : "grayscale(1)",
+            opacity: onChange ? "" : "0.5",
+            cursor: onChange ? "pointer" : "not-allowed",
+            width: "100%",
+            borderRadius: theme.geometry.radius + "rem",
+          }
+        )}
         min={min}
         max={max}
         step={step}

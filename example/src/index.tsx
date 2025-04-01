@@ -8,12 +8,7 @@ import { ThemeBit } from "./util/b_theme";
 function App() {
   const themeBit = ThemeBit.use();
   return themeBit.onData((v) => (
-    <ElbeTheme
-      seed={v.seed}
-      dark={v.dark}
-      highVis={v.highVis}
-      reducedMotion={v.reducedMotion}
-    >
+    <ElbeTheme seed={v.seed} {...v.config}>
       <Home />
     </ElbeTheme>
   ));

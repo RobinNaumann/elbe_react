@@ -6,8 +6,10 @@ import {
   ElbeDialog,
   Icons,
   LayerColor,
+  lColor,
   Range,
   Text,
+  ToggleButton,
 } from "elbe-ui";
 import { ThemeBit } from "./util/b_theme";
 
@@ -49,7 +51,7 @@ const labelStyle = {
 
 function _RoundSelect() {
   const themeBit = ThemeBit.use();
-  return themeBit.onData((v) => (
+  return themeBit.onData((d) => (
     <div class="column">
       <Text.h5 v="geometry" />
       <div class="row">
@@ -58,8 +60,15 @@ function _RoundSelect() {
         <Range
           ariaLabel="set roundness"
           style={{ flex: 1 }}
-          value={v.seed?.geometry?.radius ?? 0}
-          onChange={(v) => themeBit.ctrl.setGeometry({ radius: v })}
+          value={d.seed?.geometry?.radius ?? 0}
+          onChange={(v) =>
+            themeBit.ctrl.setSeed({
+              geometry: {
+                ...d.seed.geometry,
+                radius: v,
+              },
+            })
+          }
           max={2}
           step={0.1}
         />
@@ -69,8 +78,15 @@ function _RoundSelect() {
         <Range
           ariaLabel="set border width"
           style={{ flex: 1 }}
-          value={v.seed?.geometry?.borderWidth ?? 0}
-          onChange={(v) => themeBit.ctrl.setGeometry({ borderWidth: v })}
+          value={d.seed?.geometry?.borderWidth ?? 0}
+          onChange={(v) =>
+            themeBit.ctrl.setSeed({
+              geometry: {
+                ...d.seed.geometry,
+                borderWidth: v,
+              },
+            })
+          }
           max={0.25}
           step={0.05}
         />
@@ -98,19 +114,20 @@ function _TypeSelect() {
               "Space Mono",
               "Atkinson Hyperlegible",
             ].map((f) => (
-              <Button
+              <ToggleButton
                 ariaLabel={`set ${f} as title font`}
                 label={f}
                 style={{ fontFamily: f }}
-                manner={
-                  f === v.seed?.type?.heading?.family[0] ? "minor" : "flat"
-                }
-                onTap={() =>
-                  themeBit.ctrl.setType({
-                    heading: {
-                      bold: true,
-                      family: [f, "Arial", "sans-serif"],
-                      size: 2.2,
+                value={f === v.seed?.type?.heading?.family[0]}
+                onChange={() =>
+                  themeBit.ctrl.setSeed({
+                    type: {
+                      ...v.seed.type,
+                      heading: {
+                        bold: true,
+                        family: [f, "Arial", "sans-serif"],
+                        size: 2.2,
+                      },
                     },
                   })
                 }
@@ -125,7 +142,7 @@ function _TypeSelect() {
 
 function _AccentSelect() {
   const themeBit = ThemeBit.use();
-  return themeBit.onData((v) => (
+  return themeBit.onData((d) => (
     <div class="column" style="gap: 1.2rem">
       <Text.h5 v="color" />
       <div class="row">
@@ -138,8 +155,8 @@ function _AccentSelect() {
               { value: true, label: "dark", icon: Icons.Moon },
             ] as const
           }
-          value={v.dark}
-          onChange={(v) => themeBit.ctrl.setDark(v)}
+          value={d.config.dark}
+          onChange={(v) => themeBit.ctrl.setConfig({ dark: v })}
         />
       </div>
 
@@ -159,7 +176,10 @@ function _AccentSelect() {
             ].map((c) => (
               <div
                 onClick={() =>
-                  themeBit.ctrl.setColor({ accent: LayerColor.fromHex(c) })
+                  themeBit.ctrl.setSeed({
+                    ...d.seed,
+                    color: { accent: LayerColor.fromHex(c) },
+                  })
                 }
                 class="column"
                 style={{
@@ -169,7 +189,7 @@ function _AccentSelect() {
                   color: "white",
                 }}
               >
-                {c === v.seed?.color?.accent?.hex ? (
+                {c === lColor(d.seed?.color?.accent)?.hex ? (
                   <Icons.Check />
                 ) : (
                   <Icons.None />

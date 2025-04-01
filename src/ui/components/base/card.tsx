@@ -19,6 +19,8 @@ export function Card({
   frosted,
   bordered,
   sharp,
+  disabled,
+  overflow,
   children,
   ...elbe
 }: {
@@ -33,6 +35,8 @@ export function Card({
   frosted?: boolean;
   bordered?: boolean;
   sharp?: boolean;
+  disabled?: boolean;
+  overflow?: "hidden" | "scroll" | "auto";
   children?: ElbeChildren;
 } & ElbeProps) {
   return (
@@ -49,10 +53,12 @@ export function Card({
           frosted && "frosted",
           bordered && "bordered",
           sharp && "sharp",
+          disabled && "disabled",
         ],
         {
           padding: `${padding}rem`,
           margin: `${margin}rem`,
+          overflow: overflow,
         }
       )}
       onClick={onTap}

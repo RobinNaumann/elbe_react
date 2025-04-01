@@ -155,26 +155,17 @@ input[type="date"],
 input[type="time"],
 textarea
 {
-  @extend .card;
   @extend .c_from_context;
-
-  padding: 0 0.75rem;
-  height: 3rem;
-  min-width: 12rem;
-  width: 100%;
 }
 
-textarea {
-  height: 6rem;
-  padding: 0.6rem 0.75rem;
-  resize: vertical;
-  min-height: 3rem;
+.text_field_base:has(:focus) {
+  outline: max(2px, 0.15em) solid var(--c-accent);
 }
 
 @mixin range-dot {
   width: 1.5rem; 
   height: 1.5rem; 
-  border-radius: 1rem;
+  border-radius: var(--g-radius);
   background: var(--c-context-front); 
   border: none;
   outline: none;

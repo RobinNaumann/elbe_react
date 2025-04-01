@@ -26,11 +26,10 @@ export * from "./ui/components/layout/scroll";
 export * from "./ui/components/layout/spaced";
 
 export * from "./ui/components/input/checkbox";
-export * from "./ui/components/input/input_field";
 export * from "./ui/components/input/range";
 export * from "./ui/components/input/select";
 export * from "./ui/components/input/switch";
-export * from "./ui/components/input/text_area";
+export * from "./ui/components/input/text/input_field";
 
 export * from "./ui/components/badge";
 export * from "./ui/components/banner";
