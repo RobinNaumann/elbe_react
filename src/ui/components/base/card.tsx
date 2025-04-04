@@ -7,6 +7,8 @@ import type {
 import type { ElbeChildren } from "../../util/util";
 import { applyProps, type ElbeProps } from "./box";
 
+export const elevatedShadow = "0 0 15px rgba(0,0,0,.2)";
+
 export function Card({
   mode,
   scheme = "primary",
@@ -18,6 +20,7 @@ export function Card({
   onLongTap,
   frosted,
   bordered,
+  elevated,
   sharp,
   disabled,
   overflow,
@@ -33,6 +36,7 @@ export function Card({
   onTap?: () => void;
   onLongTap?: () => void;
   frosted?: boolean;
+  elevated?: boolean;
   bordered?: boolean;
   sharp?: boolean;
   disabled?: boolean;
@@ -59,6 +63,7 @@ export function Card({
           padding: `${padding}rem`,
           margin: `${margin}rem`,
           overflow: overflow,
+          boxShadow: elevated ? elevatedShadow : undefined,
         }
       )}
       onClick={onTap}

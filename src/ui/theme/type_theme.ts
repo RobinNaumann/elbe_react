@@ -107,7 +107,7 @@ export function typeThemePreset(merge?: Partial<TypeThemeSeed>): TypeThemeSeed {
     heading: {
       bold: true,
       family: ["Calistoga", "Arial", "sans-serif"],
-      size: 2.2,
+      size: 2,
     },
     body: {
       bold: false,
@@ -120,7 +120,11 @@ export function typeThemePreset(merge?: Partial<TypeThemeSeed>): TypeThemeSeed {
       size: 1,
     },
     headingVariants: (style, variant) => {
-      const size = style.size * (1 - (variant - 1) * 0.1);
+      const reg = 1;
+      const diff = style.size - reg;
+      const varFac = (4 - (variant - 2)) / 6;
+
+      const size = reg + diff * Math.pow(varFac, 1.5);
       return {
         ...style,
         size,

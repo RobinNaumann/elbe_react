@@ -1,4 +1,5 @@
 import type React from "preact/compat";
+import { useEffect, useState } from "preact/compat";
 import { showToast } from "./toast";
 
 export type int = number;
@@ -60,4 +61,32 @@ export function randomAlphaNum(length: int, prefix = ""): string {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return result;
+}
+
+export type LayoutModes = "mobile" | "narrow" | "wide";
+
+function _layoutMode(): LayoutModes {
+  const w = window.innerWidth;
+  if (w < 700) return "mobile";
+  if (w < 1100) return "narrow";
+  return "wide";
+}
+export function useLayoutMode(): LayoutModes {
+  const [mode, setMode] = useState(_layoutMode());
+  useEffect(() => {
+    const onResize = () => setMode(_layoutMode());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  });
+  return mode;
+}
+
+export function useSiteScroll() {
+  const [scroll, setScroll] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setScroll(window.scrollY);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return scroll;
 }

@@ -3,6 +3,8 @@ import { applyProps, type ElbeProps } from "../base/box";
 export type FlexProps = {
   children: any;
   gap?: number;
+  scroll?: boolean;
+  noScrollbar?: boolean;
   main?:
     | "start"
     | "center"
@@ -30,9 +32,16 @@ export function Column({
   main = "start",
   cross = "stretch",
   children,
+  noScrollbar = false,
+  scroll = false,
   ...p
 }: FlexProps) {
-  return _Flex(false, { gap, main, cross, children }, p, false);
+  return _Flex(
+    false,
+    { gap, main, cross, scroll, noScrollbar, children },
+    p,
+    false
+  );
 }
 
 export function Row({
@@ -41,19 +50,38 @@ export function Row({
   cross,
   wrap = false,
   children,
+  noScrollbar = false,
+  scroll = false,
   ...p
 }: FlexProps & { wrap?: boolean }) {
-  return _Flex(true, { gap, main, cross, children }, p, wrap);
+  return _Flex(
+    true,
+    { gap, main, cross, scroll, noScrollbar, children },
+    p,
+    wrap
+  );
 }
 
 function _Flex(row: boolean, p: FlexProps, elbe: ElbeProps, wraps: boolean) {
   return (
     <div
-      {...applyProps("flex", elbe, [row ? "row" : "column", wraps && "wrap"], {
-        justifyContent: p.main,
-        alignItems: p.cross,
-        gap: `${p.gap}rem`,
-      })}
+      {...applyProps(
+        "flex",
+        elbe,
+        [
+          row ? "row" : "column",
+          wraps && "wrap",
+          p.noScrollbar && "no-scrollbar",
+        ],
+        {
+          justifyContent: p.main,
+          alignItems: p.cross,
+          gap: `${p.gap}rem`,
+          overflowX: !row ? null : p.scroll ? "auto" : null,
+          overflowY: row ? null : p.scroll ? "auto" : null,
+          flex: p.flex ?? p.scroll ? 1 : null,
+        }
+      )}
     >
       {p.children}
     </div>

@@ -12,6 +12,15 @@
   border: var(--g-border-width) solid var(--c-context-border);
 }
 
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+}
+
 
 button {
   @extend .card;
@@ -139,7 +148,7 @@ dialog {
 	align-items: center;
 }
 
-.frosted {
+.frosted.frosted.frosted.frosted {
   background-color: color-mix(in srgb, var(--c-context-back) 50%, transparent);
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
@@ -314,4 +323,8 @@ hr {
   border: none;
   border-top: var(--g-border-width) solid var(--c-context-border);
   width: 100%;
+}
+
+button > * {
+  flex-shrink: 0;
 }

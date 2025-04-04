@@ -1,103 +1,152 @@
+import { ChevronLeft, MenuIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "preact/hooks";
-import { JSX } from "preact/jsx-runtime";
-import { IconButton, Icons, Row, Text } from "../../..";
+import {
+  Card,
+  ElbeChild,
+  IconButton,
+  Text,
+  useLayoutMode,
+  useSiteScroll,
+  useTheme,
+  useThemeConfig,
+} from "../../..";
+import { maybeAppBase } from "./ctx_app_base";
+import { _Toolbar } from "./toolbar";
 
-export type HeaderParams = {
-  title?: string;
-  back?: null | "close" | "back" | JSX.Element;
-  actions?: any;
-  _absolute?: boolean;
+const _backBtn = <BackButton onTap={() => history.go(-1)} />;
+const _closeBtn = <CloseButton onTap={() => history.go(-1)} />;
+
+export type HeaderLogos = {
+  logo?: string | ElbeChild;
+  logoDark?: string | ElbeChild;
+  endLogo?: string | ElbeChild;
+  endLogoDark?: string | ElbeChild;
 };
 
-/**
- * Header is a layout component that provides a header for a page.
- * It is used to create a consistent header for pages.
- * @param back - The back button type. If null, no back button is shown. If "close", a close button is shown. If "back", a back button is shown.
- * @param title - The title of the page.
- * @param actions - The actions to show on the right side of the header.
- * @param children - The children to show in the header. If children are provided, the title is ignored.
- */
-export function Header({
-  back,
-  title,
-  actions,
-  _absolute,
-  children,
-  height = 4,
-}: HeaderParams & { children?: any; height?: number }) {
-  // if the icon is a type of back, we have to hide it if there is no history
-  if (
-    typeof back === "string" &&
-    ["back", "close"].includes(back) &&
-    history.length == 0
-  ) {
-    back = null;
+export function Header(
+  p: HeaderLogos & {
+    leading?: ElbeChild | "back" | "close";
+    title: string | ElbeChild;
+    centerTitle?: boolean;
+    actions?: ElbeChild[];
   }
-  const goBack = () => history.go(-1);
-
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const _handle = () => setIsScrolled(window.scrollY > 0);
-    window.addEventListener("scroll", _handle);
-    return () => {
-      window.removeEventListener("scroll", _handle);
-    };
-  }, []);
-
+) {
+  const appBase = maybeAppBase();
+  const layoutMode = useLayoutMode();
+  const scroll = useSiteScroll();
+  const tConfig = useThemeConfig();
+  const theme = useTheme();
   return (
-    <div>
-      <div style={{ height: `${height}rem` }}></div>
-      <div
-        class="header frosted"
-        style={{
-          height: `${height}rem`,
-          borderColor: isScrolled
-            ? "color-mix(in srgb, var(--c-context-border) 40%, transparent)"
-            : "transparent",
+    <Card
+      padding={0}
+      scheme="primary"
+      bordered
+      frosted={!tConfig.highVis}
+      sharp
+      style={{
+        position: "sticky",
+        top: 0,
+        left: 0,
+        right: 0,
 
-          position: _absolute ? "absolute" : "fixed",
-        }}
-      >
-        {back ? (
-          typeof back !== "string" ? (
-            back
-          ) : (
+        height: `${4 + theme.geometry.borderWidth}rem`,
+        padding: ".5rem",
+        display: "flex",
+        alignItems: "center",
+        borderTop: "none",
+        borderLeft: "none",
+        borderRight: "none",
+        borderColor: tConfig.highVis || scroll ? null : "transparent",
+        gap: "1rem",
+        zIndex: 80,
+      }}
+    >
+      {p.leading === "back" && _backBtn}
+      {p.leading === "close" && _closeBtn}
+      {typeof p.leading === "function"
+        ? p.leading
+        : appBase &&
+          layoutMode != "wide" && (
             <IconButton.plain
-              ariaLabel={back === "back" ? "go back" : "close"}
-              icon={back === "back" ? Icons.ArrowLeft : Icons.X}
-              onTap={goBack}
+              ariaLabel="open/close menu"
+              onTap={() => appBase.setMenuOpen(!appBase.menuOpen)}
+              icon={MenuIcon}
             />
-          )
-        ) : null}
+          )}
+      <_Logo
+        logo={p.logo ?? appBase?.icons.logo}
+        logoDark={p.logoDark ?? appBase?.icons.logoDark}
+        lMargin={0.5}
+      />
+      {typeof p.title === "string" ? (
+        <Text.h3
+          style={{
+            marginLeft: !appBase || layoutMode === "wide" ? ".5rem" : 0,
+          }}
+          align={p.centerTitle ? "center" : "start"}
+          flex={1}
+          v={p.title}
+        />
+      ) : (
+        <div style={{ flex: 1 }}>{p.title}</div>
+      )}
+      <_Toolbar
+        actions={[...(p.actions ?? []), ...(appBase?.globalActions ?? [])]}
+      />
+      {layoutMode === "wide" && (
+        <_Logo
+          logo={p.endLogo ?? appBase?.icons.endLogo}
+          logoDark={p.endLogoDark ?? appBase?.icons.endLogoDark}
+          rMargin={0.5}
+        />
+      )}
+    </Card>
+  );
+}
 
-        {children ? children : <_PageCenteredTitle text={title || ""} />}
+function _Logo(p: {
+  logo: string | ElbeChild;
+  logoDark?: string | ElbeChild | null;
+  lMargin?: number;
+  rMargin?: number;
+}) {
+  const tConfig = useThemeConfig();
+  const [logo, setLogo] = useState(p.logo);
+  useEffect(
+    () => setLogo(tConfig.dark ? p.logoDark ?? p.logo : p.logo),
+    [tConfig]
+  );
 
-        {actions ? (
-          <Row gap={0.5} main="end">
-            {actions}
-          </Row>
-        ) : null}
-      </div>
+  return !logo ? null : (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginLeft: `${p.lMargin ?? 0}rem`,
+        marginRight: `${p.rMargin ?? 0}rem`,
+      }}
+    >
+      {typeof logo === "string" ? (
+        <img
+          src={logo}
+          style={{
+            height: "1.25rem",
+          }}
+        />
+      ) : (
+        p.logo
+      )}
     </div>
   );
 }
 
-function _PageCenteredTitle({ text }: { text: string }) {
-  return <Text.h5 v={text} class="flex-1" align="center" />;
-
-  /* CENTER TO PAGE:
+export function BackButton(p: { onTap: () => void }) {
   return (
-    <div class="flex-1" style={{ height: "0rem" }}>
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%) translateY(-50%)",
-        }}
-      >
-        <Text.h5 v={text} align="center" />
-      </div>
-    </div>
-  );*/
+    <IconButton.plain ariaLabel="go back" onTap={p.onTap} icon={ChevronLeft} />
+  );
+}
+
+export function CloseButton(p: { onTap: () => void }) {
+  return <IconButton.plain ariaLabel="close" onTap={p.onTap} icon={XIcon} />;
 }

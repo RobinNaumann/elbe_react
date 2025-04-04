@@ -6,6 +6,7 @@ export * from "./bit/bit";
 export * from "./bit/ctrl_bit";
 export * from "./service/s_api";
 export * from "./ui/util/confirm_dialog";
+export * from "./ui/util/ctx_toolbar";
 export * from "./ui/util/toast";
 export * from "./ui/util/util";
 
@@ -19,9 +20,9 @@ export * from "./ui/components/button/icon_button";
 export * from "./ui/components/button/toggle_button";
 
 export * from "./ui/components/layout/alignment";
+export * from "./ui/components/layout/app_base";
 export * from "./ui/components/layout/flex";
 export * from "./ui/components/layout/header";
-export * from "./ui/components/layout/scaffold";
 export * from "./ui/components/layout/scroll";
 export * from "./ui/components/layout/spaced";
 

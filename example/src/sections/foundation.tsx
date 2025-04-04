@@ -1,11 +1,12 @@
-import { Footer, Header, IconButton, Icons, Scaffold } from "elbe-ui";
+import { Button, Footer, Header, IconButton, Icons } from "elbe-ui";
 
+import { route } from "preact-router";
 import { ExampleGroup, ExampleSection } from "../util/section";
 
 export function FoundationSection({}) {
   return (
     <ExampleSection title="Foundation" anchor="foundation">
-      <_ScaffoldGroup />
+      <_AppBaseGroup />
       <_HeaderGroup />
       <_FooterGroup />
     </ExampleSection>
@@ -18,7 +19,7 @@ function _HeaderGroup({}) {
       title="Header"
       description="a layout component that provides a title and an optional back button and actions."
       classes="column"
-      code={`<Header title="Title" back="close" actions={[]}/>`}
+      code={`<Header title="Title" leading="close" actions={[]}/>`}
     >
       <div
         class="rounded"
@@ -30,8 +31,7 @@ function _HeaderGroup({}) {
       >
         <Header
           title="Title"
-          back="close"
-          _absolute
+          leading="close"
           actions={[
             <IconButton.plain
               ariaLabel={null}
@@ -81,7 +81,7 @@ function _FooterGroup({}) {
   );
 }
 
-function _ScaffoldGroup({}) {
+/*function _ScaffoldGroup({}) {
   return (
     <ExampleGroup
       title="Scaffold"
@@ -122,6 +122,25 @@ function _ScaffoldGroup({}) {
           </div>
         </Scaffold>
       </div>
+    </ExampleGroup>
+  );
+}*/
+
+function _AppBaseGroup({}) {
+  return (
+    <ExampleGroup
+      title="App Base"
+      description="a base for more complex apps"
+      classes="column"
+      code={`<AppBase
+        menu={[...]}
+        />`}
+    >
+      <Button.minor
+        ariaLabel="open demo"
+        onTap={() => route("/app")}
+        label="open demo"
+      />
     </ExampleGroup>
   );
 }

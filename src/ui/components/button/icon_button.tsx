@@ -55,6 +55,7 @@ function _btn(
           width: "3rem",
         }
       )}
+      title={elbe.ariaLabel ?? undefined}
       onClick={(e) => onTap && onTap(e)}
     >
       <_IconChild icon={icon} />

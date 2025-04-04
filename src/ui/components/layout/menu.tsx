@@ -1,0 +1,152 @@
+import { MenuIcon } from "lucide-react";
+import { useThemeConfig } from "../../..";
+import { ElbeChild, useLayoutMode } from "../../util/util";
+import { Card, elevatedShadow } from "../base/card";
+import { Button } from "../button/button";
+import { IconChild } from "../button/icon_button";
+import { useAppBase } from "./ctx_app_base";
+import { Column } from "./flex";
+
+export type MenuItem = {
+  id: string;
+  label: string;
+  icon?: IconChild;
+  bottom?: boolean;
+  component?: ElbeChild;
+};
+
+export function Menu(p: { items: MenuItem[] }) {
+  const layoutMode = useLayoutMode();
+  const appBase = useAppBase();
+  const tConfig = useThemeConfig();
+
+  const topBot: {
+    top: MenuItem[];
+    bottom: MenuItem[];
+  } = { top: [], bottom: [] };
+  for (let i of p.items) {
+    if (i.bottom) topBot.bottom.push(i);
+    else topBot.top.push(i);
+  }
+
+  const menuWidth = () =>
+    appBase.menuOpen
+      ? layoutMode === "mobile"
+        ? "100vw"
+        : "260px"
+      : layoutMode === "wide"
+      ? "4rem"
+      : "0";
+
+  return (
+    <>
+      {layoutMode == "wide" && (
+        <div
+          style={{
+            width: menuWidth(),
+          }}
+        />
+      )}
+      <div
+        onClick={() => appBase.setMenuOpen(false)}
+        style={{
+          zIndex: 100,
+
+          position: "fixed",
+          left: 0,
+          top: 0,
+          width: 0,
+          height: 0,
+          backgroundColor: "rgba(0,0,0,0)",
+          transition: "background-color 200ms ease-in-out",
+          ...(layoutMode === "narrow" && appBase.menuOpen
+            ? {
+                backdropFilter: "blur(5px)",
+                backgroundColor: "rgba(0,0,0,.2)",
+                width: "100vw",
+                height: "100vh",
+              }
+            : {}),
+        }}
+      />
+      <Card
+        onTap={() => {
+          if (layoutMode == "wide") return;
+          appBase.setMenuOpen(false);
+        }}
+        scheme="primary"
+        padding={0.5}
+        style={{
+          zIndex: 101,
+          position: "fixed",
+          left: 0,
+          top: 0,
+          height: "100vh",
+          overflow: "hidden",
+
+          width: menuWidth(),
+          display: appBase.menuOpen || layoutMode == "wide" ? "flex" : "none",
+          flexDirection: "column",
+          justifyContent: "start",
+          alignItems: "stretch",
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          border: "none",
+          borderRight: tConfig.highVis
+            ? "1px solid var(--c-context-front)"
+            : "none",
+          gap: "1rem",
+          transition: "width 200ms ease-in-out",
+
+          ...(layoutMode === "narrow" && appBase.menuOpen
+            ? {
+                boxShadow: elevatedShadow,
+              }
+            : {}),
+        }}
+      >
+        <Button.plain
+          contentAlign="start"
+          ariaLabel="open/close menu"
+          onTap={() => appBase.setMenuOpen(!appBase.menuOpen)}
+          icon={MenuIcon}
+          style={{
+            marginBottom: ".5rem",
+            borderRadius: "3rem",
+          }}
+        />
+        <Column
+          flex={1}
+          scroll
+          noScrollbar
+          //style={{overflowY: "auto"}}
+        >
+          {topBot.top.map((i) => (
+            <_MenuItemView item={i} />
+          ))}
+        </Column>
+        {topBot.bottom.map((i) => (
+          <_MenuItemView item={i} />
+        ))}
+      </Card>
+    </>
+  );
+}
+
+function _MenuItemView({ item }: { item: MenuItem }) {
+  const appBase = useAppBase();
+  return (
+    <Button
+      ariaLabel={item.label}
+      contentAlign="start"
+      manner={item.id === appBase.menuSelected ? "major" : "plain"}
+      label={appBase.menuOpen ? item.label : undefined}
+      icon={item.icon}
+      onTap={
+        item.component != null
+          ? () => appBase.setMenuSelected(item.id)
+          : undefined
+      }
+    />
+  );
+}
