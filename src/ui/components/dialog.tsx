@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import type { ElbeChildren } from "../util/util";
+import type { ElbeChildren } from "../util/types";
 import { IconButton } from "./button/icon_button";
 import { Spaced } from "./layout/spaced";
 

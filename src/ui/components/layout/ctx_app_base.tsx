@@ -1,6 +1,6 @@
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
-import { ElbeChild } from "../../util/util";
+import { ElbeChild } from "../../util/types";
 import { HeaderLogos } from "./header";
 
 export interface _AppBaseState {

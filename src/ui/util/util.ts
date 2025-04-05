@@ -1,11 +1,5 @@
-import type React from "preact/compat";
 import { useEffect, useState } from "preact/compat";
-import { showToast } from "./toast";
-
-export type int = number;
-export type float = number;
-export type ElbeChild = React.ReactNode;
-export type ElbeChildren = ElbeChild[] | ElbeChild;
+import { int, showToast } from "../..";
 
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);

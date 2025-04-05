@@ -1,6 +1,6 @@
 import React from "preact/compat";
 import type { ElbeColorKinds } from "../theme/colors";
-import type { ElbeChild, ElbeChildren } from "../util/util";
+import type { ElbeChild, ElbeChildren } from "../util/types";
 import type { ElbeProps } from "./base/box";
 
 export type BadgeProps = {

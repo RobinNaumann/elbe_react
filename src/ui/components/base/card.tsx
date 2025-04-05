@@ -1,11 +1,12 @@
-import type {
+import {
+  ElbeChildren,
   ElbeColorKinds,
   ElbeColorManners,
   ElbeColorModes,
   ElbeColorSchemes,
-} from "../../theme/colors";
-import type { ElbeChildren } from "../../util/util";
-import { applyProps, type ElbeProps } from "./box";
+  ElbeProps,
+  applyProps,
+} from "../../..";
 
 export const elevatedShadow = "0 0 15px rgba(0,0,0,.2)";
 

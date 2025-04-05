@@ -1,6 +1,5 @@
 import { MenuIcon } from "lucide-react";
-import { useThemeConfig } from "../../..";
-import { ElbeChild, useLayoutMode } from "../../util/util";
+import { ElbeChild, useLayoutMode, useTheme, useThemeConfig } from "../../..";
 import { Card, elevatedShadow } from "../base/card";
 import { Button } from "../button/button";
 import { IconChild } from "../button/icon_button";
@@ -19,6 +18,7 @@ export function Menu(p: { items: MenuItem[] }) {
   const layoutMode = useLayoutMode();
   const appBase = useAppBase();
   const tConfig = useThemeConfig();
+  const theme = useTheme();
 
   const topBot: {
     top: MenuItem[];
@@ -29,13 +29,15 @@ export function Menu(p: { items: MenuItem[] }) {
     else topBot.top.push(i);
   }
 
+  const wideOrOpen = () => appBase.menuOpen || layoutMode == "wide";
+
   const menuWidth = () =>
     appBase.menuOpen
       ? layoutMode === "mobile"
         ? "100vw"
-        : "260px"
+        : `${17 + theme.geometry.borderWidth}rem`
       : layoutMode === "wide"
-      ? "4rem"
+      ? `${4 + theme.geometry.borderWidth}rem`
       : "0";
 
   return (
@@ -69,13 +71,16 @@ export function Menu(p: { items: MenuItem[] }) {
             : {}),
         }}
       />
+
       <Card
         onTap={() => {
           if (layoutMode == "wide") return;
           appBase.setMenuOpen(false);
         }}
+        sharp={layoutMode == "mobile"}
+        bordered
         scheme="primary"
-        padding={0.5}
+        padding={wideOrOpen() ? 0.5 : 0}
         style={{
           zIndex: 101,
           position: "fixed",
@@ -85,18 +90,21 @@ export function Menu(p: { items: MenuItem[] }) {
           overflow: "hidden",
 
           width: menuWidth(),
-          display: appBase.menuOpen || layoutMode == "wide" ? "flex" : "none",
+          display: "flex",
+          //display: appBase.menuOpen || layoutMode == "wide" ? "flex" : "none",
           flexDirection: "column",
           justifyContent: "start",
           alignItems: "stretch",
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,
-          border: "none",
-          borderRight: tConfig.highVis
-            ? "1px solid var(--c-context-front)"
-            : "none",
+          borderLeft: "none",
+          borderTop: "none",
+          borderBottom: "none",
+          borderColor: tConfig.highVis ? null : "transparent",
           gap: "1rem",
-          transition: "width 200ms ease-in-out",
+          transition: tConfig.reducedMotion
+            ? "none"
+            : "width 200ms ease-in-out",
 
           ...(layoutMode === "narrow" && appBase.menuOpen
             ? {
@@ -105,29 +113,33 @@ export function Menu(p: { items: MenuItem[] }) {
             : {}),
         }}
       >
-        <Button.plain
-          contentAlign="start"
-          ariaLabel="open/close menu"
-          onTap={() => appBase.setMenuOpen(!appBase.menuOpen)}
-          icon={MenuIcon}
-          style={{
-            marginBottom: ".5rem",
-            borderRadius: "3rem",
-          }}
-        />
-        <Column
-          flex={1}
-          scroll
-          noScrollbar
-          //style={{overflowY: "auto"}}
-        >
-          {topBot.top.map((i) => (
-            <_MenuItemView item={i} />
-          ))}
-        </Column>
-        {topBot.bottom.map((i) => (
-          <_MenuItemView item={i} />
-        ))}
+        {wideOrOpen() && (
+          <>
+            <Button.plain
+              contentAlign="start"
+              ariaLabel="open/close menu"
+              onTap={() => appBase.setMenuOpen(!appBase.menuOpen)}
+              icon={MenuIcon}
+              style={{
+                marginBottom: ".5rem",
+                borderRadius: "3rem",
+              }}
+            />
+            <Column
+              flex={1}
+              scroll
+              noScrollbar
+              //style={{overflowY: "auto"}}
+            >
+              {topBot.top.map((i) => (
+                <_MenuItemView item={i} />
+              ))}
+            </Column>
+            {topBot.bottom.map((i) => (
+              <_MenuItemView item={i} />
+            ))}
+          </>
+        )}
       </Card>
     </>
   );

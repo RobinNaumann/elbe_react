@@ -7,7 +7,9 @@ export * from "./bit/ctrl_bit";
 export * from "./service/s_api";
 export * from "./ui/util/confirm_dialog";
 export * from "./ui/util/ctx_toolbar";
+export * from "./ui/util/l10n/l10n";
 export * from "./ui/util/toast";
+export * from "./ui/util/types";
 export * from "./ui/util/util";
 
 export * from "./ui/components/base/box";

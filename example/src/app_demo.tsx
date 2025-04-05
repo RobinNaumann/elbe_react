@@ -18,53 +18,57 @@ import {
   TreePine,
 } from "lucide-react";
 import { route } from "preact-router";
+import { L10n, useL10n } from "../l10n";
 
 export function AppDemo() {
   return (
-    <AppBase
-      endLogo="./assets/elbe_dark.png"
-      endLogoDark="./assets/elbe_light.png"
-      menu={[
-        {
-          id: "home",
-          label: "Home",
-          icon: HomeIcon,
-          component: <_Home />,
-        },
-        {
-          id: "second",
-          label: "Second",
-          icon: LeafIcon,
-          component: <_SecondPage />,
-        },
-        {
-          id: "settings",
-          label: "Settings",
-          icon: CogIcon,
-          bottom: true,
-        },
-      ]}
-      globalActions={[
-        <Button.plain
-          ariaLabel="back to demo"
-          onTap={() => route("/")}
-          label="back to demo"
-          icon={LogOut}
-        />,
-      ]}
-    />
+    <L10n>
+      <AppBase
+        endLogo="./assets/elbe_dark.png"
+        endLogoDark="./assets/elbe_light.png"
+        menu={[
+          {
+            id: "home",
+            label: "Home",
+            icon: HomeIcon,
+            component: <_Home />,
+          },
+          {
+            id: "second",
+            label: "Second",
+            icon: LeafIcon,
+            component: <_SecondPage />,
+          },
+          {
+            id: "settings",
+            label: "Settings",
+            icon: CogIcon,
+            bottom: true,
+          },
+        ]}
+        globalActions={[
+          <Button.plain
+            ariaLabel="back to demo"
+            onTap={() => route("/")}
+            label="back to demo"
+            icon={LogOut}
+          />,
+        ]}
+      />
+    </L10n>
   );
 }
 
 function _Home({}) {
+  const l10n = useL10n();
   return (
     <>
       <Header
-        title="Home"
+        title={l10n.c.good_morning}
         actions={[
           <Button.major
             ariaLabel="a demo tree icon"
-            onTap={() => showToast("tree")}
+            onTap={() => l10n.setLocale("de_DE")}
             label="tree"
             icon={TreePine}
           />,
@@ -97,7 +101,6 @@ function _Home({}) {
           <Card
             scheme={c as any}
             bordered
-            key={c}
             class="centered"
             style={{
               height: "100px",

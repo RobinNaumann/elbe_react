@@ -1,6 +1,5 @@
 import { Component, h } from "preact";
-import type { ElbeColorModes, ElbeColorSchemes } from "../../theme/colors";
-import type { ElbeChildren } from "../../util/util";
+import { ElbeChildren, ElbeColorModes, ElbeColorSchemes } from "../../..";
 import { AriaRoles } from "./roles";
 
 export type ElbeProps = {

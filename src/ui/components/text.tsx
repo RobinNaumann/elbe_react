@@ -1,6 +1,6 @@
 import React from "preact/compat";
 import type { ElbeTypeVariants } from "../theme/type_theme";
-import type { ElbeChildren } from "../util/util";
+import type { ElbeChildren } from "../util/types";
 import { applyProps, type ElbeProps } from "./base/box";
 
 export type TextProps = {
