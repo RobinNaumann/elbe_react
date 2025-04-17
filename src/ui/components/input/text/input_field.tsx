@@ -1,7 +1,7 @@
 import React from "preact/compat";
 import { ElbeAlertKinds, KindAlertIcon, Text } from "../../../..";
 import { randomAlphaNum } from "../../../util/util";
-import { ElbeProps } from "../../base/box";
+import { applyProps, ElbeProps } from "../../base/box";
 import { Card } from "../../base/card";
 import { Row } from "../../layout/flex";
 import { _MultiLineField } from "./multi_line";
@@ -99,10 +99,15 @@ export class Field<T extends InputFieldProps> extends React.Component<
             <Card
               kind={msg?.kind}
               manner={msg ? "minor" : "plain"}
-              class="text_field_base"
               overflow="hidden"
               padding={0}
               bordered
+              {...applyProps(
+                "text-field",
+                elbe,
+                ["text_field_base"],
+                this.props.style
+              )}
             >
               {type === "area" ? (
                 <_MultiLineField props={this.props} id={id} />

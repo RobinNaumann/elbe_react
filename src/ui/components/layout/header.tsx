@@ -63,7 +63,7 @@ export function Header(
     >
       {p.leading === "back" && _backBtn}
       {p.leading === "close" && _closeBtn}
-      {typeof p.leading === "function"
+      {p.leading && p.leading !== "back" && p.leading !== "close"
         ? p.leading
         : appBase &&
           layoutMode != "wide" && (
