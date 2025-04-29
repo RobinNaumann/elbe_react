@@ -61,8 +61,6 @@ export function Header(
         zIndex: 80,
       }}
     >
-      {p.leading === "back" && _backBtn}
-      {p.leading === "close" && _closeBtn}
       {p.leading && p.leading !== "back" && p.leading !== "close"
         ? p.leading
         : appBase &&
@@ -73,6 +71,8 @@ export function Header(
               icon={MenuIcon}
             />
           )}
+      {p.leading === "back" && _backBtn}
+      {p.leading === "close" && _closeBtn}
       <_Logo
         logo={p.logo ?? appBase?.icons.logo}
         logoDark={p.logoDark ?? appBase?.icons.logoDark}

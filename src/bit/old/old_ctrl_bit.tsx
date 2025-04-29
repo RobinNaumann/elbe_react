@@ -1,13 +1,19 @@
 import { useEffect } from "preact/hooks";
 import type { JSX } from "preact/jsx-runtime";
-import type { BitContext, BitUseInterface, TWParams } from "./bit";
-import { makeBit as mb, ProvideBit, useBit } from "./bit";
+import {
+  makeOldBit,
+  OldBitContext,
+  OldBitUseInterface,
+  OldTWParams,
+  ProvideOldBit,
+  useOldBit,
+} from "./old_bit";
 
-abstract class BitControl<I, DT> {
+abstract class OldBitControl<I, DT> {
   p: I;
-  bit: TWParams<DT>;
+  bit: OldTWParams<DT>;
 
-  constructor(p: I, bit: TWParams<DT>) {
+  constructor(p: I, bit: OldTWParams<DT>) {
     this.bit = bit;
     this.p = p;
   }
@@ -33,13 +39,16 @@ abstract class BitControl<I, DT> {
   dispose() {}
 }
 
-export abstract class WorkerControl<I, DT> extends BitControl<I, DT> {
+export abstract class WorkerControl<I, DT> extends OldBitControl<I, DT> {
   reload: (() => Promise<void>) | null = null;
 
   abstract worker(): Promise<DT>;
 }
 
-export abstract class StreamControl<I, DT, Stream> extends BitControl<I, DT> {
+export abstract class StreamControl<I, DT, Stream> extends OldBitControl<
+  I,
+  DT
+> {
   protected stream: Stream | null = null;
   abstract listen(): Stream;
 
@@ -49,29 +58,29 @@ export abstract class StreamControl<I, DT, Stream> extends BitControl<I, DT> {
   abstract disposeStream(stream: Stream): void;
 }
 
-function make<I, DT, C extends BitControl<I, DT>>(
+function make<I, DT, C extends OldBitControl<I, DT>>(
   name: string
-): BitContext<C, DT> {
-  return mb<C, DT>(name);
+): OldBitContext<C, DT> {
+  return makeOldBit<C, DT>(name);
 }
 
-function use<I, DT, C extends BitControl<I, DT>>(
-  b: BitContext<C, DT>
-): BitUseInterface<C, DT> {
-  return useBit<C, DT>(b);
+function use<I, DT, C extends OldBitControl<I, DT>>(
+  b: OldBitContext<C, DT>
+): OldBitUseInterface<C, DT> {
+  return useOldBit<C, DT>(b);
 }
 
-export function CtrlBit<I, DT, C extends BitControl<I, DT>>(
-  ctrl: (p: I, d: TWParams<DT>) => C,
+export function CtrlBit<I, DT, C extends OldBitControl<I, DT>>(
+  ctrl: (p: I, d: OldTWParams<DT>) => C,
   name?: string
 ): {
   Provide: (props: I & { children: React.ReactNode }) => JSX.Element;
-  use: () => BitUseInterface<C, DT>;
+  use: () => OldBitUseInterface<C, DT>;
 } {
   const context = make<I, DT, C>((name || "Unknown") + "Bit");
 
   function Provide({ children, ...p }: { children: React.ReactNode } & I) {
-    return ProvideBit(
+    return ProvideOldBit(
       context,
       p,
       async (p, b, c) => {

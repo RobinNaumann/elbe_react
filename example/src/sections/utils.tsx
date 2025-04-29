@@ -61,7 +61,7 @@ function _l10nDemo() {
           ariaLabel="easy language"
           onChange={(v) => l10n.setEasyLang(v)}
           label="easy language"
-          value={l10n.easyLang}
+          value={l10n.easy}
         />
       </Row>
       <Text v={l10n.c.good_morning} bold />

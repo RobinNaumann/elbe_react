@@ -1,8 +1,15 @@
 import { useSignal } from "@preact/signals";
+import { icons } from "lucide-react";
 import { route } from "preact-router";
-import { Icons } from "../..";
-import { ifApiError, type ApiError } from "../../service/s_api";
-import { ElbeDialog } from "./dialog";
+import {
+  ElbeDialog,
+  ElbeError,
+  Icon,
+  Icons,
+  L10nInlinePlain,
+  toElbeError,
+} from "../..";
+import { _maybeL10n } from "../util/l10n/_l10n_util";
 
 export function ErrorView({
   error,
@@ -13,60 +20,85 @@ export function ErrorView({
   retry?: () => any;
   debug?: boolean;
 }) {
-  const apiError: ApiError = ifApiError(error) ?? {
-    code: 0,
-    message: "unknown error",
-    data: error,
-  };
+  const apiError: ElbeError = toElbeError(error);
   return !debug ? (
-    <PrettyErrorView apiError={apiError} retry={retry} />
+    <PrettyErrorView error={apiError} retry={retry} />
   ) : (
     <div class="column padded card inverse cross-stretch">
       <h3 style="margin: 0">ERROR: {apiError.code}</h3>
       <p>{apiError.message}</p>
-      <pre>{JSON.stringify(apiError.data, null, 2)}</pre>
+      <pre>{JSON.stringify(apiError, null, 2)}</pre>
     </div>
   );
 }
 
 export function PrettyErrorView({
-  apiError,
+  error,
   retry,
   labels = {
-    retry: "retry",
-    home: "go home",
-    details: "error details",
+    retry: {
+      en: "retry",
+      de: "erneut versuchen",
+      es: "intentar de nuevo",
+      fr: "réessayer",
+      it: "riprovare",
+      pt: "tentar novamente",
+    },
+    home: {
+      en: "go home",
+      de: "zur Startseite",
+      es: "a la página de inicio",
+      fr: "aller à l'accueil",
+      it: "torna alla home",
+      pt: "voltar para a página inicial",
+    },
+    details: {
+      en: "error details",
+      de: "Fehlerdetails",
+      es: "detalles del error",
+      fr: "détails de l'erreur",
+      it: "dettagli dell'errore",
+      pt: "detalhes do erro",
+    },
   },
 }: {
-  apiError: ApiError;
+  error: ElbeError;
   retry?: () => any;
-  labels?: { retry?: string; home?: string; details?: string };
+  labels?: {
+    retry?: L10nInlinePlain;
+    home?: L10nInlinePlain;
+    details: L10nInlinePlain;
+  };
 }) {
+  const l10n = _maybeL10n();
   const openSig = useSignal(false);
+
   return (
     <div class="column padded cross-center" style="margin: 1rem 0">
-      <Icons.OctagonAlert />
-      <h3 style="margin: 0">{apiError.code}</h3>
+      <Icon icon={error.icon ?? icons.OctagonAlert} />
+      <h4 style="margin: 0">{l10n?.inline(error.message) ?? "error"}</h4>
       <span class="pointer" onClick={() => (openSig.value = true)}>
-        {apiError.message}
+        {l10n?.inline(error.description) ?? ""}
       </span>
       {retry && (
         <button class="action" onClick={() => retry()}>
-          <Icons.RotateCcw /> {labels.retry ?? "retry"}
+          <Icons.RotateCcw /> {l10n?.inline(labels.retry) ?? "retry"}
         </button>
       )}
-      {apiError.code === 404 && (
+      {error.code === 404 && (
         <button class="action" onClick={() => route("/")}>
           <Icons.House />
-          {labels.home ?? "go home"}
+          {l10n?.inline(labels.home) ?? "go home"}
         </button>
       )}
       <ElbeDialog
-        title={labels.details ?? "error details"}
+        title={l10n?.inline(labels.details) ?? "error details"}
         open={openSig.value}
         onClose={() => (openSig.value = false)}
       >
-        <pre class="card inverse">{JSON.stringify(apiError.data, null, 2)}</pre>
+        <pre class="card inverse">
+          {`code: ${error.code}\n\n` + JSON.stringify(error.details, null, 2)}
+        </pre>
       </ElbeDialog>
     </div>
   );

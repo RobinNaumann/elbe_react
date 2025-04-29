@@ -1,28 +1,19 @@
-import { createContext } from "preact";
 import React from "preact/compat";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { ElbeChildren } from "../types";
+import { Maybe } from "../util";
+import {
+  _bestMatch,
+  _L10nContext,
+  _L10nData,
+  _L10nSelection,
+  _L10nState,
+  _LocaleID,
+  _LocaleIDEasy,
+  _useL10n,
+} from "./_l10n_util";
 
-type _LocaleID = `${string}_${string}` | `${string}`;
-type _LocaleIDEasy = `${string}_${string}_easy` | _LocaleID;
-type _L10nData = { [key: string]: any };
-
-export interface _L10nState<T extends _L10nData> {
-  /** the current locale */
-  c: T;
-  locale: string;
-  easyLang: boolean;
-  setLocale: (locale: string) => void;
-  setEasyLang: (easyLang: boolean) => void;
-}
-
-const _L10nContext = createContext<_L10nState<any> | null>(null);
-
-function _useL10n<T extends _L10nData>(): _L10nState<T> {
-  const ctx = useContext(_L10nContext);
-  if (!ctx) throw new Error("useL10n must be used within a L10n");
-  return ctx;
-}
+export type L10nInlinePlain = { [key: _LocaleIDEasy]: string };
 
 type _L10nProps = {
   children: ElbeChildren;
@@ -45,7 +36,7 @@ export function makeL10n<T extends _L10nData>(
   L10n: React.FunctionComponent<_L10nProps>;
   useL10n: () => _L10nState<T>;
 } {
-  if (Object.keys(supported).length === 0) {
+  if (Object.keys(fallback).length === 0) {
     throw new Error("L10nBase: No fallback locales provided");
   }
   const fallbackLocale = Object.keys(fallback)[0];
@@ -59,26 +50,28 @@ export function makeL10n<T extends _L10nData>(
   const useL10n = _useL10n<T>;
 
   const L10n = (p: _L10nProps) => {
-    const [loc, setLoc] = useState(p.initialLocale ?? navigator.language);
-    const [easy, setEasy] = useState(p.initialEasyLang ?? false);
+    const [locale, setLocale] = useState<_L10nSelection>({
+      locale: p.initialLocale ?? navigator.language,
+      easy: p.initialEasyLang ?? false,
+    });
     const [currentLang, setCurrentLang] = useState<T>(fallbackValue);
 
     useEffect(() => {
-      const match = _bestMatch(loc, easy, Object.keys(supportedLocales));
+      const match = _bestMatch(locale, Object.keys(supportedLocales));
       setCurrentLang({
         ...fallbackValue,
         ...(supportedLocales[match ?? ""] ?? {}),
       } as any);
-    }, [loc, easy]);
+    }, [locale]);
 
     return (
       <_L10nContext.Provider
         value={{
+          ...locale,
           c: currentLang,
-          locale: loc,
-          easyLang: easy,
-          setLocale: (l) => setLoc(l),
-          setEasyLang: (e) => setEasy(e),
+          setLocale: (l) => setLocale({ ...locale, locale: l }),
+          setEasyLang: (e) => setLocale({ ...locale, easy: e }),
+          inline: _l10nInlineResolver(locale),
         }}
       >
         {p.children}
@@ -89,42 +82,15 @@ export function makeL10n<T extends _L10nData>(
   return { L10n, useL10n };
 }
 
-type _Locale = {
-  full: string;
-  lang: string;
-  region: string | null;
-  easy: boolean;
-};
+function _l10nInlineResolver(locale: _L10nSelection) {
+  return (value: Maybe<L10nInlinePlain | string>): string => {
+    if (!value) return "";
+    if (typeof value === "string") return value;
+    const locales = Object.keys(value);
+    const bestMatch = _bestMatch(locale, locales);
 
-function _locale(l: string): _Locale {
-  const parts = l.split("_");
+    const anyEnglish = locales.find((l) => l.startsWith("en"))?.[0] ?? "en";
 
-  const easy = parts.length > 2 && parts[2] === "easy";
-  const region = parts.length > 1 ? parts[1].toLowerCase() : null;
-  const lang = parts[0].toLowerCase();
-  return { full: l, lang, region, easy };
-}
-
-function _bestMatch(
-  locale: string,
-  easy: boolean,
-  locales: _LocaleIDEasy[]
-): _LocaleIDEasy | null {
-  const loc = _locale(locale.replaceAll("-", "_"));
-
-  const asLocales = locales.map((l) => _locale(l));
-
-  // filter by language
-  const langMatch = asLocales.filter((l) => loc.lang === l.lang);
-
-  // filter by easy
-  const easyMatch = langMatch.filter((l) => l.easy === easy);
-
-  // filter by region
-  const regionMatch = easyMatch.filter((l) => l.region === loc.region);
-
-  if (regionMatch.length > 0) return regionMatch[0].full;
-  if (easyMatch.length > 0) return easyMatch[0].full;
-  if (langMatch.length > 0) return langMatch[0].full;
-  return null;
+    return value[bestMatch ?? anyEnglish] ?? value[locales[0]] ?? "";
+  };
 }

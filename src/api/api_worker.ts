@@ -1,6 +1,11 @@
-export interface PostArgs {
+import { httpErrorFromCode, rethrow } from "./error";
+
+export interface GetArgs {
   path?: { [key: string]: string | number | boolean | undefined };
   query?: { [key: string]: string | number | boolean | undefined };
+}
+
+export interface PostArgs extends GetArgs {
   body?: any;
 }
 
@@ -10,19 +15,8 @@ const _noArgs: PostArgs = {};
  * ApiService is a simple wrapper around fetch that handles JSON serialization and error handling.
  * to use it, you must first call `ApiService.init(apiURL)` with the base URL of your API.
  */
-export class ApiService {
-  private static _i: ApiService | null = null;
-  public static get i(): ApiService {
-    if (!ApiService._i) throw "ApiService not initialized. Call ApiService.init(apiURL)";
-    return ApiService._i;
-  }
-
-  private constructor(private apiURL: string) {}
-
-  static init(apiURL: string) {
-    if (ApiService._i) throw "ApiService already initialized";
-    ApiService._i = new ApiService(apiURL);
-  }
+export class ApiWorker {
+  public constructor(private apiURL: string) {}
 
   private async _fetch(
     p: string,
@@ -61,17 +55,13 @@ export class ApiService {
         data = await response.text();
       }
 
-      throw {
-        code: response.status,
-        message: data.message ?? "undefined error",
-        data,
-      } as ApiError;
+      throw httpErrorFromCode(response.status);
     } catch (e) {
-      rethrow(e, 0, "unknown error");
+      rethrow(e);
     }
   }
 
-  async get(path: string, args?: PostArgs): Promise<any> {
+  async get(path: string, args?: GetArgs): Promise<any> {
     return this._fetch(path, "GET", args || _noArgs);
   }
 
@@ -79,24 +69,9 @@ export class ApiService {
     return this._fetch(path, "POST", args || _noArgs);
   }
 
-  async delete(path: string, args: PostArgs): Promise<any> {
+  async delete(path: string, args: GetArgs): Promise<any> {
     return this._fetch(path, "DELETE", args || _noArgs);
   }
 }
 
-function rethrow(e: any, code: number, message: string): ApiError {
-  // if e implements the apiError interface, rethrow it:
-  if (e && e.code !== null && e.message !== null) throw e;
-  throw { code, message, data: e };
-}
-
-export interface ApiError {
-  code: number;
-  message: string;
-  data?: any;
-}
-
-export function ifApiError(e: any): ApiError | null {
-  if (e && e.code !== null && e.message !== null) return e;
-  return null;
-}
+const errors = {};

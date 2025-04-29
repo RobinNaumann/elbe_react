@@ -1,14 +1,14 @@
 import { Signal, useSignal } from "@preact/signals";
 import { type PreactContext, createContext } from "preact";
 import { useContext } from "preact/hooks";
-import { ErrorView } from "../ui/components/error_view";
-import { Column } from "../ui/components/layout/flex";
-import { Spinner } from "../ui/components/spinner";
+import { ErrorView } from "../../ui/components/error_view";
+import { Column } from "../../ui/components/layout/flex";
+import { Spinner } from "../../ui/components/spinner";
 
-export interface BitUseInterface<C, T> {
-  signal: Signal<BitState<T>>;
+export interface OldBitUseInterface<C, T> {
+  signal: Signal<OldBitState<T>>;
   ctrl: C;
-  map: <D>(m: TriMap<T, D>) => D | preact.JSX.Element;
+  map: <D>(m: OldTriMap<T, D>) => D | preact.JSX.Element;
   onData: <D>(
     f: (d: T) => any,
     {
@@ -18,49 +18,49 @@ export interface BitUseInterface<C, T> {
   ) => any;
 }
 
-interface BitData<C, T> {
+interface OldBitData<C, T> {
   ctrl: C;
-  state: Signal<BitState<T>>;
+  state: Signal<OldBitState<T>>;
 }
 
-export interface BitState<T> {
+export interface OldBitState<T> {
   loading?: boolean;
   error?: any;
   data?: T;
 }
 
-export type BitContext<T, C> = PreactContext<BitData<T, C> | null>;
+export type OldBitContext<T, C> = PreactContext<OldBitData<T, C> | null>;
 
-export interface TriMap<T, D> {
+export interface OldTriMap<T, D> {
   onLoading?: () => D;
   onError?: (e: string) => D;
   onData?: (value: T) => D;
 }
 
-export interface TWParams<T> {
+export interface OldTWParams<T> {
   emit: (t: T) => void;
   emitLoading: () => void;
   emitError: (e: any) => void;
-  map: <D>(m: TriMap<T, D>) => D;
-  signal: Signal<BitState<T>>;
+  map: <D>(m: OldTriMap<T, D>) => D;
+  signal: Signal<OldBitState<T>>;
 }
 
-export function makeBit<C, T>(name: string): BitContext<C, T> {
-  const c = createContext<BitData<C, T> | null>(null);
+export function makeOldBit<C, T>(name: string): OldBitContext<C, T> {
+  const c = createContext<OldBitData<C, T> | null>(null);
   c.displayName = name;
   return c;
 }
 
-export function ProvideBit<I, C, T>(
-  context: BitContext<C, T>,
+export function ProvideOldBit<I, C, T>(
+  context: OldBitContext<C, T>,
   parameters: I,
-  worker: (p: I, d: TWParams<T>, ctrl: C) => void,
-  ctrl: (p: I, d: TWParams<T>) => C,
+  worker: (p: I, d: OldTWParams<T>, ctrl: C) => void,
+  ctrl: (p: I, d: OldTWParams<T>) => C,
   children: any
 ) {
-  const s = useSignal<BitState<T>>({ loading: true });
+  const s = useSignal<OldBitState<T>>({ loading: true });
 
-  const _set = (n: BitState<T>) => {
+  const _set = (n: OldBitState<T>) => {
     try {
       if (JSON.stringify(n) === JSON.stringify(s.peek())) return;
     } catch (e) {}
@@ -74,7 +74,7 @@ export function ProvideBit<I, C, T>(
     return _set({ error });
   };
 
-  function map<D>(m: TriMap<T, D>) {
+  function map<D>(m: OldTriMap<T, D>) {
     const st = s.value;
     if (st.loading) return m.onLoading!();
     if (st.error) return m.onError!(st.error);
@@ -91,12 +91,14 @@ export function ProvideBit<I, C, T>(
   );
 }
 
-export function useBit<C, T>(context: BitContext<C, T>): BitUseInterface<C, T> {
+export function useOldBit<C, T>(
+  context: OldBitContext<C, T>
+): OldBitUseInterface<C, T> {
   try {
     const { ctrl, state } = useContext(context)!;
     const v = state.value;
 
-    function map<D>(m: TriMap<T, D>) {
+    function map<D>(m: OldTriMap<T, D>) {
       if (v.loading)
         return (
           m.onLoading ||

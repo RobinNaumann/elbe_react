@@ -2,9 +2,12 @@ import * as Lucide from "lucide-react";
 import "./elbe.css";
 
 // exports
+export * from "./api/api_worker";
+export * from "./api/error";
+export * from "./api/errors";
 export * from "./bit/bit";
-export * from "./bit/ctrl_bit";
-export * from "./service/s_api";
+export * from "./bit/old/old_bit";
+export * from "./bit/old/old_ctrl_bit";
 export * from "./ui/util/confirm_dialog";
 export * from "./ui/util/ctx_toolbar";
 export * from "./ui/util/l10n/l10n";

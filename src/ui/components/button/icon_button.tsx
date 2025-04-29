@@ -58,12 +58,12 @@ function _btn(
       title={elbe.ariaLabel ?? undefined}
       onClick={(e) => onTap && onTap(e)}
     >
-      <_IconChild icon={icon} />
+      <Icon icon={icon} />
     </button>
   );
 }
 
-export function _IconChild(p: { icon: IconChild | null }) {
+export function Icon(p: { icon: IconChild | null }) {
   if (!p.icon) return null;
   if (typeof p.icon === "function") return p.icon({});
   return p.icon;

@@ -1,6 +1,14 @@
 import { HeartIcon } from "lucide-react";
 import React from "preact/compat";
-import { Card, Column, FlexSpace, IconChild, Link, Row } from "../..";
+import {
+  Card,
+  Column,
+  FlexSpace,
+  IconChild,
+  Link,
+  Row,
+  useLayoutMode,
+} from "../..";
 
 export type FooterLink = {
   label: string;
@@ -14,13 +22,17 @@ export function Footer({
   copyright,
   version,
   legal,
+  marginTop,
 }: {
-  left: (FooterLink | React.ReactNode)[];
+  left?: (FooterLink | React.ReactNode)[];
   right?: (FooterLink | React.ReactNode)[];
   copyright?: string | React.ReactNode;
   version?: string;
   legal?: FooterLink;
+  marginTop?: number;
 }) {
+  const layoutMode = useLayoutMode();
+
   return (
     <Card
       scheme="secondary"
@@ -31,14 +43,20 @@ export function Footer({
         borderLeft: "none",
         borderRight: "none",
         borderBottom: "none",
+        borderTopLeftRadius: layoutMode === "wide" ? "var(--g-radius)" : null,
         color: "color-mix(in srgb, var(--c-context-front) 60%, transparent)",
+        marginTop: `${marginTop ?? 0}rem`,
       }}
     >
       <Column gap={0.5}>
         <Row main="space-between" cross="start">
-          <Column gap={0.5} flex={1} cross="start">
-            {left.map((item: any) => (item.label ? <_Link {...item} /> : item))}
-          </Column>
+          {left && (
+            <Column gap={0.5} flex={1} cross="start">
+              {left.map((item: any) =>
+                item.label ? <_Link {...item} /> : item
+              )}
+            </Column>
+          )}
           {right && (
             <Column gap={0.5} flex={1} cross="end">
               {right.map((item: any) =>
@@ -47,7 +65,9 @@ export function Footer({
             </Column>
           )}
         </Row>
-        {(copyright || version || legal) && <hr style={{ opacity: 0.7 }} />}
+        {(left || right) && (copyright || version || legal) && (
+          <hr style={{ opacity: 0.7 }} />
+        )}
         {(copyright || version || legal) && (
           <Row>
             {copyright &&

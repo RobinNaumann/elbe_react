@@ -1,6 +1,9 @@
 import { useEffect, useState } from "preact/compat";
 import { int, showToast } from "../..";
 
+export type Maybe<T> = T | null | undefined;
+export type PromiseOr<T> = Promise<T> | T;
+
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
