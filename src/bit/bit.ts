@@ -5,8 +5,8 @@ import { _makeBitProvider } from "./_bit_provider";
 import {
   _BitCtrlMaker,
   _BitData,
+  _BitGetInterface,
   _BitInterface,
-  BitUseInterface,
 } from "./_bit_utils";
 
 export type BitStates = "loading" | "error" | "data";
@@ -16,6 +16,10 @@ export type BitTriMap<T, D> = {
   onError?: (e: any) => D;
   onData?: (value: T) => D;
 };
+export type BitUseInterface<D, I> = _BitGetInterface<D> &
+  I & {
+    reload: () => void;
+  };
 
 export type BitParams<D, P, I> = {
   control?: _BitCtrlMaker<D, P, I>;

@@ -2,6 +2,7 @@ import { Context } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import {
   BitParams,
+  BitUseInterface,
   Column,
   ElbeChildren,
   ErrorView,
@@ -9,13 +10,7 @@ import {
   PromiseOr,
   Spinner,
 } from "..";
-import {
-  _BitCtrlMaker,
-  _BitProvider,
-  _BitState,
-  _isFn,
-  BitUseInterface,
-} from "./_bit_utils";
+import { _BitCtrlMaker, _BitProvider, _BitState, _isFn } from "./_bit_utils";
 
 function _LoadView({}) {
   return (

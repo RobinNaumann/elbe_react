@@ -36,20 +36,26 @@ export function Tests({}) {
 
 function _Consumer({}) {
   const bit = nameBit.use();
-  return bit.mapUI((d) => (
-    <Column>
-      {d.name} you
-      <Field.text
-        flex
-        label="Name"
-        value={d.name}
-        onInput={(e) => bit.setName(e)}
-      />
-      <Button.major
-        label="back"
-        ariaLabel="go back"
-        onTap={bit.canGoBack ? () => bit.back() : undefined}
-      />
-    </Column>
-  ));
+
+  return (
+    <Card scheme="secondary">
+      {bit.map<string>((d) => "data", "error") ?? "another"}
+      {bit.mapUI((d) => (
+        <Column>
+          {d.name} you
+          <Field.text
+            flex
+            label="Name"
+            value={d.name}
+            onInput={(e) => bit.setName(e)}
+          />
+          <Button.major
+            label="back"
+            ariaLabel="go back"
+            onTap={bit.canGoBack ? () => bit.back() : undefined}
+          />
+        </Column>
+      ))}
+    </Card>
+  );
 }

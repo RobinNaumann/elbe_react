@@ -1,6 +1,6 @@
 import { useState } from "preact/compat";
 import { Box, ElbeChild, HeaderLogos } from "../../..";
-import { _AppBaseState, AppBaseContext } from "./ctx_app_base";
+import { AppBaseContext } from "./ctx_app_base";
 import { Menu, MenuItem } from "./menu";
 
 export type AppBaseProps = HeaderLogos & {
@@ -16,22 +16,22 @@ export type AppBaseProps = HeaderLogos & {
  * that will be displayed in the header of all pages.
  */
 export function AppBase(p: AppBaseProps) {
-  const [state, setState] = useState<_AppBaseState>({
+  const [state, setState] = useState({
     menuSelected: p.initial ?? p.menu[0]?.id ?? null,
     menuOpen: false,
-    icons: {
-      logo: p.logo,
-      logoDark: p.logoDark,
-      endLogo: p.endLogo,
-      endLogoDark: p.endLogoDark,
-    },
-    globalActions: p.globalActions ?? [],
   });
 
   return (
     <AppBaseContext.Provider
       value={{
         ...state,
+        icons: {
+          logo: p.logo,
+          logoDark: p.logoDark,
+          endLogo: p.endLogo,
+          endLogoDark: p.endLogoDark,
+        },
+        globalActions: p.globalActions ?? [],
         setMenuOpen: (b) => setState({ ...state, menuOpen: b }),
         setMenuSelected: (s) => setState({ ...state, menuSelected: s }),
       }}
