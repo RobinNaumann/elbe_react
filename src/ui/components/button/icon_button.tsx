@@ -2,6 +2,7 @@ import { Component } from "preact";
 import {
   ActionElbeProps,
   applyProps,
+  ElbeProps,
   type ElbeChild,
   type ElbeColorKinds,
   type ElbeColorManners,
@@ -63,8 +64,11 @@ function _btn(
   );
 }
 
-export function Icon(p: { icon: IconChild | null }) {
+export function Icon(p: { icon: IconChild } & ElbeProps) {
   if (!p.icon) return null;
-  if (typeof p.icon === "function") return p.icon({});
-  return p.icon;
+  return (
+    <span {...applyProps("icon", p)}>
+      {typeof p.icon === "function" ? p.icon({}) : p.icon}
+    </span>
+  );
 }
