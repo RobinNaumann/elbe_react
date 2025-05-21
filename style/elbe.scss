@@ -74,7 +74,23 @@ body,
   &.dark :focus-visible{
     outline: .15rem solid white;
   }
-
 }
 
+// =============== TOOLTIP ===============
 
+._elbe_tooltip {
+  position: fixed;;
+  background-color: black;
+  color: white;
+  padding: .25rem .5rem;
+  border-radius: .25rem;
+  font-size: 1rem;
+  white-space: nowrap;
+  z-index: 101;
+  pointer-events: none;
+  
+  //animation: _tt_show 200ms ease-in forwards;
+  //opacity: 0;
+}
+
+//@keyframes _tt_show {100% {opacity: 1;}}

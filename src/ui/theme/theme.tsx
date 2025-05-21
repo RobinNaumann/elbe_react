@@ -1,3 +1,4 @@
+import { useEffect } from "preact/hooks";
 import "../../elbe.css";
 import { ToDo } from "../components/dev/todo";
 import { ColorTheme } from "./colors";
@@ -57,6 +58,8 @@ export function ElbeTheme(
 
   const config: ElbeThemeConfig = makeThemeConfig(p);
 
+  _addTooltip();
+
   return (
     <div
       class={`elbe ${config.dark ? "dark" : ""} ${
@@ -75,4 +78,46 @@ export function ElbeTheme(
       </ThemeConfigContext.Provider>
     </div>
   );
+}
+
+function _addTooltip() {
+  return useEffect(() => {
+    const _gap = 8;
+
+    console.log("add tooltip");
+
+    const onHover = (e: any) => {
+      const target = (e.target as Element | null)?.closest("[data-tooltip]");
+      if (!target) return;
+
+      // remove existing tooltip
+      const existingTooltip = document.querySelector("._elbe_tooltip");
+      if (existingTooltip) existingTooltip.remove();
+
+      // create new tooltip
+      let tooltip = document.createElement("div");
+      tooltip.className = "_elbe_tooltip";
+      tooltip.textContent = target.getAttribute("data-tooltip");
+      document.body.appendChild(tooltip);
+
+      const rect = target.getBoundingClientRect();
+      let top = rect.top - tooltip.offsetHeight - _gap;
+      let left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2;
+
+      // Adjust if out of viewport
+      if (top < 0) top = rect.bottom + _gap;
+      if (left < 0) left = _gap;
+      if (left + tooltip.offsetWidth > window.innerWidth)
+        left = window.innerWidth - tooltip.offsetWidth - _gap;
+
+      tooltip.style.top = `${top}px`;
+      tooltip.style.left = `${left}px`;
+
+      target.addEventListener("mouseleave", () => tooltip.remove(), {
+        once: true,
+      });
+    };
+    document.addEventListener("mouseover", onHover);
+    return () => document.removeEventListener("mouseover", onHover);
+  });
 }

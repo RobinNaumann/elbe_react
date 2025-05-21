@@ -103,6 +103,12 @@ export interface _BitGetInterface<D> {
    * returns true if a previous `data` state exists.
    */
   canGoBack: boolean;
+
+  /**
+   * reload the data. It will call the worker function again.
+   * If `silent` is true, it will not change the state to `loading`.
+   */
+  reload: (silent?: boolean) => void;
 }
 
 export interface _BitCtrlInput<D, P> extends _BitGetInterface<D> {

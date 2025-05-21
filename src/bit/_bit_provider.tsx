@@ -78,17 +78,27 @@ export function _makeBitProvider<D, P, I>(
 
       // ========== DEFINE QoL FUNCTIONS ==========
 
-      async function _worker(fn: () => PromiseOr<D>, silent?: boolean) {
+      async function _worker(
+        fn: () => PromiseOr<D>,
+        silent?: boolean,
+        reset?: boolean
+      ) {
         if (!silent) _partCtrl.setLoading();
         try {
-          const newData = await fn();
-          _partCtrl.setData(newData);
+          const newData: D = await fn();
+          if (!reset) return _partCtrl.setData(newData);
+
+          setState({
+            history: bitP.useHistory ? [newData] : [],
+            v: { type: "data", value: newData },
+          });
         } catch (e) {
           _partCtrl.setError(e);
         }
       }
 
-      const _reload = () => _worker(() => bitP.worker(p));
+      const _reload = (silent?: boolean) =>
+        _worker(() => bitP.worker(p), silent);
 
       async function act(fn: (data: D) => PromiseOr<D>, silent?: boolean) {
         const data = _partCtrl.data;
@@ -122,7 +132,10 @@ export function _makeBitProvider<D, P, I>(
         return map(
           (d) => onData(d),
           (e) =>
-            (onError ?? ((e) => <ErrorView error={e} retry={_reload} />))(e),
+            (
+              onError ??
+              ((e) => <ErrorView error={e} retry={() => _reload(false)} />)
+            )(e),
           () => onLoading ?? (() => <_LoadView />)()
         );
       }
@@ -134,7 +147,11 @@ export function _makeBitProvider<D, P, I>(
         mapUI,
       };
 
-      const userCtrl = bitP.control({ ...baseCtrl, parameters: p });
+      const userCtrl = bitP.control({
+        ...baseCtrl,
+        parameters: p,
+        reload: _reload,
+      });
 
       return {
         ...baseCtrl,
@@ -144,7 +161,7 @@ export function _makeBitProvider<D, P, I>(
     }
 
     const ctrl: BitUseInterface<D, I> = useMemo(() => _make(), [state]);
-    useEffect(() => ctrl.reload(), []);
+    useEffect(() => ctrl.reload(true), []);
 
     // ========== DEFINE THE JSX ELEMENT ==========
     return <context.Provider value={ctrl}>{p.children}</context.Provider>;

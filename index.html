@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>tl;dr redirect</title>
+</head>
+
+<body>
+    <a href="https://toolong.news">please go to toolong.news</a>
+    <script>
+        function logit() {
+            try {
+                fetch("https://moewe.robbb.in/api/use/0440977e331f2301/9a025c0bac328f05/log", {
+                    method: "post",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: "event", key: "tldr_redirect", data: {} })
+                });
+            }
+            catch (e) {
+            }
+        }
+
+        logit();
+        setTimeout(() => {
+            window.location.href = "https://toolong.news";
+        }, 100);
+
+
+    </script>
+</body>
+
+</html>

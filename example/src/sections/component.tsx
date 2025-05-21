@@ -57,6 +57,7 @@ export function ComponentsSection() {
         <_DialogGroup />
         <_ConfirmDialog />
         <_ToastGroup />
+        <_TooltipGroup />
       </ExampleSection>
       <ExampleSection title="Layout" anchor="layout">
         <_RowColGroup />
@@ -674,6 +675,20 @@ function _ToastGroup() {
         label="show toast"
         onTap={async () => showToast("this is a toast")}
       />
+    </ExampleGroup>
+  );
+}
+
+function _TooltipGroup() {
+  return (
+    <ExampleGroup
+      title="Tooltip"
+      description="most widgets come with a tooltip property. Use it to show a message on hover."
+      code={`<Card tooltip="this is a tooltip">...</Card>`}
+    >
+      <Card scheme="secondary" tooltip="this is a tooltip">
+        hover here
+      </Card>
     </ExampleGroup>
   );
 }

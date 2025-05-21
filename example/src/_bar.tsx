@@ -6,12 +6,13 @@ type _MiStade = {
 
 const nameBit = createBit({
   worker: async (p: { a: string }) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    //await new Promise((resolve) => setTimeout(resolve, 1000));
     return {
       name: p.a,
     } as _MiStade;
   },
   debugLabel: "nameBit",
+  useHistory: true,
   control: ({ act, parameters }) => ({
     setName: (name: string) =>
       act((_) => {
@@ -24,7 +25,7 @@ const nameBit = createBit({
 export function Tests({}) {
   return (
     <ElbeTheme>
-      <Card>
+      <Card tooltip="primary">
         <nameBit.Provider a={"hello"}>
           hello
           <_Consumer />
@@ -38,7 +39,7 @@ function _Consumer({}) {
   const bit = nameBit.use();
 
   return (
-    <Card scheme="secondary">
+    <Card scheme="secondary" tooltip="secondary">
       {bit.map<string>((d) => "data", "error") ?? "another"}
       {bit.mapUI((d) => (
         <Column>

@@ -16,10 +16,7 @@ export type BitTriMap<T, D> = {
   onError?: (e: any) => D;
   onData?: (value: T) => D;
 };
-export type BitUseInterface<D, I> = _BitGetInterface<D> &
-  I & {
-    reload: () => void;
-  };
+export type BitUseInterface<D, I> = _BitGetInterface<D> & I;
 
 export type BitParams<D, P, I> = {
   control?: _BitCtrlMaker<D, P, I>;
