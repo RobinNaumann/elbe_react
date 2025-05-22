@@ -84,8 +84,6 @@ function _addTooltip() {
   return useEffect(() => {
     const _gap = 8;
 
-    console.log("add tooltip");
-
     const onHover = (e: any) => {
       const target = (e.target as Element | null)?.closest("[data-tooltip]");
       if (!target) return;
@@ -112,6 +110,18 @@ function _addTooltip() {
 
       tooltip.style.top = `${top}px`;
       tooltip.style.left = `${left}px`;
+
+      // remove tooltip when target is removed or mouse leaves
+      const observer = new MutationObserver(() => {
+        if (
+          !document.body.contains(target) ||
+          (target as HTMLElement) === null
+        ) {
+          tooltip.remove();
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
 
       target.addEventListener("mouseleave", () => tooltip.remove(), {
         once: true,

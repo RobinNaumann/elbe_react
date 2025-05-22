@@ -16,7 +16,10 @@ const _noArgs: PostArgs = {};
  * to use it, you must first call `ApiService.init(apiURL)` with the base URL of your API.
  */
 export class ApiWorker {
-  public constructor(private apiURL: string) {}
+  public constructor(
+    private apiURL: string,
+    private o?: { credentials?: "omit" | "include" | "same-origin" }
+  ) {}
 
   private async _fetch(
     p: string,
@@ -35,9 +38,10 @@ export class ApiWorker {
 
       const queryStr =
         query != null ? "?" + new URLSearchParams(query as any).toString() : "";
+
       const response = await fetch(this.apiURL + p + queryStr, {
         method,
-        credentials: "include",
+        credentials: this.o?.credentials ?? "same-origin",
         headers: { "Content-Type": "application/json" },
         body: body ? JSON.stringify(body) : undefined,
       });

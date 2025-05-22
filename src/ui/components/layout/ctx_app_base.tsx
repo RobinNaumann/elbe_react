@@ -4,7 +4,6 @@ import { ElbeChild } from "../../util/types";
 import { HeaderLogos } from "./header";
 
 export interface _AppBaseState {
-  menuSelected: string | null;
   menuOpen: boolean;
   icons: HeaderLogos;
   globalActions: ElbeChild[];
@@ -12,7 +11,6 @@ export interface _AppBaseState {
 
 interface _AppBaseControl extends _AppBaseState {
   setMenuOpen: (open: boolean) => void;
-  setMenuSelected: (selected: string) => void;
 }
 export const AppBaseContext = createContext<_AppBaseControl | null>(null);
 

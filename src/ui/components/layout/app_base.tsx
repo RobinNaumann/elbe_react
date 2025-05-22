@@ -1,4 +1,6 @@
-import { useState } from "preact/compat";
+import { VNode } from "preact";
+import { NestedArray, Router, useLocation } from "preact-iso";
+import { useEffect, useState } from "preact/compat";
 import { Box, ElbeChild, HeaderLogos } from "../../..";
 import { AppBaseContext } from "./ctx_app_base";
 import { Menu, MenuItem } from "./menu";
@@ -7,6 +9,7 @@ export type AppBaseProps = HeaderLogos & {
   initial?: string;
   menu: MenuItem[];
   globalActions?: ElbeChild[];
+  children: NestedArray<VNode>;
 };
 
 /**
@@ -16,15 +19,12 @@ export type AppBaseProps = HeaderLogos & {
  * that will be displayed in the header of all pages.
  */
 export function AppBase(p: AppBaseProps) {
-  const [state, setState] = useState({
-    menuSelected: p.initial ?? p.menu[0]?.id ?? null,
-    menuOpen: false,
-  });
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <AppBaseContext.Provider
       value={{
-        ...state,
+        menuOpen: menuOpen,
         icons: {
           logo: p.logo,
           logoDark: p.logoDark,
@@ -32,8 +32,7 @@ export function AppBase(p: AppBaseProps) {
           endLogoDark: p.endLogoDark,
         },
         globalActions: p.globalActions ?? [],
-        setMenuOpen: (b) => setState({ ...state, menuOpen: b }),
-        setMenuSelected: (s) => setState({ ...state, menuSelected: s }),
+        setMenuOpen: (b) => setMenuOpen(b),
       }}
     >
       <Box
@@ -46,9 +45,22 @@ export function AppBase(p: AppBaseProps) {
       >
         <Menu items={p.menu} />
         <div style={{ flex: 1 }}>
-          {p.menu.find((i) => i.id == state.menuSelected)?.component ?? <div />}
+          <Router>
+            <Redirect path="/" to={`/${p.initial ?? p.menu[0].id}`} />
+            {p.children}
+          </Router>
         </div>
       </Box>
     </AppBaseContext.Provider>
   );
 }
+
+export const Redirect = (p: { path: string; to: string }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    location.route(p.to, true);
+  }, [p.to]);
+
+  return null; // This component doesn't render anything
+};

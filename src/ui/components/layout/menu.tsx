@@ -1,5 +1,6 @@
 import { MenuIcon } from "lucide-react";
-import { ElbeChild, useLayoutMode, useTheme, useThemeConfig } from "../../..";
+import { useLocation } from "preact-iso";
+import { useLayoutMode, useTheme, useThemeConfig } from "../../..";
 import { Card, elevatedShadow } from "../base/card";
 import { Button } from "../button/button";
 import { IconChild } from "../button/icon_button";
@@ -11,7 +12,7 @@ export type MenuItem = {
   label: string;
   icon?: IconChild;
   bottom?: boolean;
-  component?: ElbeChild;
+  disabled?: boolean;
 };
 
 export function Menu(p: { items: MenuItem[] }) {
@@ -146,18 +147,18 @@ export function Menu(p: { items: MenuItem[] }) {
 }
 
 function _MenuItemView({ item }: { item: MenuItem }) {
+  const location = useLocation();
   const appBase = useAppBase();
+
   return (
     <Button
       ariaLabel={item.label}
       contentAlign="start"
-      manner={item.id === appBase.menuSelected ? "major" : "plain"}
+      manner={location.path.startsWith(`/${item.id}`) ? "major" : "plain"}
       label={appBase.menuOpen ? item.label : undefined}
       icon={item.icon}
       onTap={
-        item.component != null
-          ? () => appBase.setMenuSelected(item.id)
-          : undefined
+        item.disabled ? undefined : () => location.route(`/${item.id}`, true)
       }
     />
   );
