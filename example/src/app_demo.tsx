@@ -49,7 +49,7 @@ export function AppDemo(p: { goBack: () => any }) {
           bottom
           path="/settings"
         >
-          Settings Page
+          <_SettingsPage />
         </MenuRoute>
       </AppBase>
     </L10n>
@@ -122,16 +122,40 @@ function _Home({}) {
 
 function _SecondPage({}) {
   return (
+    <Page
+      title="Second"
+      leading={
+        <IconButton.plain
+          ariaLabel="back"
+          onTap={() => showToast("a demo back button")}
+          icon={ChevronLeft}
+        />
+      }
+    >
+      hello
+    </Page>
+  );
+}
+
+function _SettingsPage({}) {
+  return (
     <>
       <Page
-        title="Second"
-        leading={
-          <IconButton.plain
-            ariaLabel="back"
+        title="Settings on this page"
+        centerTitle
+        actions={[
+          <Button.plain
+            ariaLabel="a demo back button"
             onTap={() => showToast("a demo back button")}
             icon={ChevronLeft}
-          />
-        }
+          />,
+          <Button.major
+            ariaLabel="a demo sprout icon"
+            onTap={() => showToast("sprout")}
+            label="sprout"
+            icon={SproutIcon}
+          />,
+        ]}
       >
         hello
       </Page>

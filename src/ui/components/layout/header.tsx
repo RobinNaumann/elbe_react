@@ -1,5 +1,5 @@
 import { ChevronLeft, MenuIcon, XIcon } from "lucide-react";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import {
   Card,
   ElbeChild,
@@ -78,18 +78,8 @@ export function Header(p: HeaderProps) {
         logoDark={p.logoDark ?? appBase?.icons.logoDark}
         lMargin={0.5}
       />
-      {typeof p.title === "string" ? (
-        <Text.h3
-          style={{
-            marginLeft: !appBase || layoutMode === "wide" ? ".5rem" : 0,
-          }}
-          align={p.centerTitle ? "center" : "start"}
-          flex={1}
-          v={p.title}
-        />
-      ) : (
-        <div style={{ flex: 1 }}>{p.title}</div>
-      )}
+      <div style={{ width: !appBase || layoutMode === "wide" ? ".5rem" : 0 }} />
+      <_HeaderTitle title={p.title} center={p.centerTitle ?? false} />
       <_Toolbar
         actions={[...(p.actions ?? []), ...(appBase?.globalActions ?? [])]}
       />
@@ -149,4 +139,36 @@ export function BackButton(p: { onTap: () => void }) {
 
 export function CloseButton(p: { onTap: () => void }) {
   return <IconButton.plain ariaLabel="close" onTap={p.onTap} icon={XIcon} />;
+}
+
+export function _HeaderTitle(p: {
+  title: string | ElbeChild;
+  center: boolean;
+}) {
+  const layoutMode = useLayoutMode();
+
+  const globalCenter = useMemo(() => {
+    return layoutMode !== "mobile" && p.center;
+  }, [layoutMode]);
+
+  return (
+    <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          transform: globalCenter
+            ? "translateX(-50%) translateY(-50%)"
+            : "none",
+          // align to center of the screen:
+          position: globalCenter ? "absolute" : "static",
+          left: globalCenter ? "50%" : "0",
+        }}
+      >
+        {typeof p.title === "string" ? (
+          <Text.h3 align={p.center ? "center" : "start"} v={p.title} />
+        ) : (
+          p.title
+        )}
+      </div>
+    </div>
+  );
 }
