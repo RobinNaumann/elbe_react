@@ -28,6 +28,7 @@ export * from "./ui/components/button/toggle_button";
 
 export * from "./ui/components/layout/alignment";
 export * from "./ui/components/layout/app_base";
+export * from "./ui/components/layout/ctx_app_base";
 export * from "./ui/components/layout/flex";
 export * from "./ui/components/layout/header";
 export * from "./ui/components/layout/page";

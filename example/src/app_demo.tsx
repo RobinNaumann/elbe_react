@@ -10,6 +10,7 @@ import {
   MenuRoute,
   Page,
   showToast,
+  useAppBase,
 } from "elbe-ui";
 import {
   ChevronLeft,
@@ -121,13 +122,14 @@ function _Home({}) {
 }
 
 function _SecondPage({}) {
+  const appBase = useAppBase();
   return (
     <Page
       title="Second"
       leading={
         <IconButton.plain
           ariaLabel="back"
-          onTap={() => showToast("a demo back button")}
+          onTap={() => appBase.go("/", true)}
           icon={ChevronLeft}
         />
       }
@@ -144,11 +146,6 @@ function _SettingsPage({}) {
         title="Settings on this page"
         centerTitle
         actions={[
-          <Button.plain
-            ariaLabel="a demo back button"
-            onTap={() => showToast("a demo back button")}
-            icon={ChevronLeft}
-          />,
           <Button.major
             ariaLabel="a demo sprout icon"
             onTap={() => showToast("sprout")}

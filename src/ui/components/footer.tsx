@@ -49,22 +49,24 @@ export function Footer({
       }}
     >
       <Column gap={0.5}>
-        <Row main="space-between" cross="start">
-          {left && (
-            <Column gap={0.5} flex={1} cross="start">
-              {left.map((item: any) =>
-                item.label ? <_Link {...item} /> : item
-              )}
-            </Column>
-          )}
-          {right && (
-            <Column gap={0.5} flex={1} cross="end">
-              {right.map((item: any) =>
-                item.label ? <_Link {...item} /> : item
-              )}
-            </Column>
-          )}
-        </Row>
+        {(left || right) && (
+          <Row main="space-between" cross="start">
+            {left && (
+              <Column gap={0.5} flex={1} cross="start">
+                {left.map((item: any) =>
+                  item.label ? <_Link {...item} /> : item
+                )}
+              </Column>
+            )}
+            {right && (
+              <Column gap={0.5} flex={1} cross="end">
+                {right.map((item: any) =>
+                  item.label ? <_Link {...item} /> : item
+                )}
+              </Column>
+            )}
+          </Row>
+        )}
         {(left || right) && (copyright || version || legal) && (
           <hr style={{ opacity: 0.7 }} />
         )}

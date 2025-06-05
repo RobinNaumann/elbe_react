@@ -7,9 +7,10 @@ export interface _AppBaseState {
   menuOpen: boolean;
   icons: HeaderLogos;
   globalActions: ElbeChild[];
+  go: (path: string, replace?: boolean) => void;
 }
 
-interface _AppBaseControl extends _AppBaseState {
+export interface _AppBaseControl extends _AppBaseState {
   setMenuOpen: (open: boolean) => void;
 }
 export const AppBaseContext = createContext<_AppBaseControl | null>(null);

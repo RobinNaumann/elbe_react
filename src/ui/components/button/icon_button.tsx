@@ -67,8 +67,14 @@ function _btn(
 export function Icon(p: { icon: IconChild } & ElbeProps) {
   if (!p.icon) return null;
   return (
-    <span {...applyProps("icon", p)}>
+    <div
+      {...applyProps("icon", p, null, {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      })}
+    >
       {typeof p.icon === "function" ? p.icon({}) : p.icon}
-    </span>
+    </div>
   );
 }

@@ -27,11 +27,20 @@ export type AppBaseProps = HeaderLogos & {
  *
  * Provide `wouter.Route` or `MenuRoute` components as children to define the routes and menu items.
  */
+
 export function AppBase(p: AppBaseProps) {
+  return (
+    <Router hook={p.hashBasedRouting ? useHashLocation : undefined}>
+      <_AppBase {...p} />
+    </Router>
+  );
+}
+function _AppBase(p: AppBaseProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuItems = useMemo(() => {
     return _extractMenuItems(p.children);
   }, [p.children]);
+  const [location, navigate] = wouter.useLocation();
 
   return (
     <AppBaseContext.Provider
@@ -45,6 +54,7 @@ export function AppBase(p: AppBaseProps) {
         },
         globalActions: p.globalActions ?? [],
         setMenuOpen: (b) => setMenuOpen(b),
+        go: (p, replace) => navigate(p, { replace: replace ?? false }),
       }}
     >
       <Box
@@ -57,9 +67,7 @@ export function AppBase(p: AppBaseProps) {
       >
         {menuItems.length > 0 && <Menu items={menuItems} />}
         <div style={{ flex: 1 }}>
-          <Router hook={p.hashBasedRouting ? useHashLocation : undefined}>
-            <wouter.Switch>{p.children}</wouter.Switch>
-          </Router>
+          <wouter.Switch>{p.children}</wouter.Switch>
         </div>
       </Box>
     </AppBaseContext.Provider>

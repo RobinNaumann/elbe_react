@@ -71,6 +71,7 @@ export function Header(p: HeaderProps) {
               icon={MenuIcon}
             />
           )}
+
       {p.leading === "back" && _backBtn}
       {p.leading === "close" && _closeBtn}
       <_Logo
@@ -78,7 +79,9 @@ export function Header(p: HeaderProps) {
         logoDark={p.logoDark ?? appBase?.icons.logoDark}
         lMargin={0.5}
       />
-      <div style={{ width: !appBase || layoutMode === "wide" ? ".5rem" : 0 }} />
+      {(!appBase || layoutMode === "wide") && (
+        <div style={{ margin: "-1rem", width: "1.5rem" }} />
+      )}
       <_HeaderTitle title={p.title} center={p.centerTitle ?? false} />
       <_Toolbar
         actions={[...(p.actions ?? []), ...(appBase?.globalActions ?? [])]}
@@ -152,7 +155,13 @@ export function _HeaderTitle(p: {
   }, [layoutMode]);
 
   return (
-    <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+    <div
+      style={{
+        flex: 1,
+        display: "flex",
+        justifyContent: p.center ? "center" : "flex-start",
+      }}
+    >
       <div
         style={{
           transform: globalCenter
