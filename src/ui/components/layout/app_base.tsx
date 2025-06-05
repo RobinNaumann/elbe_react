@@ -1,25 +1,37 @@
-import { VNode } from "preact";
-import { NestedArray, Router, useLocation } from "preact-iso";
-import { useEffect, useState } from "preact/compat";
-import { Box, ElbeChild, HeaderLogos } from "../../..";
+import { useMemo, useState } from "preact/compat";
+import { Router } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
+import {
+  Box,
+  ElbeChild,
+  ElbeRoute,
+  HeaderLogos,
+  isMenuRoute,
+  MenuItem,
+  wouter,
+} from "../../..";
 import { AppBaseContext } from "./ctx_app_base";
-import { Menu, MenuItem } from "./menu";
+import { Menu } from "./menu";
 
 export type AppBaseProps = HeaderLogos & {
-  initial?: string;
-  menu: MenuItem[];
   globalActions?: ElbeChild[];
-  children: NestedArray<VNode>;
+  children: ElbeRoute | ElbeRoute[];
+  hashBasedRouting?: boolean;
 };
 
 /**
- * app base is a layout component that provides a side menu and a content area.
+ * app base is a layout component that provides an optional side menu and a content area.
  * it is designed to be used as a base for other components and is
  * used to create a consistent layout for pages. You can also pass global actions
  * that will be displayed in the header of all pages.
+ *
+ * Provide `wouter.Route` or `MenuRoute` components as children to define the routes and menu items.
  */
 export function AppBase(p: AppBaseProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuItems = useMemo(() => {
+    return _extractMenuItems(p.children);
+  }, [p.children]);
 
   return (
     <AppBaseContext.Provider
@@ -43,11 +55,10 @@ export function AppBase(p: AppBaseProps) {
           minHeight: "100vh",
         }}
       >
-        <Menu items={p.menu} />
+        {menuItems.length > 0 && <Menu items={menuItems} />}
         <div style={{ flex: 1 }}>
-          <Router>
-            <Redirect path="/" to={`/${p.initial ?? p.menu[0].id}`} />
-            {p.children}
+          <Router hook={p.hashBasedRouting ? useHashLocation : undefined}>
+            <wouter.Switch>{p.children}</wouter.Switch>
           </Router>
         </div>
       </Box>
@@ -55,12 +66,12 @@ export function AppBase(p: AppBaseProps) {
   );
 }
 
-export const Redirect = (p: { path: string; to: string }) => {
-  const location = useLocation();
-
-  useEffect(() => {
-    location.route(p.to, true);
-  }, [p.to]);
-
-  return null; // This component doesn't render anything
-};
+function _extractMenuItems(children: ElbeRoute | ElbeRoute[]): MenuItem[] {
+  const childs = Array.isArray(children) ? children : [children];
+  const items: MenuItem[] = [];
+  for (const child of childs) {
+    if (!isMenuRoute(child)) continue;
+    items.push(child.props);
+  }
+  return items;
+}

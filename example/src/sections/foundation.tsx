@@ -1,6 +1,4 @@
-import { Button, Footer, Header, IconButton, Icons } from "elbe-ui";
-
-import { route } from "preact-router";
+import { Button, Footer, Header, IconButton, Icons, wouter } from "elbe-ui";
 import { ExampleGroup, ExampleSection } from "../util/section";
 
 export function FoundationSection({}) {
@@ -127,6 +125,8 @@ function _FooterGroup({}) {
 }*/
 
 function _AppBaseGroup({}) {
+  const [loc, navigate] = wouter.useLocation();
+
   return (
     <ExampleGroup
       title="App Base"
@@ -138,7 +138,7 @@ function _AppBaseGroup({}) {
     >
       <Button.minor
         ariaLabel="open demo"
-        onTap={() => route("/app")}
+        onTap={() => navigate("/app")}
         label="open demo"
       />
     </ExampleGroup>

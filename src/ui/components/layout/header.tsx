@@ -23,14 +23,14 @@ export type HeaderLogos = {
   endLogoDark?: string | ElbeChild;
 };
 
-export function Header(
-  p: HeaderLogos & {
-    leading?: ElbeChild | "back" | "close";
-    title: string | ElbeChild;
-    centerTitle?: boolean;
-    actions?: ElbeChild[];
-  }
-) {
+export type HeaderProps = HeaderLogos & {
+  leading?: ElbeChild | "back" | "close";
+  title: string | ElbeChild;
+  centerTitle?: boolean;
+  actions?: ElbeChild[];
+};
+
+export function Header(p: HeaderProps) {
   const appBase = maybeAppBase();
   const layoutMode = useLayoutMode();
   const scroll = useSiteScroll();

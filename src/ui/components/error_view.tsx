@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 import { icons } from "lucide-react";
-import { route } from "preact-router";
+import { useLocation } from "wouter";
 import {
   ElbeDialog,
   ElbeError,
@@ -72,6 +72,7 @@ export function PrettyErrorView({
 }) {
   const l10n = _maybeL10n();
   const openSig = useSignal(false);
+  const [loc, navigate] = useLocation();
 
   return (
     <div class="column padded cross-center" style="margin: 1rem 0">
@@ -86,7 +87,7 @@ export function PrettyErrorView({
         </button>
       )}
       {error.code === 404 && (
-        <button class="action" onClick={() => route("/")}>
+        <button class="action" onClick={() => navigate("/", { replace: true })}>
           <Icons.House />
           {l10n?.inline(labels.home) ?? "go home"}
         </button>

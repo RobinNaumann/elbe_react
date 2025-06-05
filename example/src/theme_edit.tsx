@@ -16,7 +16,7 @@ import { ThemeBit } from "./util/b_theme";
 export function ThemeEdit() {
   const openSig = useSignal(false);
   const themeBit = ThemeBit.use();
-  return themeBit.onData((v) => (
+  return themeBit.mapUI((v) => (
     <Card scheme="secondary" class="column">
       <div>
         Edit the theme in real time. There are even more options in the code
@@ -51,7 +51,7 @@ const labelStyle = {
 
 function _RoundSelect() {
   const themeBit = ThemeBit.use();
-  return themeBit.onData((d) => (
+  return themeBit.mapUI((d) => (
     <div class="column">
       <Text.h5 v="geometry" />
       <div class="row">
@@ -62,7 +62,7 @@ function _RoundSelect() {
           style={{ flex: 1 }}
           value={d.seed?.geometry?.radius ?? 0}
           onChange={(v) =>
-            themeBit.ctrl.setSeed({
+            themeBit.setSeed({
               geometry: {
                 ...d.seed.geometry,
                 radius: v,
@@ -80,7 +80,7 @@ function _RoundSelect() {
           style={{ flex: 1 }}
           value={d.seed?.geometry?.borderWidth ?? 0}
           onChange={(v) =>
-            themeBit.ctrl.setSeed({
+            themeBit.setSeed({
               geometry: {
                 ...d.seed.geometry,
                 borderWidth: v,
@@ -97,7 +97,7 @@ function _RoundSelect() {
 
 function _TypeSelect() {
   const themeBit = ThemeBit.use();
-  return themeBit.onData((v) => (
+  return themeBit.mapUI((v) => (
     <div class="column">
       <Text.h5 v="typography" />
       <div class="row">
@@ -120,7 +120,7 @@ function _TypeSelect() {
                 style={{ fontFamily: f }}
                 value={f === v.seed?.type?.heading?.family[0]}
                 onChange={() =>
-                  themeBit.ctrl.setSeed({
+                  themeBit.setSeed({
                     type: {
                       ...v.seed.type,
                       heading: {
@@ -142,7 +142,7 @@ function _TypeSelect() {
 
 function _AccentSelect() {
   const themeBit = ThemeBit.use();
-  return themeBit.onData((d) => (
+  return themeBit.mapUI((d) => (
     <div class="column" style="gap: 1.2rem">
       <Text.h5 v="color" />
       <div class="row">
@@ -156,7 +156,7 @@ function _AccentSelect() {
             ] as const
           }
           value={d.config.dark}
-          onChange={(v) => themeBit.ctrl.setConfig({ dark: v })}
+          onChange={(v) => themeBit.setConfig({ dark: v })}
         />
       </div>
 
@@ -176,7 +176,7 @@ function _AccentSelect() {
             ].map((c) => (
               <div
                 onClick={() =>
-                  themeBit.ctrl.setSeed({
+                  themeBit.setSeed({
                     ...d.seed,
                     color: { accent: LayerColor.fromHex(c) },
                   })

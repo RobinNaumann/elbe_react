@@ -6,55 +6,52 @@ import {
   Footer,
   Header,
   IconButton,
+  Icons,
+  MenuRoute,
+  Page,
   showToast,
 } from "elbe-ui";
 import {
   ChevronLeft,
-  CogIcon,
-  HomeIcon,
-  LeafIcon,
   LogOut,
   SproutIcon,
+  TreePalm,
   TreePine,
 } from "lucide-react";
-import { route } from "preact-router";
 import { L10n, useL10n } from "../l10n";
-
-export function AppDemo() {
+export function AppDemo(p: { goBack: () => any }) {
   return (
     <L10n>
       <AppBase
         endLogo="./assets/elbe_dark.png"
         endLogoDark="./assets/elbe_light.png"
-        menu={[
-          {
-            id: "home",
-            label: "Home",
-            icon: HomeIcon,
-            component: <_Home />,
-          },
-          {
-            id: "second",
-            label: "Second",
-            icon: LeafIcon,
-            component: <_SecondPage />,
-          },
-          {
-            id: "settings",
-            label: "Settings",
-            icon: CogIcon,
-            bottom: true,
-          },
-        ]}
         globalActions={[
           <Button.plain
             ariaLabel="back to demo"
-            onTap={() => route("/")}
+            onTap={() => p.goBack()}
             label="back to demo"
             icon={LogOut}
           />,
         ]}
-      />
+      >
+        <MenuRoute label="Home" icon={TreePine} path="/">
+          <_Home />
+        </MenuRoute>
+        <MenuRoute label="Second" icon={SproutIcon} path="/second">
+          <_SecondPage />
+        </MenuRoute>
+        <MenuRoute disabled label="Third" icon={TreePalm} path="/third">
+          none
+        </MenuRoute>
+        <MenuRoute
+          label="Settings"
+          icon={Icons.Settings}
+          bottom
+          path="/settings"
+        >
+          Settings Page
+        </MenuRoute>
+      </AppBase>
     </L10n>
   );
 }
@@ -126,16 +123,18 @@ function _Home({}) {
 function _SecondPage({}) {
   return (
     <>
-      <Header
+      <Page
         title="Second"
         leading={
           <IconButton.plain
             ariaLabel="back"
-            onTap={() => showToast("back")}
+            onTap={() => showToast("a demo back button")}
             icon={ChevronLeft}
           />
         }
-      />
+      >
+        hello
+      </Page>
     </>
   );
 }

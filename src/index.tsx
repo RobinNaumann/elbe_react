@@ -1,13 +1,13 @@
 import * as Lucide from "lucide-react";
 import "./elbe.css";
 
+export * as wouter from "wouter";
+
 // exports
 export * from "./api/api_worker";
 export * from "./api/error";
 export * from "./api/errors";
 export * from "./bit/bit";
-export * from "./bit/old/old_bit";
-export * from "./bit/old/old_ctrl_bit";
 export * from "./ui/util/confirm_dialog";
 export * from "./ui/util/ctx_toolbar";
 export * from "./ui/util/l10n/l10n";
@@ -19,6 +19,8 @@ export * from "./ui/components/base/box";
 export * from "./ui/components/base/card";
 export * from "./ui/components/base/padded";
 
+export * from "./ui/components/routing/route";
+
 export * from "./ui/components/button/button";
 export * from "./ui/components/button/choose_button";
 export * from "./ui/components/button/icon_button";
@@ -28,6 +30,7 @@ export * from "./ui/components/layout/alignment";
 export * from "./ui/components/layout/app_base";
 export * from "./ui/components/layout/flex";
 export * from "./ui/components/layout/header";
+export * from "./ui/components/layout/page";
 export * from "./ui/components/layout/scroll";
 export * from "./ui/components/layout/spaced";
 

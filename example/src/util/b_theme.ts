@@ -1,22 +1,21 @@
 import {
   colors,
-  CtrlBit,
+  createBit,
   ElbeThemeConfig,
   ElbeThemeSeed,
   LayerColor,
   makeThemeConfig,
-  WorkerControl,
 } from "elbe-ui";
 
-type Inputs = {};
 type Data = {
   config: Partial<ElbeThemeConfig>;
   seed: ElbeThemeSeed;
 };
 
-class _Ctrl extends WorkerControl<Inputs, Data> {
-  async worker() {
-    return {
+export const ThemeBit = createBit({
+  debugLabel: "ThemeBit",
+  worker: () =>
+    ({
       config: makeThemeConfig({}),
       seed: {
         color: {
@@ -34,39 +33,30 @@ class _Ctrl extends WorkerControl<Inputs, Data> {
           borderWidth: 0.125,
         },
       },
-    };
-  }
-
-  setConfig(c: Partial<ElbeThemeConfig>) {
-    this.bit.map({
-      onData: (v) => {
-        this.bit.emit({
+    } as Data),
+  useHistory: false,
+  control: ({ act, parameters }) => ({
+    setConfig: (c: Partial<ElbeThemeConfig>) =>
+      act(
+        (v) => ({
           ...v,
           config: {
             ...v.config,
             ...c,
           },
-        });
-      },
-    });
-  }
-
-  setSeed(s: Partial<ElbeThemeSeed>) {
-    this.bit.map({
-      onData: (v) => {
-        this.bit.emit({
+        }),
+        true
+      ),
+    setSeed: (s: Partial<ElbeThemeSeed>) =>
+      act(
+        (v) => ({
           ...v,
           seed: {
             ...v.seed,
             ...s,
           },
-        });
-      },
-    });
-  }
-}
-
-export const ThemeBit = CtrlBit<Inputs, Data, _Ctrl>(
-  (p, b) => new _Ctrl(p, b),
-  "Theme"
-);
+        }),
+        true
+      ),
+  }),
+});

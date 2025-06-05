@@ -1,19 +1,10 @@
 import { MenuIcon } from "lucide-react";
-import { useLocation } from "preact-iso";
-import { useLayoutMode, useTheme, useThemeConfig } from "../../..";
+import { useLocation } from "wouter";
+import { MenuItem, useLayoutMode, useTheme, useThemeConfig } from "../../..";
 import { Card, elevatedShadow } from "../base/card";
 import { Button } from "../button/button";
-import { IconChild } from "../button/icon_button";
 import { useAppBase } from "./ctx_app_base";
 import { Column } from "./flex";
-
-export type MenuItem = {
-  id: string;
-  label: string;
-  icon?: IconChild;
-  bottom?: boolean;
-  disabled?: boolean;
-};
 
 export function Menu(p: { items: MenuItem[] }) {
   const layoutMode = useLayoutMode();
@@ -147,19 +138,21 @@ export function Menu(p: { items: MenuItem[] }) {
 }
 
 function _MenuItemView({ item }: { item: MenuItem }) {
-  const location = useLocation();
+  const [location, navigate] = useLocation();
   const appBase = useAppBase();
 
   return (
     <Button
       ariaLabel={item.label}
       contentAlign="start"
-      manner={location.path.startsWith(`/${item.id}`) ? "major" : "plain"}
+      manner={
+        (item.path === "/" ? location === "/" : location.startsWith(item.path))
+          ? "major"
+          : "plain"
+      }
       label={appBase.menuOpen ? item.label : undefined}
       icon={item.icon}
-      onTap={
-        item.disabled ? undefined : () => location.route(`/${item.id}`, true)
-      }
+      onTap={item.disabled ? undefined : () => navigate(item.path)}
     />
   );
 }

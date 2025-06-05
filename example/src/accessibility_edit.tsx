@@ -5,7 +5,7 @@ import { ThemeBit } from "./util/b_theme";
 export function AccessibilityEdit() {
   const openSig = useSignal(false);
   const themeBit = ThemeBit.use();
-  return themeBit.onData((v) => (
+  return themeBit.mapUI((v) => (
     <Card scheme="secondary" class="column">
       <div>explore the accessibility options</div>
 
@@ -23,25 +23,25 @@ const labelStyle = {
 
 function _OptionsSelect() {
   const themeBit = ThemeBit.use();
-  return themeBit.onData((v) => (
+  return themeBit.mapUI((v) => (
     <Row wrap>
       <ToggleButton
         ariaLabel="high visibility"
         value={v.config.highVis}
         label="high visibility"
-        onChange={(v) => themeBit.ctrl.setConfig({ highVis: v })}
+        onChange={(v) => themeBit.setConfig({ highVis: v })}
       />
       <ToggleButton
         ariaLabel="reduced motion"
         value={v.config.reducedMotion}
         label="reduced motion"
-        onChange={(v) => themeBit.ctrl.setConfig({ reducedMotion: v })}
+        onChange={(v) => themeBit.setConfig({ reducedMotion: v })}
       />
       <ToggleButton
         ariaLabel="larger text"
         value={v.config.scale > 1}
         label="larger text"
-        onChange={(v) => themeBit.ctrl.setConfig({ scale: v ? 1.25 : 1 })}
+        onChange={(v) => themeBit.setConfig({ scale: v ? 1.25 : 1 })}
       />
     </Row>
   ));
