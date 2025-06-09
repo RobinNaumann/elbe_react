@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "preact/hooks";
 import {
   Card,
   ElbeChild,
+  ElbeColorSchemes,
   IconButton,
   Text,
   useLayoutMode,
@@ -28,6 +29,7 @@ export type HeaderProps = HeaderLogos & {
   title: string | ElbeChild;
   centerTitle?: boolean;
   actions?: ElbeChild[];
+  scheme?: ElbeColorSchemes;
 };
 
 export function Header(p: HeaderProps) {
@@ -39,7 +41,7 @@ export function Header(p: HeaderProps) {
   return (
     <Card
       padding={0}
-      scheme="primary"
+      scheme={p.scheme ?? "primary"}
       bordered
       frosted={!tConfig.highVis}
       sharp
@@ -74,11 +76,13 @@ export function Header(p: HeaderProps) {
 
       {p.leading === "back" && _backBtn}
       {p.leading === "close" && _closeBtn}
-      <_Logo
-        logo={p.logo ?? appBase?.icons.logo}
-        logoDark={p.logoDark ?? appBase?.icons.logoDark}
-        lMargin={0.5}
-      />
+      {layoutMode !== "mobile" && (
+        <_Logo
+          logo={p.logo ?? appBase?.icons.logo}
+          logoDark={p.logoDark ?? appBase?.icons.logoDark}
+          lMargin={0.5}
+        />
+      )}
       {(!appBase || layoutMode === "wide") && (
         <div style={{ margin: "-1rem", width: "1.5rem" }} />
       )}

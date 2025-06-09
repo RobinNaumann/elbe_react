@@ -7,6 +7,8 @@ import { Header, HeaderProps } from "./header";
 type ContentBaseProps = {
   padding?: number;
   narrow?: boolean;
+  noScroll?: boolean;
+  scheme?: string;
 };
 
 /**
@@ -29,18 +31,20 @@ export function Page(
     delete headerProps.footer;
     delete headerProps.padding;
     delete headerProps.narrow;
+    delete headerProps.noScroll;
     setHasHeader(Object.keys(headerProps).length > 0);
   });
 
   return (
     <Box
-      scheme="primary"
+      scheme={p.scheme ?? "primary"}
       typeLabel="page"
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "stretch",
         minHeight: "100vh",
+        height: p.noScroll ? "100vh" : "auto",
       }}
     >
       {hasHeader && <Header {...p} />}
@@ -63,6 +67,7 @@ function _ContentBase(
     <Column
       style={{
         flex: 1,
+        minHeight: 0,
         padding: p.padding ? `${p.padding}rem` : "1rem",
         width: p.narrow ? "min(100%, 900px)" : "auto",
         margin: p.narrow ? "0 auto" : "0",
