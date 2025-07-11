@@ -1,6 +1,12 @@
 import { MenuIcon } from "lucide-react";
 import { useLocation } from "wouter";
-import { MenuItem, useLayoutMode, useTheme, useThemeConfig } from "../../..";
+import {
+  _Logo,
+  MenuItem,
+  useLayoutMode,
+  useTheme,
+  useThemeConfig,
+} from "../../..";
 import { Card, elevatedShadow } from "../base/card";
 import { Button } from "../button/button";
 import { useAppBase } from "./ctx_app_base";
@@ -21,20 +27,20 @@ export function Menu(p: { items: MenuItem[] }) {
     else topBot.top.push(i);
   }
 
-  const wideOrOpen = () => appBase.menuOpen || layoutMode == "wide";
+  const wideOrOpen = () => appBase.menuOpen || layoutMode.isWide;
 
   const menuWidth = () =>
     appBase.menuOpen
-      ? layoutMode === "mobile"
+      ? layoutMode.isMobile
         ? "100vw"
         : `${17 + theme.geometry.borderWidth}rem`
-      : layoutMode === "wide"
+      : layoutMode.isWide
       ? `${4 + theme.geometry.borderWidth}rem`
       : "0";
 
   return (
     <>
-      {layoutMode == "wide" && (
+      {layoutMode.isWide && (
         <div
           style={{
             width: menuWidth(),
@@ -53,7 +59,7 @@ export function Menu(p: { items: MenuItem[] }) {
           height: 0,
           backgroundColor: "rgba(0,0,0,0)",
           transition: "background-color 200ms ease-in-out",
-          ...(layoutMode === "narrow" && appBase.menuOpen
+          ...(layoutMode.isNarrow && appBase.menuOpen
             ? {
                 backdropFilter: "blur(5px)",
                 backgroundColor: "rgba(0,0,0,.2)",
@@ -66,10 +72,10 @@ export function Menu(p: { items: MenuItem[] }) {
 
       <Card
         onTap={() => {
-          if (layoutMode == "wide") return;
+          if (layoutMode.isWide) return;
           appBase.setMenuOpen(false);
         }}
-        sharp={layoutMode == "mobile"}
+        sharp={layoutMode.isMobile}
         bordered
         scheme="primary"
         padding={wideOrOpen() ? 0.5 : 0}
@@ -98,7 +104,7 @@ export function Menu(p: { items: MenuItem[] }) {
             ? "none"
             : "width 200ms ease-in-out",
 
-          ...(layoutMode === "narrow" && appBase.menuOpen
+          ...(layoutMode.isNarrow && appBase.menuOpen
             ? {
                 boxShadow: elevatedShadow,
               }
@@ -116,7 +122,15 @@ export function Menu(p: { items: MenuItem[] }) {
                 marginBottom: ".5rem",
                 borderRadius: "3rem",
               }}
-            />
+            >
+              {!layoutMode.isWide && (
+                <_Logo
+                  logo={appBase?.icons.logo}
+                  logoDark={appBase?.icons.logoDark}
+                  lMargin={0.5}
+                />
+              )}
+            </Button.plain>
             <Column
               flex={1}
               scroll

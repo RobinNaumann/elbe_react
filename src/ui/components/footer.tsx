@@ -43,7 +43,7 @@ export function Footer({
         borderLeft: "none",
         borderRight: "none",
         borderBottom: "none",
-        borderTopLeftRadius: layoutMode === "wide" ? "var(--g-radius)" : null,
+        borderTopLeftRadius: layoutMode.isWide ? "var(--g-radius)" : null,
         color: "color-mix(in srgb, var(--c-context-front) 60%, transparent)",
         marginTop: `${marginTop ?? 0}rem`,
       }}

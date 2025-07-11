@@ -62,16 +62,45 @@ export function randomAlphaNum(length: int, prefix = ""): string {
 
 export type LayoutModes = "mobile" | "narrow" | "wide";
 
-function _layoutMode(): LayoutModes {
+export type LayoutModeInfo = {
+  mode: LayoutModes;
+  screenWidth: number;
+  screenHeight: number;
+  isMobile: boolean;
+  isNarrow: boolean;
+  isWide: boolean;
+};
+
+function _layoutMode() {
   const w = window.innerWidth;
   if (w < 700) return "mobile";
   if (w < 1100) return "narrow";
   return "wide";
 }
-export function useLayoutMode(): LayoutModes {
-  const [mode, setMode] = useState(_layoutMode());
+
+function _layoutModeInfo(): LayoutModeInfo {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const mode = _layoutMode();
+  return {
+    mode,
+    screenWidth: w,
+    screenHeight: h,
+    isMobile: mode === "mobile",
+    isNarrow: mode === "narrow",
+    isWide: mode === "wide",
+  };
+}
+
+/**
+ * check the current layout mode based on the window width.
+ * This will return an object with the current mode and screen dimensions.
+ * @returns a LayoutModeInfo object
+ */
+export function useLayoutMode(): LayoutModeInfo {
+  const [mode, setMode] = useState<LayoutModeInfo>(_layoutModeInfo());
   useEffect(() => {
-    const onResize = () => setMode(_layoutMode());
+    const onResize = () => setMode(_layoutModeInfo());
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   });

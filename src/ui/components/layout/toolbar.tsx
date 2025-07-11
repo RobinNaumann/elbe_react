@@ -20,7 +20,7 @@ export function _Toolbar(p: { actions: ElbeChild[] }) {
   const layoutMode = useLayoutMode();
 
   useEffect(() => {
-    const cutoff = layoutMode === "wide" ? 5 : 2;
+    const cutoff = layoutMode.isWide ? 5 : layoutMode.screenWidth < 400 ? 1 : 2;
 
     const bar: ElbeChild[] = [];
     const overflow: ElbeChild[] = [];

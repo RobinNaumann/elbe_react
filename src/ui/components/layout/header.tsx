@@ -66,7 +66,7 @@ export function Header(p: HeaderProps) {
       {p.leading && p.leading !== "back" && p.leading !== "close"
         ? p.leading
         : appBase &&
-          layoutMode != "wide" && (
+          !layoutMode.isWide && (
             <IconButton.plain
               ariaLabel="open/close menu"
               onTap={() => appBase.setMenuOpen(!appBase.menuOpen)}
@@ -76,21 +76,21 @@ export function Header(p: HeaderProps) {
 
       {p.leading === "back" && _backBtn}
       {p.leading === "close" && _closeBtn}
-      {layoutMode !== "mobile" && (
+      {!layoutMode.isMobile && (
         <_Logo
           logo={p.logo ?? appBase?.icons.logo}
           logoDark={p.logoDark ?? appBase?.icons.logoDark}
           lMargin={0.5}
         />
       )}
-      {(!appBase || layoutMode === "wide") && (
+      {(!appBase || layoutMode.isWide) && (
         <div style={{ margin: "-1rem", width: "1.5rem" }} />
       )}
       <_HeaderTitle title={p.title} center={p.centerTitle ?? false} />
       <_Toolbar
         actions={[...(p.actions ?? []), ...(appBase?.globalActions ?? [])]}
       />
-      {layoutMode === "wide" && (
+      {layoutMode.isWide && (
         <_Logo
           logo={p.endLogo ?? appBase?.icons.endLogo}
           logoDark={p.endLogoDark ?? appBase?.icons.endLogoDark}
@@ -101,7 +101,8 @@ export function Header(p: HeaderProps) {
   );
 }
 
-function _Logo(p: {
+export function _Logo(p: {
+  flex?: boolean;
   logo: string | ElbeChild;
   logoDark?: string | ElbeChild | null;
   lMargin?: number;
@@ -117,6 +118,7 @@ function _Logo(p: {
   return !logo ? null : (
     <div
       style={{
+        flex: p.flex ? 1 : null,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -155,7 +157,7 @@ export function _HeaderTitle(p: {
   const layoutMode = useLayoutMode();
 
   const globalCenter = useMemo(() => {
-    return layoutMode !== "mobile" && p.center;
+    return !layoutMode.isMobile && p.center;
   }, [layoutMode]);
 
   return (
