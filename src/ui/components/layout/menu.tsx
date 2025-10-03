@@ -44,6 +44,7 @@ export function Menu(p: { items: MenuItem[] }) {
         <div
           style={{
             width: menuWidth(),
+            minWidth: menuWidth(),
           }}
         />
       )}

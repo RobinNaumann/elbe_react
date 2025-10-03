@@ -58,6 +58,7 @@ function _AppBase(p: AppBaseProps) {
       }}
     >
       <Box
+        typeLabel="app_base"
         scheme="primary"
         style={{
           display: "flex",
@@ -66,7 +67,7 @@ function _AppBase(p: AppBaseProps) {
         }}
       >
         {menuItems.length > 0 && <Menu items={menuItems} />}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, width: "0px" }}>
           <wouter.Switch>{p.children}</wouter.Switch>
         </div>
       </Box>
