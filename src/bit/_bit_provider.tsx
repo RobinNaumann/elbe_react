@@ -21,7 +21,7 @@ function _LoadView({}) {
 }
 
 export function _makeBitProvider<D, P, I>(
-  context: Context<BitUseInterface<D, I>>,
+  context: Context<BitUseInterface<D, P, I>>,
   bitP: BitParams<D, P, I> & {
     control: _BitCtrlMaker<D, P, I>;
   }
@@ -157,10 +157,11 @@ export function _makeBitProvider<D, P, I>(
         ...baseCtrl,
         ...userCtrl,
         reload: _reload,
+        parameters: p,
       };
     }
 
-    const ctrl: BitUseInterface<D, I> = useMemo(() => _make(), [state]);
+    const ctrl: BitUseInterface<D, P, I> = useMemo(() => _make(), [state]);
     useEffect(() => ctrl.reload(true), []);
 
     // ========== DEFINE THE JSX ELEMENT ==========

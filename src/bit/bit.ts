@@ -16,7 +16,10 @@ export type BitTriMap<T, D> = {
   onError?: (e: any) => D;
   onData?: (value: T) => D;
 };
-export type BitUseInterface<D, I> = _BitGetInterface<D> & I;
+export type BitUseInterface<D, P, I> = _BitGetInterface<D> &
+  I & {
+    parameters: P;
+  };
 
 export type BitParams<D, P, I> = {
   control?: _BitCtrlMaker<D, P, I>;
@@ -29,7 +32,7 @@ export function createBit<D, P extends Object, I>({
   control = () => ({} as I),
   ...p
 }: BitParams<D, P, I>): _BitInterface<D, P, I> {
-  const context = createContext<BitUseInterface<D, I>>(null as any);
+  const context = createContext<BitUseInterface<D, P, I>>(null as any);
   {
     return {
       Provider: _makeBitProvider<D, P, I>(context, { ...p, control }),

@@ -140,7 +140,7 @@ export type _BitProvider<P> = (
 
 export interface _BitInterface<D, P, I> {
   Provider: _BitProvider<P>;
-  use: () => BitUseInterface<D, I>;
+  use: () => BitUseInterface<D, P, I>;
 }
 
 export function _isFn<T>(f: any): f is (d: T) => any {
