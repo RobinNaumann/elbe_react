@@ -1,6 +1,5 @@
-import { useSignal } from "@preact/signals";
 import { icons } from "lucide-react";
-import { useLocation } from "wouter";
+import { useState } from "react";
 import {
   ElbeDialog,
   ElbeError,
@@ -8,6 +7,7 @@ import {
   Icons,
   L10nInlinePlain,
   toElbeError,
+  Wouter,
 } from "../..";
 import { _maybeL10n } from "../util/l10n/_l10n_util";
 
@@ -20,13 +20,18 @@ export function ErrorView({
   retry?: () => any;
   debug?: boolean;
 }) {
+  const l10n = _maybeL10n();
   const apiError: ElbeError = toElbeError(error);
+  const fallback =
+    typeof apiError.message === "string"
+      ? apiError.message
+      : "An error occurred";
   return !debug ? (
     <PrettyErrorView error={apiError} retry={retry} />
   ) : (
-    <div class="column padded card inverse cross-stretch">
-      <h3 style="margin: 0">ERROR: {apiError.code}</h3>
-      <p>{apiError.message}</p>
+    <div className="column padded card inverse cross-stretch">
+      <h3 style={{ margin: 0 }}>ERROR: {apiError.code}</h3>
+      <p>{l10n?.inline(apiError.message) ?? fallback}</p>
       <pre>{JSON.stringify(apiError, null, 2)}</pre>
     </div>
   );
@@ -71,33 +76,36 @@ export function PrettyErrorView({
   };
 }) {
   const l10n = _maybeL10n();
-  const openSig = useSignal(false);
-  const [loc, navigate] = useLocation();
+  const [open, setOpen] = useState(false);
+  const [loc, navigate] = Wouter.useLocation();
 
   return (
-    <div class="column padded cross-center" style="margin: 1rem 0">
+    <div className="column padded cross-center" style={{ margin: "1rem 0" }}>
       <Icon icon={error.icon ?? icons.OctagonAlert} />
-      <h4 style="margin: 0">{l10n?.inline(error.message) ?? "error"}</h4>
-      <span class="pointer" onClick={() => (openSig.value = true)}>
+      <h4 style={{ margin: 0 }}>{l10n?.inline(error.message) ?? "error"}</h4>
+      <span className="pointer" onClick={() => setOpen(true)}>
         {l10n?.inline(error.description) ?? ""}
       </span>
       {retry && (
-        <button class="action" onClick={() => retry()}>
+        <button className="action" onClick={() => retry()}>
           <Icons.RotateCcw /> {l10n?.inline(labels.retry) ?? "retry"}
         </button>
       )}
       {error.code === 404 && (
-        <button class="action" onClick={() => navigate("/", { replace: true })}>
+        <button
+          className="action"
+          onClick={() => navigate("/", { replace: true })}
+        >
           <Icons.House />
           {l10n?.inline(labels.home) ?? "go home"}
         </button>
       )}
       <ElbeDialog
         title={l10n?.inline(labels.details) ?? "error details"}
-        open={openSig.value}
-        onClose={() => (openSig.value = false)}
+        open={open}
+        onClose={() => setOpen(false)}
       >
-        <pre class="card inverse">
+        <pre className="card inverse">
           {`code: ${error.code}\n\n` + JSON.stringify(error.details, null, 2)}
         </pre>
       </ElbeDialog>

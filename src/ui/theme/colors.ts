@@ -91,7 +91,6 @@ export class RGBAColor {
     if (!hex) return new RGBAColor(0, 0, 0, 0);
 
     const c = hex.replace("#", "").padEnd(6, "0").padEnd(8, "f").toLowerCase();
-    console.log(c);
     return new RGBAColor(
       parseInt(c.substring(0, 2), 16),
       parseInt(c.substring(2, 4), 16),

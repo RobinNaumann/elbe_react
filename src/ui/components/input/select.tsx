@@ -16,7 +16,6 @@ export function Select({
     <select
       {...applyProps("select", elbe)}
       value={value}
-      label={label}
       role={"combobox"}
       onChange={(e) => onChange(e.currentTarget.value)}
     >

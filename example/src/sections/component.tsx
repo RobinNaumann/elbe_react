@@ -1,4 +1,3 @@
-import { useSignal } from "@preact/signals";
 import {
   Badge,
   Banner,
@@ -24,9 +23,11 @@ import {
   Switch,
   Text,
   ToggleButton,
+  type ElbeAlertKinds,
+  type ElbeColorSchemes,
 } from "elbe-ui";
-import { useEffect, useState } from "preact/hooks";
 
+import { useEffect, useState } from "react";
 import { ExampleGroup, ExampleSection, useConfigSignal } from "../util/section";
 
 export function ComponentsSection() {
@@ -97,7 +98,7 @@ function _TextInputGroup() {
         leading={Icons.User}
         trailing={Icons.Leaf}
         onTrailingTap={() => showToast("trailing icon click")}
-        onInput={disabledSig.signal.value ? null : () => {}}
+        onInput={disabledSig.signal.value ? undefined : () => {}}
         infoMessage={msgSig.signal.value ? "this is an info" : undefined}
       />
       <Field.password
@@ -107,7 +108,7 @@ function _TextInputGroup() {
         hint="your password"
         tooltip="heyoo"
         value=""
-        onInput={disabledSig.signal.value ? null : () => {}}
+        onInput={disabledSig.signal.value ? undefined : () => {}}
         warningMessage={msgSig.signal.value ? "this is a warning" : undefined}
       />
       <Field.date
@@ -116,7 +117,7 @@ function _TextInputGroup() {
         label="birthday"
         value=""
         flex={flexSig.signal.value}
-        onInput={disabledSig.signal.value ? null : () => {}}
+        onInput={disabledSig.signal.value ? undefined : () => {}}
         errorMessage={msgSig.signal.value ? "this is an error" : undefined}
       />
       <Field.multiLine
@@ -126,7 +127,7 @@ function _TextInputGroup() {
         value=""
         flex={flexSig.signal.value}
         successMessage={msgSig.signal.value ? "this is a success" : undefined}
-        onInput={disabledSig.signal.value ? null : () => {}}
+        onInput={disabledSig.signal.value ? undefined : () => {}}
       />
     </ExampleGroup>
   );
@@ -140,8 +141,8 @@ function _BoxGroup() {
       classes="row wrap"
       code={`<Box.secondary>...</Box.secondary>`}
     >
-      {["primary", "secondary", "inverse"].map((v) => (
-        <Box scheme={v as any} padding={0.5}>
+      {["primary", "secondary", "inverse"].map((v, i) => (
+        <Box key={i} scheme={v as ElbeColorSchemes} padding={0.5}>
           {v}
         </Box>
       ))}
@@ -160,8 +161,12 @@ function _CardGroup() {
       code={`<Card scheme="primary">...</Card>`}
       config={[borderedSig]}
     >
-      {["primary", "secondary", "inverse"].map((v) => (
-        <Card scheme={v as any} bordered={borderedSig.signal.value}>
+      {["primary", "secondary", "inverse"].map((v, i) => (
+        <Card
+          key={i}
+          scheme={v as ElbeColorSchemes}
+          bordered={borderedSig.signal.value}
+        >
           {v}
         </Card>
       ))}
@@ -209,13 +214,16 @@ function _IconButtonGroup() {
       config={[enabledSig]}
       code={`<IconButton.minor icon={Icons.leaf} onTap={...} />`}
     >
-      {cManners.map((v) => (
+      {cManners.map((v, i) => (
         <IconButton
+          key={i}
           ariaLabel="icon button"
           manner={v}
           icon={Icons.Leaf}
           onTap={
-            enabledSig.signal.value && (() => showToast("button was tapped"))
+            enabledSig.signal.value
+              ? () => showToast("button was tapped")
+              : undefined
           }
         />
       ))}
@@ -235,14 +243,17 @@ function _ButtonGroup() {
       config={[enabledSig, iconSig]}
       code={`<Button.minor icon={Icons.leaf} label="hey" onTap={...} />`}
     >
-      {cManners.map((v) => (
+      {cManners.map((v, i) => (
         <Button
+          key={i}
           ariaLabel="a button"
           manner={v}
           icon={iconSig.signal.value && Icons.Leaf}
           label={v}
           onTap={
-            enabledSig.signal.value && (() => showToast("button was tapped"))
+            enabledSig.signal.value
+              ? () => showToast("button was tapped")
+              : undefined
           }
         />
       ))}
@@ -253,7 +264,7 @@ function _ButtonGroup() {
 function _ToggleButtonGroup() {
   const iconSig = useConfigSignal("icon", true);
   const enabledSig = useConfigSignal("enabled", true);
-  const selSig = useSignal(true);
+  const [sel, setSel] = useState(false);
 
   return (
     <ExampleGroup
@@ -274,8 +285,8 @@ function _ToggleButtonGroup() {
         ariaLabel="a toggle button"
         icon={iconSig.signal.value ? Icons.Leaf : null}
         label="foliage"
-        onChange={enabledSig.signal.value ? (v) => (selSig.value = v) : null}
-        value={selSig.value}
+        onChange={enabledSig.signal.value ? (v) => setSel(v) : undefined}
+        value={sel}
       />
     </ExampleGroup>
   );
@@ -323,7 +334,7 @@ function _ChooseButtonGroup() {
             value: "palm",
           },
         ]}
-        onChange={enabledSig.signal.value ? (key) => setVal(key) : null}
+        onChange={enabledSig.signal.value ? (key) => setVal(key) : undefined}
         value={val}
       />
     </ExampleGroup>
@@ -347,8 +358,9 @@ function _ProgressBarGroup() {
       classes="column cross-stretch gap-double"
       code={`<ProgressBar value={5} max={100} plain />`}
     >
-      {[false, true].map((m) => (
+      {[false, true].map((m, i) => (
         <ProgressBar
+          key={i}
           value={(loadVal + (m ? 0 : 30)) % 110}
           max={100}
           plain={m}
@@ -366,8 +378,8 @@ function _SpinnerGroup() {
       classes="row wrap"
       code={`<Spinner.flat />`}
     >
-      {["flat", "plain"].map((m) => (
-        <Spinner manner={m as any} />
+      {["flat", "plain"].map((m, i) => (
+        <Spinner key={i} manner={m as "plain" | "flat" | undefined} />
       ))}
     </ExampleGroup>
   );
@@ -439,7 +451,7 @@ function _CheckBoxGroup() {
         value={val}
         compact={compactSig.signal.value}
         label="agree"
-        onChange={enabledSig.signal.value ? (v) => setVal(!val) : null}
+        onChange={enabledSig.signal.value ? () => setVal(!val) : null}
       />
     </ExampleGroup>
   );
@@ -463,7 +475,7 @@ function _SwitchGroup() {
         ariaLabel="switch"
         value={val}
         compact={compactSig.signal.value}
-        onChange={enabledSig.signal.value ? (v) => setVal(!val) : null}
+        onChange={enabledSig.signal.value ? () => setVal(!val) : null}
       />
     </ExampleGroup>
   );
@@ -482,16 +494,17 @@ function _BannerGroup() {
       config={[minorSig, titleSig, dismissSig]}
       code={`<Banner kind="info">hello</Banner>`}
     >
-      {["info", "warning", "error", "success"].map((v) => (
+      {["info", "warning", "error", "success"].map((v, i) => (
         <Banner
-          kind={v as any}
+          key={i}
+          kind={v as ElbeAlertKinds}
           manner={minorSig.signal.value ? "minor" : "major"}
           onDismiss={
             dismissSig.signal.value
               ? () => {
                   showToast("you can act on dismiss");
                 }
-              : null
+              : undefined
           }
           title={titleSig.signal.value ? `a ${v} banner` : undefined}
         >
@@ -633,7 +646,7 @@ const v:boolean = await showConfirmDialog({
 }
 
 function _DialogGroup() {
-  const openSig = useSignal(false);
+  const [open, setOpen] = useState(false);
   return (
     <ExampleGroup
       title="Dialog"
@@ -647,14 +660,14 @@ function _DialogGroup() {
       <Button.minor
         ariaLabel="dialog"
         label="show dialog"
-        onTap={async () => (openSig.value = true)}
+        onTap={async () => setOpen(true)}
       />
       <ElbeDialog
         title="custom dialog"
-        open={openSig.value}
-        onClose={() => (openSig.value = false)}
+        open={open}
+        onClose={() => setOpen(false)}
       >
-        <div class="column cross-center">
+        <div className="column cross-center">
           <Icons.Leaf />
           <div>hello</div>
         </div>
@@ -713,15 +726,17 @@ function _RowColGroup({ column = false }: { column?: boolean }) {
       <RowCol
         main={betweenSig.signal.value ? "space-between" : "start"}
         gap={gapSig.signal.value ? 1 : 0}
-        class={wrapSig.signal.value ? "wrap" : ""}
+        className={wrapSig.signal.value ? "wrap" : ""}
         flex
         style={{
           //width: "100%",
           minHeight: column ? "21rem" : "auto",
         }}
       >
-        {["one", "two", "three", "four", "five", "six"].map((v) => (
-          <Box.secondary padding={0.5}>item {v}</Box.secondary>
+        {["one", "two", "three", "four", "five", "six"].map((v, i) => (
+          <Box.secondary key={i} padding={0.5}>
+            item {v}
+          </Box.secondary>
         ))}
       </RowCol>
     </ExampleGroup>

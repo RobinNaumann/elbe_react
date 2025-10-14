@@ -1,5 +1,5 @@
 import { ChevronLeft, MenuIcon, XIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useMemo, useState } from "react";
 import {
   Card,
   ElbeChild,
@@ -13,9 +13,6 @@ import {
 } from "../../..";
 import { maybeAppBase } from "./ctx_app_base";
 import { _Toolbar } from "./toolbar";
-
-const _backBtn = <BackButton onTap={() => history.go(-1)} />;
-const _closeBtn = <CloseButton onTap={() => history.go(-1)} />;
 
 export type HeaderLogos = {
   logo?: string | ElbeChild;
@@ -38,6 +35,7 @@ export function Header(p: HeaderProps) {
   const scroll = useSiteScroll();
   const tConfig = useThemeConfig();
   const theme = useTheme();
+
   return (
     <Card
       padding={0}
@@ -58,7 +56,7 @@ export function Header(p: HeaderProps) {
         borderTop: "none",
         borderLeft: "none",
         borderRight: "none",
-        borderColor: tConfig.highVis || scroll ? null : "transparent",
+        borderColor: tConfig.highVis || scroll ? undefined : "transparent",
         gap: "1rem",
         zIndex: 80,
       }}
@@ -74,8 +72,8 @@ export function Header(p: HeaderProps) {
             />
           )}
 
-      {p.leading === "back" && _backBtn}
-      {p.leading === "close" && _closeBtn}
+      {p.leading === "back" && <BackButton />}
+      {p.leading === "close" && <BackButton close />}
       {!layoutMode.isMobile && (
         <_Logo
           logo={p.logo ?? appBase?.icons.logo}
@@ -110,7 +108,7 @@ export function _Logo(p: {
 }) {
   const tConfig = useThemeConfig();
   const [logo, setLogo] = useState(p.logo);
-  useEffect(
+  useMemo(
     () => setLogo(tConfig.dark ? p.logoDark ?? p.logo : p.logo),
     [tConfig]
   );
@@ -118,7 +116,7 @@ export function _Logo(p: {
   return !logo ? null : (
     <div
       style={{
-        flex: p.flex ? 1 : null,
+        flex: p.flex ? 1 : undefined,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -134,20 +132,23 @@ export function _Logo(p: {
           }}
         />
       ) : (
-        p.logo
+        logo
       )}
     </div>
   );
 }
 
-export function BackButton(p: { onTap: () => void }) {
-  return (
-    <IconButton.plain ariaLabel="go back" onTap={p.onTap} icon={ChevronLeft} />
+export function BackButton(p: { close?: boolean }) {
+  const appBase = maybeAppBase();
+  const hidden = (appBase?.router.history?.length ?? 0) < 2;
+  return hidden ? null : (
+    <IconButton.plain
+      key="hello-back"
+      ariaLabel={p.close ? "close" : "go back"}
+      onTap={() => appBase?.router.goBack()}
+      icon={p.close ? XIcon : ChevronLeft}
+    />
   );
-}
-
-export function CloseButton(p: { onTap: () => void }) {
-  return <IconButton.plain ariaLabel="close" onTap={p.onTap} icon={XIcon} />;
 }
 
 export function _HeaderTitle(p: {

@@ -1,8 +1,8 @@
-import React, { useContext } from "preact/compat";
+import { createContext, useContext } from "react";
 
 type _ToolbarState = "toolbar" | "overflow" | null;
 
-export const ToolbarContext = React.createContext<_ToolbarState>(null);
+export const ToolbarContext = createContext<_ToolbarState>(null);
 export function useToolbar() {
   const ctx = useContext(ToolbarContext);
   return {

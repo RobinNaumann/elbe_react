@@ -1,5 +1,5 @@
 import { CheckIcon, XIcon } from "lucide-react";
-import { JSX } from "preact/jsx-runtime";
+import { JSX } from "react/jsx-runtime";
 import { ActionElbeProps, applyProps } from "../../..";
 import { useThemeConfig } from "../../theme/theme_context";
 

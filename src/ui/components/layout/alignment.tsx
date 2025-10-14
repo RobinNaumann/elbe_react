@@ -1,3 +1,4 @@
+import { ElbeChildren } from "../../util/types";
 import { Column } from "./flex";
 
 export type Alignment =
@@ -24,7 +25,7 @@ export function Align({
   width?: string | number;
   size?: string | number;
   class?: string;
-  children: React.ReactNode;
+  children: ElbeChildren;
 }) {
   const [main, cross] = alignment.split("_");
 
@@ -34,7 +35,7 @@ export function Align({
 
   return (
     <Column
-      class={className}
+      className={className}
       cross={(cross as any) ?? "center"}
       style={{ height: height ?? size, width: width ?? size }}
       main={(main as any) ?? "center"}

@@ -25,7 +25,6 @@ export function _MultiLineField(p: { props: MLInputFieldProps; id: string }) {
           resize: p.props.notResizable ? "none" : "vertical",
         }
       )}
-      size={5}
       cols={5}
       placeholder={p.props.hint}
       rows={p.props.rows ?? 5}
@@ -36,7 +35,7 @@ export function _MultiLineField(p: { props: MLInputFieldProps; id: string }) {
         e.preventDefault();
         p.props.onInput?.(e.currentTarget.value);
       }}
-      readonly={p.props.onInput ? false : true}
+      readOnly={p.props.onInput ? false : true}
     />
   );
 }

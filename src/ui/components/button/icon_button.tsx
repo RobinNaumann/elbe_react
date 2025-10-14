@@ -1,4 +1,4 @@
-import { Component } from "preact";
+import React, { Component, ComponentType } from "react";
 import {
   ActionElbeProps,
   applyProps,
@@ -15,7 +15,7 @@ export type IconButtonProps = {
   kind?: ElbeColorKinds;
   transparent?: boolean;
 
-  onTap?: (e: Event) => void;
+  onTap?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 } & ActionElbeProps;
 
 export class IconButton extends Component<
@@ -49,7 +49,7 @@ function _btn(
           !onTap && "disabled",
         ],
         {
-          backgroundColor: elbe.transparent ? "transparent" : null,
+          backgroundColor: elbe.transparent ? "transparent" : undefined,
           border: "none",
           borderRadius: "3rem",
           height: "3rem",
@@ -74,7 +74,17 @@ export function Icon(p: { icon: IconChild } & ElbeProps) {
         justifyContent: "center",
       })}
     >
-      {typeof p.icon === "function" ? p.icon({}) : p.icon}
+      {_renderIcon(p.icon)}
     </div>
   );
+}
+
+export function _renderIcon(icon: IconChild | undefined) {
+  if (!icon) return null;
+  if (typeof icon === "function") return icon({});
+  // check if it's a valid React element
+  if (React.isValidElement(icon)) return icon;
+  // return it as a component
+  const Icon = icon as any as ComponentType<any>;
+  return <Icon />;
 }

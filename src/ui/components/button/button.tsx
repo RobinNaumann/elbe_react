@@ -1,36 +1,44 @@
-import { Component } from "preact";
+import React, { Component } from "react";
 import type { ElbeColorKinds, ElbeColorManners } from "../../theme/colors";
 import { useToolbar } from "../../util/ctx_toolbar";
-import { _ElbeErr } from "../../util/error_view";
+import { ElbeChildren } from "../../util/types";
 import { ActionElbeProps, applyProps } from "../base/box";
-import type { IconChild } from "./icon_button";
+import { Icon, type IconChild } from "./icon_button";
 
 export type ButtonProps = ActionElbeProps & {
   kind?: ElbeColorKinds;
   transparent?: boolean;
   contentAlign?: "start" | "center" | "end";
-  onTap?: (e: Event) => void;
-} & { icon?: IconChild; label?: string; children?: any };
+  onTap?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+} & { icon?: IconChild; label?: string; children?: ElbeChildren };
 
 export class Button extends Component<
   ButtonProps & {
     manner: ElbeColorManners;
   }
 > {
-  static major = (p: ButtonProps) => _btn(p, "major");
-  static minor = (p: ButtonProps) => _btn(p, "minor");
-  static flat = (p: ButtonProps) => _btn(p, "flat");
-  static plain = (p: ButtonProps) => _btn(p, "plain");
+  static major = (p: ButtonProps) => <_Btn {...p} manner="major" />;
+  static minor = (p: ButtonProps) => <_Btn {...p} manner="minor" />;
+  static flat = (p: ButtonProps) => <_Btn {...p} manner="flat" />;
+  static plain = (p: ButtonProps) => <_Btn {...p} manner="plain" />;
 
   render() {
-    return _btn(this.props, this.props.manner);
+    return <_Btn {...this.props} manner={this.props.manner} />;
   }
 }
 
-function _btn(
-  { kind, onTap, icon, label, children, contentAlign, ...elbe }: ButtonProps,
-  manner: ElbeColorManners
-) {
+function _Btn({
+  manner,
+  kind,
+  onTap,
+  icon,
+  label,
+  children,
+  contentAlign,
+  ...elbe
+}: ButtonProps & {
+  manner: ElbeColorManners;
+}) {
   const toolbarCtx = useToolbar();
 
   return label || icon || children ? (
@@ -54,14 +62,14 @@ function _btn(
           overflow: "hidden",
           justifyContent:
             contentAlign ?? (toolbarCtx?.isInOverflow ? "start" : "center"),
-          backgroundColor: elbe.transparent ? "transparent" : null,
+          backgroundColor: elbe.transparent ? "transparent" : undefined,
         }
       )}
       title={elbe.ariaLabel ?? label}
       disabled={!onTap}
       onClick={(e) => onTap && onTap(e)}
     >
-      {typeof icon === "function" ? icon({}) : icon}
+      <Icon icon={icon} />
       {!toolbarCtx?.isInToolbar && label && (
         <div
           style={{
@@ -76,6 +84,7 @@ function _btn(
       {children}
     </button>
   ) : (
-    _ElbeErr("Button requires either an icon and or a label, or a child")
+    <div />
+    //_ElbeErr("Button requires either an icon and or a label, or a child")
   );
 }

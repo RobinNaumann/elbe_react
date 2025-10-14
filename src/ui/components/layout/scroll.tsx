@@ -1,4 +1,4 @@
-import { Component } from "preact";
+import { Component } from "react";
 import { applyProps, type ElbeProps } from "../base/box";
 
 export type ScrollProps = ElbeProps & {
@@ -30,9 +30,9 @@ export class Scroll extends Component<_ScrollProps> {
         })}
       >
         <div
-          class={this.props.innerClass}
+          className={this.props.innerClass}
           style={
-            this.props.axis === "horizontal" ? "min-width: min-content;" : ""
+            this.props.axis === "horizontal" ? { minWidth: "min-content" } : {}
           }
         >
           {this.props.children}

@@ -6,7 +6,7 @@ so far, it has been optimized for React. It provides a variety of Widgets and th
 
 ## usage
 
-1. install the package in your React/Preact app:
+1. install the package in your React app:
    ```bash
    npm i elbe-ui
    ```

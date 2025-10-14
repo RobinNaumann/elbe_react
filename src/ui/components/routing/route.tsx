@@ -1,5 +1,5 @@
-import { VNode } from "preact";
-import { ElbeChildren, IconChild, wouter } from "../../..";
+import React from "react";
+import { ElbeChildren, IconChild, Wouter } from "../../..";
 
 export type MenuItem = {
   path: string;
@@ -14,7 +14,9 @@ type _MenuRouteProps = MenuItem & {
 };
 
 // either a normal, or a menu route
-export type ElbeRoute = VNode<{ path: string }> | VNode<_MenuRouteProps>;
+export type ElbeRoute =
+  | React.ReactElement<{ path: string }>
+  | React.ReactElement<_MenuRouteProps>;
 
 /**
  * a route that also renders a menu item in the <AppBase> component.
@@ -33,10 +35,12 @@ export function MenuRoute(p: _MenuRouteProps) {
 }
 
 /**
- * a helper function to create a <wouter.Route> with a path.
+ * a helper function to create a <Wouter.Route> with a path.
  */
-export const Route = wouter.Route;
+export const Route = Wouter.Route;
 
-export function isMenuRoute(r: ElbeRoute): r is VNode<_MenuRouteProps> {
+export function isMenuRoute(
+  r: ElbeRoute
+): r is React.ReactElement<_MenuRouteProps> {
   return "path" in r.props && "label" in r.props && "icon" in r.props;
 }

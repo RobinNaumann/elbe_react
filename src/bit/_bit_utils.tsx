@@ -1,4 +1,4 @@
-import { JSX } from "preact/jsx-runtime";
+import { JSX } from "react/jsx-runtime";
 import {
   BitStates,
   BitUseInterface,
@@ -109,6 +109,11 @@ export interface _BitGetInterface<D> {
    * If `silent` is true, it will not change the state to `loading`.
    */
   reload: (silent?: boolean) => void;
+
+  /**
+   *
+   */
+  consider(children: () => ElbeChild): ElbeChild;
 }
 
 export interface _BitCtrlInput<D, P> extends _BitGetInterface<D> {

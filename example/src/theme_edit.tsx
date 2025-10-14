@@ -1,4 +1,3 @@
-import { useSignal } from "@preact/signals";
 import {
   Button,
   Card,
@@ -11,13 +10,14 @@ import {
   Text,
   ToggleButton,
 } from "elbe-ui";
+import { useState } from "react";
 import { ThemeBit } from "./util/b_theme";
 
 export function ThemeEdit() {
-  const openSig = useSignal(false);
+  const [open, setOpen] = useState(false);
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((v) => (
-    <Card scheme="secondary" class="column">
+    <Card scheme="secondary" className="column">
       <div>
         Edit the theme in real time. There are even more options in the code
       </div>
@@ -29,14 +29,12 @@ export function ThemeEdit() {
         ariaLabel="view seed"
         icon={Icons.Sprout}
         label="view seed"
-        onTap={() => (openSig.value = true)}
+        onTap={() => setOpen(true)}
       />
-      <ElbeDialog
-        title="Theme Seed"
-        open={openSig.value}
-        onClose={() => (openSig.value = false)}
-      >
-        <div class="card inverse code">{JSON.stringify(v.seed, null, 2)}</div>
+      <ElbeDialog title="Theme Seed" open={open} onClose={() => setOpen(false)}>
+        <div className="card inverse code">
+          {JSON.stringify(v.seed, null, 2)}
+        </div>
       </ElbeDialog>
     </Card>
   ));
@@ -52,9 +50,9 @@ const labelStyle = {
 function _RoundSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((d) => (
-    <div class="column">
+    <div className="column">
       <Text.h5 v="geometry" />
-      <div class="row">
+      <div className="row">
         <Text v="roundness" style={labelStyle} />
 
         <Range
@@ -73,7 +71,7 @@ function _RoundSelect() {
           step={0.1}
         />
       </div>
-      <div class="row">
+      <div className="row">
         <Text v="border width" style={labelStyle} />
         <Range
           ariaLabel="set border width"
@@ -98,23 +96,24 @@ function _RoundSelect() {
 function _TypeSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((v) => (
-    <div class="column">
+    <div className="column">
       <Text.h5 v="typography" />
-      <div class="row">
+      <div className="row">
         <Text v="title font" style={labelStyle} />
         <div
-          class="row main-start"
+          className="row main-start"
           style={{ overflowX: "auto", flex: 1, padding: ".25rem 0" }}
         >
-          <div class="row main-start" style={{ minWidth: "max-content" }}>
+          <div className="row main-start" style={{ minWidth: "max-content" }}>
             {[
               "Calistoga",
               "Inter",
               "Delius",
               "Space Mono",
               "Atkinson Hyperlegible",
-            ].map((f) => (
+            ].map((f, i) => (
               <ToggleButton
+                key={i}
                 ariaLabel={`set ${f} as title font`}
                 label={f}
                 style={{ fontFamily: f }}
@@ -143,9 +142,9 @@ function _TypeSelect() {
 function _AccentSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((d) => (
-    <div class="column" style="gap: 1.2rem">
+    <div className="column" style={{ gap: "1.2rem" }}>
       <Text.h5 v="color" />
-      <div class="row">
+      <div className="row">
         <Text v="mode" style={labelStyle} />
 
         <ChooseButton<boolean>
@@ -155,16 +154,16 @@ function _AccentSelect() {
               { value: true, label: "dark", icon: Icons.Moon },
             ] as const
           }
-          value={d.config.dark}
+          value={d.config.dark ?? false}
           onChange={(v) => themeBit.setConfig({ dark: v })}
         />
       </div>
 
-      <div class="row">
+      <div className="row">
         <Text v="accent" style={labelStyle} />
 
-        <div class="row main-start" style={{ overflowX: "auto", flex: 1 }}>
-          <div class="row main-start" style={{ minWidth: "max-content" }}>
+        <div className="row main-start" style={{ overflowX: "auto", flex: 1 }}>
+          <div className="row main-start" style={{ minWidth: "max-content" }}>
             {[
               "#3c77f6ff",
               "#04395eff",
@@ -173,15 +172,16 @@ function _AccentSelect() {
               "#d5896fff",
               "#f77f00ff",
               "#d62828ff",
-            ].map((c) => (
+            ].map((c, i) => (
               <div
+                key={i}
                 onClick={() =>
                   themeBit.setSeed({
                     ...d.seed,
                     color: { accent: LayerColor.fromHex(c) },
                   })
                 }
-                class="column"
+                className="column"
                 style={{
                   backgroundColor: c,
                   padding: ".5rem",
@@ -189,7 +189,7 @@ function _AccentSelect() {
                   color: "white",
                 }}
               >
-                {c === lColor(d.seed?.color?.accent)?.hex ? (
+                {c === lColor(d.seed?.color?.accent ?? "#000000")?.hex ? (
                   <Icons.Check />
                 ) : (
                   <Icons.None />

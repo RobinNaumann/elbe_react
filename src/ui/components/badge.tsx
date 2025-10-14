@@ -1,4 +1,4 @@
-import React from "preact/compat";
+import React from "react";
 import type { ElbeColorKinds } from "../theme/colors";
 import type { ElbeChild, ElbeChildren } from "../util/types";
 import type { ElbeProps } from "./base/box";
@@ -53,7 +53,7 @@ export class Badge extends React.Component<
         {this.props.child}
         {this.props.children}
         <div
-          class={`b ${this.props.kind} major ${this.props.class ?? ""}`}
+          className={`b ${this.props.kind} major ${this.props.className ?? ""}`}
           style={{
             position: "absolute",
             top: "-0.25rem",

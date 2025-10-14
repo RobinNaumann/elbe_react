@@ -1,8 +1,8 @@
-import { useSignal } from "@preact/signals";
 import { ChooseButton, cKinds, cManners, Scroll, tVariants } from "elbe-ui";
+import { useState } from "react";
 import { ExampleSection } from "../util/section";
 
-export function ColorsSection({}) {
+export function ColorsSection() {
   return (
     <ExampleSection title="Color Theme" anchor="color">
       <_ColorDemo />
@@ -10,7 +10,7 @@ export function ColorsSection({}) {
   );
 }
 
-export function TypographySection({}) {
+export function TypographySection() {
   return (
     <ExampleSection title="Typography" anchor="typography">
       <_TypeDemo />
@@ -18,36 +18,35 @@ export function TypographySection({}) {
   );
 }
 
-function _ColorDemo({}) {
-  const modeSig = useSignal("primary");
+function _ColorDemo() {
+  const [mode, setMode] = useState("primary");
   return (
-    <div class={`column`}>
-      <div class="row gap-none rounded">
+    <div className={`column`}>
+      <div className="row gap-none rounded">
         <ChooseButton
           items={[
             { value: "primary", label: "primary" },
             { value: "secondary", label: "secondary" },
             { value: "inverse", label: "inverse" },
           ]}
-          onChange={(v) => (modeSig.value = v)}
-          value={modeSig.value}
+          onChange={(v) => setMode(v)}
+          value={mode}
         />
       </div>
-      <Scroll.horizontal
-        class={`${modeSig.value} card column`}
-        innerClass="column"
-      >
-        {cKinds.map((s) => (
-          <div class="row">
-            <div class="card" style="width: 8rem">
+      <Scroll.horizontal className={`${mode} card column`} innerClass="column">
+        {cKinds.map((s, i) => (
+          <div key={i} className="row">
+            <div className="card" style={{ width: "8rem" }}>
               {s}
             </div>
             {cManners
               .filter((v) => v !== "plain")
               .map(
-                (v) =>
+                (v, i) =>
                   (s !== "plain" || v === "flat") && (
-                    <div class={`${v} ${s} card column b action`}>{v}</div>
+                    <div key={i} className={`${v} ${s} card column b action`}>
+                      {v}
+                    </div>
                   )
               )}
           </div>
@@ -57,12 +56,12 @@ function _ColorDemo({}) {
   );
 }
 
-function _TypeDemo({}) {
+function _TypeDemo() {
   return (
     <>
-      <div class="card">
-        {tVariants.map((v) => (
-          <div style={{ marginBottom: ".5rem" }} class={v}>
+      <div className="card">
+        {tVariants.map((v, i) => (
+          <div key={i} style={{ marginBottom: ".5rem" }} className={v}>
             {v} text
           </div>
         ))}

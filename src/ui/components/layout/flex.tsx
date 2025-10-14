@@ -24,7 +24,7 @@ export type FlexProps = {
 } & ElbeProps;
 
 export function FlexSpace({}) {
-  return <div style="flex:1"></div>;
+  return <div style={{ flex: 1 }}></div>;
 }
 
 export function Column({
@@ -77,9 +77,9 @@ function _Flex(row: boolean, p: FlexProps, elbe: ElbeProps, wraps: boolean) {
           justifyContent: p.main,
           alignItems: p.cross,
           gap: `${p.gap}rem`,
-          overflowX: !row ? null : p.scroll ? "auto" : null,
-          overflowY: row ? null : p.scroll ? "auto" : null,
-          flex: p.flex ?? p.scroll ? 1 : null,
+          overflowX: !row ? undefined : p.scroll ? "auto" : undefined,
+          overflowY: row ? undefined : p.scroll ? "auto" : undefined,
+          flex: p.flex ?? p.scroll ? 1 : undefined,
         }
       )}
     >

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/compat";
+import { useEffect, useState } from "react";
 import { int, showToast } from "../..";
 
 export type Maybe<T> = T | null | undefined;
@@ -11,7 +11,6 @@ export function clamp(value: number, min: number, max: number): number {
 export function classString(
   classes: (string | false | null | undefined)[]
 ): string {
-  console.log(classes);
   return classes.filter((c) => c).join(" ");
 }
 

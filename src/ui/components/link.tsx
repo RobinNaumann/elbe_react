@@ -12,7 +12,7 @@ export function Link(p: {
 }) {
   return (
     <a
-      class={p.plain ? "plain" : "accent action"}
+      className={p.plain ? "plain" : "accent action"}
       href={p.href}
       target={p.external ? "_blank" : undefined}
       rel={p.external ? "noopener noreferrer" : undefined}

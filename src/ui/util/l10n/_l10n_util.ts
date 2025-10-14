@@ -1,4 +1,4 @@
-import { createContext, useContext } from "preact/compat";
+import { createContext, useContext } from "react";
 import { Maybe } from "../util";
 import { L10nInlinePlain } from "./l10n";
 

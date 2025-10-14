@@ -1,10 +1,10 @@
 import {
   colors,
   createBit,
-  ElbeThemeConfig,
-  ElbeThemeSeed,
   LayerColor,
   makeThemeConfig,
+  type ElbeThemeConfig,
+  type ElbeThemeSeed,
 } from "elbe-ui";
 
 type Data = {
@@ -35,7 +35,7 @@ export const ThemeBit = createBit({
       },
     } as Data),
   useHistory: false,
-  control: ({ act, parameters }) => ({
+  control: ({ act }) => ({
     setConfig: (c: Partial<ElbeThemeConfig>) =>
       act(
         (v) => ({

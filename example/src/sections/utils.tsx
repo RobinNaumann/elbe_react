@@ -3,7 +3,7 @@ import { Languages } from "lucide-react";
 import { L10n, useL10n } from "../../l10n";
 import { ExampleGroup, ExampleSection } from "../util/section";
 
-export function UtilSection({}) {
+export function UtilSection() {
   return (
     <ExampleSection title="Utilities" anchor="utilities">
       <_RouterGroup />
@@ -18,9 +18,10 @@ function _RouterGroup() {
   return (
     <ExampleGroup
       title="Routing"
-      description="the package bundles the wouter library for routing. It is available under the wouter prefix."
+      description="the package bundles the wouter library for routing. It is available under the Wouter prefix."
       code={`// check the docs of wouter for more details\n
-wouter                   // use any of the wouter exports
+Wouter                   // use any of the wouter exports
+wouter_hash              // use the hash based location
 Route, MenuRoute         // helper exports for defining a route
 useAppBase().go("/path") // navigate within an AppBase component`}
     >

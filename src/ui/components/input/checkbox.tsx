@@ -6,7 +6,7 @@ export function Checkbox(p: BooleanInputProps & ActionElbeProps) {
   return _InputSpacer(
     p,
     <div
-      class={`row ${p.onChange ? "" : "disabled"}`}
+      className={`row ${p.onChange ? "" : "disabled"}`}
       style={{
         gap: ".75rem",
         filter: p.onChange ? "" : "grayscale(1)",
@@ -23,8 +23,8 @@ export function Checkbox(p: BooleanInputProps & ActionElbeProps) {
           },
           p.value ? ["accent major"] : "accent minor",
           {
-            background: p.value ? null : "transparent",
-            transition: tConfig.reducedMotion ? "none" : null,
+            background: p.value ? undefined : "transparent",
+            transition: tConfig.reducedMotion ? "none" : undefined,
           }
         )}
         disabled={!p.onChange}
@@ -32,7 +32,7 @@ export function Checkbox(p: BooleanInputProps & ActionElbeProps) {
         onClick={(e) => e.stopPropagation()}
         onChange={(e) => p.onChange?.(e.currentTarget.checked)}
       />
-      {p.label && <div style="margin-top: -.25rem">{p.label}</div>}
+      {p.label && <div style={{ marginTop: "-.25rem" }}>{p.label}</div>}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { XIcon } from "lucide-react";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "react";
 import { applyProps, ElbeProps } from "../base/box";
 
 const _toDoStyle = {

@@ -1,4 +1,4 @@
-import { useEffect } from "preact/hooks";
+import { useEffect } from "react";
 import "../../elbe.css";
 import { ToDo } from "../components/dev/todo";
 import { ColorTheme } from "./colors";
@@ -62,7 +62,11 @@ export function ElbeTheme(
 
   return (
     <div
-      class={`elbe ${config.dark ? "dark" : ""} ${
+      {...{ ["type-label"]: "elbe-theme" }}
+      style={{
+        width: "100%",
+      }}
+      className={`elbe ${config.dark ? "dark" : ""} ${
         config.highVis ? "highvis" : ""
       } ${config.reducedMotion ? "reduced_motion" : ""}`}
     >

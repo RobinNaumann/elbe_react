@@ -76,6 +76,12 @@ select {
   border-color: var(--c-context-border);
 }
 
+.elbe_dialog_base.elbe_dialog_base.elbe_dialog_base {
+    transform: scale(.95);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s ease-in-out;
+  }
+
 dialog {
   @extend .column;
   @extend .cross-center;
@@ -92,23 +98,27 @@ dialog {
   border: none;
 
   pointer-events: none;
-
   background-color: transparent;
+  backdrop-filter: blur(0px) brightness(1);
+  
+  transition: backdrop-filter .3s ease-in-out;
+  
 
-  transition: background-color 0.3s ease-in-out;
-  transition: backdrop-filter 0.3s ease-in-out;
-
-  & > * {
+  /*& > *:not(.elbe_dialog_base) {
     display: none;
-  }
+  }*/
 
   &[open=""] {
-    background-color: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px) brightness(0.7);
     pointer-events: all;
     & > * {
       display: unset;
       max-width: 100vw;
+    }
+
+    & .elbe_dialog_base.elbe_dialog_base.elbe_dialog_base {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 }

@@ -55,13 +55,12 @@ export function _SingleLineField(p: {
           }
         )}
         size={5}
-        label={p.props.label}
         placeholder={p.props.hint}
         value={p.props.value}
         onInput={(e) =>
           p.props.onInput && p.props.onInput(e.currentTarget.value)
         }
-        readonly={p.props.onInput ? false : true}
+        readOnly={p.props.onInput ? false : true}
       />
       <_Supplement
         kind={p.msg?.kind}
@@ -86,7 +85,7 @@ function _Supplement(p: {
       padding={0}
       style={{
         border: "none",
-        background: p.onTap ? null : "transparent",
+        background: p.onTap ? undefined : "transparent",
       }}
     >
       <IconButton
@@ -96,7 +95,7 @@ function _Supplement(p: {
         icon={p.icon}
         style={{
           borderRadius: 0,
-          background: p.onTap ? null : "transparent",
+          background: p.onTap ? undefined : "transparent",
         }}
         onTap={(e) => {
           e.stopPropagation();

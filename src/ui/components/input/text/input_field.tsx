@@ -1,4 +1,4 @@
-import React from "preact/compat";
+import React from "react";
 import { ElbeAlertKinds, KindAlertIcon, Text } from "../../../..";
 import { randomAlphaNum } from "../../../util/util";
 import { applyProps, ElbeProps } from "../../base/box";
@@ -57,14 +57,14 @@ export class Field<T extends InputFieldProps> extends React.Component<
             ? this.props.flex === true
               ? 1
               : this.props.flex
-            : null,
-          width: this.props.flex ? null : (this.props.width ?? 12) + "rem",
+            : undefined,
+          width: this.props.flex ? undefined : (this.props.width ?? 12) + "rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "stretch",
-          filter: this.props.onInput ? null : "grayscale(1) opacity(0.5)",
-          pointerEvents: this.props.onInput ? null : "none",
-          cursor: this.props.onInput ? null : "not-allowed",
+          filter: this.props.onInput ? undefined : "grayscale(1) opacity(0.5)",
+          pointerEvents: this.props.onInput ? undefined : "none",
+          cursor: this.props.onInput ? undefined : "not-allowed",
         }}
         data-tooltip={this.props?.tooltip}
       >

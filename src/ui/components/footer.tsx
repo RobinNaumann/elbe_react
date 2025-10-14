@@ -1,5 +1,5 @@
 import { HeartIcon } from "lucide-react";
-import React from "preact/compat";
+import React from "react";
 import {
   Card,
   Column,
@@ -43,7 +43,7 @@ export function Footer({
         borderLeft: "none",
         borderRight: "none",
         borderBottom: "none",
-        borderTopLeftRadius: layoutMode.isWide ? "var(--g-radius)" : null,
+        borderTopLeftRadius: layoutMode.isWide ? "var(--g-radius)" : undefined,
         color: "color-mix(in srgb, var(--c-context-front) 60%, transparent)",
         marginTop: `${marginTop ?? 0}rem`,
       }}
@@ -53,15 +53,15 @@ export function Footer({
           <Row main="space-between" cross="start">
             {left && (
               <Column gap={0.5} flex={1} cross="start">
-                {left.map((item: any) =>
-                  item.label ? <_Link {...item} /> : item
+                {left.map((item: any, i) =>
+                  item.label ? <_Link key={i} {...item} /> : item
                 )}
               </Column>
             )}
             {right && (
               <Column gap={0.5} flex={1} cross="end">
-                {right.map((item: any) =>
-                  item.label ? <_Link {...item} /> : item
+                {right.map((item: any, i) =>
+                  item.label ? <_Link key={i} {...item} /> : item
                 )}
               </Column>
             )}

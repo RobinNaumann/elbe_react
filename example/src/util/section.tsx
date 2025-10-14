@@ -1,17 +1,20 @@
-import { Signal, useSignal } from "@preact/signals";
-import { Button, FlexSpace, Row, Text } from "elbe-ui";
+import { Button, FlexSpace, Row, Text, type ElbeChildren } from "elbe-ui";
 import { icons } from "lucide-react";
-import { useState } from "preact/compat";
+import { useState } from "react";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useConfigSignal(
   label: string,
   initial: boolean
 ): {
   label: string;
-  signal: Signal<boolean>;
+  signal: {
+    value: boolean;
+    set: (v: boolean) => void;
+  };
 } {
-  const signal = useSignal(initial);
-  return { label, signal };
+  const [signal, setSignal] = useState(initial);
+  return { label, signal: { value: signal, set: setSignal } };
 }
 
 export function ExampleSection({
@@ -21,12 +24,12 @@ export function ExampleSection({
 }: {
   title: string;
   anchor: string;
-  children?: any;
+  children?: ElbeChildren;
 }) {
   return (
-    <div class="column cross-stretch" style="gap: 1.5rem">
+    <div className="column cross-stretch" style={{ gap: "1.5rem" }}>
       <Text.h2 v={title} id={anchor} />
-      <div class="column cross-stretch" style="gap: 3rem">
+      <div className="column cross-stretch" style={{ gap: "3rem" }}>
         {children}
       </div>
     </div>
@@ -44,17 +47,17 @@ export function ExampleGroup({
   title: string;
   description: string;
   code: string;
-  children: any;
+  children: ElbeChildren;
   classes?: string;
   config?: {
     label: string;
-    signal: Signal<boolean>;
+    signal: { value: boolean; set: (v: boolean) => void };
   }[];
 }) {
   const [showCode, setShowCode] = useState(false);
 
   return (
-    <div class="column cross-stretch">
+    <div className="column cross-stretch">
       <Row>
         <Text.h4 v={title} />
         <FlexSpace />
@@ -67,30 +70,40 @@ export function ExampleGroup({
         )}
       </Row>
 
-      <span style="text-align: start; margin-top: -1rem; white-space: pre-wrap">
+      <span
+        style={{
+          textAlign: "start",
+          marginTop: "-1rem",
+          whiteSpace: "pre-wrap",
+        }}
+      >
         {description?.trim()}
       </span>
       {showCode && (
-        <div class="card inverse code" style="overflow: auto;">
+        <div className="card inverse code" style={{ overflow: "auto" }}>
           {code?.trim()}
         </div>
       )}
       {config && (
         <div
-          class="card secondary row wrap gap-0"
-          style="padding: 0; overflow: visible;"
+          className="card secondary row wrap gap-0"
+          style={{
+            padding: 0,
+            overflow: "visible",
+          }}
         >
-          {config.map((c) =>
-            Button.flat({
-              ariaLabel: c.label,
-              icon: c.signal.value ? icons.CircleCheckBig : icons.Circle,
-              label: c.label,
-              onTap: () => (c.signal.value = !c.signal.value),
-            })
-          )}
+          {config.map((c, i) => (
+            <Button.flat
+              key={i}
+              ariaLabel={c.label}
+              icon={c.signal.value ? icons.CircleCheckBig : icons.Circle}
+              label={c.label}
+              onTap={() => c.signal.set(!c.signal.value)}
+            />
+          ))}
         </div>
       )}
-      <div class={classes || "row"}>{children}</div>
+      <div className={classes || "row"}>{children}</div>
     </div>
   );
 }

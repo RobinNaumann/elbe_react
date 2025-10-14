@@ -1,4 +1,4 @@
-import React from "preact/compat";
+import React from "react";
 import type { ElbeTypeVariants } from "../theme/type_theme";
 import type { ElbeChildren } from "../util/types";
 import { applyProps, type ElbeProps } from "./base/box";
@@ -29,12 +29,10 @@ export class Text extends React.Component<
   static l = (p: TextProps) => <Text {...p} variant="body-l" />;
   static code = (p: TextProps) => <Text {...p} variant="code" />;
 
-  constructor({
-    variant = "body-m",
-    ...props
-  }: TextProps & { variant?: ElbeTypeVariants }) {
-    super({ ...props, variant });
-  }
+  // replace the constructor with defaultProps so React receives the same props object
+  static defaultProps = {
+    variant: "body-m",
+  };
 
   render() {
     const {

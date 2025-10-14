@@ -1,7 +1,8 @@
 import * as Lucide from "lucide-react";
 import "./elbe.css";
 
-export * as wouter from "wouter";
+export * as Wouter from "wouter";
+export * as wouter_hash from "wouter/use-hash-location";
 
 // exports
 export * from "./api/api_worker";

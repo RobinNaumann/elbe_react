@@ -1,4 +1,3 @@
-import { useEffect, useState } from "preact/hooks";
 import { Column } from "../../..";
 import { ElbeChild, ElbeChildren } from "../../util/types";
 import { Box } from "../base/box";
@@ -11,6 +10,10 @@ type ContentBaseProps = {
   scheme?: string;
 };
 
+function _hasMoreThan(p: { [key: string]: any }, expected: string[]) {
+  return Object.keys(p).findIndex((k) => !expected.includes(k)) !== -1;
+}
+
 /**
  * A component that represents a full page layout with a header and footer.
  * It accepts header properties, content, and a footer element. All of these
@@ -19,21 +22,21 @@ type ContentBaseProps = {
  * ### Properties:
  * - `narrow` will limit the width of the content to `900px`, and center it.
  * - `padding` will add padding around the content, defaulting to `1rem`.
+ * - `leading` can be used to add a back or close button to the header. Setting it
+ *   "back" or "close" will automatically show the button if there is history to go back to.
  */
 export function Page(
   p: HeaderProps &
     ContentBaseProps & { children?: ElbeChildren; footer?: ElbeChild }
 ) {
-  const [hasHeader, setHasHeader] = useState(false);
-  useEffect(() => {
-    const headerProps = { ...p };
-    delete headerProps.children;
-    delete headerProps.footer;
-    delete headerProps.padding;
-    delete headerProps.narrow;
-    delete headerProps.noScroll;
-    setHasHeader(Object.keys(headerProps).length > 0);
-  });
+  const hasHeader = _hasMoreThan(p, [
+    "children",
+    "footer",
+    "padding",
+    "narrow",
+    "noScroll",
+    "scheme",
+  ]);
 
   return (
     <Box

@@ -3,9 +3,10 @@
   "compilerOptions": {
     "noEmit": false,
     "emitDeclarationOnly": true,
+    "moduleResolution": "bundler",
     "declaration": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "jsxImportSource": "react",
     "outDir": "./dist",
     "rootDir": "./src"
   },

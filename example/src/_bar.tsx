@@ -15,14 +15,14 @@ const nameBit = createBit({
   useHistory: true,
   control: ({ act, parameters }) => ({
     setName: (name: string) =>
-      act((_) => {
+      act(() => {
         console.log("setName", parameters.a);
         return { name };
       }, true),
   }),
 });
 
-export function Tests({}) {
+export function Tests() {
   return (
     <ElbeTheme>
       <Card tooltip="primary">
@@ -35,12 +35,12 @@ export function Tests({}) {
   );
 }
 
-function _Consumer({}) {
+function _Consumer() {
   const bit = nameBit.use();
 
   return (
     <Card scheme="secondary" tooltip="secondary">
-      {bit.map<string>((d) => "data", "error") ?? "another"}
+      {bit.map<string>(() => "data", "error") ?? "another"}
       {bit.mapUI((d) => (
         <Column>
           {d.name} you

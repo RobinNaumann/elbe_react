@@ -3,7 +3,7 @@ import type { ElbeColorKinds } from "../../theme/colors";
 import { Card } from "../base/card";
 import { Spaced } from "../layout/spaced";
 import { Button } from "./button";
-import type { IconChild } from "./icon_button";
+import { Icon, type IconChild } from "./icon_button";
 
 export interface ChooseItem<T> {
   value: T;
@@ -33,18 +33,19 @@ export function ChooseButton<T>({
       overflow="hidden"
       role="radiogroup"
       disabled={!onChange}
-      class={`${column ? "column" : "row"} gap-none`}
+      className={`${column ? "column" : "row"} gap-none`}
     >
-      {items.map((e) => (
+      {items.map((e, i) => (
         <Button
+          key={i}
           ariaLabel={e.ariaLabel ?? e.label ?? null}
           manner={e.value === value ? "major" : "flat"}
           kind={kind}
           onTap={onChange && (() => onChange(e.value))}
-          class={`sharp ${column ? "main-between gap-double" : ""}`}
+          className={`sharp ${column ? "main-between gap-double" : ""}`}
         >
-          <div class="row gap-half">
-            {typeof e.icon === "function" ? e.icon({}) : e.icon}
+          <div className="row gap-half">
+            <Icon icon={Icon} />
             {e.label && <span>{e.label}</span>}
           </div>
           {column &&

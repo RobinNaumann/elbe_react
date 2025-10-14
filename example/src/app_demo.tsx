@@ -11,6 +11,7 @@ import {
   Page,
   showToast,
   useAppBase,
+  type ElbeColorSchemes,
 } from "elbe-ui";
 import {
   ChevronLeft,
@@ -20,7 +21,7 @@ import {
   TreePine,
 } from "lucide-react";
 import { L10n, useL10n } from "../l10n";
-export function AppDemo(p: { goBack: () => any }) {
+export function AppDemo(p: { goBack: () => void }) {
   return (
     <L10n>
       <AppBase
@@ -57,7 +58,7 @@ export function AppDemo(p: { goBack: () => any }) {
   );
 }
 
-function _Home({}) {
+function _Home() {
   const l10n = useL10n();
   return (
     <>
@@ -97,9 +98,9 @@ function _Home({}) {
           "secondary",
         ].map((c) => (
           <Card
-            scheme={c as any}
+            scheme={c as ElbeColorSchemes}
             bordered
-            class="centered"
+            className="centered"
             style={{
               height: "100px",
               backgroundColor: c,
@@ -121,7 +122,7 @@ function _Home({}) {
   );
 }
 
-function _SecondPage({}) {
+function _SecondPage() {
   const appBase = useAppBase();
   return (
     <Page
@@ -129,7 +130,7 @@ function _SecondPage({}) {
       leading={
         <IconButton.plain
           ariaLabel="back"
-          onTap={() => appBase.go("/", true)}
+          onTap={() => appBase.router.go("/", 1)}
           icon={ChevronLeft}
         />
       }
@@ -139,7 +140,7 @@ function _SecondPage({}) {
   );
 }
 
-function _SettingsPage({}) {
+function _SettingsPage() {
   return (
     <>
       <Page

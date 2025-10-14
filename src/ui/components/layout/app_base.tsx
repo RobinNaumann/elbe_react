@@ -1,6 +1,4 @@
-import { useMemo, useState } from "preact/compat";
-import { Router } from "wouter";
-import { useHashLocation } from "wouter/use-hash-location";
+import { useMemo, useState } from "react";
 import {
   Box,
   ElbeChild,
@@ -8,7 +6,7 @@ import {
   HeaderLogos,
   isMenuRoute,
   MenuItem,
-  wouter,
+  Wouter,
 } from "../../..";
 import { AppBaseContext } from "./ctx_app_base";
 import { Menu } from "./menu";
@@ -29,18 +27,22 @@ export type AppBaseProps = HeaderLogos & {
  */
 
 export function AppBase(p: AppBaseProps) {
+  return <Wouter.Router>{<_AppBase {...p} />}</Wouter.Router>;
+}
+
+function _initialLocation() {
   return (
-    <Router hook={p.hashBasedRouting ? useHashLocation : undefined}>
-      <_AppBase {...p} />
-    </Router>
+    window.location.pathname + window.location.search + window.location.hash
   );
 }
+
 function _AppBase(p: AppBaseProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuItems = useMemo(() => {
     return _extractMenuItems(p.children);
   }, [p.children]);
-  const [location, navigate] = wouter.useLocation();
+  const [location, navigate] = Wouter.useLocation();
+  const [history, setHistory] = useState<string[]>([_initialLocation()]);
 
   return (
     <AppBaseContext.Provider
@@ -54,7 +56,26 @@ function _AppBase(p: AppBaseProps) {
         },
         globalActions: p.globalActions ?? [],
         setMenuOpen: (b) => setMenuOpen(b),
-        go: (p, replace) => navigate(p, { replace: replace ?? false }),
+        router: {
+          goBack: (steps = 1) => {
+            if (history.length === 0) return;
+            const targetIndex = Math.max(0, history.length - 1 - steps);
+            const target = history[targetIndex];
+            setHistory((h) => h.slice(0, targetIndex + 1));
+            navigate(target, { replace: true });
+          },
+          go: (p, replace) => {
+            setHistory((h) => {
+              if (replace === "all") return [p];
+              const repl = Math.max(0, replace ?? 0);
+              if (repl === 0) return [...h, p];
+              return [...h.slice(0, -repl), p];
+            });
+            navigate(p, { replace: (replace ?? 0) !== 0 });
+          },
+          history: history,
+          location: location,
+        },
       }}
     >
       <Box
@@ -68,7 +89,7 @@ function _AppBase(p: AppBaseProps) {
       >
         {menuItems.length > 0 && <Menu items={menuItems} />}
         <div style={{ flex: 1, width: "0px" }}>
-          <wouter.Switch>{p.children}</wouter.Switch>
+          <Wouter.Switch>{p.children}</Wouter.Switch>
         </div>
       </Box>
     </AppBaseContext.Provider>

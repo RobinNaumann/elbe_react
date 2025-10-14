@@ -1,15 +1,12 @@
-import { ElbeTheme, Route, wouter } from "elbe-ui";
+import { ElbeTheme, Route } from "elbe-ui";
 //import "elbe-ui/dist/elbe.css";
 import "elbe-ui/dist/elbe.css";
-import { render } from "preact";
-import { useHashLocation } from "wouter/use-hash-location";
 import { AppDemo } from "./app_demo";
 import { Home } from "./home";
 import "./style.scss";
 import { ThemeBit } from "./util/b_theme";
 
-function App() {
-  const [loc, navigate] = wouter.useLocation();
+export function App() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI(
     (v) => (
@@ -18,7 +15,7 @@ function App() {
           <Home />
         </Route>
         <Route path="/app" nest>
-          <AppDemo goBack={() => navigate("/")} />
+          <AppDemo goBack={() => window.history.back()} />
         </Route>
       </ElbeTheme>
     ),
@@ -26,13 +23,3 @@ function App() {
     () => null
   );
 }
-
-render(
-  <ThemeBit.Provider>
-    {" "}
-    <wouter.Router hook={useHashLocation}>
-      <App />
-    </wouter.Router>
-  </ThemeBit.Provider>,
-  document.getElementById("app")
-);

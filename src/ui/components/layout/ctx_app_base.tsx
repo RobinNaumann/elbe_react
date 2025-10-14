@@ -1,13 +1,17 @@
-import { createContext } from "preact";
-import { useContext } from "preact/hooks";
-import { ElbeChild } from "../../util/types";
+import { createContext, useContext } from "react";
+import { ElbeChild, int } from "../../util/types";
 import { HeaderLogos } from "./header";
 
 export interface _AppBaseState {
   menuOpen: boolean;
   icons: HeaderLogos;
   globalActions: ElbeChild[];
-  go: (path: string, replace?: boolean) => void;
+  router: {
+    go: (path: string, replace?: int | "all") => void;
+    goBack: (steps?: number) => void;
+    history: string[];
+    location: string;
+  };
 }
 
 export interface _AppBaseControl extends _AppBaseState {

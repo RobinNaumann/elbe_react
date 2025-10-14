@@ -5,7 +5,7 @@ import { ActionElbeProps, applyProps } from "../base/box";
 import { Padded } from "../base/padded";
 import { Spaced } from "../layout/spaced";
 import { Button } from "./button";
-import type { IconChild } from "./icon_button";
+import { Icon, type IconChild } from "./icon_button";
 
 export function ToggleButton({
   value,
@@ -28,21 +28,24 @@ export function ToggleButton({
       manner={value ? "major" : "flat"}
       kind={kind}
       onTap={onChange && (() => onChange(!value))}
+      ariaLabel={elbe.ariaLabel ?? label}
       {...applyProps("toggle_button", elbe, "main-between")}
     >
-      <div class="row gap-none">
-        {typeof icon === "function" ? icon({}) : icon}
+      <div className="row gap-none">
+        <Icon icon={icon} />
         {icon && <Spaced width={0.5} />}
         {label && <span>{label}</span>}
       </div>
       <div
         style={{
-          transition: tConfig.reducedMotion ? null : "width 0.2s ease-in-out",
+          transition: tConfig.reducedMotion
+            ? undefined
+            : "width 0.2s ease-in-out",
           width: value ? "2.5rem" : "0rem",
         }}
       >
         {value && (
-          <Padded class="centered" left={1}>
+          <Padded className="centered" left={1}>
             <CheckIcon />
           </Padded>
         )}

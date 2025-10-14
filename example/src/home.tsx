@@ -32,7 +32,7 @@ export function Home() {
       ></Header>*/}
 
       <_HeroSection />
-      <div class="base-limited" style="border: none">
+      <div className="base-limited" style={{ border: "none" }}>
         <Box mode="light" scheme="primary" padding={1}>
           <Column gap={6}>
             <_InstallSection />
@@ -45,12 +45,14 @@ export function Home() {
             <ColorsSection />
             <TypographySection />
             <UtilSection />
-            <div style="height: 10rem" />
+            <div style={{ height: "10rem" }} />
           </Column>
         </Box>
       </div>
       <Footer
-        right={[<_WrittenIn href="https://robbb.in" />]}
+        right={[
+          <_WrittenIn key={"footer-written-in"} href="https://robbb.in" />,
+        ]}
         legal={{
           label: "imprint/impressum",
           href: "https://robbb.in/impressum.html",
@@ -67,14 +69,14 @@ export function Home() {
   );
 }
 
-function _InstallSection({}) {
+function _InstallSection() {
   return (
     <ExampleSection title="install" anchor="install">
       <Column>
         <div>you can install elbe in React/Preact using the npm package</div>
         <div
-          class="card secondary code"
-          style="padding: .75rem; margin-bottom: .5rem"
+          className="card secondary code"
+          style={{ padding: ".75rem", marginBottom: ".5rem" }}
         >
           npm i <b>elbe-ui</b>
         </div>
@@ -82,8 +84,8 @@ function _InstallSection({}) {
           wrap your App into <b>ElbeTheme</b>
         </div>
         <div
-          class="card secondary code"
-          style="padding: .75rem;margin-bottom: .5rem"
+          className="card secondary code"
+          style={{ padding: ".75rem", marginBottom: ".5rem" }}
         >
           {"<ElbeTheme> ... </ElbeTheme>"}
         </div>
@@ -92,9 +94,9 @@ function _InstallSection({}) {
   );
 }
 
-function _OverviewSection({}) {
+function _OverviewSection() {
   return (
-    <div class="column cross-stretch">
+    <div className="column cross-stretch">
       <Button.flat
         ariaLabel="view components"
         icon={Icons.Boxes}
@@ -141,10 +143,13 @@ function _OverviewSection({}) {
   );
 }
 
-function _HeroSection({}) {
+function _HeroSection() {
   return (
     <Card mode="light" scheme="secondary" padding={1} sharp>
-      <div class="column cross-center main-center" style="height: 15rem;">
+      <div
+        className="column cross-center main-center"
+        style={{ height: "15rem" }}
+      >
         <Text.h1 v="elbe" />
         <div style={{ textAlign: "center" }}>
           an <b>accessibility first</b> cross-platform

@@ -1,5 +1,4 @@
-import { createContext, PreactContext } from "preact";
-import { useContext } from "preact/hooks";
+import { Context, createContext, useContext } from "react";
 import { Maybe, PromiseOr } from "..";
 import { _makeBitProvider } from "./_bit_provider";
 import {
@@ -10,7 +9,7 @@ import {
 } from "./_bit_utils";
 
 export type BitStates = "loading" | "error" | "data";
-export type BitContext<D> = PreactContext<_BitData<D> | null>;
+export type BitContext<D> = Context<_BitData<D> | null>;
 export type BitTriMap<T, D> = {
   onLoading?: () => D;
   onError?: (e: any) => D;

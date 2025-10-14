@@ -1,7 +1,7 @@
-import { Button, Footer, Header, IconButton, Icons, wouter } from "elbe-ui";
+import { Button, Footer, Header, IconButton, Icons, Wouter } from "elbe-ui";
 import { ExampleGroup, ExampleSection } from "../util/section";
 
-export function FoundationSection({}) {
+export function FoundationSection() {
   return (
     <ExampleSection title="Foundation" anchor="foundation">
       <_AppBaseGroup />
@@ -11,7 +11,7 @@ export function FoundationSection({}) {
   );
 }
 
-function _HeaderGroup({}) {
+function _HeaderGroup() {
   return (
     <ExampleGroup
       title="Header"
@@ -20,7 +20,7 @@ function _HeaderGroup({}) {
       code={`<Header title="Title" leading="close" actions={[]}/>`}
     >
       <div
-        class="rounded"
+        className="rounded"
         style={{
           overflow: "hidden",
           border: "1px solid var(--c-context-border)",
@@ -28,15 +28,18 @@ function _HeaderGroup({}) {
         }}
       >
         <Header
+          key={"header"}
           title="Title"
           leading="close"
           actions={[
             <IconButton.plain
+              key={1}
               ariaLabel={null}
               icon={Icons.ShoppingBag}
               onTap={() => {}}
             />,
             <IconButton.plain
+              key={2}
               ariaLabel={null}
               icon={Icons.LogOut}
               onTap={() => {}}
@@ -48,7 +51,7 @@ function _HeaderGroup({}) {
   );
 }
 
-function _FooterGroup({}) {
+function _FooterGroup() {
   return (
     <ExampleGroup
       title="Footer"
@@ -57,7 +60,7 @@ function _FooterGroup({}) {
       code={`<Footer/>`}
     >
       <div
-        class="rounded"
+        className="rounded"
         style={{
           overflow: "hidden",
           border: "1px solid var(--c-context-border)",
@@ -124,8 +127,8 @@ function _FooterGroup({}) {
   );
 }*/
 
-function _AppBaseGroup({}) {
-  const [loc, navigate] = wouter.useLocation();
+function _AppBaseGroup() {
+  const [, navigate] = Wouter.useLocation();
 
   return (
     <ExampleGroup

@@ -1,9 +1,9 @@
-import { Context } from "preact";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { Context, useEffect, useMemo, useState } from "react";
 import {
   BitParams,
   BitUseInterface,
   Column,
+  ElbeChild,
   ElbeChildren,
   ErrorView,
   Maybe,
@@ -136,7 +136,7 @@ export function _makeBitProvider<D, P, I>(
               onError ??
               ((e) => <ErrorView error={e} retry={() => _reload(false)} />)
             )(e),
-          () => onLoading ?? (() => <_LoadView />)()
+          () => (onLoading ?? (() => <_LoadView />))()
         );
       }
 
@@ -147,10 +147,15 @@ export function _makeBitProvider<D, P, I>(
         mapUI,
       };
 
+      function consider(children: () => ElbeChild): ElbeChild {
+        return children();
+      }
+
       const userCtrl = bitP.control({
         ...baseCtrl,
         parameters: p,
         reload: _reload,
+        consider: consider,
       });
 
       return {
@@ -158,11 +163,14 @@ export function _makeBitProvider<D, P, I>(
         ...userCtrl,
         reload: _reload,
         parameters: p,
+        consider: consider,
       };
     }
 
     const ctrl: BitUseInterface<D, P, I> = useMemo(() => _make(), [state]);
-    useEffect(() => ctrl.reload(true), []);
+    useEffect(() => {
+      ctrl.reload(true);
+    }, []);
 
     // ========== DEFINE THE JSX ELEMENT ==========
     return <context.Provider value={ctrl}>{p.children}</context.Provider>;

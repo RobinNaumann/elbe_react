@@ -1,5 +1,5 @@
 import { MoreVertical } from "lucide-react";
-import { useEffect, useState } from "preact/hooks";
+import { useMemo, useState } from "react";
 import {
   Card,
   ElbeChild,
@@ -9,17 +9,15 @@ import {
   useLayoutMode,
   useThemeConfig,
 } from "../../..";
-import { maybeAppBase } from "./ctx_app_base";
 
 export function _Toolbar(p: { actions: ElbeChild[] }) {
   const [sections, setSections] = useState<[ElbeChild[], ElbeChild[]]>([
     [],
     [],
   ]);
-  const appBase = maybeAppBase();
   const layoutMode = useLayoutMode();
 
-  useEffect(() => {
+  useMemo(() => {
     const cutoff = layoutMode.isWide ? 5 : layoutMode.screenWidth < 400 ? 1 : 2;
 
     const bar: ElbeChild[] = [];
@@ -89,7 +87,7 @@ export function OverflowMenu(p: { items: ElbeChild[] }) {
           transform: open ? "scale(1)" : "scale(.6)",
           opacity: open ? 1 : 0,
           transition: tConfig.reducedMotion
-            ? null
+            ? undefined
             : "transform 200ms ease-in-out, opacity 200ms ease-in-out",
         }}
       >

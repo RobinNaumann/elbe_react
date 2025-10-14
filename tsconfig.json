@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES6",
+    "lib": ["ES2023", "DOM"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "jsxImportSource": "react",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

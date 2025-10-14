@@ -1,5 +1,4 @@
 import { MenuIcon } from "lucide-react";
-import { useLocation } from "wouter";
 import {
   _Logo,
   MenuItem,
@@ -99,7 +98,7 @@ export function Menu(p: { items: MenuItem[] }) {
           borderLeft: "none",
           borderTop: "none",
           borderBottom: "none",
-          borderColor: tConfig.highVis ? null : "transparent",
+          borderColor: tConfig.highVis ? undefined : "transparent",
           gap: "1rem",
           transition: tConfig.reducedMotion
             ? "none"
@@ -153,7 +152,6 @@ export function Menu(p: { items: MenuItem[] }) {
 }
 
 function _MenuItemView({ item }: { item: MenuItem }) {
-  const [location, navigate] = useLocation();
   const appBase = useAppBase();
 
   return (
@@ -161,13 +159,19 @@ function _MenuItemView({ item }: { item: MenuItem }) {
       ariaLabel={item.label}
       contentAlign="start"
       manner={
-        (item.path === "/" ? location === "/" : location.startsWith(item.path))
+        (
+          item.path === "/"
+            ? appBase.router.location === "/"
+            : appBase.router.location.startsWith(item.path)
+        )
           ? "major"
           : "plain"
       }
       label={appBase.menuOpen ? item.label : undefined}
       icon={item.icon}
-      onTap={item.disabled ? undefined : () => navigate(item.path)}
+      onTap={
+        item.disabled ? undefined : () => appBase.router.go(item.path, "all")
+      }
     />
   );
 }

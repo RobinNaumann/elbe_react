@@ -1,5 +1,4 @@
-import React from "preact/compat";
-import { useEffect, useState } from "preact/hooks";
+import React, { useEffect, useState } from "react";
 import { ElbeChildren } from "../types";
 import { Maybe } from "../util";
 import {
