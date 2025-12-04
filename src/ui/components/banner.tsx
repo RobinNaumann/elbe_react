@@ -9,8 +9,8 @@ import {
 import {
   Align,
   Card,
+  ColorSelection,
   Column,
-  ElbeAlertKinds,
   IconButton,
   IconChild,
   Row,
@@ -21,7 +21,7 @@ export function KindAlertIcon({
   kind,
   size = "body-m",
 }: {
-  kind: ElbeAlertKinds;
+  kind: ColorSelection.KindsAlert;
   size?: "body-s" | "body-m" | "body-l";
 }) {
   let Icon = CircleHelpIcon;
@@ -45,7 +45,7 @@ export function Banner({
   dismissIcon = XIcon,
   children,
 }: {
-  kind: ElbeAlertKinds;
+  kind: ColorSelection.KindsAlert;
   manner?: "major" | "minor";
   title?: string;
   onDismiss?: () => void;

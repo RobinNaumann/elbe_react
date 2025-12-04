@@ -1,3 +1,18 @@
+.toast-animated {
+    animation: toast-animated_fadeIn 0.2s ease-out;// toast_fadeOut 0.2s ease-in 3s forwards;
+
+     @keyframes toast-animated_fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  }
+
 .toast {
     @extend .card;
     @extend .b;

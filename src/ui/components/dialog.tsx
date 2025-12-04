@@ -1,7 +1,9 @@
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import type { ElbeChildren } from "../util/types";
+import { Padded } from "./base/padded";
 import { IconButton } from "./button/icon_button";
+import { Row } from "./layout/flex";
 import { Spaced } from "./layout/spaced";
 
 export function ElbeDialog({
@@ -11,6 +13,7 @@ export function ElbeDialog({
   children,
   _style,
   barrierDismissible,
+  maxWidth,
 }: {
   _style?: React.CSSProperties;
   title: string;
@@ -18,6 +21,7 @@ export function ElbeDialog({
   onClose: () => void;
   children: ElbeChildren;
   barrierDismissible?: boolean;
+  maxWidth?: number;
 }) {
   useEffect(() => {
     if (open) {
@@ -42,24 +46,29 @@ export function ElbeDialog({
     >
       <div
         className="elbe_dialog_base primary card plain-opaque padding-none"
-        style={{ maxWidth: "40rem", minWidth: "10rem" }}
+        style={{
+          maxWidth: `min(${maxWidth ?? 40}rem, 100%)`,
+          minWidth: "10rem",
+        }}
       >
-        <div className="row cross-center padded main-between">
-          <div className="body-l b">{title}</div>
+        <Padded.all amount={1}>
+          <Row cross="center" main="space-between">
+            <div className="body-l b">{title}</div>
 
-          <IconButton.plain
-            ariaLabel={"Close"}
-            icon={X}
-            onTap={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              onClose();
-            }}
-          />
-        </div>
+            <IconButton.plain
+              ariaLabel={"Close"}
+              icon={X}
+              onTap={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                onClose();
+              }}
+            />
+          </Row>
+        </Padded.all>
         <Spaced amount={0.5} />
-        <div
-          className="padded"
+        <Padded.all
+          amount={1}
           style={{
             paddingTop: 0,
             maxHeight: "80vh",
@@ -67,7 +76,7 @@ export function ElbeDialog({
           }}
         >
           {children}
-        </div>
+        </Padded.all>
       </div>
     </dialog>
   );

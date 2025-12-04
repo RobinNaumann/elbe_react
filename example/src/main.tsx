@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import { App } from "./app";
 import { ThemeBit } from "./util/b_theme";
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById("elbe-root")!).render(
   <StrictMode>
     <ThemeBit.Provider>
       <Wouter.Router>

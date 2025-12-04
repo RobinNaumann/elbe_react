@@ -1,19 +1,19 @@
-import React from "react";
-import type { ElbeTypeVariants } from "../theme/type_theme";
-import type { ElbeChildren } from "../util/types";
-import { applyProps, type ElbeProps } from "./base/box";
+import React, { useMemo } from "react";
+import { useApp } from "../app/app_ctxt";
+import { ElbeTypeVariants } from "../theme/subthemes/_theme_type";
+import { applyProps, ElbeChildrenProps, type ElbeProps } from "./base/box";
 
-export type TextProps = {
-  align?: "start" | "center" | "end";
-  bold?: boolean;
-  italic?: boolean;
-  underline?: boolean;
-  striked?: boolean;
-  color?: string;
-  size?: number;
-  children?: ElbeChildren;
-  v?: string;
-} & ElbeProps;
+export type TextProps = ElbeProps &
+  ElbeChildrenProps & {
+    align?: "start" | "center" | "end";
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
+    striked?: boolean;
+    color?: string;
+    size?: number;
+    v?: string;
+  };
 
 export class Text extends React.Component<
   TextProps & { variant?: ElbeTypeVariants }
@@ -24,56 +24,56 @@ export class Text extends React.Component<
   static h4 = (p: TextProps) => <Text {...p} variant="h4" />;
   static h5 = (p: TextProps) => <Text {...p} variant="h5" />;
   static h6 = (p: TextProps) => <Text {...p} variant="h6" />;
-  static s = (p: TextProps) => <Text {...p} variant="body-s" />;
-  static m = (p: TextProps) => <Text {...p} variant="body-m" />;
-  static l = (p: TextProps) => <Text {...p} variant="body-l" />;
+  static s = (p: TextProps) => <Text {...p} variant="bodyS" />;
+  static m = (p: TextProps) => <Text {...p} variant="bodyM" />;
+  static l = (p: TextProps) => <Text {...p} variant="bodyL" />;
   static code = (p: TextProps) => <Text {...p} variant="code" />;
 
   // replace the constructor with defaultProps so React receives the same props object
   static defaultProps = {
-    variant: "body-m",
+    variant: "bodyM",
   };
 
   render() {
-    const {
-      align,
-      bold,
-      italic,
-      underline,
-      striked,
-      color,
-      size,
-      children,
-      variant,
-      v,
-      ...elbe
-    } = this.props;
-    return (
-      <span
-        {...applyProps(
-          "text",
-          elbe,
-          [
-            "text",
-            //align,
-            color,
-            variant,
-          ],
-          {
-            fontSize: size ? `${size}rem` : "",
-            color: color || "",
-            scrollMarginTop: "2rem",
-            textAlign: align,
-            fontWeight: bold ? "bold" : "",
-            fontStyle: italic ? "italic" : "",
-            textDecoration: underline ? "underline" : "",
-            textDecorationLine: striked ? "line-through" : "",
-          }
-        )}
-      >
-        {v}
-        {children}
-      </span>
-    );
+    return <_Text {...this.props} />;
   }
+}
+
+function _Text(p: TextProps & { variant?: ElbeTypeVariants }) {
+  const { appConfig } = useApp();
+  const usedTheme = appConfig.themeContext.useTheme();
+
+  const tVariant = useMemo(() => {
+    const v = usedTheme.theme.type[p.variant ?? "bodyM"];
+    if (!v) throw new Error(`Unknown text variant: ${p.variant}`);
+    return v;
+  }, [usedTheme, p.variant]);
+
+  const {
+    align,
+    bold,
+    italic,
+    underline,
+    striked,
+    color,
+    size,
+    children,
+    variant,
+    v,
+    ...elbe
+  } = p;
+  return (
+    <span
+      {...applyProps("text", elbe, [], {
+        color: color ?? "",
+        scrollMarginTop: "2rem",
+        textAlign: align,
+        textDecorationLine: striked ? "line-through" : "",
+        ...tVariant.asCss({ bold, italic, underline, size }),
+      })}
+    >
+      {v}
+      {children}
+    </span>
+  );
 }

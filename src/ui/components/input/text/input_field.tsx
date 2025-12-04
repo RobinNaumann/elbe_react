@@ -1,7 +1,7 @@
 import React from "react";
-import { ElbeAlertKinds, KindAlertIcon, Text } from "../../../..";
+import { ColorSelection, KindAlertIcon, Text } from "../../../..";
 import { randomAlphaNum } from "../../../util/util";
-import { applyProps, ElbeProps } from "../../base/box";
+import { applyProps, ElbeProps, ElbeStyleProps } from "../../base/box";
 import { Card } from "../../base/card";
 import { Row } from "../../layout/flex";
 import { _MultiLineField } from "./multi_line";
@@ -19,7 +19,8 @@ export type InputFieldProps = {
   warningMessage?: string;
   errorMessage?: string;
   successMessage?: string;
-} & ElbeProps;
+} & ElbeStyleProps &
+  ElbeProps;
 
 export class Field<T extends InputFieldProps> extends React.Component<
   T & {
@@ -39,8 +40,8 @@ export class Field<T extends InputFieldProps> extends React.Component<
 
     const id = this.props.id ?? randomAlphaNum(8, "input_field_");
 
-    const msg: { kind: ElbeAlertKinds; msg: string } | null = this.props
-      .errorMessage
+    const msg: { kind: ColorSelection.KindsAlert; msg: string } | null = this
+      .props.errorMessage
       ? { kind: "error", msg: this.props.errorMessage }
       : this.props.warningMessage
       ? { kind: "warning", msg: this.props.warningMessage }

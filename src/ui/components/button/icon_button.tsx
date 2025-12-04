@@ -2,65 +2,81 @@ import React, { Component, ComponentType } from "react";
 import {
   ActionElbeProps,
   applyProps,
+  ColorSelection,
   ElbeProps,
   type ElbeChild,
-  type ElbeColorKinds,
-  type ElbeColorManners,
 } from "../../..";
+import { useApp } from "../../app/app_ctxt";
 
 export type IconChild = ElbeChild | ((_: any) => ElbeChild);
 
 export type IconButtonProps = {
   icon?: IconChild;
-  kind?: ElbeColorKinds;
+  kind?: ColorSelection.Kinds;
   transparent?: boolean;
 
   onTap?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 } & ActionElbeProps;
 
 export class IconButton extends Component<
-  IconButtonProps & { manner?: ElbeColorManners }
+  IconButtonProps & { manner?: ColorSelection.Manners }
 > {
-  static major = (p: IconButtonProps) => _btn(p, "major");
-  static minor = (p: IconButtonProps) => _btn(p, "minor");
-  static flat = (p: IconButtonProps) => _btn(p, "flat");
-  static plain = (p: IconButtonProps) => _btn(p, "plain");
+  static major = (p: IconButtonProps) => <_btn {...p} manner="major" />;
+  static minor = (p: IconButtonProps) => <_btn {...p} manner="minor" />;
+  static flat = (p: IconButtonProps) => <_btn {...p} manner="flat" />;
+  static plain = (p: IconButtonProps) => <_btn {...p} manner="plain" />;
 
   render() {
-    return _btn(this.props, this.props.manner);
+    return <_btn {...this.props} manner={this.props.manner ?? "plain"} />;
   }
 }
 
-function _btn(
-  { icon, onTap, ...elbe }: IconButtonProps,
-  manner: ElbeColorManners = "major"
-) {
+function _btn({
+  icon,
+  onTap,
+  manner,
+  ...elbe
+}: IconButtonProps & {
+  manner: ColorSelection.Manners;
+}) {
+  const { appConfig } = useApp();
+
+  const usedTheme = appConfig.themeContext.useTheme().with(
+    ({ color }) => ({
+      color: {
+        ...color,
+        selection: {
+          ...color.selection,
+          kind: elbe.kind ?? "accent",
+          manner: manner,
+        },
+      },
+    }),
+    [elbe.kind, manner]
+  );
+
   return (
-    <button
-      {...applyProps(
-        "icon_button",
-        elbe,
-        [
-          "row",
-          "main-center",
-          "gap-half",
-          elbe.kind ?? (manner != "plain" && "accent"),
-          manner,
-          !onTap && "disabled",
-        ],
-        {
-          backgroundColor: elbe.transparent ? "transparent" : undefined,
+    <appConfig.themeContext.WithTheme theme={usedTheme}>
+      <button
+        {...applyProps("icon_button", elbe, [], {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: elbe.transparent
+            ? "transparent"
+            : usedTheme.theme.color.currentColor.back.asCss(),
           border: "none",
           borderRadius: "3rem",
           height: "3rem",
           width: "3rem",
-        }
-      )}
-      title={elbe.ariaLabel ?? undefined}
-      onClick={(e) => onTap && onTap(e)}
-    >
-      <Icon icon={icon} />
-    </button>
+          cursor: onTap ? "pointer" : "not-allowed",
+        })}
+        title={elbe.ariaLabel ?? undefined}
+        onClick={(e) => onTap && onTap(e)}
+      >
+        <Icon icon={icon} />
+      </button>
+    </appConfig.themeContext.WithTheme>
   );
 }
 

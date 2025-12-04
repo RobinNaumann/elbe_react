@@ -1,4 +1,4 @@
-import { useTheme } from "../../theme/theme_context";
+import { useApp } from "../../app/app_ctxt";
 import { _ElbeErr } from "../../util/error_view";
 import { ActionElbeProps, applyProps } from "../base/box";
 import { Card } from "../base/card";
@@ -17,7 +17,8 @@ export function Range({
   max?: number;
   onChange?: ((value: number) => void) | null;
 } & ActionElbeProps) {
-  const theme = useTheme();
+  const { appConfig } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
   return min > max ? (
     _ElbeErr("Range: max is smaller than min")
   ) : (

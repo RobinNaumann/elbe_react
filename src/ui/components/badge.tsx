@@ -1,5 +1,5 @@
 import React from "react";
-import type { ElbeColorKinds } from "../theme/colors";
+import { ColorSelection } from "../theme/subthemes/color/colors/colors";
 import type { ElbeChild, ElbeChildren } from "../util/types";
 import type { ElbeProps } from "./base/box";
 
@@ -16,9 +16,9 @@ export function TestBadge(p: BadgeProps) {
 }
 
 export class Badge extends React.Component<
-  BadgeProps & { kind: ElbeColorKinds }
+  BadgeProps & { kind: ColorSelection.Kinds }
 > {
-  constructor(props: BadgeProps & { kind: ElbeColorKinds }) {
+  constructor(props: BadgeProps & { kind: ColorSelection.Kinds }) {
     super(props);
   }
 

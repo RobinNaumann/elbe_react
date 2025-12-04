@@ -2,11 +2,12 @@ import {
   Button,
   Card,
   ChooseButton,
+  Column,
   ElbeDialog,
   Icons,
   LayerColor,
-  lColor,
   Range,
+  Row,
   Text,
   ToggleButton,
 } from "elbe-ui";
@@ -17,25 +18,31 @@ export function ThemeEdit() {
   const [open, setOpen] = useState(false);
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((v) => (
-    <Card scheme="secondary" className="column">
-      <div>
-        Edit the theme in real time. There are even more options in the code
-      </div>
-
-      <_AccentSelect />
-      <_TypeSelect />
-      <_RoundSelect />
-      <Button.flat
-        ariaLabel="view seed"
-        icon={Icons.Sprout}
-        label="view seed"
-        onTap={() => setOpen(true)}
-      />
-      <ElbeDialog title="Theme Seed" open={open} onClose={() => setOpen(false)}>
-        <div className="card inverse code">
-          {JSON.stringify(v.seed, null, 2)}
+    <Card scheme="secondary">
+      <Column>
+        <div>
+          Edit the theme in real time. There are even more options in the code
         </div>
-      </ElbeDialog>
+
+        <_AccentSelect />
+        <_TypeSelect />
+        <_RoundSelect />
+        <Button.flat
+          ariaLabel="view seed"
+          icon={Icons.Sprout}
+          label="view seed"
+          onTap={() => setOpen(true)}
+        />
+        <ElbeDialog
+          title="Theme Seed"
+          open={open}
+          onClose={() => setOpen(false)}
+        >
+          <div className="card inverse code">
+            {JSON.stringify(v.seed, null, 2)}
+          </div>
+        </ElbeDialog>
+      </Column>
     </Card>
   ));
 }
@@ -50,9 +57,9 @@ const labelStyle = {
 function _RoundSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((d) => (
-    <div className="column">
+    <Column>
       <Text.h5 v="geometry" />
-      <div className="row">
+      <Row>
         <Text v="roundness" style={labelStyle} />
 
         <Range
@@ -70,8 +77,8 @@ function _RoundSelect() {
           max={2}
           step={0.1}
         />
-      </div>
-      <div className="row">
+      </Row>
+      <Row>
         <Text v="border width" style={labelStyle} />
         <Range
           ariaLabel="set border width"
@@ -88,23 +95,20 @@ function _RoundSelect() {
           max={0.25}
           step={0.05}
         />
-      </div>
-    </div>
+      </Row>
+    </Column>
   ));
 }
 
 function _TypeSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((v) => (
-    <div className="column">
+    <Column>
       <Text.h5 v="typography" />
-      <div className="row">
+      <Row>
         <Text v="title font" style={labelStyle} />
-        <div
-          className="row main-start"
-          style={{ overflowX: "auto", flex: 1, padding: ".25rem 0" }}
-        >
-          <div className="row main-start" style={{ minWidth: "max-content" }}>
+        <Row style={{ overflowX: "auto", flex: 1, padding: ".25rem 0" }}>
+          <Row style={{ minWidth: "max-content" }}>
             {[
               "Calistoga",
               "Inter",
@@ -132,19 +136,19 @@ function _TypeSelect() {
                 }
               />
             ))}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Row>
+        </Row>
+      </Row>
+    </Column>
   ));
 }
 
 function _AccentSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((d) => (
-    <div className="column" style={{ gap: "1.2rem" }}>
+    <Column gap={1.2}>
       <Text.h5 v="color" />
-      <div className="row">
+      <Row>
         <Text v="mode" style={labelStyle} />
 
         <ChooseButton<boolean>
@@ -154,16 +158,17 @@ function _AccentSelect() {
               { value: true, label: "dark", icon: Icons.Moon },
             ] as const
           }
-          value={d.config.dark ?? false}
-          onChange={(v) => themeBit.setConfig({ dark: v })}
+          value={false}
+          //value={d.seed..dark ?? false}
+          //onChange={(v) => themeBit.setConfig({ dark: v })}
         />
-      </div>
+      </Row>
 
-      <div className="row">
+      <Row>
         <Text v="accent" style={labelStyle} />
 
-        <div className="row main-start" style={{ overflowX: "auto", flex: 1 }}>
-          <div className="row main-start" style={{ minWidth: "max-content" }}>
+        <Row flex scroll>
+          <Row style={{ minWidth: "max-content" }}>
             {[
               "#3c77f6ff",
               "#04395eff",
@@ -178,27 +183,32 @@ function _AccentSelect() {
                 onClick={() =>
                   themeBit.setSeed({
                     ...d.seed,
-                    color: { accent: LayerColor.fromHex(c) },
+                    color: { accent: LayerColor.fromBack(c) },
                   })
                 }
-                className="column"
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   backgroundColor: c,
                   padding: ".5rem",
                   borderRadius: "3rem",
                   color: "white",
                 }}
               >
-                {c === lColor(d.seed?.color?.accent ?? "#000000")?.hex ? (
+                {c ===
+                LayerColor.fromBack(
+                  d.seed?.color?.accent ?? "#000000"
+                )?.hex() ? (
                   <Icons.Check />
                 ) : (
                   <Icons.None />
                 )}
               </div>
             ))}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Row>
+        </Row>
+      </Row>
+    </Column>
   ));
 }

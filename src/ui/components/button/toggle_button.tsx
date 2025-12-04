@@ -1,6 +1,6 @@
 import { CheckIcon } from "lucide-react";
-import type { ElbeColorKinds } from "../../theme/colors";
-import { useThemeConfig } from "../../theme/theme_context";
+import { ColorSelection, Row } from "../../..";
+import { useApp } from "../../app/app_ctxt";
 import { ActionElbeProps, applyProps } from "../base/box";
 import { Padded } from "../base/padded";
 import { Spaced } from "../layout/spaced";
@@ -17,11 +17,12 @@ export function ToggleButton({
 }: {
   value: boolean;
   onChange?: (v: boolean) => void;
-  kind?: ElbeColorKinds;
+  kind?: ColorSelection.Kinds;
   label: string;
   icon?: IconChild;
 } & ActionElbeProps) {
-  const tConfig = useThemeConfig();
+  const { appConfig } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
 
   return (
     <Button
@@ -31,14 +32,14 @@ export function ToggleButton({
       ariaLabel={elbe.ariaLabel ?? label}
       {...applyProps("toggle_button", elbe, "main-between")}
     >
-      <div className="row gap-none">
+      <Row gap={0}>
         <Icon icon={icon} />
         {icon && <Spaced width={0.5} />}
         {label && <span>{label}</span>}
-      </div>
+      </Row>
       <div
         style={{
-          transition: tConfig.reducedMotion
+          transition: theme.motion.reduced
             ? undefined
             : "width 0.2s ease-in-out",
           width: value ? "2.5rem" : "0rem",

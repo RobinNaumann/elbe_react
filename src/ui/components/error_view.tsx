@@ -1,6 +1,8 @@
 import { icons } from "lucide-react";
 import { useState } from "react";
 import {
+  Card,
+  Column,
   ElbeDialog,
   ElbeError,
   Icon,
@@ -29,11 +31,13 @@ export function ErrorView({
   return !debug ? (
     <PrettyErrorView error={apiError} retry={retry} />
   ) : (
-    <div className="column padded card inverse cross-stretch">
-      <h3 style={{ margin: 0 }}>ERROR: {apiError.code}</h3>
-      <p>{l10n?.inline(apiError.message) ?? fallback}</p>
-      <pre>{JSON.stringify(apiError, null, 2)}</pre>
-    </div>
+    <Card scheme="inverse">
+      <Column>
+        <h3 style={{ margin: 0 }}>ERROR: {apiError.code}</h3>
+        <p>{l10n?.inline(apiError.message) ?? fallback}</p>
+        <pre>{JSON.stringify(apiError, null, 2)}</pre>
+      </Column>
+    </Card>
   );
 }
 
@@ -80,7 +84,7 @@ export function PrettyErrorView({
   const [loc, navigate] = Wouter.useLocation();
 
   return (
-    <div className="column padded cross-center" style={{ margin: "1rem 0" }}>
+    <Column cross="center" style={{ margin: "1rem 0", padding: "1rem" }}>
       <Icon icon={error.icon ?? icons.OctagonAlert} />
       <h4 style={{ margin: 0 }}>{l10n?.inline(error.message) ?? "error"}</h4>
       <span className="pointer" onClick={() => setOpen(true)}>
@@ -109,6 +113,6 @@ export function PrettyErrorView({
           {`code: ${error.code}\n\n` + JSON.stringify(error.details, null, 2)}
         </pre>
       </ElbeDialog>
-    </div>
+    </Column>
   );
 }

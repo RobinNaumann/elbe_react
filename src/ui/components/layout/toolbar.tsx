@@ -7,8 +7,8 @@ import {
   IconButton,
   ToolbarContext,
   useLayoutMode,
-  useThemeConfig,
 } from "../../..";
+import { useApp } from "../../app/app_ctxt";
 
 export function _Toolbar(p: { actions: ElbeChild[] }) {
   const [sections, setSections] = useState<[ElbeChild[], ElbeChild[]]>([
@@ -48,8 +48,9 @@ export function _Toolbar(p: { actions: ElbeChild[] }) {
 }
 
 export function OverflowMenu(p: { items: ElbeChild[] }) {
+  const { appConfig } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
   const [open, setOpen] = useState(false);
-  const tConfig = useThemeConfig();
 
   return !p.items?.length ? null : (
     <div
@@ -86,7 +87,7 @@ export function OverflowMenu(p: { items: ElbeChild[] }) {
           right: 0,
           transform: open ? "scale(1)" : "scale(.6)",
           opacity: open ? 1 : 0,
-          transition: tConfig.reducedMotion
+          transition: theme.motion.reduced
             ? undefined
             : "transform 200ms ease-in-out, opacity 200ms ease-in-out",
         }}

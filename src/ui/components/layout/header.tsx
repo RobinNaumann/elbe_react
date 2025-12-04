@@ -2,16 +2,14 @@ import { ChevronLeft, MenuIcon, XIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   Card,
+  ColorSelection,
   ElbeChild,
-  ElbeColorSchemes,
   IconButton,
   Text,
   useLayoutMode,
   useSiteScroll,
-  useTheme,
-  useThemeConfig,
 } from "../../..";
-import { maybeAppBase } from "./ctx_app_base";
+import { useApp } from "../../app/app_ctxt";
 import { _Toolbar } from "./toolbar";
 
 export type HeaderLogos = {
@@ -26,22 +24,21 @@ export type HeaderProps = HeaderLogos & {
   title: string | ElbeChild;
   centerTitle?: boolean;
   actions?: ElbeChild[];
-  scheme?: ElbeColorSchemes;
+  scheme?: ColorSelection.Schemes;
 };
 
 export function Header(p: HeaderProps) {
-  const appBase = maybeAppBase();
+  const { appConfig, setAppView } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
   const layoutMode = useLayoutMode();
   const scroll = useSiteScroll();
-  const tConfig = useThemeConfig();
-  const theme = useTheme();
 
   return (
     <Card
       padding={0}
       scheme={p.scheme ?? "primary"}
       bordered
-      frosted={!tConfig.highVis}
+      frosted={!theme.color.isContrast}
       sharp
       style={{
         position: "sticky",
@@ -56,18 +53,18 @@ export function Header(p: HeaderProps) {
         borderTop: "none",
         borderLeft: "none",
         borderRight: "none",
-        borderColor: tConfig.highVis || scroll ? undefined : "transparent",
+        borderColor:
+          theme.color.isContrast || scroll ? undefined : "transparent",
         gap: "1rem",
         zIndex: 80,
       }}
     >
       {p.leading && p.leading !== "back" && p.leading !== "close"
         ? p.leading
-        : appBase &&
-          !layoutMode.isWide && (
+        : !layoutMode.isWide && (
             <IconButton.plain
               ariaLabel="open/close menu"
-              onTap={() => appBase.setMenuOpen(!appBase.menuOpen)}
+              onTap={() => setAppView((v) => ({ ...v, menuOpen: !v.menuOpen }))}
               icon={MenuIcon}
             />
           )}
@@ -76,22 +73,25 @@ export function Header(p: HeaderProps) {
       {p.leading === "close" && <BackButton close />}
       {!layoutMode.isMobile && (
         <_Logo
-          logo={p.logo ?? appBase?.icons.logo}
-          logoDark={p.logoDark ?? appBase?.icons.logoDark}
+          logo={p.logo ?? appConfig.view.icons.logo}
+          logoDark={p.logoDark ?? appConfig.view.icons.logoDark}
           lMargin={0.5}
         />
       )}
-      {(!appBase || layoutMode.isWide) && (
+      {(!appConfig || layoutMode.isWide) && (
         <div style={{ margin: "-1rem", width: "1.5rem" }} />
       )}
       <_HeaderTitle title={p.title} center={p.centerTitle ?? false} />
       <_Toolbar
-        actions={[...(p.actions ?? []), ...(appBase?.globalActions ?? [])]}
+        actions={[
+          ...(p.actions ?? []),
+          ...(appConfig.view?.globalActions ?? []),
+        ]}
       />
       {layoutMode.isWide && (
         <_Logo
-          logo={p.endLogo ?? appBase?.icons.endLogo}
-          logoDark={p.endLogoDark ?? appBase?.icons.endLogoDark}
+          logo={p.endLogo ?? appConfig.view?.icons.endLogo}
+          logoDark={p.endLogoDark ?? appConfig.view?.icons.endLogoDark}
           rMargin={0.5}
         />
       )}
@@ -106,11 +106,12 @@ export function _Logo(p: {
   lMargin?: number;
   rMargin?: number;
 }) {
-  const tConfig = useThemeConfig();
+  const { appConfig, setAppView } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
   const [logo, setLogo] = useState(p.logo);
   useMemo(
-    () => setLogo(tConfig.dark ? p.logoDark ?? p.logo : p.logo),
-    [tConfig]
+    () => setLogo(theme.color.isDark ? p.logoDark ?? p.logo : p.logo),
+    [theme]
   );
 
   return !logo ? null : (
@@ -139,13 +140,13 @@ export function _Logo(p: {
 }
 
 export function BackButton(p: { close?: boolean }) {
-  const appBase = maybeAppBase();
-  const hidden = (appBase?.router.history?.length ?? 0) < 2;
+  const { router } = useApp();
+  const hidden = (router.history?.length ?? 0) < 2;
   return hidden ? null : (
     <IconButton.plain
       key="hello-back"
       ariaLabel={p.close ? "close" : "go back"}
-      onTap={() => appBase?.router.goBack()}
+      onTap={() => router.goBack()}
       icon={p.close ? XIcon : ChevronLeft}
     />
   );

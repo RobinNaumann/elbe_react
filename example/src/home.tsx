@@ -96,7 +96,7 @@ function _InstallSection() {
 
 function _OverviewSection() {
   return (
-    <div className="column cross-stretch">
+    <Column>
       <Button.flat
         ariaLabel="view components"
         icon={Icons.Boxes}
@@ -139,17 +139,14 @@ function _OverviewSection() {
         label="utilities"
         onTap={() => scrollToId("utilities")}
       />
-    </div>
+    </Column>
   );
 }
 
 function _HeroSection() {
   return (
     <Card mode="light" scheme="secondary" padding={1} sharp>
-      <div
-        className="column cross-center main-center"
-        style={{ height: "15rem" }}
-      >
+      <Column cross="center" main="center" style={{ height: "15rem" }}>
         <Text.h1 v="elbe" />
         <div style={{ textAlign: "center" }}>
           an <b>accessibility first</b> cross-platform
@@ -162,7 +159,7 @@ function _HeroSection() {
           icon={Icons.ExternalLink}
           onTap={() => window.open("https://robbb.in/elbe_flutter", "_blank")}
         />
-      </div>
+      </Column>
     </Card>
   );
 }

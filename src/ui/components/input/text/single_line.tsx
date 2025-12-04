@@ -1,8 +1,7 @@
 import {
   applyProps,
   Card,
-  ElbeAlertKinds,
-  ElbeColorKinds,
+  ColorSelection,
   IconButton,
   IconChild,
   InputFieldProps,
@@ -11,7 +10,7 @@ import {
 } from "../../../..";
 
 type _InputMsg = {
-  kind: ElbeAlertKinds;
+  kind: ColorSelection.KindsAlert;
   msg: string;
 };
 
@@ -73,7 +72,7 @@ export function _SingleLineField(p: {
 }
 
 function _Supplement(p: {
-  kind?: ElbeColorKinds;
+  kind?: ColorSelection.KindsAlert;
   trailing?: boolean;
   icon?: IconChild;
   onTap?: () => void;

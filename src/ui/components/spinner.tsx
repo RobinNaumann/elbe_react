@@ -1,5 +1,5 @@
 import { Component, useEffect, useMemo, useState } from "react";
-import { useThemeConfig } from "../theme/theme_context";
+import { useApp } from "../app/app_ctxt";
 
 function _toPath(
   c: [number, number][],
@@ -38,12 +38,13 @@ export class Spinner extends Component<
 }
 
 function _Spinner(p: { manner?: "flat" | "plain" } & SpinnerProps) {
-  const tConfig = useThemeConfig();
+  const { appConfig } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
   const flat = (p.manner ?? "flat") === "flat";
   const [x, setX] = useState(0);
 
   useEffect(() => {
-    if (tConfig.reducedMotion) return () => {};
+    if (theme.motion.reduced) return () => {};
     const interval = setInterval(() => {
       setX((prev) => (prev + 2) % 100);
     }, 16);

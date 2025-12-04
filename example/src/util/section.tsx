@@ -1,4 +1,12 @@
-import { Button, FlexSpace, Row, Text, type ElbeChildren } from "elbe-ui";
+import {
+  Button,
+  Card,
+  Column,
+  FlexSpace,
+  Row,
+  Text,
+  type ElbeChildren,
+} from "elbe-ui";
 import { icons } from "lucide-react";
 import { useState } from "react";
 
@@ -57,7 +65,7 @@ export function ExampleGroup({
   const [showCode, setShowCode] = useState(false);
 
   return (
-    <div className="column cross-stretch">
+    <Column>
       <Row>
         <Text.h4 v={title} />
         <FlexSpace />
@@ -80,30 +88,26 @@ export function ExampleGroup({
         {description?.trim()}
       </span>
       {showCode && (
-        <div className="card inverse code" style={{ overflow: "auto" }}>
+        <Card scheme="inverse" style={{ overflow: "auto" }}>
           {code?.trim()}
-        </div>
+        </Card>
       )}
       {config && (
-        <div
-          className="card secondary row wrap gap-0"
-          style={{
-            padding: 0,
-            overflow: "visible",
-          }}
-        >
-          {config.map((c, i) => (
-            <Button.flat
-              key={i}
-              ariaLabel={c.label}
-              icon={c.signal.value ? icons.CircleCheckBig : icons.Circle}
-              label={c.label}
-              onTap={() => c.signal.set(!c.signal.value)}
-            />
-          ))}
-        </div>
+        <Card scheme="secondary" padding={0}>
+          <Row wrap gap={0}>
+            {config.map((c, i) => (
+              <Button.flat
+                key={i}
+                ariaLabel={c.label}
+                icon={c.signal.value ? icons.CircleCheckBig : icons.Circle}
+                label={c.label}
+                onTap={() => c.signal.set(!c.signal.value)}
+              />
+            ))}
+          </Row>
+        </Card>
       )}
       <div className={classes || "row"}>{children}</div>
-    </div>
+    </Column>
   );
 }

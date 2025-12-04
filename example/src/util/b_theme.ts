@@ -1,27 +1,24 @@
-import {
-  colors,
-  createBit,
-  LayerColor,
-  makeThemeConfig,
-  type ElbeThemeConfig,
-  type ElbeThemeSeed,
-} from "elbe-ui";
+import { colors, createBit, LayerColor, type ElbeThemeSeed } from "elbe-ui";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _empty = {};
 
 type Data = {
-  config: Partial<ElbeThemeConfig>;
-  seed: ElbeThemeSeed;
+  seed: ElbeThemeSeed<typeof _empty>;
 };
 
 export const ThemeBit = createBit({
   debugLabel: "ThemeBit",
   worker: () =>
     ({
-      config: makeThemeConfig({}),
       seed: {
         color: {
-          accent: LayerColor.fromBack(colors.blueAccent),
+          accent: LayerColor.fromBack(colors.accent.blue),
         },
         type: {
+          body: {
+            family: ["Inter", "Arial", "sans-serif"],
+          },
           heading: {
             bold: true,
             family: ["Calistoga", "Arial", "sans-serif"],
@@ -36,18 +33,7 @@ export const ThemeBit = createBit({
     } as Data),
   useHistory: false,
   control: ({ act }) => ({
-    setConfig: (c: Partial<ElbeThemeConfig>) =>
-      act(
-        (v) => ({
-          ...v,
-          config: {
-            ...v.config,
-            ...c,
-          },
-        }),
-        true
-      ),
-    setSeed: (s: Partial<ElbeThemeSeed>) =>
+    setSeed: (s: Partial<ElbeThemeSeed<typeof _empty>>) =>
       act(
         (v) => ({
           ...v,

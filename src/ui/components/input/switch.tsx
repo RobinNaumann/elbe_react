@@ -1,7 +1,7 @@
 import { CheckIcon, XIcon } from "lucide-react";
 import { JSX } from "react/jsx-runtime";
 import { ActionElbeProps, applyProps } from "../../..";
-import { useThemeConfig } from "../../theme/theme_context";
+import { useApp } from "../../app/app_ctxt";
 
 export type BooleanInputProps = {
   value: boolean;
@@ -11,7 +11,8 @@ export type BooleanInputProps = {
 };
 
 export function Switch(p: BooleanInputProps & ActionElbeProps) {
-  const tConfig = useThemeConfig();
+  const { appConfig, setAppView } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
 
   return _InputSpacer(
     p,
@@ -43,7 +44,7 @@ export function Switch(p: BooleanInputProps & ActionElbeProps) {
             : "var(--c-context-back)",
           display: "flex",
           alignItems: "center",
-          transition: tConfig.reducedMotion ? "none" : "background-color 0.25s",
+          transition: theme.motion.reduced ? "none" : "background-color 0.25s",
         }
       )}
     >
@@ -56,7 +57,7 @@ export function Switch(p: BooleanInputProps & ActionElbeProps) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          transition: tConfig.reducedMotion ? "none" : "left 0.25s",
+          transition: theme.motion.reduced ? "none" : "left 0.25s",
         }}
       >
         {p.value ? (

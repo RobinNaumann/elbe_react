@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { int, showToast } from "../..";
+import { int } from "../..";
+import { showToast } from "./toast/toast_legacy";
 
 export type Maybe<T> = T | null | undefined;
 export type PromiseOr<T> = Promise<T> | T;
@@ -114,4 +115,101 @@ export function useSiteScroll() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return scroll;
+}
+
+export function deepMerge<T extends Dict<any>>(
+  original: T,
+  toMerge: Partial<T>
+): T {
+  const output: Dict<any> = {};
+
+  function isPlainObject(v: any) {
+    return v !== null && typeof v === "object" && !Array.isArray(v);
+  }
+
+  for (const key of new Set(
+    Object.keys(toMerge ?? {}).concat(Object.keys(original ?? {}))
+  )) {
+    const a = original?.[key];
+    const b = toMerge?.[key];
+
+    // both present
+    if (b !== undefined && a !== undefined) {
+      // handle arrays explicitly to avoid converting them into objects
+      if (Array.isArray(a) || Array.isArray(b)) {
+        if (Array.isArray(a) && Array.isArray(b)) {
+          const max = Math.max(a.length, b.length);
+          const arr: any[] = [];
+          for (let i = 0; i < max; i++) {
+            if (i in b) {
+              if (isPlainObject(a[i]) && isPlainObject(b[i])) {
+                arr[i] = deepMerge(a[i], b[i]);
+              } else {
+                arr[i] = b[i];
+              }
+            } else {
+              arr[i] = a[i];
+            }
+          }
+          output[key] = arr;
+        } else {
+          // one of them is an array, prefer the `toMerge` value if present
+          output[key] = b ?? a;
+        }
+      } else if (isPlainObject(a) && isPlainObject(b)) {
+        output[key] = deepMerge(a, b);
+      } else {
+        output[key] = b ?? a;
+      }
+    } else {
+      output[key] = b ?? a;
+    }
+  }
+
+  return output as T;
+}
+
+export function throwError(message: string): never {
+  throw new Error(message);
+}
+
+export function tryOrNull<T>(w: () => T | null): T | null {
+  try {
+    return w()!;
+  } catch (e) {
+    console.warn(e);
+    return null;
+  }
+}
+
+export function omit<T extends Dict<any>>(obj: T, ...keys: string[]): T {
+  const res: T = { ...obj };
+  for (const key of keys) {
+    if (key in obj) delete res[key];
+  }
+  return res;
+}
+
+export function dictMap<T extends Dict<any>, U extends Dict<any>>(
+  obj: T,
+  f: (v: T[keyof T], k: keyof T) => U[keyof U] | undefined
+): U {
+  const res: any = {};
+  for (const key in obj) {
+    const v = f(obj[key], key);
+    if (v !== undefined) res[key] = v;
+  }
+  return res;
+}
+
+export function dictWithoutUndefined<T extends Dict<any>>(
+  obj?: T
+): { [key in keyof T]: Exclude<T[key], undefined> } {
+  if (!obj) return {} as any;
+  const res: any = {};
+  for (const key in obj) {
+    const v = obj[key];
+    if (v !== undefined) res[key] = v;
+  }
+  return res;
 }

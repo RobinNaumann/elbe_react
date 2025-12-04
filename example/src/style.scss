@@ -1,5 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Delius&display=swap');
 
 
-// Tooltip
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1rem;
+}
 
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.row.wrap {
+  flex-wrap: wrap;
+}
+
+.base-limited {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+}

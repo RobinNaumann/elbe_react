@@ -1,9 +1,8 @@
-import { Icons } from "../..";
+import { Column, Icons, Row } from "../..";
 
 export function _ElbeErr(msg: string) {
   return (
-    <div
-      className="row text-s gap-half"
+    <Row
       style={{
         background: "#ee0044",
         color: "white",
@@ -13,10 +12,10 @@ export function _ElbeErr(msg: string) {
       }}
     >
       <Icons.CircleX />
-      <div className="column gap-none cross-stretch">
+      <Column gap={0}>
         <b className="text-s">elbe error</b>
         <span style={{ marginTop: "-.125rem" }}>{msg}</span>
-      </div>
-    </div>
+      </Column>
+    </Row>
   );
 }

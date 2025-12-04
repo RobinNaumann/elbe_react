@@ -27,6 +27,7 @@ export function _makeBitProvider<D, P, I>(
   }
 ): _BitProvider<P> {
   function _BitProvider(p: { children?: Maybe<ElbeChildren> } & P) {
+    const [streamCancel, setStreamCancel] = useState<Maybe<() => void>>(null);
     const [state, setState] = useState<{
       v: _BitState<D>;
       history: D[];
@@ -97,8 +98,23 @@ export function _makeBitProvider<D, P, I>(
         }
       }
 
-      const _reload = (silent?: boolean) =>
-        _worker(() => bitP.worker(p), silent);
+      const _reload = (silent?: boolean) => {
+        const _bit = bitP as any;
+        if (_bit.stream) {
+          try {
+            if (!silent) _partCtrl.setLoading();
+            if (streamCancel) streamCancel();
+            const cancel = _bit.stream(p, _partCtrl);
+            setStreamCancel(() => cancel);
+            return;
+          } catch (e) {
+            console.error("[BIT] Error in stream preparation:", e);
+            _partCtrl.setError(e);
+          }
+        }
+
+        _worker(() => _bit.worker(p), silent);
+      };
 
       async function act(fn: (data: D) => PromiseOr<D>, silent?: boolean) {
         const data = _partCtrl.data;
@@ -170,6 +186,18 @@ export function _makeBitProvider<D, P, I>(
     const ctrl: BitUseInterface<D, P, I> = useMemo(() => _make(), [state]);
     useEffect(() => {
       ctrl.reload(true);
+      return () => {
+        if (streamCancel) streamCancel();
+
+        // call dispose if exists
+        const d = (ctrl as any).dispose;
+        if (typeof d !== "function") return;
+        try {
+          d();
+        } catch {
+          // ignore errors during dispose
+        }
+      };
     }, []);
 
     // ========== DEFINE THE JSX ELEMENT ==========

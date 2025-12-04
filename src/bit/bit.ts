@@ -2,6 +2,7 @@ import { Context, createContext, useContext } from "react";
 import { Maybe, PromiseOr } from "..";
 import { _makeBitProvider } from "./_bit_provider";
 import {
+  _BitCtrlInput,
   _BitCtrlMaker,
   _BitData,
   _BitGetInterface,
@@ -23,9 +24,21 @@ export type BitUseInterface<D, P, I> = _BitGetInterface<D> &
 export type BitParams<D, P, I> = {
   control?: _BitCtrlMaker<D, P, I>;
   debugLabel?: Maybe<string>;
-  worker: (params: P) => PromiseOr<D>;
+  /** the value will not be used allows Typescript to infer the data type.
+   *
+   * So, pass a value like this:
+   * `dataTypeHint: null as any as {[key: string]: number}`
+   */
+  dataTypeHint?: D;
   useHistory?: boolean;
-};
+} & (
+  | {
+      worker: (params: P) => PromiseOr<D>;
+    }
+  | {
+      stream: (params: P, ctrl: _BitCtrlInput<D, P>) => () => void;
+    }
+);
 
 export function createBit<D, P extends Object, I>({
   control = () => ({} as I),

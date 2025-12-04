@@ -1,6 +1,6 @@
 {
   "name": "elbe-ui",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "author": "Robin Naumann",
   "license": "MIT",
   "repository": {
@@ -21,7 +21,7 @@
   "scripts": {
     "build:ts": "tsc",
     "build:dts": "tsc --declaration",
-    "build:css": "sass -q style/elbe.scss dist/elbe.css",
+    "build:css": "sass -q style/elbe-util.scss dist/elbe.css",
     "build": "rm -rf ./dist && bun run build:ts && bun run build:dts && bun run build:css ",
     "dev": "bun run build && (cd example && bun run dev)",
     "pub": "bun run build && npm publish"
@@ -34,9 +34,11 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@types/react-dom": "^19.2.3",
     "colors-convert": "^1.4.1",
     "lucide-react": "^0.438.0",
     "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "wouter": "^3.7.1"
   }
 }

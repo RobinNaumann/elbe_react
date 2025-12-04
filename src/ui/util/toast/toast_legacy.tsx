@@ -1,8 +1,7 @@
 /**
- * show a toast message at the bottom of the screen
- * @param message the message to show
+ * @deprecated use the new `const {showToast} = useToast()` hook based model instead
+ * @param message the message you want to display
  */
-
 export function showToast(message: string) {
   // find the 'elbe' element
   const elbe = document.querySelector(".elbe");

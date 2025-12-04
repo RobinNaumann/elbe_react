@@ -1,18 +1,18 @@
 import {
+  ColorSelection,
   ElbeChildren,
-  ElbeColorKinds,
-  ElbeColorManners,
-  ElbeColorModes,
-  ElbeColorSchemes,
+  ElbeChildrenProps,
   ElbeProps,
-  applyProps,
+  ElbeStyleProps,
+  _Box,
 } from "../../..";
+import { useApp } from "../../app/app_ctxt";
 
 export const elevatedShadow = "0 0 15px rgba(0,0,0,.2)";
 
 export function Card({
   mode,
-  scheme = "primary",
+  scheme,
   kind,
   manner,
   padding = 1,
@@ -28,10 +28,10 @@ export function Card({
   children,
   ...elbe
 }: {
-  mode?: ElbeColorModes;
-  scheme?: ElbeColorSchemes;
-  kind?: ElbeColorKinds;
-  manner?: ElbeColorManners;
+  mode?: ColorSelection.Modes;
+  scheme?: ColorSelection.Schemes;
+  kind?: ColorSelection.Kinds;
+  manner?: ColorSelection.Manners;
   padding?: number;
   margin?: number;
   onTap?: () => void;
@@ -41,36 +41,53 @@ export function Card({
   bordered?: boolean;
   sharp?: boolean;
   disabled?: boolean;
-  overflow?: "hidden" | "scroll" | "auto";
+  overflow?: "auto" | "hidden" | "scroll";
   children?: ElbeChildren;
-} & ElbeProps) {
+} & ElbeProps &
+  ElbeStyleProps &
+  ElbeChildrenProps) {
+  const { appConfig } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
+
   return (
-    <div
-      {...applyProps(
-        "card",
-        elbe,
-        [
-          "card",
-          mode,
-          scheme,
-          kind,
-          manner,
-          frosted && "frosted",
-          bordered && "bordered",
-          sharp && "sharp",
-          disabled && "disabled",
-        ],
-        {
-          padding: `${padding}rem`,
-          margin: `${margin}rem`,
-          overflow: overflow,
-          boxShadow: elevated ? elevatedShadow : undefined,
-        }
-      )}
-      onClick={onTap}
-      onContextMenu={onLongTap}
+    <_Box
+      mode={mode}
+      scheme={scheme}
+      kind={kind}
+      manner={manner}
+      padding={padding}
+      style={{
+        padding: `${padding}rem`,
+        margin: `${margin}rem`,
+        overflow: overflow,
+        boxShadow: elevated ? elevatedShadow : undefined,
+        borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
+        border: bordered
+          ? `${theme.geometry.borderWidth}rem solid ${
+              theme.color.currentColor.border?.asCss() ?? "transparent"
+            }`
+          : undefined,
+        backdropFilter: frosted ? "blur(10px)" : undefined,
+        opacity: disabled ? 0.5 : 1,
+        ...(elbe.style ?? {}),
+      }}
+      native={{
+        onClick: (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (disabled) return;
+          onTap?.();
+        },
+        onContextMenu: (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (disabled) return;
+          onLongTap?.();
+        },
+        ...(elbe.native ?? {}),
+      }}
     >
       {children}
-    </div>
+    </_Box>
   );
 }

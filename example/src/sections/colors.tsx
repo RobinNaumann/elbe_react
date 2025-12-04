@@ -1,6 +1,14 @@
-import { ChooseButton, cKinds, cManners, Scroll, tVariants } from "elbe-ui";
+import {
+  Card,
+  ChooseButton,
+  Column,
+  Row,
+  Scroll,
+  type ColorSelection,
+} from "elbe-ui";
 import { useState } from "react";
 import { ExampleSection } from "../util/section";
+import { cKinds, cManners } from "../util/util";
 
 export function ColorsSection() {
   return (
@@ -12,51 +20,52 @@ export function ColorsSection() {
 
 export function TypographySection() {
   return (
-    <ExampleSection title="Typography" anchor="typography">
-      <_TypeDemo />
-    </ExampleSection>
+    <ExampleSection title="Typography" anchor="typography"></ExampleSection>
   );
 }
 
 function _ColorDemo() {
-  const [mode, setMode] = useState("primary");
+  const [mode, setMode] = useState<ColorSelection.Schemes>("primary");
+
   return (
-    <div className={`column`}>
-      <div className="row gap-none rounded">
+    <Column>
+      <Row gap={0}>
         <ChooseButton
           items={[
             { value: "primary", label: "primary" },
             { value: "secondary", label: "secondary" },
             { value: "inverse", label: "inverse" },
           ]}
-          onChange={(v) => setMode(v)}
+          onChange={(v) => setMode(v as ColorSelection.Schemes)}
           value={mode}
         />
-      </div>
-      <Scroll.horizontal className={`${mode} card column`} innerClass="column">
-        {cKinds.map((s, i) => (
-          <div key={i} className="row">
-            <div className="card" style={{ width: "8rem" }}>
-              {s}
-            </div>
-            {cManners
-              .filter((v) => v !== "plain")
-              .map(
-                (v, i) =>
-                  (s !== "plain" || v === "flat") && (
-                    <div key={i} className={`${v} ${s} card column b action`}>
-                      {v}
-                    </div>
-                  )
-              )}
-          </div>
-        ))}
-      </Scroll.horizontal>
-    </div>
+      </Row>
+      <Card scheme={mode}>
+        <Scroll.horizontal>
+          <Column>
+            {cKinds.map((s, i) => (
+              <Row key={i}>
+                <Card style={{ width: "8rem" }}>{s}</Card>
+                {cManners.map((m, i) => (
+                  <Card
+                    key={i}
+                    kind={s as ColorSelection.Kinds}
+                    manner={m as ColorSelection.Manners}
+                    style={{ width: "6rem", textAlign: "center" }}
+                  >
+                    {m}
+                  </Card>
+                ))}
+              </Row>
+            ))}
+          </Column>
+        </Scroll.horizontal>
+      </Card>
+    </Column>
   );
 }
 
-function _TypeDemo() {
+/*function _TypeDemo() {
   return (
     <>
       <div className="card">
@@ -68,4 +77,4 @@ function _TypeDemo() {
       </div>
     </>
   );
-}
+}*/

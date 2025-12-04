@@ -1,8 +1,8 @@
-import {
-  AppBase,
+/*import {
   Button,
   Card,
   Column,
+  ElbeApp,
   Footer,
   Header,
   IconButton,
@@ -10,7 +10,6 @@ import {
   MenuRoute,
   Page,
   showToast,
-  useAppBase,
   type ElbeColorSchemes,
 } from "elbe-ui";
 import {
@@ -24,7 +23,7 @@ import { L10n, useL10n } from "../l10n";
 export function AppDemo(p: { goBack: () => void }) {
   return (
     <L10n>
-      <AppBase
+      <ElbeApp
         endLogo="./assets/elbe_dark.png"
         endLogoDark="./assets/elbe_light.png"
         globalActions={[
@@ -160,3 +159,4 @@ function _SettingsPage() {
     </>
   );
 }
+*/

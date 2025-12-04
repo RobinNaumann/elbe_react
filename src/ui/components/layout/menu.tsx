@@ -1,21 +1,14 @@
 import { MenuIcon } from "lucide-react";
-import {
-  _Logo,
-  MenuItem,
-  useLayoutMode,
-  useTheme,
-  useThemeConfig,
-} from "../../..";
+import { _Logo, MenuItem, useLayoutMode } from "../../..";
+import { useApp } from "../../app/app_ctxt";
 import { Card, elevatedShadow } from "../base/card";
 import { Button } from "../button/button";
-import { useAppBase } from "./ctx_app_base";
 import { Column } from "./flex";
 
 export function Menu(p: { items: MenuItem[] }) {
+  const { appConfig, setAppView } = useApp();
+  const { theme } = appConfig.themeContext.useTheme();
   const layoutMode = useLayoutMode();
-  const appBase = useAppBase();
-  const tConfig = useThemeConfig();
-  const theme = useTheme();
 
   const topBot: {
     top: MenuItem[];
@@ -26,10 +19,10 @@ export function Menu(p: { items: MenuItem[] }) {
     else topBot.top.push(i);
   }
 
-  const wideOrOpen = () => appBase.menuOpen || layoutMode.isWide;
+  const wideOrOpen = () => appConfig.view.menuOpen || layoutMode.isWide;
 
   const menuWidth = () =>
-    appBase.menuOpen
+    appConfig.view.menuOpen
       ? layoutMode.isMobile
         ? "100vw"
         : `${17 + theme.geometry.borderWidth}rem`
@@ -48,7 +41,7 @@ export function Menu(p: { items: MenuItem[] }) {
         />
       )}
       <div
-        onClick={() => appBase.setMenuOpen(false)}
+        onClick={() => setAppView((v) => ({ ...v, menuOpen: false }))}
         style={{
           zIndex: 100,
 
@@ -59,7 +52,7 @@ export function Menu(p: { items: MenuItem[] }) {
           height: 0,
           backgroundColor: "rgba(0,0,0,0)",
           transition: "background-color 200ms ease-in-out",
-          ...(layoutMode.isNarrow && appBase.menuOpen
+          ...(layoutMode.isNarrow && appConfig.view.menuOpen
             ? {
                 backdropFilter: "blur(5px)",
                 backgroundColor: "rgba(0,0,0,.2)",
@@ -73,7 +66,7 @@ export function Menu(p: { items: MenuItem[] }) {
       <Card
         onTap={() => {
           if (layoutMode.isWide) return;
-          appBase.setMenuOpen(false);
+          setAppView((v) => ({ ...v, menuOpen: false }));
         }}
         sharp={layoutMode.isMobile}
         bordered
@@ -98,13 +91,11 @@ export function Menu(p: { items: MenuItem[] }) {
           borderLeft: "none",
           borderTop: "none",
           borderBottom: "none",
-          borderColor: tConfig.highVis ? undefined : "transparent",
+          borderColor: theme.color.isContrast ? undefined : "transparent",
           gap: "1rem",
-          transition: tConfig.reducedMotion
-            ? "none"
-            : "width 200ms ease-in-out",
+          transition: theme.motion.reduced ? "none" : "width 200ms ease-in-out",
 
-          ...(layoutMode.isNarrow && appBase.menuOpen
+          ...(layoutMode.isNarrow && appConfig.view.menuOpen
             ? {
                 boxShadow: elevatedShadow,
               }
@@ -116,7 +107,7 @@ export function Menu(p: { items: MenuItem[] }) {
             <Button.plain
               contentAlign="start"
               ariaLabel="open/close menu"
-              onTap={() => appBase.setMenuOpen(!appBase.menuOpen)}
+              onTap={() => setAppView((v) => ({ ...v, menuOpen: !v.menuOpen }))}
               icon={MenuIcon}
               style={{
                 marginBottom: ".5rem",
@@ -125,8 +116,8 @@ export function Menu(p: { items: MenuItem[] }) {
             >
               {!layoutMode.isWide && (
                 <_Logo
-                  logo={appBase?.icons.logo}
-                  logoDark={appBase?.icons.logoDark}
+                  logo={appConfig.view?.icons.logo}
+                  logoDark={appConfig.view?.icons.logoDark}
                   lMargin={0.5}
                 />
               )}
@@ -137,12 +128,12 @@ export function Menu(p: { items: MenuItem[] }) {
               noScrollbar
               //style={{overflowY: "auto"}}
             >
-              {topBot.top.map((i) => (
-                <_MenuItemView item={i} />
+              {topBot.top.map((i, index) => (
+                <_MenuItemView key={index} item={i} />
               ))}
             </Column>
-            {topBot.bottom.map((i) => (
-              <_MenuItemView item={i} />
+            {topBot.bottom.map((i, index) => (
+              <_MenuItemView key={index} item={i} />
             ))}
           </>
         )}
@@ -152,7 +143,7 @@ export function Menu(p: { items: MenuItem[] }) {
 }
 
 function _MenuItemView({ item }: { item: MenuItem }) {
-  const appBase = useAppBase();
+  const { appConfig, router } = useApp();
 
   return (
     <Button
@@ -161,17 +152,15 @@ function _MenuItemView({ item }: { item: MenuItem }) {
       manner={
         (
           item.path === "/"
-            ? appBase.router.location === "/"
-            : appBase.router.location.startsWith(item.path)
+            ? router.location === "/"
+            : router.location.startsWith(item.path)
         )
           ? "major"
           : "plain"
       }
-      label={appBase.menuOpen ? item.label : undefined}
+      label={appConfig.view.menuOpen ? item.label : undefined}
       icon={item.icon}
-      onTap={
-        item.disabled ? undefined : () => appBase.router.go(item.path, "all")
-      }
+      onTap={item.disabled ? undefined : () => router.go(item.path, "all")}
     />
   );
 }

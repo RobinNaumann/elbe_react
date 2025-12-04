@@ -6,7 +6,6 @@ import {
   Card,
   Checkbox,
   ChooseButton,
-  cManners,
   Column,
   ElbeDialog,
   Field,
@@ -23,12 +22,13 @@ import {
   Switch,
   Text,
   ToggleButton,
-  type ElbeAlertKinds,
-  type ElbeColorSchemes,
+  useToast,
+  type ColorSelection,
 } from "elbe-ui";
 
 import { useEffect, useState } from "react";
 import { ExampleGroup, ExampleSection, useConfigSignal } from "../util/section";
+import { cManners } from "../util/util";
 
 export function ComponentsSection() {
   return (
@@ -142,7 +142,7 @@ function _BoxGroup() {
       code={`<Box.secondary>...</Box.secondary>`}
     >
       {["primary", "secondary", "inverse"].map((v, i) => (
-        <Box key={i} scheme={v as ElbeColorSchemes} padding={0.5}>
+        <Box key={i} scheme={v as ColorSelection.Schemes} padding={0.5}>
           {v}
         </Box>
       ))}
@@ -164,7 +164,7 @@ function _CardGroup() {
       {["primary", "secondary", "inverse"].map((v, i) => (
         <Card
           key={i}
-          scheme={v as ElbeColorSchemes}
+          scheme={v as ColorSelection.Schemes}
           bordered={borderedSig.signal.value}
         >
           {v}
@@ -218,7 +218,7 @@ function _IconButtonGroup() {
         <IconButton
           key={i}
           ariaLabel="icon button"
-          manner={v}
+          manner={v as ColorSelection.Manners}
           icon={Icons.Leaf}
           onTap={
             enabledSig.signal.value
@@ -247,7 +247,7 @@ function _ButtonGroup() {
         <Button
           key={i}
           ariaLabel="a button"
-          manner={v}
+          manner={v as ColorSelection.Manners}
           icon={iconSig.signal.value && Icons.Leaf}
           label={v}
           onTap={
@@ -482,6 +482,7 @@ function _SwitchGroup() {
 }
 
 function _BannerGroup() {
+  const { showToast } = useToast();
   const minorSig = useConfigSignal("minor", false);
   const titleSig = useConfigSignal("title", false);
   const dismissSig = useConfigSignal("dismissable", true);
@@ -497,12 +498,14 @@ function _BannerGroup() {
       {["info", "warning", "error", "success"].map((v, i) => (
         <Banner
           key={i}
-          kind={v as ElbeAlertKinds}
+          kind={v as ColorSelection.KindsAlert}
           manner={minorSig.signal.value ? "minor" : "major"}
           onDismiss={
             dismissSig.signal.value
               ? () => {
-                  showToast("you can act on dismiss");
+                  showToast("you can act on dismiss", {
+                    kind: v as ColorSelection.KindsAlert,
+                  });
                 }
               : undefined
           }

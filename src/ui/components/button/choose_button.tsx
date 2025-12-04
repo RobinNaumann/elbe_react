@@ -1,5 +1,5 @@
 import { CheckIcon } from "lucide-react";
-import type { ElbeColorKinds } from "../../theme/colors";
+import { ColorSelection, Row } from "../../..";
 import { Card } from "../base/card";
 import { Spaced } from "../layout/spaced";
 import { Button } from "./button";
@@ -22,7 +22,7 @@ export function ChooseButton<T>({
   items: ChooseItem<T>[];
   value: T;
   onChange?: (v: T) => void;
-  kind?: ElbeColorKinds;
+  kind?: ColorSelection.Kinds;
   column?: boolean;
 }) {
   return (
@@ -33,6 +33,7 @@ export function ChooseButton<T>({
       overflow="hidden"
       role="radiogroup"
       disabled={!onChange}
+      //TODO: fix duplication of row/column classes
       className={`${column ? "column" : "row"} gap-none`}
     >
       {items.map((e, i) => (
@@ -44,10 +45,11 @@ export function ChooseButton<T>({
           onTap={onChange && (() => onChange(e.value))}
           className={`sharp ${column ? "main-between gap-double" : ""}`}
         >
-          <div className="row gap-half">
+          <Row gap={0.5}>
             <Icon icon={Icon} />
             {e.label && <span>{e.label}</span>}
-          </div>
+          </Row>
+
           {column &&
             (e.value === value ? <CheckIcon /> : <Spaced amount={1.5} />)}
         </Button>
