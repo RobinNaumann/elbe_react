@@ -117,58 +117,6 @@ export function useSiteScroll() {
   return scroll;
 }
 
-export function deepMerge<T extends Dict<any>>(
-  original: T,
-  toMerge: Partial<T>
-): T {
-  const output: Dict<any> = {};
-
-  function isPlainObject(v: any) {
-    return v !== null && typeof v === "object" && !Array.isArray(v);
-  }
-
-  for (const key of new Set(
-    Object.keys(toMerge ?? {}).concat(Object.keys(original ?? {}))
-  )) {
-    const a = original?.[key];
-    const b = toMerge?.[key];
-
-    // both present
-    if (b !== undefined && a !== undefined) {
-      // handle arrays explicitly to avoid converting them into objects
-      if (Array.isArray(a) || Array.isArray(b)) {
-        if (Array.isArray(a) && Array.isArray(b)) {
-          const max = Math.max(a.length, b.length);
-          const arr: any[] = [];
-          for (let i = 0; i < max; i++) {
-            if (i in b) {
-              if (isPlainObject(a[i]) && isPlainObject(b[i])) {
-                arr[i] = deepMerge(a[i], b[i]);
-              } else {
-                arr[i] = b[i];
-              }
-            } else {
-              arr[i] = a[i];
-            }
-          }
-          output[key] = arr;
-        } else {
-          // one of them is an array, prefer the `toMerge` value if present
-          output[key] = b ?? a;
-        }
-      } else if (isPlainObject(a) && isPlainObject(b)) {
-        output[key] = deepMerge(a, b);
-      } else {
-        output[key] = b ?? a;
-      }
-    } else {
-      output[key] = b ?? a;
-    }
-  }
-
-  return output as T;
-}
-
 export function throwError(message: string): never {
   throw new Error(message);
 }

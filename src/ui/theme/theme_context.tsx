@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { ElbeChildren } from "../..";
-import { deepMerge, dictMap, throwError, tryOrNull } from "../util/util";
+import { deepMerge } from "../util/merge_deep";
+import { dictMap, throwError, tryOrNull } from "../util/util";
 import {
   elbeCoreThemes,
   ElbeThemeConfig,
@@ -9,6 +10,10 @@ import {
   ElbeThemeDefinitions,
   ElbeThemeSeed,
 } from "./theme";
+
+//const DEMO_TypeData = elbeCoreThemes.type.fromSeed(elbeCoreThemes.type.seed);
+//const DEMO_ColorData = elbeCoreThemes.color.fromSeed(elbeCoreThemes.color.seed);
+//const DEMO_ColorComp = elbeCoreThemes.color.compute(DEMO_ColorData);
 
 export function makeThemeContext<T extends ElbeThemeData = {}>(p: {
   definitions?: T;
@@ -29,9 +34,11 @@ export function makeThemeContext<T extends ElbeThemeData = {}>(p: {
     p.seed ?? {}
   );
 
-  const ElbeThemeContext = createContext<ElbeThemeContextData<T>>(
-    _computeContext(allDefinitions, config)
-  );
+  console.log("MAKING THEME CONFIG", config);
+
+  const computedContext = _computeContext(allDefinitions, config);
+  const ElbeThemeContext =
+    createContext<ElbeThemeContextData<T>>(computedContext);
 
   function useMaybeTheme(): ElbeThemeContextData<T> | null {
     return tryOrNull(() => useContext(ElbeThemeContext));
@@ -107,7 +114,9 @@ function _configFromSeed<T extends ElbeThemeData>(
     if (key === "with") continue;
     //if (key! in seed) continue;
     const fullSeed = deepMerge(defs[key].seed, seed?.[key] ?? {});
-    console.log("THEME SEED FOR", key, fullSeed);
+
+    console.log("THEME FROM SEED FOR", key, fullSeed);
+
     conf[key] = {
       ...defs[key].fromSeed(fullSeed as any),
       ...(config?.[key] ?? {}),
@@ -122,7 +131,7 @@ function _with<T extends ElbeThemeData>(
   worker: (data: ElbeThemeConfig<T>) => Partial<ElbeThemeConfig<T>>
 ): ElbeThemeContextData<T> {
   const partConf = worker({ ...config });
-  const newConf = deepMerge(config, partConf);
+  const newConf = { ...config, ...partConf };
   return _computeContext<T>(definitions, newConf);
 }
 
