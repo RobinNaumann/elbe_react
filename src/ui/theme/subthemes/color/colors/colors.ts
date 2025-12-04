@@ -22,12 +22,11 @@ export namespace ColorSelection {
   export type Modes = ColorDataKeys<typeof ModeColor>;
   export type Schemes = ColorDataKeys<typeof SchemeColor>;
   export type Kinds = ColorDataKeys<typeof KindColor>;
-  export type MannersTrue = ColorDataKeys<typeof MannerColor>;
-  export type Manners = MannersTrue | "plain";
+  export type Manners = ColorDataKeys<typeof MannerColor>;
   export type States = ColorDataKeys<typeof StateColor>;
   export type Layers = ColorDataKeys<typeof LayerColor>;
 
-  export type KindsAlert = Exclude<Kinds, "plain" | "accent">;
+  export type KindsAlert = Exclude<Kinds, "accent">;
 }
 
 type _SeedSelInput = {
@@ -81,7 +80,7 @@ type _SchemeSeed = {
   inverse: SeedSelector;
 };
 
-type _StyleSeed = {
+type _KindSeed = {
   accent: SeedStyleSelector;
   info: SeedStyleSelector;
   success: SeedStyleSelector;
@@ -109,7 +108,7 @@ export type ColorThemeSeed = ColorSeedColors & {
   contrast: _ContrastSeed;
   mode: _ModeSeed;
   scheme: _SchemeSeed;
-  style: _StyleSeed;
+  kind: _KindSeed;
   variant: _VariantSeed;
 };
 
@@ -117,7 +116,7 @@ export type PartialColorThemeSeed = Partial<ColorSeedColors> & {
   contrast?: Partial<_ContrastSeed>;
   mode?: Partial<_ModeSeed>;
   scheme?: Partial<_SchemeSeed>;
-  style?: Partial<_StyleSeed>;
+  kind?: Partial<_KindSeed>;
   variant?: Partial<_VariantSeed>;
 };
 

@@ -148,6 +148,9 @@ export function _Box(
           padding: `${padding}rem`,
           margin: `${margin}rem`,
           background: usedTheme.theme.color.currentColor.back.asCss(),
+          transition: usedTheme.theme.motion.reduced
+            ? undefined
+            : "background 0.3s ease",
           ...elbe.style,
         })}
       >

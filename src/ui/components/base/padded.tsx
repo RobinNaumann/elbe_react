@@ -1,9 +1,7 @@
 import React from "react";
-import { applyProps, ElbeProps } from "./box";
+import { applyProps, ElbeChildrenProps, ElbeProps } from "./box";
 
-export type PaddedProps = ElbeProps & {
-  children: any;
-};
+export type PaddedProps = ElbeProps & ElbeChildrenProps;
 
 export class Padded extends React.Component<
   PaddedProps & {

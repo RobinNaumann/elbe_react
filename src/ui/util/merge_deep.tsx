@@ -15,7 +15,6 @@ export function deepMerge<T extends Dict<any>>(
     const vToMerge = toMerge?.[key];
 
     if (isPlainObject(vOriginal) && isPlainObject(vToMerge) && depth > 0) {
-      //console.log("DEEP MERGE FOR KEY", key, vOriginal, vToMerge);
       output[key] = deepMerge(
         vOriginal as Dict<any>,
         vToMerge as Dict<any>,

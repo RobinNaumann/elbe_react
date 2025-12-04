@@ -36,6 +36,7 @@ export const MannerColor = defineColor({
           seed.variant.flat({ path, seed, base, style }),
           true
         ),
+        plain: StateColor.generate([...path, "plain"], seed, base, base, true),
       });
     },
   },
@@ -44,6 +45,7 @@ export const MannerColor = defineColor({
     major: StateColor | null;
     minor: StateColor | null;
     flat: StateColor;
+    plain: StateColor;
   }) => ({}),
 });
 

@@ -91,8 +91,8 @@ export const _seed: ColorThemeSeed = {
     contrast: "normal",
     mode: "light",
     scheme: "primary",
-    kind: "plain",
-    manner: "major",
+    kind: "accent",
+    manner: "plain",
   },
 
   contrast: {
@@ -115,7 +115,7 @@ export const _seed: ColorThemeSeed = {
     },
     inverse: _makeInverse,
   },
-  style: {
+  kind: {
     accent: _styleSel,
     info: _styleSel,
     success: _styleSel,

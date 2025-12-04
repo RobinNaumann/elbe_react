@@ -7,6 +7,15 @@ import { Row } from "../../layout/flex";
 import { _MultiLineField } from "./multi_line";
 import { _SingleLineField, SLInputFieldProps } from "./single_line";
 
+type _InputTypes =
+  | "text"
+  | "number"
+  | "password"
+  | "date"
+  | "time"
+  | "email"
+  | "area";
+
 export type InputFieldProps = {
   id?: string;
   label: string;
@@ -23,61 +32,61 @@ export type InputFieldProps = {
   ElbeProps;
 
 export class Field<T extends InputFieldProps> extends React.Component<
-  T & {
-    type: "text" | "number" | "password" | "date" | "time" | "email" | "area";
-  }
+  T & { inputType: _InputTypes }
 > {
-  static text = (p: SLInputFieldProps) => <Field {...p} type="text" />;
-  static number = (p: SLInputFieldProps) => <Field {...p} type="number" />;
-  static password = (p: SLInputFieldProps) => <Field {...p} type="password" />;
-  static date = (p: SLInputFieldProps) => <Field {...p} type="date" />;
-  static time = (p: SLInputFieldProps) => <Field {...p} type="time" />;
-  static email = (p: SLInputFieldProps) => <Field {...p} type="email" />;
-  static multiLine = (p: InputFieldProps) => <Field {...p} type="area" />;
+  static text = (p: SLInputFieldProps) => <Field {...p} inputType="text" />;
+  static number = (p: SLInputFieldProps) => <Field {...p} inputType="number" />;
+  static password = (p: SLInputFieldProps) => (
+    <Field {...p} inputType="password" />
+  );
+  static date = (p: SLInputFieldProps) => <Field {...p} inputType="date" />;
+  static time = (p: SLInputFieldProps) => <Field {...p} inputType="time" />;
+  static email = (p: SLInputFieldProps) => <Field {...p} inputType="email" />;
+  static multiLine = (p: InputFieldProps) => <Field {...p} inputType="area" />;
 
   render() {
-    const { label, hint, type, value, onInput, ...elbe } = this.props;
+    return <_Field {...this.props} />;
+  }
+}
 
-    const id = this.props.id ?? randomAlphaNum(8, "input_field_");
+function _Field(p: InputFieldProps & { inputType: _InputTypes }) {
+  {
+    const id = p.id ?? randomAlphaNum(8, "input_field_");
 
-    const msg: { kind: ColorSelection.KindsAlert; msg: string } | null = this
-      .props.errorMessage
-      ? { kind: "error", msg: this.props.errorMessage }
-      : this.props.warningMessage
-      ? { kind: "warning", msg: this.props.warningMessage }
-      : this.props.infoMessage
-      ? { kind: "info", msg: this.props.infoMessage }
-      : this.props.successMessage
-      ? { kind: "success", msg: this.props.successMessage }
-      : null;
+    const msg: { kind: ColorSelection.KindsAlert; msg: string } | null =
+      p.errorMessage
+        ? { kind: "error", msg: p.errorMessage }
+        : p.warningMessage
+        ? { kind: "warning", msg: p.warningMessage }
+        : p.infoMessage
+        ? { kind: "info", msg: p.infoMessage }
+        : p.successMessage
+        ? { kind: "success", msg: p.successMessage }
+        : null;
 
     return (
       <div
         style={{
-          flex: this.props.flex
-            ? this.props.flex === true
-              ? 1
-              : this.props.flex
-            : undefined,
-          width: this.props.flex ? undefined : (this.props.width ?? 12) + "rem",
+          flex: p.flex ? (p.flex === true ? 1 : p.flex) : undefined,
+          width: p.flex ? undefined : (p.width ?? 12) + "rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "stretch",
-          filter: this.props.onInput ? undefined : "grayscale(1) opacity(0.5)",
-          pointerEvents: this.props.onInput ? undefined : "none",
-          cursor: this.props.onInput ? undefined : "not-allowed",
+          filter: p.onInput ? undefined : "grayscale(1) opacity(0.5)",
+          pointerEvents: p.onInput ? undefined : "none",
+          cursor: p.onInput ? undefined : "not-allowed",
         }}
-        data-tooltip={this.props?.tooltip}
+        data-tooltip={p?.tooltip}
       >
         <label
           htmlFor={id}
           style={{
-            display: this.props.hideLabel ? "none" : "block",
+            display: p.hideLabel ? "none" : "block",
             fontSize: "0.8rem",
             padding: "0.2rem 0.5rem",
           }}
         >
-          {label}
+          {p.label}
         </label>
         <Card
           style={{
@@ -95,7 +104,7 @@ export class Field<T extends InputFieldProps> extends React.Component<
             style={{
               border: "none",
             }}
-            kind="plain"
+            kind="accent"
           >
             <Card
               kind={msg?.kind}
@@ -103,20 +112,15 @@ export class Field<T extends InputFieldProps> extends React.Component<
               overflow="hidden"
               padding={0}
               bordered
-              {...applyProps(
-                "text-field",
-                elbe,
-                ["text_field_base"],
-                this.props.style
-              )}
+              {...applyProps("text-field", p, ["text_field_base"], p.style)}
             >
-              {type === "area" ? (
-                <_MultiLineField props={this.props} id={id} />
+              {p.inputType === "area" ? (
+                <_MultiLineField props={p} id={id} />
               ) : (
                 <_SingleLineField
-                  props={this.props}
+                  props={p}
                   msg={msg}
-                  type={type ?? "text"}
+                  type={p.inputType ?? "text"}
                   id={id}
                 />
               )}

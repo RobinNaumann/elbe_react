@@ -12,12 +12,12 @@ export const KindColor = defineColor({
       base: LayerColor
     ): KindColor {
       return KindColor.new({
-        plain: MannerColor.generate([...path, "plain"], seed, base),
+        //plain: MannerColor.generate([...path, "plain"], seed, base),
         accent: MannerColor.generate(
           [...path, "accent"],
           seed,
           base,
-          seed.style.accent({
+          seed.kind.accent({
             path,
             seed,
             base,
@@ -28,7 +28,7 @@ export const KindColor = defineColor({
           [...path, "info"],
           seed,
           base,
-          seed.style.info({
+          seed.kind.info({
             path,
             seed,
             base,
@@ -39,7 +39,7 @@ export const KindColor = defineColor({
           [...path, "success"],
           seed,
           base,
-          seed.style.success({
+          seed.kind.success({
             path,
             seed,
             base,
@@ -50,7 +50,7 @@ export const KindColor = defineColor({
           [...path, "warning"],
           seed,
           base,
-          seed.style.warning({
+          seed.kind.warning({
             path,
             seed,
             base,
@@ -61,7 +61,7 @@ export const KindColor = defineColor({
           [...path, "error"],
           seed,
           base,
-          seed.style.error({
+          seed.kind.error({
             path,
             seed,
             base,
@@ -71,9 +71,9 @@ export const KindColor = defineColor({
       });
     },
   },
-  parent: (data) => data.plain,
+  parent: (data) => data.accent,
   compute: (_: {
-    plain: MannerColor;
+    //plain: MannerColor;
     accent: MannerColor;
     info: MannerColor;
     success: MannerColor;

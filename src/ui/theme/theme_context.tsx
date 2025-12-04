@@ -112,11 +112,8 @@ function _configFromSeed<T extends ElbeThemeData>(
 
   for (let key in defs) {
     if (key === "with") continue;
-    //if (key! in seed) continue;
+    //if (!(key in seed)) continue;
     const fullSeed = deepMerge(defs[key].seed, seed?.[key] ?? {});
-
-    console.log("THEME FROM SEED FOR", key, fullSeed);
-
     conf[key] = {
       ...defs[key].fromSeed(fullSeed as any),
       ...(config?.[key] ?? {}),

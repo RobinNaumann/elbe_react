@@ -21,7 +21,7 @@ const _data = {
     contrast: "normal",
     mode: "light",
     scheme: "primary",
-    kind: "plain",
+    kind: "accent",
     manner: "plain",
   } as ColorThemeSelection,
 };
@@ -33,16 +33,12 @@ const _current = (t: typeof _data) => {
       throw new Error("ColorTheme: No hirarchy defined");
     }
 
-    if (sc.manner === "plain") {
-      sc = { ...sc, manner: "flat", kind: "plain" };
-    }
-
     const mode = t.values.hirarchy[sc?.contrast ?? "normal"];
     const scheme = mode[sc?.mode ?? "light"];
     const kind = scheme[sc?.scheme ?? "primary"];
-    const manner = kind[sc?.kind ?? "plain"];
+    const manner = kind[sc?.kind ?? "accent"];
     let color: StateColor | null =
-      manner[(sc?.manner as ColorSelection.MannersTrue) ?? "flat"];
+      manner[(sc?.manner as ColorSelection.Manners) ?? "flat"];
 
     if (!color || !LayerColor.is(manner)) {
       color = manner["flat"];

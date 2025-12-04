@@ -4,10 +4,12 @@
  */
 export function showToast(message: string) {
   // find the 'elbe' element
-  const elbe = document.querySelector(".elbe");
+  const elbe = document.getElementById("elbe-root");
 
   if (!elbe) {
-    console.warn("could not show toast, no base element with '.elbe' found");
+    console.warn(
+      "could not show legacy toast, no base element with '#elbe-root' found"
+    );
     return;
   }
 
