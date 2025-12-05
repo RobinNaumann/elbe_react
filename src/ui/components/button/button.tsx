@@ -3,13 +3,15 @@ import { ColorSelection, Row, Text } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 import { useToolbar } from "../../util/ctx_toolbar";
 import { ElbeChildren } from "../../util/types";
-import { ActionElbeProps, applyProps } from "../base/box";
+import { applyProps, ElbeActionProps } from "../base/box";
 import { Icon, type IconChild } from "./icon_button";
 
-export type ButtonProps = ActionElbeProps & {
+export type ButtonProps = ElbeActionProps & {
   kind?: ColorSelection.Kinds;
   transparent?: boolean;
-  contentAlign?: "start" | "center" | "end";
+  contentAlign?: "start" | "center" | "end" | "space-between";
+  gap?: number;
+  sharp?: boolean;
   onTap?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 } & { icon?: IconChild; label?: string; children?: ElbeChildren };
 
@@ -76,7 +78,9 @@ function _Btn({
             padding: "0.25rem 0.75rem",
             minHeight: "3rem",
             border: "none",
-            borderRadius: usedTheme.theme.geometry.radius + "rem",
+            borderRadius: elbe.sharp
+              ? 0
+              : usedTheme.theme.geometry.radius + "rem",
           }
         )}
         title={elbe.ariaLabel ?? label}
@@ -86,7 +90,7 @@ function _Btn({
         <Row
           cross="center"
           main={contentAlign ?? (toolbarCtx?.isInOverflow ? "start" : "center")}
-          gap={0.5}
+          gap={elbe.gap ?? 0.5}
         >
           <Icon icon={icon} />
           {!toolbarCtx?.isInToolbar && label && (

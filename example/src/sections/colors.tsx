@@ -52,6 +52,7 @@ function _ColorDemo() {
                     kind={s as ColorSelection.Kinds}
                     manner={m as ColorSelection.Manners}
                     style={{ width: "6rem", textAlign: "center" }}
+                    bordered
                   >
                     {m}
                   </Card>

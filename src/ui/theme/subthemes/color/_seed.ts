@@ -49,7 +49,7 @@ const _makeMinor: SeedStyleSelector = ({ base, style }) => {
   const minor = style.back.inter(b, 0.8);
   const minorFront = minor.hasWCAGContrast(major) ? major : null;
   return LayerColor.new({
-    back: style.back.withAlpha(0.25),
+    back: minor, //.back.withAlpha(0.25),
     front: minorFront ?? major.inter(backIn, 0.6),
     border: minorFront ?? major.inter(backIn, 0.3),
   });

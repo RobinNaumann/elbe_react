@@ -1,5 +1,5 @@
-import React from "react";
 import { ColorSelection, KindAlertIcon, Text } from "../../../..";
+import { useApp } from "../../../app/app_ctxt";
 import { randomAlphaNum } from "../../../util/util";
 import { applyProps, ElbeProps, ElbeStyleProps } from "../../base/box";
 import { Card } from "../../base/card";
@@ -31,26 +31,40 @@ export type InputFieldProps = {
 } & ElbeStyleProps &
   ElbeProps;
 
-export class Field<T extends InputFieldProps> extends React.Component<
-  T & { inputType: _InputTypes }
-> {
-  static text = (p: SLInputFieldProps) => <Field {...p} inputType="text" />;
-  static number = (p: SLInputFieldProps) => <Field {...p} inputType="number" />;
-  static password = (p: SLInputFieldProps) => (
-    <Field {...p} inputType="password" />
-  );
-  static date = (p: SLInputFieldProps) => <Field {...p} inputType="date" />;
-  static time = (p: SLInputFieldProps) => <Field {...p} inputType="time" />;
-  static email = (p: SLInputFieldProps) => <Field {...p} inputType="email" />;
-  static multiLine = (p: InputFieldProps) => <Field {...p} inputType="area" />;
+type SingleLineInputFieldProps = InputFieldProps & SLInputFieldProps;
 
-  render() {
-    return <_Field {...this.props} />;
+export namespace Field {
+  export function text(p: SingleLineInputFieldProps) {
+    return <_Field {...p} inputType="text" />;
+  }
+  export function number(p: SingleLineInputFieldProps) {
+    return <_Field {...p} inputType="number" />;
+  }
+  export function password(p: SingleLineInputFieldProps) {
+    return <_Field {...p} inputType="password" />;
+  }
+  export function date(p: SingleLineInputFieldProps) {
+    return <_Field {...p} inputType="date" />;
+  }
+  export function time(p: SingleLineInputFieldProps) {
+    return <_Field {...p} inputType="time" />;
+  }
+  export function email(p: SingleLineInputFieldProps) {
+    return <_Field {...p} inputType="email" />;
+  }
+  export function multiLine(p: InputFieldProps) {
+    return <_Field {...p} inputType="area" />;
   }
 }
 
-function _Field(p: InputFieldProps & { inputType: _InputTypes }) {
+function _Field(
+  p:
+    | (SingleLineInputFieldProps & { inputType: Exclude<_InputTypes, "area"> })
+    | (InputFieldProps & { inputType: "area" })
+) {
   {
+    const { appConfig } = useApp();
+    const usedTheme = appConfig.themeContext.useTheme();
     const id = p.id ?? randomAlphaNum(8, "input_field_");
 
     const msg: { kind: ColorSelection.KindsAlert; msg: string } | null =
@@ -66,7 +80,7 @@ function _Field(p: InputFieldProps & { inputType: _InputTypes }) {
 
     return (
       <div
-        style={{
+        {...applyProps("text-field", p, ["text_field_base"], {
           flex: p.flex ? (p.flex === true ? 1 : p.flex) : undefined,
           width: p.flex ? undefined : (p.width ?? 12) + "rem",
           display: "flex",
@@ -75,8 +89,8 @@ function _Field(p: InputFieldProps & { inputType: _InputTypes }) {
           filter: p.onInput ? undefined : "grayscale(1) opacity(0.5)",
           pointerEvents: p.onInput ? undefined : "none",
           cursor: p.onInput ? undefined : "not-allowed",
-        }}
-        data-tooltip={p?.tooltip}
+          ...p.style,
+        })}
       >
         <label
           htmlFor={id}
@@ -89,6 +103,7 @@ function _Field(p: InputFieldProps & { inputType: _InputTypes }) {
           {p.label}
         </label>
         <Card
+          // outer card for both input and message
           style={{
             display: "flex",
             flexDirection: "column",
@@ -100,37 +115,36 @@ function _Field(p: InputFieldProps & { inputType: _InputTypes }) {
           manner={msg ? "major" : "plain"}
         >
           <Card
+            // inner card for input only
+            kind={msg?.kind}
+            manner={msg ? "minor" : "plain"}
+            overflow="hidden"
             padding={0}
-            style={{
-              border: "none",
-            }}
-            kind="accent"
+            bordered
           >
-            <Card
-              kind={msg?.kind}
-              manner={msg ? "minor" : "plain"}
-              overflow="hidden"
-              padding={0}
-              bordered
-              {...applyProps("text-field", p, ["text_field_base"], p.style)}
-            >
-              {p.inputType === "area" ? (
-                <_MultiLineField props={p} id={id} />
-              ) : (
-                <_SingleLineField
-                  props={p}
-                  msg={msg}
-                  type={p.inputType ?? "text"}
-                  id={id}
-                />
-              )}
-            </Card>
+            {p.inputType === "area" ? (
+              <_MultiLineField props={p} id={id} />
+            ) : (
+              <_SingleLineField
+                leading={p.leading}
+                trailing={p.trailing}
+                onLeadingTap={p.onLeadingTap}
+                onTrailingTap={p.onTrailingTap}
+                onInput={p.onInput}
+                value={String(p.value)}
+                hint={p.hint}
+                inputType={p.inputType}
+                message={msg}
+              />
+            )}
           </Card>
+
           {msg && (
             <Row
               gap={0.5}
               style={{
                 padding: "0.25rem 0.5rem",
+                marginBottom: `${usedTheme.theme.geometry.borderWidth}rem`,
               }}
             >
               <KindAlertIcon kind={msg.kind} size="body-s" />

@@ -73,6 +73,8 @@ function _TextInputGroup() {
   const msgSig = useConfigSignal("message", false);
   const hideLabelSig = useConfigSignal("hide label", false);
   const flexSig = useConfigSignal("flex", false);
+  const [date, setDate] = useState("");
+  const [val, setVal] = useState("");
 
   return (
     <ExampleGroup
@@ -93,12 +95,12 @@ function _TextInputGroup() {
         hint="your name"
         label="name"
         hideLabel={hideLabelSig.signal.value}
-        value=""
+        value={val}
         flex={flexSig.signal.value}
         leading={Icons.User}
         trailing={Icons.Leaf}
         onTrailingTap={() => showToast("trailing icon click")}
-        onInput={disabledSig.signal.value ? undefined : () => {}}
+        onInput={disabledSig.signal.value ? undefined : setVal}
         infoMessage={msgSig.signal.value ? "this is an info" : undefined}
       />
       <Field.password
@@ -107,27 +109,27 @@ function _TextInputGroup() {
         flex={flexSig.signal.value}
         hint="your password"
         tooltip="heyoo"
-        value=""
-        onInput={disabledSig.signal.value ? undefined : () => {}}
+        value={val}
+        onInput={disabledSig.signal.value ? undefined : setVal}
         warningMessage={msgSig.signal.value ? "this is a warning" : undefined}
       />
       <Field.date
         ariaLabel="birthday"
         hideLabel={hideLabelSig.signal.value}
         label="birthday"
-        value=""
+        value={date}
         flex={flexSig.signal.value}
-        onInput={disabledSig.signal.value ? undefined : () => {}}
+        onInput={disabledSig.signal.value ? undefined : setDate}
         errorMessage={msgSig.signal.value ? "this is an error" : undefined}
       />
       <Field.multiLine
         label="message"
         hideLabel={hideLabelSig.signal.value}
         hint="message"
-        value=""
+        value={val}
         flex={flexSig.signal.value}
         successMessage={msgSig.signal.value ? "this is a success" : undefined}
-        onInput={disabledSig.signal.value ? undefined : () => {}}
+        onInput={disabledSig.signal.value ? undefined : setVal}
       />
     </ExampleGroup>
   );

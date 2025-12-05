@@ -1,5 +1,5 @@
 import { CheckIcon } from "lucide-react";
-import { ColorSelection, Row } from "../../..";
+import { ColorSelection, FlexLayout, Row } from "../../..";
 import { Card } from "../base/card";
 import { Spaced } from "../layout/spaced";
 import { Button } from "./button";
@@ -24,6 +24,7 @@ export function ChooseButton<T>({
   onChange?: (v: T) => void;
   kind?: ColorSelection.Kinds;
   column?: boolean;
+  sharp?: boolean;
 }) {
   return (
     <Card
@@ -32,28 +33,31 @@ export function ChooseButton<T>({
       padding={0}
       overflow="hidden"
       role="radiogroup"
-      disabled={!onChange}
-      //TODO: fix duplication of row/column classes
-      className={`${column ? "column" : "row"} gap-none`}
+      bordered
+      onTap={onChange ? undefined : null}
     >
-      {items.map((e, i) => (
-        <Button
-          key={i}
-          ariaLabel={e.ariaLabel ?? e.label ?? null}
-          manner={e.value === value ? "major" : "flat"}
-          kind={kind}
-          onTap={onChange && (() => onChange(e.value))}
-          className={`sharp ${column ? "main-between gap-double" : ""}`}
-        >
-          <Row gap={0.5}>
-            <Icon icon={Icon} />
-            {e.label && <span>{e.label}</span>}
-          </Row>
+      <FlexLayout direction={column ? "column" : "row"} cross="stretch" gap={0}>
+        {items.map((e, i) => (
+          <Button
+            key={i}
+            ariaLabel={e.ariaLabel ?? e.label ?? null}
+            manner={e.value === value ? "major" : "flat"}
+            kind={kind}
+            onTap={onChange && (() => onChange(e.value))}
+            sharp
+            contentAlign="space-between"
+            gap={column ? 2 : undefined}
+          >
+            <Row gap={0.5}>
+              <Icon icon={Icon} />
+              {e.label && <span>{e.label}</span>}
+            </Row>
 
-          {column &&
-            (e.value === value ? <CheckIcon /> : <Spaced amount={1.5} />)}
-        </Button>
-      ))}
+            {column &&
+              (e.value === value ? <CheckIcon /> : <Spaced amount={1.5} />)}
+          </Button>
+        ))}
+      </FlexLayout>
     </Card>
   );
 }

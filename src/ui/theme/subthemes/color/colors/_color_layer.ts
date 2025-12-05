@@ -22,6 +22,7 @@ export const LayerColor = defineColor({
       const backColor =
         typeof back === "string" ? RGBAColor.fromHex(back) : back;
       const front = backColor.isDark() ? colors.white : colors.black;
+
       return LayerColor.new({
         back: backColor,
         front: c?.front ?? front,

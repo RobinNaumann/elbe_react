@@ -12,5 +12,13 @@ export const geometryThemeData: ElbeSubThemeData<typeof _data> = {
   _configType: _data,
   compute: (c) => c,
   asCss: (c) => ({}),
+  asCssContext(c) {
+    return {
+      size: `${c.size}px`,
+      padding: `${c.padding}rem`,
+      "border-radius": `${c.radius}rem`,
+      "border-width": `${c.borderWidth}rem`,
+    };
+  },
   fromSeed: (seed) => seed,
 };

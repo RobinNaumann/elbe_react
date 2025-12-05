@@ -18,7 +18,7 @@ export const MannerColor = defineColor({
               [...path, "major"],
               seed,
               base,
-              seed.variant.major({ path, seed, base, style })
+              seed.variant.major({ path, seed, base, style })!
             )
           : null,
         minor: style

@@ -1,10 +1,21 @@
 import { _InputSpacer, BooleanInputProps } from "../../..";
 import { useApp } from "../../app/app_ctxt";
-import { ActionElbeProps, applyProps } from "../base/box";
+import { applyProps, ElbeActionProps } from "../base/box";
 
-export function Checkbox(p: BooleanInputProps & ActionElbeProps) {
+export function Checkbox(p: BooleanInputProps & ElbeActionProps) {
   const { appConfig } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
+  const { theme } = appConfig.themeContext.useTheme().with(
+    ({ color }) => ({
+      color: {
+        ...color,
+        selection: {
+          ...color.selection,
+          manner: "flat",
+        },
+      },
+    }),
+    []
+  );
 
   return _InputSpacer(
     p,
@@ -26,7 +37,9 @@ export function Checkbox(p: BooleanInputProps & ActionElbeProps) {
           },
           p.value ? ["accent major"] : "accent minor",
           {
-            background: p.value ? undefined : "transparent",
+            background: p.value
+              ? theme.color.currentColor.front.asCss()
+              : "transparent",
             transition: theme.motion.reduced ? "none" : undefined,
           }
         )}

@@ -23,7 +23,6 @@ export function Card({
   bordered,
   elevated,
   sharp,
-  disabled,
   overflow,
   children,
   ...elbe
@@ -34,13 +33,13 @@ export function Card({
   manner?: ColorSelection.Manners;
   padding?: number;
   margin?: number;
-  onTap?: () => void;
-  onLongTap?: () => void;
+  onTap?: (() => void) | null;
+  onLongTap?: (() => void) | null;
   frosted?: boolean;
   elevated?: boolean;
   bordered?: boolean;
   sharp?: boolean;
-  disabled?: boolean;
+  //disabled?: boolean;
   overflow?: "auto" | "hidden" | "scroll";
   children?: ElbeChildren;
 } & ElbeProps &
@@ -62,28 +61,37 @@ export function Card({
         overflow: overflow,
         boxShadow: elevated ? elevatedShadow : undefined,
         borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
-        border: bordered
-          ? `${theme.geometry.borderWidth}rem solid ${
-              theme.color.currentColor.border?.asCss() ?? "transparent"
-            }`
+        borderStyle: bordered ? "solid" : undefined,
+        borderWidth: bordered ? `${theme.geometry.borderWidth}rem` : undefined,
+        borderColor: bordered
+          ? "var(--elbe-context-color-border, transparent)"
           : undefined,
+
         backdropFilter: frosted ? "blur(10px)" : undefined,
-        opacity: disabled ? 0.5 : 1,
+        opacity: onTap === null ? 0.5 : 1,
         ...(elbe.style ?? {}),
       }}
       native={{
-        onClick: (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (disabled) return;
-          onTap?.();
-        },
-        onContextMenu: (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (disabled) return;
-          onLongTap?.();
-        },
+        ...(onTap !== undefined
+          ? {
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (onTap === null) return;
+                onTap?.();
+              },
+            }
+          : {}),
+        ...(onLongTap !== undefined
+          ? {
+              onContextMenu: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (onLongTap === null) return;
+                onLongTap?.();
+              },
+            }
+          : {}),
         ...(elbe.native ?? {}),
       }}
     >

@@ -1,5 +1,5 @@
 import { randomAlphaNum } from "../../util/util";
-import { ActionElbeProps, applyProps } from "../base/box";
+import { applyProps, ElbeActionProps } from "../base/box";
 
 export function Select<T>({
   options,
@@ -9,14 +9,14 @@ export function Select<T>({
   width,
   onChange,
   ...elbe
-}: {
+}: ElbeActionProps & {
   options: { key: T; label: string }[];
   value?: T;
   label?: string;
   hideLabel?: boolean;
   width?: number;
   onChange?: (value: T) => any;
-} & ActionElbeProps) {
+}) {
   const id = elbe.id ?? randomAlphaNum(8, "input_field_");
 
   let valueIndex = options.findIndex((o) => o.key === value);

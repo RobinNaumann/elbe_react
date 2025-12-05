@@ -35,7 +35,7 @@ export type ElbeProps = {
   };
 };
 
-export type ActionElbeProps = ElbeProps & {
+export type ElbeActionProps = ElbeProps & {
   ariaLabel: string | null;
 };
 

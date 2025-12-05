@@ -69,6 +69,11 @@ export const colorThemeData: ElbeSubThemeData<
   _configType: _data,
   compute: _current,
   asCss: (c) => ({ color: c.currentColor.front.asCss() }),
+  asCssContext: (c) => ({
+    front: c.currentColor.front.asCss(),
+    back: c.currentColor.back.asCss(),
+    border: c.currentColor.border?.asCss() ?? "transparent",
+  }),
   fromSeed: (seed) => ({
     values: {
       root: {

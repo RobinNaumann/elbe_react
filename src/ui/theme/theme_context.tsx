@@ -34,8 +34,6 @@ export function makeThemeContext<T extends ElbeThemeData = {}>(p: {
     p.seed ?? {}
   );
 
-  console.log("MAKING THEME CONFIG", config);
-
   const computedContext = _computeContext(allDefinitions, config);
   const ElbeThemeContext =
     createContext<ElbeThemeContextData<T>>(computedContext);
@@ -77,7 +75,11 @@ export function makeThemeContext<T extends ElbeThemeData = {}>(p: {
       for (let key in newTheme.themeDefinitions) {
         const def = newTheme.themeDefinitions[key];
         const subCss = def.asCss(newTheme.theme[key] ?? {});
-        css = { ...css, ...subCss };
+        const subCssContext = _toCssVars(
+          def.asCssContext?.(newTheme.theme[key] ?? {}),
+          key
+        );
+        css = { ...css, ...subCss, ...subCssContext };
       }
       return css;
     }, [newTheme]);
@@ -145,4 +147,13 @@ function _computeContext<T extends ElbeThemeData>(
         return _with<T>(definitions, config, worker);
       }, [...dependencies, config]),
   };
+}
+
+function _toCssVars(p: Dict<string | number> | undefined, prefix: string) {
+  if (!p) return {};
+  let cssVars = {};
+  for (let key in p) {
+    cssVars = { ...cssVars, [`--elbe-context-${prefix}-${key}`]: p[key] };
+  }
+  return cssVars;
 }

@@ -36,7 +36,7 @@ export function Column({
   scroll = false,
   ...p
 }: FlexProps & ElbeProps) {
-  return _Flex(
+  return _FlexLayout(
     false,
     { gap, main, cross, scroll, noScrollbar, children },
     p,
@@ -54,7 +54,7 @@ export function Row({
   scroll = false,
   ...p
 }: FlexProps & ElbeProps & { wrap?: boolean }) {
-  return _Flex(
+  return _FlexLayout(
     true,
     { gap, main, cross, scroll, noScrollbar, children },
     p,
@@ -62,7 +62,31 @@ export function Row({
   );
 }
 
-function _Flex(row: boolean, p: FlexProps, elbe: ElbeProps, wraps: boolean) {
+export function FlexLayout({
+  gap = 1,
+  main = "start",
+  cross = "stretch",
+  direction,
+  children,
+  noScrollbar = false,
+  scroll = false,
+  wrap = false,
+  ...p
+}: FlexProps & ElbeProps & { direction?: "row" | "column"; wrap?: boolean }) {
+  return _FlexLayout(
+    direction !== "column",
+    { gap, main, cross, scroll, noScrollbar, children },
+    p,
+    wrap
+  );
+}
+
+function _FlexLayout(
+  row: boolean,
+  p: FlexProps,
+  elbe: ElbeProps,
+  wraps: boolean
+) {
   return (
     <div
       {...applyProps("flex", elbe, [p.noScrollbar && "elbe_no-scrollbar"], {

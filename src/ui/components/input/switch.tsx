@@ -1,6 +1,6 @@
 import { CheckIcon, XIcon } from "lucide-react";
 import { JSX } from "react/jsx-runtime";
-import { ActionElbeProps, applyProps } from "../../..";
+import { applyProps, ElbeActionProps } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 
 export type BooleanInputProps = {
@@ -10,7 +10,7 @@ export type BooleanInputProps = {
   onChange?: ((checked: boolean) => void) | null;
 };
 
-export function Switch(p: BooleanInputProps & ActionElbeProps) {
+export function Switch(p: BooleanInputProps & ElbeActionProps) {
   const { appConfig, setAppView } = useApp();
   const { theme } = appConfig.themeContext.useTheme();
 

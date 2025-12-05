@@ -14,6 +14,18 @@ export type ElbeSubThemeData<
   compute: (data: Config) => Computed;
   fromSeed: (seed: Seed) => Config;
   asCss: (data: Computed) => React.CSSProperties;
+  /**
+   * entries will be converted into CSS custom properties.
+   * Each key will be prefixed with '--elbe-<subtheme>-'.
+   * All properties will cascade down to child elements.
+   *
+   * Example:
+   * For subtheme 'color' and return value { "current-front": "#ff0000" }
+   * the resulting CSS custom property will be '--elbe-color-current-front: #ff0000;'
+   * @param data
+   * @returns
+   */
+  asCssContext?: (data: Computed) => Dict<string | number>;
 };
 
 export type ElbeThemeData = {

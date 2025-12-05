@@ -1,8 +1,8 @@
 import React, { Component, ComponentType } from "react";
 import {
-  ActionElbeProps,
   applyProps,
   ColorSelection,
+  ElbeActionProps,
   ElbeProps,
   type ElbeChild,
 } from "../../..";
@@ -10,13 +10,14 @@ import { useApp } from "../../app/app_ctxt";
 
 export type IconChild = ElbeChild | ((_: any) => ElbeChild);
 
-export type IconButtonProps = {
+export type IconButtonProps = ElbeActionProps & {
   icon?: IconChild;
   kind?: ColorSelection.Kinds;
   transparent?: boolean;
+  sharp?: boolean;
 
   onTap?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-} & ActionElbeProps;
+};
 
 export class IconButton extends Component<
   IconButtonProps & { manner?: ColorSelection.Manners }
@@ -62,17 +63,21 @@ function _btn({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: elbe.transparent
-            ? "transparent"
-            : usedTheme.theme.color.currentColor.back.asCss(),
+          backgroundColor:
+            elbe.transparent || ["flat", "plain"].includes(manner)
+              ? "transparent"
+              : usedTheme.theme.color.currentColor.back.asCss(),
           border: "none",
-          borderRadius: "3rem",
+          borderRadius: elbe.sharp ? 0 : "3rem",
           height: "3rem",
           width: "3rem",
           cursor: onTap ? "pointer" : "not-allowed",
         })}
         title={elbe.ariaLabel ?? undefined}
-        onClick={(e) => onTap && onTap(e)}
+        onClick={(e) => {
+          e.stopPropagation();
+          onTap && onTap(e);
+        }}
       >
         <Icon icon={icon} />
       </button>

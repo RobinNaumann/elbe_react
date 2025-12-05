@@ -1,6 +1,6 @@
 import { useApp } from "../../app/app_ctxt";
 import { _ElbeErr } from "../../util/error_view";
-import { ActionElbeProps, applyProps } from "../base/box";
+import { applyProps, ElbeActionProps } from "../base/box";
 import { Card } from "../base/card";
 
 export function Range({
@@ -10,13 +10,13 @@ export function Range({
   max = 100,
   step = 1,
   ...elbe
-}: {
+}: ElbeActionProps & {
   value: number;
   min?: number;
   step?: number;
   max?: number;
   onChange?: ((value: number) => void) | null;
-} & ActionElbeProps) {
+}) {
   const { appConfig } = useApp();
   const { theme } = appConfig.themeContext.useTheme();
   return min > max ? (

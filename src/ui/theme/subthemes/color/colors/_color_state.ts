@@ -28,9 +28,10 @@ export const StateColor = defineColor({
 
       return StateColor.new({
         neutral: style,
-        hover: _make(0.05),
-        active: _make(0.15),
-        disabled: style.desaturatedLayer(),
+
+        hover: style ?? _make(0.05),
+        active: style ?? _make(0.15),
+        disabled: style, // style.desaturatedLayer(),
       });
     },
   },

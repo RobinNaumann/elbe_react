@@ -1,0 +1,47 @@
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+
+  font: inherit;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-width: var(--g-border-width);
+  border-radius: var(--g-radius);
+  border-style: solid;
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+  outline: none;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.95rem;
+  height: 0.75rem;
+  clip-path: polygon(10% 41%, 37% 75%, 91% 0, 100% 13%, 38% 100%, 0 55%);
+  // check tick clip path outlined:
+  transform: scale(0);
+  transform-origin: center;
+  transition: 0.2s all ease-in-out;
+  //box-shadow: inset 1em 1em green;
+}
+
+//&.reduced_motion input[type="checkbox"]::before { transition: none;}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  background-color: var(--c-context-front);
+}
+
+input[type="checkbox"]:focus {
+  outline: max(2px, 0.15em) solid var(--c-accent);
+  outline-offset: 0;
+}
+
+input[type="checkbox"]:not(:checked):disabled {
+  cursor: not-allowed;
+  border: 0.16em solid var(--c-context-border);
+}

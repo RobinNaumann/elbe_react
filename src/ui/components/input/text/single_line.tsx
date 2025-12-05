@@ -1,10 +1,7 @@
 import {
-  applyProps,
-  Card,
   ColorSelection,
   IconButton,
   IconChild,
-  InputFieldProps,
   Row,
   Spaced,
 } from "../../../..";
@@ -14,58 +11,50 @@ type _InputMsg = {
   msg: string;
 };
 
-export interface SLInputFieldProps extends InputFieldProps {
+export type SLInputFieldProps = {
   leading?: IconChild;
   onLeadingTap?: () => void;
   trailing?: IconChild;
   onTrailingTap?: () => void;
-}
+  onInput?: (value: string) => void;
+  value: string;
+  hint?: string;
+  message?: _InputMsg | null;
+};
 
-export function _SingleLineField(p: {
-  props: SLInputFieldProps;
-  msg: _InputMsg | null;
-  type: string;
-  id: string;
-}) {
+export function _SingleLineField(
+  p: SLInputFieldProps & {
+    inputType: string;
+  }
+) {
   return (
     <Row gap={0}>
       <_Supplement
-        kind={p.msg?.kind}
-        icon={p.props.leading}
-        onTap={p.props.onLeadingTap}
+        kind={p.message?.kind}
+        icon={p.leading}
+        onTap={p.onLeadingTap}
       />
       <input
-        type={p.type}
-        {...applyProps(
-          "text_field",
-          {
-            ...p.props,
-            id: p.id,
-            ariaLabel: p.props.ariaLabel ?? p.props.label,
-          },
-          null,
-          {
-            width: "100%",
-            height: "3rem",
-            flex: 1,
-            border: "none",
-            outline: "none",
-            background: "none",
-          }
-        )}
+        type={p.inputType}
+        style={{
+          width: "100%",
+          height: "3rem",
+          flex: 1,
+          border: "none",
+          outline: "none",
+          background: "none",
+        }}
         size={5}
-        placeholder={p.props.hint}
-        value={p.props.value}
-        onInput={(e) =>
-          p.props.onInput && p.props.onInput(e.currentTarget.value)
-        }
-        readOnly={p.props.onInput ? false : true}
+        placeholder={p.hint}
+        value={p.value}
+        onInput={(e) => p.onInput && p.onInput(e.currentTarget.value)}
+        readOnly={p.onInput ? false : true}
       />
       <_Supplement
-        kind={p.msg?.kind}
+        kind={p.message?.kind}
         trailing
-        icon={p.props.trailing}
-        onTap={p.props.onTrailingTap}
+        icon={p.trailing}
+        onTap={p.onTrailingTap}
       />
     </Row>
   );
@@ -79,28 +68,15 @@ function _Supplement(p: {
 }) {
   if (!p.icon) return <Spaced width={0.75} />;
   return (
-    <Card
-      sharp
-      padding={0}
+    <IconButton
+      kind={p.kind}
+      manner={p.kind ? "flat" : "plain"}
+      ariaLabel={p.trailing ? "trailing icon" : "leading icon"}
+      icon={p.icon}
       style={{
-        border: "none",
-        background: p.onTap ? undefined : "transparent",
+        borderRadius: 0,
       }}
-    >
-      <IconButton
-        kind={p.kind}
-        manner={p.kind ? "minor" : "plain"}
-        ariaLabel={p.trailing ? "trailing icon" : "leading icon"}
-        icon={p.icon}
-        style={{
-          borderRadius: 0,
-          background: p.onTap ? undefined : "transparent",
-        }}
-        onTap={(e) => {
-          e.stopPropagation();
-          p.onTap?.();
-        }}
-      />
-    </Card>
+      onTap={p.onTap ? () => p.onTap?.() : undefined}
+    />
   );
 }
