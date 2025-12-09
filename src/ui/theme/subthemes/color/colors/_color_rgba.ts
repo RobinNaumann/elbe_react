@@ -120,6 +120,7 @@ export const RGBAColor = defineColor({
       luminance,
       desaturated,
       withAlpha,
+
       inter,
       mirrorBrightness,
       hasWCAGContrast,

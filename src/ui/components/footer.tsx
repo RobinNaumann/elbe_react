@@ -7,6 +7,7 @@ import {
   IconChild,
   Link,
   Row,
+  Text,
   useLayoutMode,
 } from "../..";
 
@@ -40,15 +41,15 @@ export function Footer({
       role="contentinfo"
       ariaLabel="footer"
       style={{
-        borderLeft: "none",
-        borderRight: "none",
-        borderBottom: "none",
+        borderLeftStyle: "none",
+        borderRightStyle: "none",
+        borderBottomStyle: "none",
         borderTopLeftRadius: layoutMode.isWide ? "var(--g-radius)" : undefined,
         color: "color-mix(in srgb, var(--c-context-front) 60%, transparent)",
         marginTop: `${marginTop ?? 0}rem`,
       }}
     >
-      <Column gap={0.5}>
+      <Column gap={1}>
         {(left || right) && (
           <Row main="space-between" cross="start">
             {left && (
@@ -67,13 +68,15 @@ export function Footer({
             )}
           </Row>
         )}
-        {(left || right) && (copyright || version || legal) && (
-          <hr style={{ opacity: 0.7 }} />
-        )}
+        {(left || right) && (copyright || version || legal) && <hr />}
         {(copyright || version || legal) && (
           <Row>
             {copyright &&
-              (typeof copyright === "string" ? <b>{copyright}</b> : copyright)}
+              (typeof copyright === "string" ? (
+                <Text bold v={copyright} />
+              ) : (
+                copyright
+              ))}
             {version && <_Version version={version} />}
             <FlexSpace />
             {legal && <_Link {...legal} />}
@@ -100,7 +103,14 @@ function _Version({ version }: { version: string }) {
 
 function _Link({ href, label }: FooterLink) {
   return (
-    <Link color="inherit" plain noIcon href={href} label={label} external />
+    <Link
+      color="inherit"
+      manner="plain"
+      noIcon
+      href={href}
+      label={label}
+      external
+    />
   );
 }
 

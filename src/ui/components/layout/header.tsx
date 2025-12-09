@@ -50,9 +50,9 @@ export function Header(p: HeaderProps) {
         padding: ".5rem",
         display: "flex",
         alignItems: "center",
-        borderTop: "none",
-        borderLeft: "none",
-        borderRight: "none",
+        borderTopStyle: "none",
+        borderLeftStyle: "none",
+        borderRightStyle: "none",
         borderColor:
           theme.color.isContrast || scroll ? undefined : "transparent",
         gap: "1rem",

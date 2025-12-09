@@ -32,7 +32,7 @@ export function Range({
         backgroundColor: "transparent",
         padding: "0",
         margin: "0",
-        border: "none",
+        borderStyle: "none",
         width: "100%",
       }}
     >

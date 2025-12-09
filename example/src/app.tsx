@@ -15,6 +15,7 @@ export function App() {
   return themeBit.mapUI(
     (ui) => (
       <ElbeApp
+        themeSeed={ui.seed}
         themeContext={_themeContext}
         view={{
           footer: null,
@@ -24,9 +25,7 @@ export function App() {
         }}
       >
         <Route path="/">
-          <WithTheme seed={ui.seed}>
-            <Home />
-          </WithTheme>
+          <Home />
         </Route>
       </ElbeApp>
     ),

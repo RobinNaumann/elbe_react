@@ -1,9 +1,21 @@
 import { useMemo, useState } from "react";
-import { Box, ElbeRoute, isMenuRoute, MenuItem, omit, Wouter } from "../..";
+import {
+  Box,
+  ElbeRoute,
+  isMenuRoute,
+  MenuItem,
+  omit,
+  ToastProvider,
+  ToastThemeOptions,
+  Wouter,
+} from "../..";
 import { Menu } from "../components/layout/menu";
 import { AppConfig, AppContext } from "./app_ctxt";
 
-type AppProps = AppConfig & { children: ElbeRoute | ElbeRoute[] };
+type AppProps = AppConfig & {
+  children: ElbeRoute | ElbeRoute[];
+  toast?: ToastThemeOptions;
+};
 
 export function ElbeApp(p: AppProps) {
   return <Wouter.Router>{<_App {...p} />}</Wouter.Router>;
@@ -24,7 +36,7 @@ function _App(p: AppProps) {
   const [history, setHistory] = useState<string[]>([_initialLocation()]);
 
   return (
-    <config.themeContext.WithTheme>
+    <config.themeContext.WithTheme seed={p.themeSeed}>
       <AppContext.Provider
         value={{
           appConfig: config,
@@ -53,20 +65,22 @@ function _App(p: AppProps) {
           },
         }}
       >
-        <Box
-          typeLabel="app_base"
-          scheme="primary"
-          style={{
-            display: "flex",
-            width: "100%",
-            minHeight: "100vh",
-          }}
-        >
-          {menuItems.length > 0 && <Menu items={menuItems} />}
-          <div style={{ flex: 1, width: "0px" }}>
-            <Wouter.Switch>{p.children}</Wouter.Switch>
-          </div>
-        </Box>
+        <ToastProvider options={p.toast}>
+          <Box
+            typeLabel="app_base"
+            scheme="primary"
+            style={{
+              display: "flex",
+              width: "100%",
+              minHeight: "100vh",
+            }}
+          >
+            {menuItems.length > 0 && <Menu items={menuItems} />}
+            <div style={{ flex: 1, width: "0px" }}>
+              <Wouter.Switch>{p.children}</Wouter.Switch>
+            </div>
+          </Box>
+        </ToastProvider>
       </AppContext.Provider>
     </config.themeContext.WithTheme>
   );

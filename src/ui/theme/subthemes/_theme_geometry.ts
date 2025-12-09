@@ -13,6 +13,7 @@ export const geometryThemeData: ElbeSubThemeData<typeof _data> = {
   compute: (c) => c,
   asCss: (c) => ({}),
   asCssContext(c) {
+    document.documentElement.style.fontSize = `${c.size}px`;
     return {
       size: `${c.size}px`,
       padding: `${c.padding}rem`,

@@ -60,7 +60,7 @@ export function Banner({
         </Align>
         <Column
           gap={0.5}
-          className="flex-1"
+          flex
           style={{ padding: ".9rem 0", paddingRight: onDismiss ? "0" : "1rem" }}
         >
           {title && <Text bold v={title} />}

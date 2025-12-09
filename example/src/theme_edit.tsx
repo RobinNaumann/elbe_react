@@ -67,12 +67,12 @@ function _RoundSelect() {
           style={{ flex: 1 }}
           value={d.seed?.geometry?.radius ?? 0}
           onChange={(v) =>
-            themeBit.setSeed({
+            themeBit.setSeed(() => ({
               geometry: {
                 ...d.seed.geometry,
                 radius: v,
               },
-            })
+            }))
           }
           max={2}
           step={0.1}
@@ -85,12 +85,12 @@ function _RoundSelect() {
           style={{ flex: 1 }}
           value={d.seed?.geometry?.borderWidth ?? 0}
           onChange={(v) =>
-            themeBit.setSeed({
+            themeBit.setSeed(() => ({
               geometry: {
                 ...d.seed.geometry,
                 borderWidth: v,
               },
-            })
+            }))
           }
           max={0.25}
           step={0.05}
@@ -123,16 +123,16 @@ function _TypeSelect() {
                 style={{ fontFamily: f }}
                 value={f === v.seed?.type?.heading?.family[0]}
                 onChange={() =>
-                  themeBit.setSeed({
+                  themeBit.setSeed((v) => ({
                     type: {
-                      ...v.seed.type,
+                      ...v.type,
                       heading: {
                         bold: true,
                         family: [f, "Arial", "sans-serif"],
                         size: 2.2,
                       },
                     },
-                  })
+                  }))
                 }
               />
             ))}
@@ -158,9 +158,20 @@ function _AccentSelect() {
               { value: true, label: "dark", icon: Icons.Moon },
             ] as const
           }
-          value={false}
-          //value={d.seed..dark ?? false}
-          //onChange={(v) => themeBit.setConfig({ dark: v })}
+          value={d.seed.color.selection?.mode === "dark"}
+          onChange={(m) => {
+            themeBit.setSeed((v) => ({
+              color: {
+                ...v.color,
+                selection: v.color.selection
+                  ? {
+                      ...v.color.selection!,
+                      mode: m ? "dark" : "light",
+                    }
+                  : undefined,
+              },
+            }));
+          }}
         />
       </Row>
 
@@ -181,10 +192,12 @@ function _AccentSelect() {
               <div
                 key={i}
                 onClick={() =>
-                  themeBit.setSeed({
-                    ...d.seed,
-                    color: { accent: LayerColor.fromBack(c) },
-                  })
+                  themeBit.setSeed((v) => ({
+                    color: {
+                      ...v.color,
+                      accent: LayerColor.fromBack(c),
+                    },
+                  }))
                 }
                 style={{
                   display: "flex",

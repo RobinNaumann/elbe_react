@@ -28,10 +28,30 @@ export const StateColor = defineColor({
 
       return StateColor.new({
         neutral: style,
+        hover: _make(0.05) ?? style,
+        active: _make(0.15) ?? style,
+        disabled: style.desaturatedLayer(),
+      });
+    },
+    fromBack(back: string) {
+      const style = LayerColor.fromBack(back);
+      function _make(factor: number) {
+        return LayerColor.new({
+          back: style.back
+            .inter(style.mirrorBrightness(), factor)
+            .withAlpha(Math.max(style.back.alpha, 0.2)),
+          front: style.front,
+          border: style.border,
+          borderContext: style.borderContext,
+        });
+      }
 
-        hover: style ?? _make(0.05),
-        active: style ?? _make(0.15),
-        disabled: style, // style.desaturatedLayer(),
+      return StateColor.new({
+        neutral: style,
+
+        hover: _make(0.05) ?? style,
+        active: _make(0.15) ?? style,
+        disabled: style.desaturatedLayer(),
       });
     },
   },

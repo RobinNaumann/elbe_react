@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   ColorSelection,
   ElbeChildren,
@@ -8,7 +9,7 @@ import {
 } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 
-export const elevatedShadow = "0 0 15px rgba(0,0,0,.2)";
+export const elevatedShadow = "0px 0px 1rem -.5rem black";
 
 export function Card({
   mode,
@@ -48,6 +49,10 @@ export function Card({
   const { appConfig } = useApp();
   const { theme } = appConfig.themeContext.useTheme();
 
+  const isBordered = useMemo(() => {
+    return (bordered ?? false) || theme.color.isContrast;
+  }, [bordered, theme.color.isContrast]);
+
   return (
     <_Box
       mode={mode}
@@ -55,15 +60,19 @@ export function Card({
       kind={kind}
       manner={manner}
       padding={padding}
+      className={elbe.className}
+      flex={elbe.flex}
       style={{
         padding: `${padding}rem`,
         margin: `${margin}rem`,
         overflow: overflow,
         boxShadow: elevated ? elevatedShadow : undefined,
         borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
-        borderStyle: bordered ? "solid" : undefined,
-        borderWidth: bordered ? `${theme.geometry.borderWidth}rem` : undefined,
-        borderColor: bordered
+        borderStyle: isBordered ? "solid" : undefined,
+        borderWidth: isBordered
+          ? `${theme.geometry.borderWidth}rem`
+          : undefined,
+        borderColor: isBordered
           ? "var(--elbe-context-color-border, transparent)"
           : undefined,
 

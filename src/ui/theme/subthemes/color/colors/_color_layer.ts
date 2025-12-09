@@ -67,10 +67,40 @@ export const LayerColor = defineColor({
       });
     }
 
+    function withBack(back: RGBAColor): LayerColor {
+      return LayerColor.new({
+        back,
+        front: data.front,
+        border: data.border,
+        borderContext: data.borderContext,
+      });
+    }
+
+    function withFront(front: RGBAColor): LayerColor {
+      return LayerColor.new({
+        back: data.back,
+        front,
+        border: data.border,
+        borderContext: data.borderContext,
+      });
+    }
+
+    function withBorder(border: RGBAColor): LayerColor {
+      return LayerColor.new({
+        back: data.back,
+        front: data.front,
+        border,
+        borderContext: data.borderContext,
+      });
+    }
+
     return {
       interLayer,
       mirrorBrightnessLayer,
       desaturatedLayer,
+      withBack,
+      withFront,
+      withBorder,
     };
   },
 });

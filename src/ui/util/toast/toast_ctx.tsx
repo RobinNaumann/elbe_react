@@ -22,10 +22,16 @@ const _rootIds = {
   elbeToast: "elbe-root-toast",
 };
 
+/**
+ * Options for showing a toast notification.
+ * If you set `duration` to null, the toast will not auto-dismiss.
+ * You have to set `dismissible` to true to allow manual dismissal in that case.
+ */
 export type ToastOptions = {
   icon?: IconChild;
   kind?: ColorSelection.KindsAlert;
-  duration?: number;
+  duration?: number | null;
+  dismissible?: boolean;
 };
 
 export type ToastModel = ToastOptions & {
@@ -33,7 +39,7 @@ export type ToastModel = ToastOptions & {
 };
 
 export type ToastCtrl = {
-  showToast: (message: string, options: ToastOptions) => void;
+  showToast: (message: string, options?: ToastOptions) => void;
 };
 
 type _IdToast = ToastModel & {
@@ -50,12 +56,12 @@ export function useToast() {
 
 export function ToastProvider(p: {
   children: ElbeChildren;
-  options: ToastThemeOptions;
+  options?: ToastThemeOptions;
 }) {
   const [toasts, setToasts] = useState<_IdToast[]>([]);
   const [parentDOME, setParentDOME] = useState<HTMLElement | null>(null);
 
-  const _align = (p.options.alignment ?? "bottom_center").split("_");
+  const _align = (p.options?.alignment ?? "bottom_center").split("_");
   const vert = _align.at(0);
   const hori = _align.at(1);
 
@@ -81,6 +87,7 @@ export function ToastProvider(p: {
   function addToast(toast: ToastModel) {
     const id = Date.now() + "";
     setToasts([...toasts, { ...toast, id }]);
+    if (toast.duration === null && toast.dismissible === true) return;
     setTimeout(() => removeToast(id), toast.duration ?? 3000);
   }
 
@@ -92,7 +99,8 @@ export function ToastProvider(p: {
     parentDOME && (
       <ToastContext.Provider
         value={{
-          showToast: (message, options) => addToast({ ...options, message }),
+          showToast: (message, options) =>
+            addToast({ ...(options ?? {}), message }),
         }}
       >
         {p.children}
@@ -129,7 +137,9 @@ export function ToastProvider(p: {
                 <_Toast
                   key={toast.id}
                   model={toast}
-                  onClose={() => removeToast(toast.id)}
+                  onClose={
+                    toast.dismissible ? () => removeToast(toast.id) : undefined
+                  }
                 />
               ))}
             </div>

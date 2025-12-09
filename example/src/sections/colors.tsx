@@ -2,11 +2,14 @@ import {
   Card,
   ChooseButton,
   Column,
+  elbeThemeVariants,
   Row,
   Scroll,
+  Text,
   type ColorSelection,
 } from "elbe-ui";
 import { useState } from "react";
+import type { ElbeTypeVariants } from "../../../dist/ui/theme/subthemes/_theme_type";
 import { ExampleSection } from "../util/section";
 import { cKinds, cManners } from "../util/util";
 
@@ -20,7 +23,13 @@ export function ColorsSection() {
 
 export function TypographySection() {
   return (
-    <ExampleSection title="Typography" anchor="typography"></ExampleSection>
+    <ExampleSection title="Typography" anchor="typography">
+      <Column>
+        {elbeThemeVariants.map((v: ElbeTypeVariants) => (
+          <Text variant={v} v={`This is ${v} text`} align="center" />
+        ))}
+      </Column>
+    </ExampleSection>
   );
 }
 

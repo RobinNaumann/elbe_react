@@ -7,11 +7,17 @@
 @import "./components/ROOT.scss";
 @import "./components/checkbox.scss";
 @import "./components/range.scss";
+@import "./components/toast.scss";
 
-
-
+._color_from_context {
+  background-color: var(--c-context-back);
+  color: var(--c-context-front);
+  border: var(--g-border-width) solid var(--c-context-border);
+}
 
 // =============== TODO: TOOLTIP ===============
+
+
 
 ._elbe_tooltip {
   position: fixed;;

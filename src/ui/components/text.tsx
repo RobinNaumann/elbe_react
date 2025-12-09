@@ -3,6 +3,19 @@ import { useApp } from "../app/app_ctxt";
 import { ElbeTypeVariants } from "../theme/subthemes/_theme_type";
 import { applyProps, ElbeChildrenProps, type ElbeProps } from "./base/box";
 
+export const elbeThemeVariants: ElbeTypeVariants[] = [
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "bodyL",
+  "bodyM",
+  "bodyS",
+  "code",
+];
+
 export type TextProps = ElbeProps &
   ElbeChildrenProps & {
     align?: "start" | "center" | "end";

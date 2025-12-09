@@ -9,6 +9,9 @@ export interface AppConfig {
    * @private this field is only to be used within elbe components.
    */
   themeContext: ElbeThemeContext;
+  themeSeed?: Partial<
+    Parameters<AppConfig["themeContext"]["WithTheme"]>[0]["seed"]
+  >;
   view: {
     menuOpen: boolean;
     icons: HeaderLogos;

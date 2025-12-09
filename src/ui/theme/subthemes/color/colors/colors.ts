@@ -88,7 +88,7 @@ type _KindSeed = {
   error: SeedStyleSelector;
 };
 
-type _VariantSeed = {
+type _MannerSeed = {
   major: SeedStyleSelector;
   minor: SeedStyleSelector;
   flat: SeedFlatSelector;
@@ -109,7 +109,7 @@ export type ColorThemeSeed = ColorSeedColors & {
   mode: _ModeSeed;
   scheme: _SchemeSeed;
   kind: _KindSeed;
-  variant: _VariantSeed;
+  manner: _MannerSeed;
 };
 
 export type PartialColorThemeSeed = Partial<ColorSeedColors> & {
@@ -117,7 +117,7 @@ export type PartialColorThemeSeed = Partial<ColorSeedColors> & {
   mode?: Partial<_ModeSeed>;
   scheme?: Partial<_SchemeSeed>;
   kind?: Partial<_KindSeed>;
-  variant?: Partial<_VariantSeed>;
+  manner?: Partial<_MannerSeed>;
 };
 
 export const colors = {

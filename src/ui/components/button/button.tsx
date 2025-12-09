@@ -69,15 +69,16 @@ function _Btn({
             ...elbe,
             flex: toolbarCtx?.isInOverflow ? 1 : elbe.flex,
           },
-          [],
+          ["elbe_colored-action"],
           {
-            backgroundColor: elbe.transparent
+            /*backgroundColor: elbe.transparent
               ? "transparent"
-              : usedTheme.theme.color.currentColor.back.asCss(),
+              : usedTheme.theme.color.currentColor.back.asCss(),*/
             cursor: onTap ? "pointer" : "not-allowed",
             padding: "0.25rem 0.75rem",
             minHeight: "3rem",
             border: "none",
+            backgroundColor: elbe.transparent ? "transparent" : undefined,
             borderRadius: elbe.sharp
               ? 0
               : usedTheme.theme.geometry.radius + "rem",

@@ -1,9 +1,10 @@
 import { ColorSelection, KindAlertIcon, Text } from "../../../..";
 import { useApp } from "../../../app/app_ctxt";
 import { randomAlphaNum } from "../../../util/util";
-import { applyProps, ElbeProps, ElbeStyleProps } from "../../base/box";
+import { ElbeActionProps } from "../../base/box";
 import { Card } from "../../base/card";
 import { Row } from "../../layout/flex";
+import { LabeledInput, LabeledInputProps } from "../_labeled_input";
 import { _MultiLineField } from "./multi_line";
 import { _SingleLineField, SLInputFieldProps } from "./single_line";
 
@@ -16,20 +17,16 @@ type _InputTypes =
   | "email"
   | "area";
 
-export type InputFieldProps = {
-  id?: string;
-  label: string;
-  hideLabel?: boolean;
-  hint?: string;
-  value: string | number;
-  onInput?: (value: string) => void;
-  width?: number;
-  infoMessage?: string;
-  warningMessage?: string;
-  errorMessage?: string;
-  successMessage?: string;
-} & ElbeStyleProps &
-  ElbeProps;
+export type InputFieldProps = ElbeActionProps &
+  LabeledInputProps & {
+    hint?: string;
+    value: string | number;
+    onInput?: (value: string) => void;
+    infoMessage?: string;
+    warningMessage?: string;
+    errorMessage?: string;
+    successMessage?: string;
+  };
 
 type SingleLineInputFieldProps = InputFieldProps & SLInputFieldProps;
 
@@ -79,36 +76,14 @@ function _Field(
         : null;
 
     return (
-      <div
-        {...applyProps("text-field", p, ["text_field_base"], {
-          flex: p.flex ? (p.flex === true ? 1 : p.flex) : undefined,
-          width: p.flex ? undefined : (p.width ?? 12) + "rem",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "stretch",
-          filter: p.onInput ? undefined : "grayscale(1) opacity(0.5)",
-          pointerEvents: p.onInput ? undefined : "none",
-          cursor: p.onInput ? undefined : "not-allowed",
-          ...p.style,
-        })}
-      >
-        <label
-          htmlFor={id}
-          style={{
-            display: p.hideLabel ? "none" : "block",
-            fontSize: "0.8rem",
-            padding: "0.2rem 0.5rem",
-          }}
-        >
-          {p.label}
-        </label>
+      <LabeledInput {...p} id={id} disabled={!p.onInput} typeLabel="text-field">
         <Card
-          // outer card for both input and message
+          className="elbe-focussink"
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "stretch",
-            border: "none",
+            borderStyle: "none",
           }}
           kind={msg?.kind}
           padding={0}
@@ -152,7 +127,7 @@ function _Field(
             </Row>
           )}
         </Card>
-      </div>
+      </LabeledInput>
     );
   }
 }

@@ -3,6 +3,19 @@ import { ColorSelection, ElbeChildren } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 import { AriaRoles } from "./roles";
 
+export const styleColorFromContext: React.CSSProperties = {
+  backgroundColor: "var(--elbe-context-color-back)",
+  color: "var(--elbe-context-color-front)",
+  borderColor: "var(--elbe-context-color-border)",
+};
+
+export const styleBorderFromContext: React.CSSProperties = {
+  borderColor: "var(--elbe-context-color-border)",
+  borderStyle: "solid",
+  borderWidth: "var(--elbe-context-geometry-border-width)",
+  borderRadius: "var(--elbe-context-geometry-border-radius)",
+};
+
 export type ElbeProps = {
   id?: string;
   tooltip?: string;
@@ -123,6 +136,7 @@ export function _Box(
   const { appConfig } = useApp();
   const usedTheme = appConfig.themeContext.useTheme().with(
     ({ color }) => {
+      console.log("Updating theme with box props:", color.selection.mode);
       return {
         color: {
           ...color,
@@ -147,7 +161,7 @@ export function _Box(
         {...applyProps("box", elbe, [], {
           padding: `${padding}rem`,
           margin: `${margin}rem`,
-          background: usedTheme.theme.color.currentColor.back.asCss(),
+          backgroundColor: usedTheme.theme.color.currentColor.back.asCss(),
           transition: usedTheme.theme.motion.reduced
             ? undefined
             : "background 0.3s ease",

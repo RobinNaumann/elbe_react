@@ -1,28 +1,28 @@
 import { randomAlphaNum } from "../../util/util";
-import { applyProps, ElbeActionProps } from "../base/box";
+import {
+  ElbeActionProps,
+  styleBorderFromContext,
+  styleColorFromContext,
+} from "../base/box";
+import { LabeledInput, LabeledInputProps } from "./_labeled_input";
 
-export function Select<T>({
-  options,
-  value,
-  label,
-  hideLabel,
-  width,
-  onChange,
-  ...elbe
-}: ElbeActionProps & {
-  options: { key: T; label: string }[];
-  value?: T;
-  label?: string;
-  hideLabel?: boolean;
-  width?: number;
-  onChange?: (value: T) => any;
-}) {
-  const id = elbe.id ?? randomAlphaNum(8, "input_field_");
+export function Select<T>(
+  p: ElbeActionProps &
+    LabeledInputProps & {
+      options: { key: T; label: string }[];
+      value?: T;
+      label?: string;
+      hideLabel?: boolean;
+      width?: number;
+      onChange?: (value: T) => any;
+    }
+) {
+  const id = p.id ?? randomAlphaNum(8, "input_field_");
 
-  let valueIndex = options.findIndex((o) => o.key === value);
+  let valueIndex = p.options.findIndex((o) => o.key === p.value);
   // If the value is not found, select the first option without a key (if any) or the first option
   if (valueIndex === -1) {
-    valueIndex = options.findIndex((v) => !v.key);
+    valueIndex = p.options.findIndex((v) => !v.key);
     if (valueIndex === -1) {
       valueIndex = 0;
     }
@@ -31,6 +31,37 @@ export function Select<T>({
   let valStr = "-".repeat(valueIndex + 1);
 
   return (
+    <LabeledInput {...p} id={id} disabled={!p.onChange} typeLabel="select">
+      <select
+        id={id}
+        value={valStr}
+        disabled={!p.onChange}
+        role={"combobox"}
+        className="elbe-focussink"
+        style={{
+          padding: "0 0.75rem",
+          height: "3rem",
+          minWidth: "12rem",
+          width: "100%",
+          ...styleColorFromContext,
+          ...styleBorderFromContext,
+        }}
+        onChange={(e) => {
+          const index = e.currentTarget.value.length - 1;
+          const selectedOption = p.options[index];
+          selectedOption && p.onChange ? p.onChange(selectedOption.key) : null;
+        }}
+      >
+        {p.options.map(({ key, label }, i) => (
+          <option key={JSON.stringify(key)} value={"-".repeat(i + 1)}>
+            {label}
+          </option>
+        ))}
+      </select>
+    </LabeledInput>
+  );
+
+  /*return (
     <div
       style={{
         flex: elbe.flex ? (elbe.flex === true ? 1 : elbe.flex) : undefined,
@@ -77,5 +108,5 @@ export function Select<T>({
         ))}
       </select>
     </div>
-  );
+  );*/
 }

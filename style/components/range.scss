@@ -15,11 +15,11 @@ input[type="range"] {
 }
 
 @mixin range-dot {
-  width: 1.5rem; 
-  height: 1.5rem; 
+  width: 1rem; 
+  height: 1rem; 
   border-radius: var(--elbe-context-geometry-border-radius);
-  background: var(--elbe-context-color-front); 
-  border: none;
+  background-color: var(--elbe-context-color-front); 
+  border: .25rem solid var(--elbe-context-color-border);
   outline: none;
   cursor: pointer; 
 }

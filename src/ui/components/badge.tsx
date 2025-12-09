@@ -1,4 +1,5 @@
 import React from "react";
+import { useApp } from "../app/app_ctxt";
 import { ColorSelection } from "../theme/subthemes/color/colors/colors";
 import type { ElbeChild, ElbeChildren } from "../util/types";
 import type { ElbeProps } from "./base/box";
@@ -43,36 +44,56 @@ export class Badge extends React.Component<
   }
 
   render() {
-    return (
+    return <_Badge {...this.props} />;
+  }
+}
+
+function _Badge(p: BadgeProps & { kind: ColorSelection.Kinds }) {
+  const { appConfig } = useApp();
+  const theme = appConfig.themeContext.useTheme().with(
+    ({ color }) => ({
+      color: {
+        ...color,
+        selection: {
+          ...color.selection,
+          kind: p.kind ?? "accent",
+          manner: "major",
+        },
+      },
+    }),
+    [p.kind]
+  );
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        display: "inline-block",
+      }}
+    >
+      {p.child}
+      {p.children}
       <div
         style={{
-          position: "relative",
-          display: "inline-block",
+          position: "absolute",
+          top: "-0.25rem",
+          right: "-0.25rem",
+          minWidth: "1.5rem",
+          minHeight: "1.5rem",
+          padding: "0rem .4rem",
+          borderRadius: "3rem",
+          fontWeight: "bold",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          visibility: p.hidden ? "hidden" : "visible",
+          backgroundColor: theme.theme.color.currentColor.back.asCss(),
+          color: theme.theme.color.currentColor.front.asCss(),
+          ...p.style,
         }}
       >
-        {this.props.child}
-        {this.props.children}
-        <div
-          className={`b ${this.props.kind} major ${this.props.className ?? ""}`}
-          style={{
-            position: "absolute",
-            top: "-0.25rem",
-            right: "-0.25rem",
-            minWidth: "1.5rem",
-            minHeight: "1.5rem",
-            padding: "0rem .4rem",
-            borderRadius: "3rem",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            visibility: this.props.hidden ? "hidden" : "visible",
-            ...this.props.style,
-          }}
-        >
-          {this.props.label ?? this.props.count}
-        </div>
+        {p.label ?? p.count}
       </div>
-    );
-  }
+    </div>
+  );
 }

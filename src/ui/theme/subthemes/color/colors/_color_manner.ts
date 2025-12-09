@@ -18,7 +18,7 @@ export const MannerColor = defineColor({
               [...path, "major"],
               seed,
               base,
-              seed.variant.major({ path, seed, base, style })!
+              seed.manner.major({ path, seed, base, style })!
             )
           : null,
         minor: style
@@ -26,14 +26,14 @@ export const MannerColor = defineColor({
               [...path, "minor"],
               seed,
               base,
-              seed.variant.minor({ path, seed, base, style })
+              seed.manner.minor({ path, seed, base, style })
             )
           : null,
         flat: StateColor.generate(
           [...path, "flat"],
           seed,
           base,
-          seed.variant.flat({ path, seed, base, style }),
+          seed.manner.flat({ path, seed, base, style }),
           true
         ),
         plain: StateColor.generate([...path, "plain"], seed, base, base, true),

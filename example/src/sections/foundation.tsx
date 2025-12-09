@@ -1,4 +1,12 @@
-import { Button, Footer, Header, IconButton, Icons, Wouter } from "elbe-ui";
+import {
+  Button,
+  Card,
+  Footer,
+  Header,
+  IconButton,
+  Icons,
+  Wouter,
+} from "elbe-ui";
 import { ExampleGroup, ExampleSection } from "../util/section";
 
 export function FoundationSection() {
@@ -19,11 +27,11 @@ function _HeaderGroup() {
       classes="column"
       code={`<Header title="Title" leading="close" actions={[]}/>`}
     >
-      <div
-        className="rounded"
+      <Card
+        overflow="hidden"
+        padding={0}
+        bordered
         style={{
-          overflow: "hidden",
-          border: "1px solid var(--c-context-border)",
           position: "relative",
         }}
       >
@@ -46,7 +54,7 @@ function _HeaderGroup() {
             />,
           ]}
         />
-      </div>
+      </Card>
     </ExampleGroup>
   );
 }
@@ -59,11 +67,11 @@ function _FooterGroup() {
       classes="column"
       code={`<Footer/>`}
     >
-      <div
-        className="rounded"
+      <Card
+        overflow="hidden"
+        padding={0}
+        bordered
         style={{
-          overflow: "hidden",
-          border: "1px solid var(--c-context-border)",
           position: "relative",
         }}
       >
@@ -77,7 +85,7 @@ function _FooterGroup() {
           copyright="© 2025 elbe"
           version="v1.2.3"
         />
-      </div>
+      </Card>
     </ExampleGroup>
   );
 }

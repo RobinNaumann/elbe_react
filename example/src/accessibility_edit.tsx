@@ -24,19 +24,45 @@ function _OptionsSelect() {
         ariaLabel="high visibility"
         value={theme.color.isContrast ?? false}
         label="high visibility"
-        //onChange={(v) => themeBit.setConfig({ highVis: v })}
+        onChange={(v) =>
+          themeBit.setSeed((t) => ({
+            color: {
+              ...t.color,
+              selection: t.color.selection
+                ? {
+                    ...t.color.selection!,
+                    contrast: v ? "highvis" : "normal",
+                  }
+                : undefined,
+            },
+          }))
+        }
       />
       <ToggleButton
         ariaLabel="reduced motion"
         value={theme.motion.reduced ?? false}
         label="reduced motion"
-        //onChange={(v) => themeBit.setConfig({ reducedMotion: v })}
+        onChange={(v) =>
+          themeBit.setSeed((t) => ({
+            motion: {
+              ...t.motion,
+              reduced: v,
+            },
+          }))
+        }
       />
       <ToggleButton
         ariaLabel="larger text"
-        value={(theme.geometry.size ?? 1) > 1}
+        value={(theme.geometry.size ?? 1) > 16}
         label="larger text"
-        //onChange={(v) => themeBit.setConfig({ scale: v ? 1.25 : 1 })}
+        onChange={(v) =>
+          themeBit.setSeed((t) => ({
+            geometry: {
+              ...t.geometry,
+              size: v ? 20 : 16,
+            },
+          }))
+        }
       />
     </Row>
   ));

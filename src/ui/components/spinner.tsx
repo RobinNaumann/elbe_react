@@ -1,4 +1,4 @@
-import { Component, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useApp } from "../app/app_ctxt";
 
 function _toPath(
@@ -24,27 +24,24 @@ export type SpinnerProps = {
   padding?: number;
 };
 
-export class Spinner extends Component<
-  { manner?: "flat" | "plain" } & SpinnerProps
-> {
-  static flat = (p: SpinnerProps) =>
-    new Spinner({ manner: "flat", ...p }).render();
-  static plain = (p: SpinnerProps) =>
-    new Spinner({ manner: "plain", ...p }).render();
-
-  render() {
-    return <_Spinner manner={this.props.manner} {...this.props} />;
-  }
-}
-
-function _Spinner(p: { manner?: "flat" | "plain" } & SpinnerProps) {
-  const { appConfig } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
-  const flat = (p.manner ?? "flat") === "flat";
+export function Spinner(p: { manner?: "flat" | "plain" } & SpinnerProps) {
   const [x, setX] = useState(0);
+  const { appConfig } = useApp();
+  const theme = appConfig.themeContext.useTheme().with(
+    ({ color }) => ({
+      color: {
+        ...color,
+        selection: {
+          ...color.selection,
+          manner: p.manner ?? "plain",
+        },
+      },
+    }),
+    [p.manner]
+  );
 
   useEffect(() => {
-    if (theme.motion.reduced) return () => {};
+    if (theme.theme.motion.reduced) return () => {};
     const interval = setInterval(() => {
       setX((prev) => (prev + 2) % 100);
     }, 16);
@@ -63,9 +60,9 @@ function _Spinner(p: { manner?: "flat" | "plain" } & SpinnerProps) {
 
   return (
     <div
-      className={`${flat ? "accent flat" : "plain"}`}
       style={{
         padding: `${p.padding ?? 1}rem`,
+        color: theme.theme.color.currentColor.front.asCss(),
       }}
     >
       <svg

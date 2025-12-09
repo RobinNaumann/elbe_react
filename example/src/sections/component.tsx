@@ -69,7 +69,7 @@ export function ComponentsSection() {
 }
 
 function _TextInputGroup() {
-  const disabledSig = useConfigSignal("disabled", false);
+  const enabledSig = useConfigSignal("enabled", true);
   const msgSig = useConfigSignal("message", false);
   const hideLabelSig = useConfigSignal("hide label", false);
   const flexSig = useConfigSignal("flex", false);
@@ -81,7 +81,7 @@ function _TextInputGroup() {
       title="Text Input"
       description="use these to get text input from the user. Where possible, they use system dialogs."
       classes={!flexSig.signal.value ? "row wrap cross-start" : "column"}
-      config={[disabledSig, msgSig, hideLabelSig, flexSig]}
+      config={[enabledSig, msgSig, hideLabelSig, flexSig]}
       code={`
 <Field.text
   hint="your name" 
@@ -100,17 +100,18 @@ function _TextInputGroup() {
         leading={Icons.User}
         trailing={Icons.Leaf}
         onTrailingTap={() => showToast("trailing icon click")}
-        onInput={disabledSig.signal.value ? undefined : setVal}
+        onInput={enabledSig.signal.value ? setVal : undefined}
         infoMessage={msgSig.signal.value ? "this is an info" : undefined}
       />
       <Field.password
+        ariaLabel="enter a password"
         label="password"
         hideLabel={hideLabelSig.signal.value}
         flex={flexSig.signal.value}
         hint="your password"
         tooltip="heyoo"
         value={val}
-        onInput={disabledSig.signal.value ? undefined : setVal}
+        onInput={enabledSig.signal.value ? setVal : undefined}
         warningMessage={msgSig.signal.value ? "this is a warning" : undefined}
       />
       <Field.date
@@ -119,17 +120,18 @@ function _TextInputGroup() {
         label="birthday"
         value={date}
         flex={flexSig.signal.value}
-        onInput={disabledSig.signal.value ? undefined : setDate}
+        onInput={enabledSig.signal.value ? setDate : undefined}
         errorMessage={msgSig.signal.value ? "this is an error" : undefined}
       />
       <Field.multiLine
+        ariaLabel="enter a message"
         label="message"
         hideLabel={hideLabelSig.signal.value}
         hint="message"
         value={val}
         flex={flexSig.signal.value}
         successMessage={msgSig.signal.value ? "this is a success" : undefined}
-        onInput={disabledSig.signal.value ? undefined : setVal}
+        onInput={enabledSig.signal.value ? setVal : undefined}
       />
     </ExampleGroup>
   );
@@ -154,6 +156,7 @@ function _BoxGroup() {
 
 function _CardGroup() {
   const borderedSig = useConfigSignal("bordered", true);
+  const elevatedSig = useConfigSignal("elevated", false);
 
   return (
     <ExampleGroup
@@ -161,13 +164,14 @@ function _CardGroup() {
       description={"a container with border and padding"}
       classes="row wrap"
       code={`<Card scheme="primary">...</Card>`}
-      config={[borderedSig]}
+      config={[borderedSig, elevatedSig]}
     >
       {["primary", "secondary", "inverse"].map((v, i) => (
         <Card
           key={i}
           scheme={v as ColorSelection.Schemes}
           bordered={borderedSig.signal.value}
+          elevated={elevatedSig.signal.value}
         >
           {v}
         </Card>
@@ -360,12 +364,12 @@ function _ProgressBarGroup() {
       classes="column cross-stretch gap-double"
       code={`<ProgressBar value={5} max={100} plain />`}
     >
-      {[false, true].map((m, i) => (
+      {["flat", "plain"].map((m, i) => (
         <ProgressBar
           key={i}
-          value={(loadVal + (m ? 0 : 30)) % 110}
+          value={(loadVal + (m === "flat" ? 0 : 30)) % 110}
           max={100}
-          plain={m}
+          manner={m as "flat" | "plain"}
         />
       ))}
     </ExampleGroup>
@@ -388,10 +392,15 @@ function _SpinnerGroup() {
 }
 
 function _SelectGroup() {
+  const enabledSig = useConfigSignal("enabled", true);
+  const hideLabelSig = useConfigSignal("hide label", false);
+  const flexSig = useConfigSignal("flex", false);
+  const [val, setVal] = useState("leaf");
   return (
     <ExampleGroup
       title="Select"
       description="drop down menu for value selection"
+      config={[enabledSig, hideLabelSig, flexSig]}
       classes="row wrap"
       code={`
  <Select
@@ -399,10 +408,13 @@ function _SelectGroup() {
   options={[{ key: "leaf", label: "leaf" }]}
 />`}
     >
-      <div />
       <Select
+        label="Hello"
         ariaLabel="select"
-        onChange={(v) => showToast(`selected ${v}`)}
+        value={val}
+        onChange={enabledSig.signal.value ? (v) => setVal(v) : undefined}
+        hideLabel={hideLabelSig.signal.value}
+        flex={flexSig.signal.value}
         options={[
           { key: "leaf", label: "leaf" },
           { key: "pine", label: "pine tree" },
@@ -437,6 +449,7 @@ function _RangeGroup() {
 
 function _CheckBoxGroup() {
   const [val, setVal] = useState(false);
+  const flatSig = useConfigSignal("flat", true);
   const enabledSig = useConfigSignal("enabled", true);
   const compactSig = useConfigSignal("compact", false);
 
@@ -445,11 +458,12 @@ function _CheckBoxGroup() {
       title="Checkbox"
       description="a toggle for a boolean value"
       classes="row wrap"
-      config={[enabledSig, compactSig]}
+      config={[flatSig, enabledSig, compactSig]}
       code={`<Checkbox value={val} label="agree" onChange={(v) => ...} />`}
     >
       <Checkbox
         ariaLabel="checkbox"
+        manner={flatSig.signal.value ? "flat" : "plain"}
         value={val}
         compact={compactSig.signal.value}
         label="agree"
@@ -461,8 +475,8 @@ function _CheckBoxGroup() {
 
 function _SwitchGroup() {
   const [val, setVal] = useState(false);
+  const flatSig = useConfigSignal("flat", true);
   const enabledSig = useConfigSignal("enabled", true);
-
   const compactSig = useConfigSignal("compact", false);
 
   return (
@@ -470,11 +484,12 @@ function _SwitchGroup() {
       title="Switch"
       description="an alternative toggle for a boolean value"
       classes="row wrap"
-      config={[enabledSig, compactSig]}
+      config={[flatSig, enabledSig, compactSig]}
       code={`<Switch value={val} onChange={(v) => ...} />`}
     >
       <Switch
         ariaLabel="switch"
+        manner={flatSig.signal.value ? "flat" : "plain"}
         value={val}
         compact={compactSig.signal.value}
         onChange={enabledSig.signal.value ? () => setVal(!val) : null}
@@ -534,28 +549,37 @@ function _HRGroup() {
 }
 
 function _LinkGroup() {
-  const plainSig = useConfigSignal("plain", false);
-  const boldSig = useConfigSignal("bold", false);
+  const mannerSig = useConfigSignal("major", true);
+  const underlineSig = useConfigSignal("underline", false);
   const noIconSig = useConfigSignal("no icon", false);
   return (
     <ExampleGroup
       title="Link"
       description="a convenience wrapper for 'a'"
       classes="column"
-      config={[plainSig, boldSig, noIconSig]}
+      config={[mannerSig, underlineSig, noIconSig]}
       code={`<hr />`}
     >
       <span>
         Hello,{" "}
         <Link
-          bold={boldSig.signal.value}
-          plain={plainSig.signal.value}
+          underline={underlineSig.signal.value}
+          manner={mannerSig.signal.value ? "flat" : "plain"}
           noIcon={noIconSig.signal.value}
           href="https://robbb.in"
           label="this"
           external
         />{" "}
-        is a link.
+        is a link. This{" "}
+        <Link
+          underline={underlineSig.signal.value}
+          manner={mannerSig.signal.value ? "major" : "minor"}
+          noIcon={noIconSig.signal.value}
+          href="https://robbb.in"
+          label="link"
+          external
+        />{" "}
+        is very pronounced.
       </span>
     </ExampleGroup>
   );
@@ -682,6 +706,7 @@ function _DialogGroup() {
 }
 
 function _ToastGroup() {
+  const { showToast } = useToast();
   return (
     <ExampleGroup
       title="Toast"
@@ -692,6 +717,18 @@ function _ToastGroup() {
         ariaLabel="toast"
         label="show toast"
         onTap={async () => showToast("this is a toast")}
+      />
+      <Button.minor
+        ariaLabel="fancy toast"
+        label="show fancy toast"
+        onTap={async () =>
+          showToast("this is a fancy toast for 10 seconds", {
+            kind: "success",
+            icon: Icons.Leaf,
+            dismissible: true,
+            duration: 10000,
+          })
+        }
       />
     </ExampleGroup>
   );

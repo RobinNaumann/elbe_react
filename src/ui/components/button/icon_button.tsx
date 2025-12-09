@@ -48,7 +48,7 @@ function _btn({
         ...color,
         selection: {
           ...color.selection,
-          kind: elbe.kind ?? "accent",
+          kind: elbe.kind ?? color.selection.kind ?? "accent",
           manner: manner,
         },
       },
@@ -59,14 +59,11 @@ function _btn({
   return (
     <appConfig.themeContext.WithTheme theme={usedTheme}>
       <button
-        {...applyProps("icon_button", elbe, [], {
+        {...applyProps("icon_button", elbe, ["elbe_colored-action"], {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor:
-            elbe.transparent || ["flat", "plain"].includes(manner)
-              ? "transparent"
-              : usedTheme.theme.color.currentColor.back.asCss(),
+          backgroundColor: elbe.transparent ? "transparent" : undefined,
           border: "none",
           borderRadius: elbe.sharp ? 0 : "3rem",
           height: "3rem",

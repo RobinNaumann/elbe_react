@@ -4,15 +4,26 @@ import { useApp } from "../app/app_ctxt";
 export function ProgressBar({
   value,
   max = 100,
-  plain,
+  manner = "flat",
   ...elbe
 }: {
   value: number;
   max?: number;
-  plain?: boolean;
+  manner: "flat" | "plain";
 } & ElbeProps) {
   const { appConfig } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
+  const theme = appConfig.themeContext.useTheme().with(
+    ({ color }) => ({
+      color: {
+        ...color,
+        selection: {
+          ...color.selection,
+          manner: manner,
+        },
+      },
+    }),
+    [manner]
+  );
   return (
     <div
       {...applyProps(
@@ -21,12 +32,12 @@ export function ProgressBar({
           role: "progressbar",
           ...elbe,
         },
-        [plain ? "plain" : "accent minor"],
+        [],
         {
           width: "100%",
           height: "0.5rem",
 
-          borderRadius: theme.geometry.radius + "rem",
+          borderRadius: theme.theme.geometry.radius + "rem",
           border: "none",
         }
       )}
@@ -35,9 +46,9 @@ export function ProgressBar({
         style={{
           width: `${clamp((value / max) * 100, 0, 100)}%`,
           height: "100%",
-          backgroundColor: "var(--c-context-front)",
-          transition: theme.motion.reduced ? "none" : "width 0.25s",
-          borderRadius: theme.geometry.radius + "rem",
+          backgroundColor: theme.theme.color.currentColor.front.asCss(),
+          transition: theme.theme.motion.reduced ? "none" : "width 0.25s",
+          borderRadius: theme.theme.geometry.radius + "rem",
         }}
       />
     </div>

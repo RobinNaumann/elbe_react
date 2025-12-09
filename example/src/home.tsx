@@ -33,12 +33,13 @@ export function Home() {
 
       <_HeroSection />
       <div className="base-limited" style={{ border: "none" }}>
-        <Box mode="light" scheme="primary" padding={1}>
+        <Box scheme="primary" padding={1}>
           <Column gap={6}>
             <_InstallSection />
-            <hr />
-            <ThemeEdit />
-            <AccessibilityEdit />
+            <Column gap={3}>
+              <ThemeEdit />
+              <AccessibilityEdit />
+            </Column>
             <_OverviewSection />
             <ComponentsSection />
             <FoundationSection />
@@ -145,7 +146,7 @@ function _OverviewSection() {
 
 function _HeroSection() {
   return (
-    <Card mode="light" scheme="secondary" padding={1} sharp>
+    <Card scheme="secondary" padding={1} sharp>
       <Column cross="center" main="center" style={{ height: "15rem" }}>
         <Text.h1 v="elbe" />
         <div style={{ textAlign: "center" }}>

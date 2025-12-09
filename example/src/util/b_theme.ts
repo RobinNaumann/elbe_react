@@ -14,6 +14,13 @@ export const ThemeBit = createBit({
       seed: {
         color: {
           accent: LayerColor.fromBack(colors.accent.blue),
+          selection: {
+            contrast: "normal",
+            mode: "light",
+            scheme: "secondary",
+            kind: "accent",
+            manner: "plain",
+          },
         },
         type: {
           body: {
@@ -33,13 +40,17 @@ export const ThemeBit = createBit({
     } as Data),
   useHistory: false,
   control: ({ act }) => ({
-    setSeed: (s: Partial<ElbeThemeSeed<typeof _empty>>) =>
+    setSeed: (
+      w: (
+        v: ElbeThemeSeed<typeof _empty>
+      ) => Partial<ElbeThemeSeed<typeof _empty>>
+    ) =>
       act(
         (v) => ({
           ...v,
           seed: {
             ...v.seed,
-            ...s,
+            ...w(v.seed),
           },
         }),
         true

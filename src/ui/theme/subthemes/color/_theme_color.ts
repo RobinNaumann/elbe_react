@@ -19,7 +19,7 @@ const _data = {
   },
   selection: {
     contrast: "normal",
-    mode: "light",
+    mode: "dark",
     scheme: "primary",
     kind: "accent",
     manner: "plain",
@@ -27,7 +27,7 @@ const _data = {
 };
 
 const _current = (t: typeof _data) => {
-  function parseColor(sc: typeof t.selection) {
+  function parseColor(sc: typeof t.selection): StateColor {
     //if (isLayerColor(sc)) return sc;
     if (!t.values?.hirarchy) {
       throw new Error("ColorTheme: No hirarchy defined");
@@ -40,12 +40,12 @@ const _current = (t: typeof _data) => {
     let color: StateColor | null =
       manner[(sc?.manner as ColorSelection.Manners) ?? "flat"];
 
-    if (!color || !LayerColor.is(manner)) {
+    if (!color || !StateColor.is(manner)) {
       color = manner["flat"];
     }
 
-    if (!color || !LayerColor.is(color)) {
-      return LayerColor.fromBack("#ff00ff");
+    if (!color || !StateColor.is(color)) {
+      return StateColor.fromBack("#ff00ff");
     }
     return color;
   }
@@ -73,19 +73,30 @@ export const colorThemeData: ElbeSubThemeData<
     front: c.currentColor.front.asCss(),
     back: c.currentColor.back.asCss(),
     border: c.currentColor.border?.asCss() ?? "transparent",
+    outline: c.values.root.accent.back.asCss(),
+
+    "hover-front": c.currentColor.hover?.front.asCss() ?? "",
+    "hover-back": c.currentColor.hover?.back.asCss() ?? "",
+    "hover-border": c.currentColor.hover?.border?.asCss() ?? "",
+
+    "active-front": c.currentColor.active?.front.asCss() ?? "",
+    "active-back": c.currentColor.active?.back.asCss() ?? "",
+    "active-border": c.currentColor.active?.border?.asCss() ?? "",
   }),
-  fromSeed: (seed) => ({
-    values: {
-      root: {
-        base: LayerColor.fromBack(seed.base),
-        accent: LayerColor.fromBack(seed.accent),
-        info: LayerColor.fromBack(seed.info),
-        success: LayerColor.fromBack(seed.success),
-        warning: LayerColor.fromBack(seed.warning),
-        error: LayerColor.fromBack(seed.error),
+  fromSeed: (seed) => {
+    return {
+      values: {
+        root: {
+          base: LayerColor.fromBack(seed.base),
+          accent: LayerColor.fromBack(seed.accent),
+          info: LayerColor.fromBack(seed.info),
+          success: LayerColor.fromBack(seed.success),
+          warning: LayerColor.fromBack(seed.warning),
+          error: LayerColor.fromBack(seed.error),
+        },
+        hirarchy: ContrastColor.generate([], seed),
       },
-      hirarchy: ContrastColor.generate([], seed),
-    },
-    selection: seed.selection,
-  }),
+      selection: seed.selection ?? _data.selection,
+    };
+  },
 };

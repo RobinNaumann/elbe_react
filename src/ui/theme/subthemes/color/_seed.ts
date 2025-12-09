@@ -1,4 +1,5 @@
 import { LayerColor } from "./colors/_color_layer";
+import { RGBAColor } from "./colors/_color_rgba";
 import {
   colors,
   ColorThemeSeed,
@@ -74,13 +75,15 @@ const _makeFlat: SeedFlatSelector = ({ path, style, base }) => {
   return LayerColor.new({
     back: base.back, //.withAlpha(0),
     front,
-    border: highVis ? border : null,
+    border: front,
     borderContext: border,
   });
 };
 
 export const _seed: ColorThemeSeed = {
-  base: LayerColor.fromBack(colors.white) as LayerColor | HexColor,
+  base: LayerColor.fromBack(colors.white, {
+    border: RGBAColor.fromHex("#ccc"),
+  }) as LayerColor | HexColor,
   accent: LayerColor.fromBack(colors.accent.blue) as LayerColor | HexColor,
   info: LayerColor.fromBack(colors.blue) as LayerColor | HexColor,
   success: LayerColor.fromBack(colors.green) as LayerColor | HexColor,
@@ -96,10 +99,14 @@ export const _seed: ColorThemeSeed = {
   },
 
   contrast: {
-    highvis: ({ seed }) => ({
-      ...seed,
-      accent: LayerColor.fromBack(colors.black),
-    }),
+    highvis: ({ seed }) => {
+      const base = LayerColor.fromBack(seed.base);
+      return {
+        ...seed,
+        base: base.withBorder(base.front),
+        accent: LayerColor.fromBack(colors.black),
+      };
+    },
     normal: ({ seed }) => seed,
   },
 
@@ -122,8 +129,7 @@ export const _seed: ColorThemeSeed = {
     warning: _styleSel,
     error: _styleSel,
   },
-
-  variant: {
+  manner: {
     major: _makeMajor,
     minor: (p) => {
       const highVis = p.path.includes("highvis");
