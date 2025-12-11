@@ -30,6 +30,7 @@ export function ChooseButton<T>({
     <Card
       kind="accent"
       manner="major"
+      state={onChange ? "neutral" : "disabled"}
       padding={0}
       overflow="hidden"
       role="radiogroup"

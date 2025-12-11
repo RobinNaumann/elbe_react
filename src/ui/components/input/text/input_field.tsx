@@ -63,6 +63,7 @@ function _Field(
     const { appConfig } = useApp();
     const usedTheme = appConfig.themeContext.useTheme();
     const id = p.id ?? randomAlphaNum(8, "input_field_");
+    const manner = p.manner ?? "plain";
 
     const msg: { kind: ColorSelection.KindsAlert; msg: string } | null =
       p.errorMessage
@@ -76,7 +77,13 @@ function _Field(
         : null;
 
     return (
-      <LabeledInput {...p} id={id} disabled={!p.onInput} typeLabel="text-field">
+      <LabeledInput
+        {...p}
+        id={id}
+        disabled={!p.onInput}
+        typeLabel="text-field"
+        manner={manner}
+      >
         <Card
           className="elbe-focussink"
           style={{
@@ -87,12 +94,12 @@ function _Field(
           }}
           kind={msg?.kind}
           padding={0}
-          manner={msg ? "major" : "plain"}
+          manner={msg ? "major" : undefined}
         >
           <Card
             // inner card for input only
             kind={msg?.kind}
-            manner={msg ? "minor" : "plain"}
+            manner={msg ? "minor" : undefined}
             overflow="hidden"
             padding={0}
             bordered
@@ -113,6 +120,7 @@ function _Field(
                 hint={p.hint}
                 inputType={p.inputType}
                 message={msg}
+                manner={manner}
               />
             )}
           </Card>

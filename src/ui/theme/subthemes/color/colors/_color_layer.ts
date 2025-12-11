@@ -49,9 +49,12 @@ export const LayerColor = defineColor({
       });
     }
 
-    function mirrorBrightnessLayer(factor?: number): LayerColor {
+    function mirrorBrightnessLayer(
+      factor?: number,
+      factorBack?: number
+    ): LayerColor {
       return LayerColor.new({
-        back: data.back.mirrorBrightness(factor),
+        back: data.back.mirrorBrightness(factorBack ?? factor),
         front: data.front.mirrorBrightness(factor),
         border: data.border?.mirrorBrightness(factor),
         borderContext: data.borderContext?.mirrorBrightness(factor),

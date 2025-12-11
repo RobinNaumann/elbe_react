@@ -17,7 +17,6 @@ import {
   Row,
   Select,
   showConfirmDialog,
-  showToast,
   Spinner,
   Switch,
   Text,
@@ -69,6 +68,9 @@ export function ComponentsSection() {
 }
 
 function _TextInputGroup() {
+  const { showToast } = useToast();
+
+  const flatSig = useConfigSignal("flat", false);
   const enabledSig = useConfigSignal("enabled", true);
   const msgSig = useConfigSignal("message", false);
   const hideLabelSig = useConfigSignal("hide label", false);
@@ -81,7 +83,7 @@ function _TextInputGroup() {
       title="Text Input"
       description="use these to get text input from the user. Where possible, they use system dialogs."
       classes={!flexSig.signal.value ? "row wrap cross-start" : "column"}
-      config={[enabledSig, msgSig, hideLabelSig, flexSig]}
+      config={[flatSig, enabledSig, msgSig, hideLabelSig, flexSig]}
       code={`
 <Field.text
   hint="your name" 
@@ -99,6 +101,7 @@ function _TextInputGroup() {
         flex={flexSig.signal.value}
         leading={Icons.User}
         trailing={Icons.Leaf}
+        manner={flatSig.signal.value ? "flat" : "plain"}
         onTrailingTap={() => showToast("trailing icon click")}
         onInput={enabledSig.signal.value ? setVal : undefined}
         infoMessage={msgSig.signal.value ? "this is an info" : undefined}
@@ -111,6 +114,7 @@ function _TextInputGroup() {
         hint="your password"
         tooltip="heyoo"
         value={val}
+        manner={flatSig.signal.value ? "flat" : "plain"}
         onInput={enabledSig.signal.value ? setVal : undefined}
         warningMessage={msgSig.signal.value ? "this is a warning" : undefined}
       />
@@ -120,6 +124,7 @@ function _TextInputGroup() {
         label="birthday"
         value={date}
         flex={flexSig.signal.value}
+        manner={flatSig.signal.value ? "flat" : "plain"}
         onInput={enabledSig.signal.value ? setDate : undefined}
         errorMessage={msgSig.signal.value ? "this is an error" : undefined}
       />
@@ -130,6 +135,7 @@ function _TextInputGroup() {
         hint="message"
         value={val}
         flex={flexSig.signal.value}
+        manner={flatSig.signal.value ? "flat" : "plain"}
         successMessage={msgSig.signal.value ? "this is a success" : undefined}
         onInput={enabledSig.signal.value ? setVal : undefined}
       />
@@ -210,6 +216,7 @@ function _IconGroup() {
 }
 
 function _IconButtonGroup() {
+  const { showToast } = useToast();
   const enabledSig = useConfigSignal("enabled", true);
 
   return (
@@ -238,6 +245,7 @@ function _IconButtonGroup() {
 }
 
 function _ButtonGroup() {
+  const { showToast } = useToast();
   const enabledSig = useConfigSignal("enabled", true);
   const iconSig = useConfigSignal("icon", true);
 
@@ -392,6 +400,7 @@ function _SpinnerGroup() {
 }
 
 function _SelectGroup() {
+  const flatSig = useConfigSignal("flat", false);
   const enabledSig = useConfigSignal("enabled", true);
   const hideLabelSig = useConfigSignal("hide label", false);
   const flexSig = useConfigSignal("flex", false);
@@ -400,7 +409,7 @@ function _SelectGroup() {
     <ExampleGroup
       title="Select"
       description="drop down menu for value selection"
-      config={[enabledSig, hideLabelSig, flexSig]}
+      config={[flatSig, enabledSig, hideLabelSig, flexSig]}
       classes="row wrap"
       code={`
  <Select
@@ -415,6 +424,7 @@ function _SelectGroup() {
         onChange={enabledSig.signal.value ? (v) => setVal(v) : undefined}
         hideLabel={hideLabelSig.signal.value}
         flex={flexSig.signal.value}
+        manner={flatSig.signal.value ? "flat" : "plain"}
         options={[
           { key: "leaf", label: "leaf" },
           { key: "pine", label: "pine tree" },
@@ -549,7 +559,7 @@ function _HRGroup() {
 }
 
 function _LinkGroup() {
-  const mannerSig = useConfigSignal("major", true);
+  const mannerSig = useConfigSignal("flat", true);
   const underlineSig = useConfigSignal("underline", false);
   const noIconSig = useConfigSignal("no icon", false);
   return (

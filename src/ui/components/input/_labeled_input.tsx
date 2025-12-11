@@ -1,4 +1,5 @@
 import { useApp } from "../../app/app_ctxt";
+import { ColorSelection } from "../../theme/subthemes/color/colors/colors";
 import { applyProps, ElbeChildrenProps, ElbeStyleProps } from "../base/box";
 import { WithStateTheme } from "../base/state_builder";
 
@@ -8,6 +9,8 @@ export type LabeledInputProps = ElbeChildrenProps &
     hideLabel?: boolean;
     width?: number;
     flex?: boolean | number;
+    manner?: Exclude<ColorSelection.Manners, "major" | "minor">;
+    disabled?: boolean;
   };
 
 /**
@@ -17,13 +20,17 @@ export type LabeledInputProps = ElbeChildrenProps &
  * @returns a labeled input component
  */
 export function LabeledInput(
-  p: LabeledInputProps & { disabled: boolean; typeLabel: string; id: string }
+  p: LabeledInputProps & { typeLabel: string; id: string }
 ) {
   const { appConfig } = useApp();
   const baseTheme = appConfig.themeContext.useTheme();
 
   return (
-    <WithStateTheme disabled={p.disabled} theme={baseTheme}>
+    <WithStateTheme
+      disabled={p.disabled ?? false}
+      theme={baseTheme}
+      manner={p.manner}
+    >
       <div
         {...applyProps(p.typeLabel, p, [], {
           flex: p.flex ? (p.flex === true ? 1 : p.flex) : undefined,

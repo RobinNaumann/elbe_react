@@ -59,7 +59,7 @@ function _RoundSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((d) => (
     <Column>
-      <Text.h5 v="geometry" />
+      <Text.h4 v="geometry" />
       <Row>
         <Text v="roundness" style={labelStyle} />
 
@@ -105,7 +105,7 @@ function _TypeSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((v) => (
     <Column>
-      <Text.h5 v="typography" />
+      <Text.h4 v="typography" />
       <Row>
         <Text v="title font" style={labelStyle} />
         <Row style={{ overflowX: "auto", flex: 1, padding: ".25rem 0" }}>
@@ -148,7 +148,7 @@ function _AccentSelect() {
   const themeBit = ThemeBit.use();
   return themeBit.mapUI((d) => (
     <Column gap={1.2}>
-      <Text.h5 v="color" />
+      <Text.h4 v="color" />
       <Row>
         <Text v="mode" style={labelStyle} />
 

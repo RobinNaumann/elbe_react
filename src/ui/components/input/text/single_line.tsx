@@ -19,6 +19,7 @@ export type SLInputFieldProps = {
   onInput?: (value: string) => void;
   value: string;
   hint?: string;
+  manner?: ColorSelection.Manners;
   message?: _InputMsg | null;
 };
 
@@ -35,6 +36,7 @@ export function _SingleLineField(
         onMessage={!!p.message}
         onEnabled={!!p.onInput}
         onTap={p.onLeadingTap}
+        manner={p.manner ?? "plain"}
       />
       <input
         type={p.inputType}
@@ -59,6 +61,7 @@ export function _SingleLineField(
         onMessage={!!p.message}
         onEnabled={!!p.onInput}
         onTap={p.onTrailingTap}
+        manner={p.manner ?? "plain"}
       />
     </Row>
   );
@@ -70,13 +73,14 @@ function _Supplement(p: {
   icon?: IconChild;
   onMessage: boolean;
   onEnabled: boolean;
+  manner: ColorSelection.Manners;
   onTap?: () => void;
 }) {
   if (!p.icon) return <Spaced width={0.75} />;
   return (
     <IconButton
       kind={p.kind}
-      manner={p.onMessage ? "minor" : p.kind ? "flat" : "plain"}
+      manner={p.onMessage ? "minor" : p.manner}
       ariaLabel={p.trailing ? "trailing icon" : "leading icon"}
       icon={p.icon}
       style={{
@@ -84,7 +88,7 @@ function _Supplement(p: {
         transition: "none",
         backgroundColor: p.onEnabled ? undefined : "transparent",
       }}
-      onTap={p.onTap ? () => p.onTap?.() : undefined}
+      onTap={p.onTap && p.onEnabled ? () => p.onTap?.() : undefined}
     />
   );
 }

@@ -30,7 +30,9 @@ export const StateColor = defineColor({
         neutral: style,
         hover: _make(0.05) ?? style,
         active: _make(0.15) ?? style,
-        disabled: style.desaturatedLayer().mirrorBrightnessLayer(0.05),
+        disabled: path.includes("plain")
+          ? style.desaturatedLayer().mirrorBrightnessLayer(0.5, 0.05)
+          : style.desaturatedLayer().mirrorBrightnessLayer(0.05),
       });
     },
     fromBack(back: string) {

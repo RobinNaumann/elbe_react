@@ -79,16 +79,18 @@ function _InstallSection() {
           className="card secondary code"
           style={{ padding: ".75rem", marginBottom: ".5rem" }}
         >
-          npm i <b>elbe-ui</b>
+          <Text.code>
+            npm i <b>elbe-ui</b>
+          </Text.code>
         </div>
         <div>
-          wrap your App into <b>ElbeTheme</b>
+          wrap your App into <b>ElbeApp</b>
         </div>
         <div
           className="card secondary code"
           style={{ padding: ".75rem", marginBottom: ".5rem" }}
         >
-          {"<ElbeTheme> ... </ElbeTheme>"}
+          <Text.code v="<ElbeApp> ... </ElbeApp>" />
         </div>
       </Column>
     </ExampleSection>

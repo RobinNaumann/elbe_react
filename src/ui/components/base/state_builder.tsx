@@ -6,6 +6,7 @@ import { ElbeChildren } from "../../util/types";
 
 export function WithStateTheme(p: {
   theme: ElbeThemeContextData<{}>;
+  manner?: Exclude<ColorSelection.Manners, "major" | "minor">;
   disabled?: boolean;
   children: ElbeChildren;
 }) {
@@ -20,11 +21,12 @@ export function WithStateTheme(p: {
         ...color,
         selection: {
           ...color.selection,
+          manner: p.manner ?? color.selection.manner,
           state: p.disabled ? "disabled" : elState,
         },
       },
     }),
-    [p.theme, elState, p.disabled]
+    [p.theme, elState, p.disabled, p.manner]
   );
 
   return (
