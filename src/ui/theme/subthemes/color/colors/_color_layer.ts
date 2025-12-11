@@ -31,33 +31,48 @@ export const LayerColor = defineColor({
     },
   },
   parent: (data) => data.back,
-  compute: (data: {
-    back: RGBAColor;
-    front: RGBAColor;
-    border?: RGBAColor | null;
-    borderContext?: RGBAColor | null;
-  }) => {
-    function interLayer(other: LayerColor, factor: number): LayerColor {
+  compute: (data: { back: RGBAColor; front: RGBAColor; border: RGBAColor }) => {
+    function interLayerLayer(
+      other: LayerColor,
+      factor: number,
+      factorFront?: number,
+      factorBorder?: number
+    ): LayerColor {
       return LayerColor.new({
         back: data.back.inter(other.back, factor),
-        front: data.front.inter(other.front, factor),
-        border: data.border?.inter(other.border ?? colors.transparent, factor),
-        borderContext: data.borderContext?.inter(
-          other.borderContext ?? colors.transparent,
-          factor
+        front: data.front.inter(other.front, factorFront ?? factor),
+        border: data.border.inter(
+          other.border ?? colors.transparent,
+          factorBorder ?? factor
+        ),
+      });
+    }
+
+    function interLayer(
+      other: RGBAColor,
+      factor: number,
+      factorFront?: number,
+      factorBorder?: number
+    ): LayerColor {
+      return LayerColor.new({
+        back: data.back.inter(other, factor),
+        front: data.front.inter(other, factorFront ?? factor),
+        border: data.border.inter(
+          other ?? colors.transparent,
+          factorBorder ?? factor
         ),
       });
     }
 
     function mirrorBrightnessLayer(
       factor?: number,
-      factorBack?: number
+      factorBack?: number,
+      factorBorder?: number
     ): LayerColor {
       return LayerColor.new({
         back: data.back.mirrorBrightness(factorBack ?? factor),
         front: data.front.mirrorBrightness(factor),
-        border: data.border?.mirrorBrightness(factor),
-        borderContext: data.borderContext?.mirrorBrightness(factor),
+        border: data.border?.mirrorBrightness(factorBorder ?? factor),
       });
     }
 
@@ -66,7 +81,6 @@ export const LayerColor = defineColor({
         back: data.back.desaturated(),
         front: data.front.desaturated(),
         border: data.border?.desaturated(),
-        borderContext: data.borderContext?.desaturated(),
       });
     }
 
@@ -75,7 +89,6 @@ export const LayerColor = defineColor({
         back,
         front: data.front,
         border: data.border,
-        borderContext: data.borderContext,
       });
     }
 
@@ -84,7 +97,6 @@ export const LayerColor = defineColor({
         back: data.back,
         front,
         border: data.border,
-        borderContext: data.borderContext,
       });
     }
 
@@ -93,12 +105,12 @@ export const LayerColor = defineColor({
         back: data.back,
         front: data.front,
         border,
-        borderContext: data.borderContext,
       });
     }
 
     return {
       interLayer,
+      interLayerLayer,
       mirrorBrightnessLayer,
       desaturatedLayer,
       withBack,

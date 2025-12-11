@@ -22,7 +22,6 @@ export const StateColor = defineColor({
 
           front,
           border: style.border,
-          borderContext: style.borderContext,
         });
       }
 
@@ -30,9 +29,10 @@ export const StateColor = defineColor({
         neutral: style,
         hover: _make(0.05) ?? style,
         active: _make(0.15) ?? style,
-        disabled: path.includes("plain")
-          ? style.desaturatedLayer().mirrorBrightnessLayer(0.5, 0.05)
-          : style.desaturatedLayer().mirrorBrightnessLayer(0.05),
+        disabled:
+          path.includes("plain") || path.includes("flat")
+            ? style.interLayer(style.back, 0.35, 0.5, 0.35).desaturatedLayer()
+            : style.desaturatedLayer().mirrorBrightnessLayer(0.05),
       });
     },
     fromBack(back: string) {
@@ -44,7 +44,6 @@ export const StateColor = defineColor({
             .withAlpha(Math.max(style.back.alpha, 0.2)),
           front: style.front,
           border: style.border,
-          borderContext: style.borderContext,
         });
       }
 

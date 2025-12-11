@@ -560,34 +560,35 @@ function _HRGroup() {
 
 function _LinkGroup() {
   const mannerSig = useConfigSignal("flat", true);
+  const boldSig = useConfigSignal("bold", false);
   const underlineSig = useConfigSignal("underline", false);
-  const noIconSig = useConfigSignal("no icon", false);
+  const externalSig = useConfigSignal("external", true);
   return (
     <ExampleGroup
       title="Link"
       description="a convenience wrapper for 'a'"
       classes="column"
-      config={[mannerSig, underlineSig, noIconSig]}
-      code={`<hr />`}
+      config={[mannerSig, boldSig, underlineSig, externalSig]}
+      code={`<Link href="https://robbb.in" label="this" external />`}
     >
       <span>
         Hello,{" "}
         <Link
           underline={underlineSig.signal.value}
           manner={mannerSig.signal.value ? "flat" : "plain"}
-          noIcon={noIconSig.signal.value}
+          bold={boldSig.signal.value}
           href="https://robbb.in"
           label="this"
-          external
+          external={externalSig.signal.value}
         />{" "}
         is a link. This{" "}
         <Link
           underline={underlineSig.signal.value}
           manner={mannerSig.signal.value ? "major" : "minor"}
-          noIcon={noIconSig.signal.value}
+          bold={boldSig.signal.value}
           href="https://robbb.in"
           label="link"
-          external
+          external={externalSig.signal.value}
         />{" "}
         is very pronounced.
       </span>

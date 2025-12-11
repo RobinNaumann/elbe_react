@@ -16,7 +16,7 @@ const _styleSel: SeedStyleSelector = ({ base, style }) => {
 
   if (style.luminance() == 0) return style.mirrorBrightnessLayer();
 
-  return style.interLayer(
+  return style.interLayerLayer(
     LayerColor.fromBack(bL > 0.5 ? colors.black : colors.white),
     0.1
   );
@@ -76,7 +76,6 @@ const _makeFlat: SeedFlatSelector = ({ path, style, base }) => {
     back: base.back, //.withAlpha(0),
     front,
     border: front,
-    borderContext: border,
   });
 };
 

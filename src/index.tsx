@@ -43,7 +43,7 @@ export * from "./ui/components/input/text/input_field";
 
 export * from "./ui/components/badge";
 export * from "./ui/components/banner";
-export * from "./ui/components/dialog";
+export * from "./ui/components/dialog/dialog";
 export * from "./ui/components/error_view";
 export * from "./ui/components/footer";
 export * from "./ui/components/link";

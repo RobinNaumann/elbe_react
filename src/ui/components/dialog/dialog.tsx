@@ -1,10 +1,20 @@
 import { X } from "lucide-react";
 import { useEffect } from "react";
-import type { ElbeChildren } from "../util/types";
-import { Padded } from "./base/padded";
-import { IconButton } from "./button/icon_button";
-import { Row } from "./layout/flex";
-import { Spaced } from "./layout/spaced";
+import type { ElbeChildren } from "../../util/types";
+import { Padded } from "../base/padded";
+import { IconButton } from "../button/icon_button";
+import { Row } from "../layout/flex";
+import { Spaced } from "../layout/spaced";
+
+export type ElbeDialogProps = {
+  title: string;
+  open: boolean;
+  onClose: () => void;
+  children: ElbeChildren;
+  _style?: React.CSSProperties;
+  barrierDismissible?: boolean;
+  maxWidth?: number;
+};
 
 export function ElbeDialog({
   title,
