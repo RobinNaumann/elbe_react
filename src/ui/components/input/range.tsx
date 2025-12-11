@@ -3,23 +3,16 @@ import { _ElbeErr } from "../../util/error_view";
 import { applyProps, ElbeActionProps } from "../base/box";
 import { Card } from "../base/card";
 
-export function Range({
-  value,
-  onChange,
-  min = 0,
-  max = 100,
-  step = 1,
-  ...elbe
-}: ElbeActionProps & {
+type _RangeProps = ElbeActionProps & {
   value: number;
   min?: number;
   step?: number;
   max?: number;
   onChange?: ((value: number) => void) | null;
-}) {
-  const { appConfig } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
-  return min > max ? (
+};
+
+export function Range(p: _RangeProps) {
+  return (p.min ?? 0) > (p.max ?? 100) ? (
     _ElbeErr("Range: max is smaller than min")
   ) : (
     <Card
@@ -36,30 +29,64 @@ export function Range({
         width: "100%",
       }}
     >
-      <input
-        type="range"
-        {...applyProps(
-          "range",
-          {
-            role: "slider",
-            ...elbe,
-          },
-          null,
-          {
-            filter: onChange ? "" : "grayscale(1)",
-            opacity: onChange ? "" : "0.5",
-            cursor: onChange ? "pointer" : "not-allowed",
-            width: "100%",
-            borderRadius: theme.geometry.radius + "rem",
-          }
-        )}
-        min={min}
-        max={max}
-        step={step}
-        disabled={!onChange}
-        value={value}
-        onInput={(e) => onChange?.(Number(e.currentTarget.value))}
-      />
+      <_StyledRange {...p} />
     </Card>
+  );
+}
+
+function _StyledRange({
+  min = 0,
+  max = 100,
+  step = 1,
+  value,
+  onChange,
+  ...elbe
+}: _RangeProps) {
+  const { appConfig } = useApp();
+  const { theme } = appConfig.themeContext.useTheme().useWith(
+    (c) => ({
+      color: {
+        ...c.color,
+        selection: {
+          ...c.color.selection,
+          manner: "major",
+        },
+      },
+    }),
+    []
+  );
+
+  return (
+    <input
+      type="range"
+      {...applyProps(
+        "range",
+        {
+          role: "slider",
+          ...elbe,
+        },
+        null,
+        {
+          filter: onChange ? "" : "grayscale(1)",
+          opacity: onChange ? "" : "0.5",
+          cursor: onChange ? "pointer" : "not-allowed",
+          width: "100%",
+          borderRadius: theme.geometry.radius + "rem",
+          ...({
+            "--elbe-range-dot-back": theme.color.isContrast
+              ? theme.color.currentColor.front.asCss()
+              : theme.color.currentColor.back.asCss(),
+            "--elbe-range-dot-border":
+              theme.color.currentColor.border?.asCss() ?? "transparent",
+          } as any),
+        }
+      )}
+      min={min}
+      max={max}
+      step={step}
+      disabled={!onChange}
+      value={value}
+      onInput={(e) => onChange?.(Number(e.currentTarget.value))}
+    />
   );
 }

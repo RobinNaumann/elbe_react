@@ -1,6 +1,7 @@
 import { ExternalLinkIcon } from "lucide-react";
 import { useApp } from "../app/app_ctxt";
 import { ColorSelection } from "../theme/subthemes/color/colors/colors";
+import { WithStateTheme } from "./base/state_builder";
 
 export function Link(p: {
   label: string;
@@ -13,7 +14,7 @@ export function Link(p: {
   color?: string;
 }) {
   const { appConfig } = useApp();
-  const theme = appConfig.themeContext.useTheme().with(
+  const baseTheme = appConfig.themeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
@@ -27,12 +28,12 @@ export function Link(p: {
   );
 
   return (
-    <appConfig.themeContext.WithTheme theme={theme}>
+    <WithStateTheme theme={baseTheme}>
       <a
         href={p.href}
         target={p.external ? "_blank" : undefined}
         rel={p.external ? "noopener noreferrer" : undefined}
-        className="elbe_colored-action"
+        className="elbe_colored"
         style={{
           display: "inline-flex",
           textDecoration: p.underline ? "underline" : "none",
@@ -54,6 +55,6 @@ export function Link(p: {
           />
         )}
       </a>
-    </appConfig.themeContext.WithTheme>
+    </WithStateTheme>
   );
 }

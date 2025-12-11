@@ -7,6 +7,7 @@ import {
   type ElbeChild,
 } from "../../..";
 import { useApp } from "../../app/app_ctxt";
+import { WithStateTheme } from "../base/state_builder";
 
 export type IconChild = ElbeChild | ((_: any) => ElbeChild);
 
@@ -42,7 +43,7 @@ function _btn({
 }) {
   const { appConfig } = useApp();
 
-  const usedTheme = appConfig.themeContext.useTheme().with(
+  const baseTheme = appConfig.themeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
@@ -57,9 +58,9 @@ function _btn({
   );
 
   return (
-    <appConfig.themeContext.WithTheme theme={usedTheme}>
+    <WithStateTheme theme={baseTheme} disabled={!onTap}>
       <button
-        {...applyProps("icon_button", elbe, ["elbe_colored-action"], {
+        {...applyProps("icon_button", elbe, ["elbe_colored"], {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -68,7 +69,6 @@ function _btn({
           borderRadius: elbe.sharp ? 0 : "3rem",
           height: "3rem",
           width: "3rem",
-          cursor: onTap ? "pointer" : "not-allowed",
         })}
         title={elbe.ariaLabel ?? undefined}
         onClick={(e) => {
@@ -78,7 +78,7 @@ function _btn({
       >
         <Icon icon={icon} />
       </button>
-    </appConfig.themeContext.WithTheme>
+    </WithStateTheme>
   );
 }
 

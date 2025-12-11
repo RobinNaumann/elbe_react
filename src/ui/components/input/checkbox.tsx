@@ -5,12 +5,13 @@ import {
   ElbeActionProps,
   styleBorderFromContext,
 } from "../base/box";
+import { WithStateTheme } from "../base/state_builder";
 
 export function Checkbox(
   p: BooleanInputProps & ElbeActionProps & { manner?: "flat" | "plain" }
 ) {
   const { appConfig } = useApp();
-  const theme = appConfig.themeContext.useTheme().with(
+  const baseTheme = appConfig.themeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
@@ -43,21 +44,21 @@ export function Checkbox(
         }
       )}
     >
-      <appConfig.themeContext.WithTheme theme={theme}>
+      <WithStateTheme theme={baseTheme} disabled={!p.onChange}>
         <input
           type="checkbox"
           disabled={!p.onChange}
           checked={p.value}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => p.onChange?.(e.currentTarget.checked)}
-          className="elbe_colored-action"
+          className="elbe_colored"
           style={{
             width: "1.8rem",
             height: "1.8rem",
             ...styleBorderFromContext,
           }}
         />
-      </appConfig.themeContext.WithTheme>
+      </WithStateTheme>
       {p.label && <Text v={p.label} />}
     </div>
   );

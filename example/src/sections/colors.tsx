@@ -35,10 +35,11 @@ export function TypographySection() {
 
 function _ColorDemo() {
   const [mode, setMode] = useState<ColorSelection.Schemes>("primary");
+  const [state, setState] = useState<ColorSelection.States>("neutral");
 
   return (
     <Column>
-      <Row gap={0}>
+      <Column>
         <ChooseButton
           items={[
             { value: "primary", label: "primary" },
@@ -48,9 +49,19 @@ function _ColorDemo() {
           onChange={(v) => setMode(v as ColorSelection.Schemes)}
           value={mode}
         />
-      </Row>
+        <ChooseButton
+          items={[
+            { value: "neutral", label: "neutral" },
+            { value: "hover", label: "hover" },
+            { value: "active", label: "active" },
+            { value: "disabled", label: "disabled" },
+          ]}
+          onChange={(v) => setState(v as ColorSelection.States)}
+          value={state}
+        />
+      </Column>
       <Card scheme={mode}>
-        <Scroll.horizontal>
+        <Scroll.horizontal noScrollbars>
           <Column>
             {cKinds.map((s, i) => (
               <Row key={i}>
@@ -61,6 +72,7 @@ function _ColorDemo() {
                     kind={s as ColorSelection.Kinds}
                     manner={m as ColorSelection.Manners}
                     style={{ width: "6rem", textAlign: "center" }}
+                    state={state}
                     bordered
                   >
                     {m}

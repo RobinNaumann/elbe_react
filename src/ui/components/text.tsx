@@ -82,6 +82,9 @@ function _Text(p: TextProps & { variant?: ElbeTypeVariants }) {
         scrollMarginTop: "2rem",
         textAlign: align,
         textDecorationLine: striked ? "line-through" : "",
+        // disable auto wrap for code blocks
+        whiteSpace: variant === "code" ? "pre-wrap" : undefined,
+        fontSize: size ? size + "rem" : undefined,
         ...tVariant.asCss({ bold, italic, underline, size }),
       })}
     >

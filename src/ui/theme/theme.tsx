@@ -63,7 +63,7 @@ export type ElbeThemeContextData<T extends ElbeThemeData> = {
   themeDefinitions: ElbeThemeDefinitions<T>;
   themeConfig: ElbeThemeConfig<T>;
   theme: ElbeThemeComputed<T>;
-  with: (
+  useWith: (
     worker: (config: ElbeThemeConfig<T>) => Partial<ElbeThemeConfig<T>>,
     dependencies: any[]
   ) => ElbeThemeContextData<T>;

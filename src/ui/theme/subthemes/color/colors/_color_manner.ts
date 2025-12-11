@@ -10,25 +10,21 @@ export const MannerColor = defineColor({
       path: string[],
       seed: ColorThemeSeed,
       base: LayerColor,
-      style?: LayerColor
+      style: LayerColor
     ) {
       return MannerColor.new({
-        major: style
-          ? StateColor.generate(
-              [...path, "major"],
-              seed,
-              base,
-              seed.manner.major({ path, seed, base, style })!
-            )
-          : null,
-        minor: style
-          ? StateColor.generate(
-              [...path, "minor"],
-              seed,
-              base,
-              seed.manner.minor({ path, seed, base, style })
-            )
-          : null,
+        major: StateColor.generate(
+          [...path, "major"],
+          seed,
+          base,
+          seed.manner.major({ path, seed, base, style })!
+        ),
+        minor: StateColor.generate(
+          [...path, "minor"],
+          seed,
+          base,
+          seed.manner.minor({ path, seed, base, style })
+        ),
         flat: StateColor.generate(
           [...path, "flat"],
           seed,
@@ -42,8 +38,8 @@ export const MannerColor = defineColor({
   },
   parent: (p) => p.flat,
   compute: (_: {
-    major: StateColor | null;
-    minor: StateColor | null;
+    major: StateColor;
+    minor: StateColor;
     flat: StateColor;
     plain: StateColor;
   }) => ({}),

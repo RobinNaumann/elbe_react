@@ -142,7 +142,7 @@ function _computeContext<T extends ElbeThemeData>(
     themeDefinitions: definitions,
     themeConfig: config,
     theme: dictMap(config, (v, k) => definitions[k].compute(v)),
-    with: (worker: any, dependencies: any[]) =>
+    useWith: (worker: any, dependencies: any[]) =>
       useMemo(() => {
         return _with<T>(definitions, config, worker);
       }, [...dependencies, config]),

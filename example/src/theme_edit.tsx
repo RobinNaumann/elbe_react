@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   ChooseButton,
+  colors,
   Column,
   ElbeDialog,
   Icons,
@@ -181,7 +182,7 @@ function _AccentSelect() {
         <Row flex scroll>
           <Row style={{ minWidth: "max-content" }}>
             {[
-              "#3c77f6ff",
+              colors.accent.blue.hex(),
               "#04395eff",
               "#38a3a5ff",
               "#70a288ff",

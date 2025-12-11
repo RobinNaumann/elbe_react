@@ -32,6 +32,8 @@ export function _SingleLineField(
       <_Supplement
         kind={p.message?.kind}
         icon={p.leading}
+        onMessage={!!p.message}
+        onEnabled={!!p.onInput}
         onTap={p.onLeadingTap}
       />
       <input
@@ -54,6 +56,8 @@ export function _SingleLineField(
         kind={p.message?.kind}
         trailing
         icon={p.trailing}
+        onMessage={!!p.message}
+        onEnabled={!!p.onInput}
         onTap={p.onTrailingTap}
       />
     </Row>
@@ -64,17 +68,21 @@ function _Supplement(p: {
   kind?: ColorSelection.KindsAlert;
   trailing?: boolean;
   icon?: IconChild;
+  onMessage: boolean;
+  onEnabled: boolean;
   onTap?: () => void;
 }) {
   if (!p.icon) return <Spaced width={0.75} />;
   return (
     <IconButton
       kind={p.kind}
-      manner={p.kind ? "flat" : "plain"}
+      manner={p.onMessage ? "minor" : p.kind ? "flat" : "plain"}
       ariaLabel={p.trailing ? "trailing icon" : "leading icon"}
       icon={p.icon}
       style={{
         borderRadius: 0,
+        transition: "none",
+        backgroundColor: p.onEnabled ? undefined : "transparent",
       }}
       onTap={p.onTap ? () => p.onTap?.() : undefined}
     />

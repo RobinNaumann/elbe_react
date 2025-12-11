@@ -100,6 +100,7 @@ export type ColorThemeSelection = {
   scheme: ColorSelection.Schemes;
   kind: ColorSelection.Kinds;
   manner: ColorSelection.Manners;
+  state: ColorSelection.States;
 };
 
 export type ColorThemeSeed = ColorSeedColors & {
@@ -132,5 +133,6 @@ export const colors = {
   magenta: RGBAColor.fromHex("#FF00FFFF"),
   accent: {
     blue: RGBAColor.fromHex("#1E90FFFF"),
+    red: RGBAColor.fromHex("#FF4500FF"),
   },
 };

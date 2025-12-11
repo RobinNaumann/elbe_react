@@ -4,6 +4,7 @@ import { useApp } from "../../app/app_ctxt";
 import { useToolbar } from "../../util/ctx_toolbar";
 import { ElbeChildren } from "../../util/types";
 import { applyProps, ElbeActionProps } from "../base/box";
+import { WithStateTheme } from "../base/state_builder";
 import { Icon, type IconChild } from "./icon_button";
 
 export type ButtonProps = ElbeActionProps & {
@@ -45,7 +46,7 @@ function _Btn({
   const toolbarCtx = useToolbar();
   const { appConfig } = useApp();
 
-  const usedTheme = appConfig.themeContext.useTheme().with(
+  const baseTheme = appConfig.themeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
@@ -60,7 +61,7 @@ function _Btn({
   );
 
   return label || icon || children ? (
-    <appConfig.themeContext.WithTheme theme={usedTheme}>
+    <WithStateTheme theme={baseTheme} disabled={!onTap}>
       <button
         {...applyProps(
           "button",
@@ -69,7 +70,7 @@ function _Btn({
             ...elbe,
             flex: toolbarCtx?.isInOverflow ? 1 : elbe.flex,
           },
-          ["elbe_colored-action"],
+          ["elbe_colored"],
           {
             /*backgroundColor: elbe.transparent
               ? "transparent"
@@ -81,7 +82,7 @@ function _Btn({
             backgroundColor: elbe.transparent ? "transparent" : undefined,
             borderRadius: elbe.sharp
               ? 0
-              : usedTheme.theme.geometry.radius + "rem",
+              : baseTheme.theme.geometry.radius + "rem",
           }
         )}
         title={elbe.ariaLabel ?? label}
@@ -108,7 +109,7 @@ function _Btn({
           {children}
         </Row>
       </button>
-    </appConfig.themeContext.WithTheme>
+    </WithStateTheme>
   ) : (
     <div />
     //_ElbeErr("Button requires either an icon and or a label, or a child")

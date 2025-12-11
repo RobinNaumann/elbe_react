@@ -2,6 +2,7 @@ import { CheckIcon, XIcon } from "lucide-react";
 import { JSX } from "react/jsx-runtime";
 import { applyProps, ElbeActionProps, styleBorderFromContext } from "../../..";
 import { useApp } from "../../app/app_ctxt";
+import { WithStateTheme } from "../base/state_builder";
 
 export type BooleanInputProps = {
   value: boolean;
@@ -14,7 +15,7 @@ export function Switch(
   p: BooleanInputProps & ElbeActionProps & { manner?: "flat" | "plain" }
 ) {
   const { appConfig, setAppView } = useApp();
-  const theme = appConfig.themeContext.useTheme().with(
+  const baseTheme = appConfig.themeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
@@ -29,7 +30,7 @@ export function Switch(
 
   return _InputSpacer(
     p,
-    <appConfig.themeContext.WithTheme theme={theme}>
+    <WithStateTheme theme={baseTheme} disabled={!p.onChange}>
       <button
         onClick={(e) => {
           p.onChange?.(!p.value);
@@ -41,7 +42,7 @@ export function Switch(
             role: "switch",
             ...p,
           },
-          ["elbe_colored-action"],
+          ["elbe_colored"],
           {
             ...styleBorderFromContext,
             minHeight: 0,
@@ -54,7 +55,7 @@ export function Switch(
             padding: 0,
             display: "flex",
             alignItems: "center",
-            transition: theme.theme.motion.reduced
+            transition: baseTheme.theme.motion.reduced
               ? "none"
               : "background-color 0.25s",
           }
@@ -69,7 +70,7 @@ export function Switch(
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            transition: theme.theme.motion.reduced ? "none" : "left 0.25s",
+            transition: baseTheme.theme.motion.reduced ? "none" : "left 0.25s",
           }}
         >
           {p.value ? (
@@ -85,7 +86,7 @@ export function Switch(
           )}
         </div>
       </button>
-    </appConfig.themeContext.WithTheme>
+    </WithStateTheme>
   );
 }
 

@@ -96,6 +96,9 @@ function _Field(
             overflow="hidden"
             padding={0}
             bordered
+            style={{
+              transition: "none",
+            }}
           >
             {p.inputType === "area" ? (
               <_MultiLineField props={p} id={id} />

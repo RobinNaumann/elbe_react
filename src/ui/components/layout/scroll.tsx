@@ -9,6 +9,7 @@ export type ScrollProps = ElbeProps & {
 };
 type _ScrollProps = ScrollProps & {
   axis: "vertical" | "horizontal";
+  noScrollbars?: boolean;
 };
 
 export class Scroll extends Component<_ScrollProps> {
@@ -24,10 +25,17 @@ export class Scroll extends Component<_ScrollProps> {
   render() {
     return (
       <div
-        {...applyProps("scroll", this.props, null, {
-          overflowY: this.props.axis === "vertical" ? "scroll" : "hidden",
-          overflowX: this.props.axis === "horizontal" ? "scroll" : "hidden",
-        })}
+        {...applyProps(
+          "scroll",
+          this.props,
+          [this.props.noScrollbars ? "elbe_scrollbars-hidden" : undefined],
+          {
+            height: this.props.height ? this.props.height + "rem" : undefined,
+            width: this.props.width ? this.props.width + "rem" : undefined,
+            overflowY: this.props.axis === "vertical" ? "scroll" : "hidden",
+            overflowX: this.props.axis === "horizontal" ? "scroll" : "hidden",
+          }
+        )}
       >
         <div
           className={this.props.innerClass}

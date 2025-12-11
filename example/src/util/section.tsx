@@ -89,7 +89,7 @@ export function ExampleGroup({
       </span>
       {showCode && (
         <Card scheme="inverse" style={{ overflow: "auto" }}>
-          {code?.trim()}
+          <Text.code v={code?.trim()} />
         </Card>
       )}
       {config && (

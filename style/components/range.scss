@@ -18,8 +18,8 @@ input[type="range"] {
   width: 1rem; 
   height: 1rem; 
   border-radius: var(--elbe-context-geometry-border-radius);
-  background-color: var(--elbe-context-color-front); 
-  border: .25rem solid var(--elbe-context-color-border);
+  background-color: var(--elbe-range-dot-back); 
+  border: .25rem solid var(--elbe-range-dot-border);
   outline: none;
   cursor: pointer; 
 }

@@ -9,13 +9,16 @@ import {
 } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 
-export const elevatedShadow = "0px 0px 1rem -.5rem black";
+export function elevatedShadow(dark: boolean) {
+  return `0px 0px 1rem -.4rem ${dark ? "white" : "black"}`;
+}
 
 export function Card({
   mode,
   scheme,
   kind,
   manner,
+  state,
   padding = 1,
   margin = 0,
   onTap,
@@ -32,6 +35,7 @@ export function Card({
   scheme?: ColorSelection.Schemes;
   kind?: ColorSelection.Kinds;
   manner?: ColorSelection.Manners;
+  state?: ColorSelection.States;
   padding?: number;
   margin?: number;
   onTap?: (() => void) | null;
@@ -40,7 +44,6 @@ export function Card({
   elevated?: boolean;
   bordered?: boolean;
   sharp?: boolean;
-  //disabled?: boolean;
   overflow?: "auto" | "hidden" | "scroll";
   children?: ElbeChildren;
 } & ElbeProps &
@@ -60,13 +63,13 @@ export function Card({
       kind={kind}
       manner={manner}
       padding={padding}
+      margin={margin}
+      state={state}
       className={elbe.className}
       flex={elbe.flex}
       style={{
-        padding: `${padding}rem`,
-        margin: `${margin}rem`,
         overflow: overflow,
-        boxShadow: elevated ? elevatedShadow : undefined,
+        boxShadow: elevated ? elevatedShadow(theme.color.isDark) : undefined,
         borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
         borderStyle: isBordered ? "solid" : undefined,
         borderWidth: isBordered

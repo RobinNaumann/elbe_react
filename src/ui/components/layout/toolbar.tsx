@@ -66,10 +66,10 @@ export function OverflowMenu(p: { items: ElbeChild[] }) {
             position: "fixed",
             top: 0,
             right: 0,
-            width: "100vw",
-            height: "100vh",
+            width: "100%",
+            height: "100%",
             backgroundColor: "transparent",
-            boxShadow: elevatedShadow,
+            boxShadow: elevatedShadow(theme.color.isDark),
             zIndex: 20,
           }}
         />

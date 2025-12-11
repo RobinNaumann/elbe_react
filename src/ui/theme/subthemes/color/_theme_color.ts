@@ -2,8 +2,7 @@ import { ElbeSubThemeData } from "../../theme";
 import { _seed } from "./_seed";
 import { ContrastColor } from "./colors/_color_contrast";
 import { LayerColor } from "./colors/_color_layer";
-import { StateColor } from "./colors/_color_state";
-import { ColorSelection, ColorThemeSelection } from "./colors/colors";
+import { ColorThemeSelection } from "./colors/colors";
 
 const _data = {
   values: {
@@ -23,11 +22,12 @@ const _data = {
     scheme: "primary",
     kind: "accent",
     manner: "plain",
+    state: "neutral",
   } as ColorThemeSelection,
 };
 
 const _current = (t: typeof _data) => {
-  function parseColor(sc: typeof t.selection): StateColor {
+  function parseColor(sc: typeof t.selection): LayerColor {
     //if (isLayerColor(sc)) return sc;
     if (!t.values?.hirarchy) {
       throw new Error("ColorTheme: No hirarchy defined");
@@ -37,15 +37,15 @@ const _current = (t: typeof _data) => {
     const scheme = mode[sc?.mode ?? "light"];
     const kind = scheme[sc?.scheme ?? "primary"];
     const manner = kind[sc?.kind ?? "accent"];
-    let color: StateColor | null =
-      manner[(sc?.manner as ColorSelection.Manners) ?? "flat"];
+    const state = manner[sc?.manner ?? "flat"];
+    let color = state[sc?.state ?? "neutral"];
 
-    if (!color || !StateColor.is(manner)) {
-      color = manner["flat"];
+    if (!color || !LayerColor.is(manner)) {
+      color = manner["flat"]["neutral"];
     }
 
-    if (!color || !StateColor.is(color)) {
-      return StateColor.fromBack("#ff00ff");
+    if (!color || !LayerColor.is(color)) {
+      return LayerColor.fromBack("#ff00ff");
     }
     return color;
   }
@@ -74,14 +74,6 @@ export const colorThemeData: ElbeSubThemeData<
     back: c.currentColor.back.asCss(),
     border: c.currentColor.border?.asCss() ?? "transparent",
     outline: c.values.root.accent.back.asCss(),
-
-    "hover-front": c.currentColor.hover?.front.asCss() ?? "",
-    "hover-back": c.currentColor.hover?.back.asCss() ?? "",
-    "hover-border": c.currentColor.hover?.border?.asCss() ?? "",
-
-    "active-front": c.currentColor.active?.front.asCss() ?? "",
-    "active-back": c.currentColor.active?.back.asCss() ?? "",
-    "active-border": c.currentColor.active?.border?.asCss() ?? "",
   }),
   fromSeed: (seed) => {
     return {

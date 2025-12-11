@@ -24,7 +24,7 @@ export function Menu(p: { items: MenuItem[] }) {
   const menuWidth = () =>
     appConfig.view.menuOpen
       ? layoutMode.isMobile
-        ? "100vw"
+        ? "100%"
         : `${17 + theme.geometry.borderWidth}rem`
       : layoutMode.isWide
       ? `${4 + theme.geometry.borderWidth}rem`
@@ -56,8 +56,8 @@ export function Menu(p: { items: MenuItem[] }) {
             ? {
                 backdropFilter: "blur(5px)",
                 backgroundColor: "rgba(0,0,0,.2)",
-                width: "100vw",
-                height: "100vh",
+                width: "100%",
+                height: "100%",
               }
             : {}),
         }}
@@ -97,7 +97,7 @@ export function Menu(p: { items: MenuItem[] }) {
 
           ...(layoutMode.isNarrow && appConfig.view.menuOpen
             ? {
-                boxShadow: elevatedShadow,
+                boxShadow: elevatedShadow(theme.color.isDark),
               }
             : {}),
         }}

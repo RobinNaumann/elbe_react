@@ -17,9 +17,10 @@ export const ThemeBit = createBit({
           selection: {
             contrast: "normal",
             mode: "light",
-            scheme: "secondary",
+            scheme: "primary",
             kind: "accent",
             manner: "plain",
+            state: "neutral",
           },
         },
         type: {

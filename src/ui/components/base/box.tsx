@@ -10,9 +10,21 @@ export const styleColorFromContext: React.CSSProperties = {
 };
 
 export const styleBorderFromContext: React.CSSProperties = {
-  borderColor: "var(--elbe-context-color-border)",
-  borderStyle: "solid",
-  borderWidth: "var(--elbe-context-geometry-border-width)",
+  borderTopColor: "var(--elbe-context-color-border)",
+  borderRightColor: "var(--elbe-context-color-border)",
+  borderBottomColor: "var(--elbe-context-color-border)",
+  borderLeftColor: "var(--elbe-context-color-border)",
+
+  borderTopStyle: "solid",
+  borderRightStyle: "solid",
+  borderBottomStyle: "solid",
+  borderLeftStyle: "solid",
+
+  borderTopWidth: "var(--elbe-context-geometry-border-width)",
+  borderRightWidth: "var(--elbe-context-geometry-border-width)",
+  borderBottomWidth: "var(--elbe-context-geometry-border-width)",
+  borderLeftWidth: "var(--elbe-context-geometry-border-width)",
+
   borderRadius: "var(--elbe-context-geometry-border-radius)",
 };
 
@@ -100,6 +112,7 @@ export type ElbeBoxProps = ElbeProps &
     mode?: ColorSelection.Modes;
     kind?: ColorSelection.Kinds;
     manner?: ColorSelection.Manners;
+    state?: ColorSelection.States;
 
     padding?: number;
     margin?: number;
@@ -134,9 +147,8 @@ export function _Box(
   }
 ) {
   const { appConfig } = useApp();
-  const usedTheme = appConfig.themeContext.useTheme().with(
+  const usedTheme = appConfig.themeContext.useTheme().useWith(
     ({ color }) => {
-      console.log("Updating theme with box props:", color.selection.mode);
       return {
         color: {
           ...color,
@@ -146,11 +158,12 @@ export function _Box(
             mode: p.mode ?? color.selection.mode ?? "light",
             kind: p.kind ?? color.selection.kind ?? "plain",
             manner: p.manner ?? color.selection.manner ?? "plain",
+            state: p.state ?? color.selection.state ?? "neutral",
           },
         },
       };
     },
-    [p.scheme, p.mode, p.kind, p.manner]
+    [p.scheme, p.mode, p.kind, p.manner, p.state]
   );
 
   const { scheme, mode, padding, margin, children, ...elbe } = p;

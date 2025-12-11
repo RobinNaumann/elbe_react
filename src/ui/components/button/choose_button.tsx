@@ -1,5 +1,5 @@
 import { CheckIcon } from "lucide-react";
-import { ColorSelection, FlexLayout, Row } from "../../..";
+import { ColorSelection, FlexLayout, Row, Text } from "../../..";
 import { Card } from "../base/card";
 import { Spaced } from "../layout/spaced";
 import { Button } from "./button";
@@ -35,6 +35,9 @@ export function ChooseButton<T>({
       role="radiogroup"
       bordered
       onTap={onChange ? undefined : null}
+      style={{
+        maxWidth: "fit-content",
+      }}
     >
       <FlexLayout direction={column ? "column" : "row"} cross="stretch" gap={0}>
         {items.map((e, i) => (
@@ -49,8 +52,8 @@ export function ChooseButton<T>({
             gap={column ? 2 : undefined}
           >
             <Row gap={0.5}>
-              <Icon icon={Icon} />
-              {e.label && <span>{e.label}</span>}
+              {e.icon && <Icon icon={e.icon} />}
+              {e.label && <Text bold v={e.label} />}
             </Row>
 
             {column &&

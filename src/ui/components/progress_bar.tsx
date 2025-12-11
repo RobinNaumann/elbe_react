@@ -12,7 +12,7 @@ export function ProgressBar({
   manner: "flat" | "plain";
 } & ElbeProps) {
   const { appConfig } = useApp();
-  const theme = appConfig.themeContext.useTheme().with(
+  const theme = appConfig.themeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
