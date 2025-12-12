@@ -18,6 +18,7 @@ export function ChooseButton<T>({
   onChange,
   kind,
   column = false,
+  tooltip,
 }: {
   items: ChooseItem<T>[];
   value: T;
@@ -25,6 +26,7 @@ export function ChooseButton<T>({
   kind?: ColorSelection.Kinds;
   column?: boolean;
   sharp?: boolean;
+  tooltip?: string;
 }) {
   return (
     <Card
@@ -35,6 +37,7 @@ export function ChooseButton<T>({
       overflow="hidden"
       role="radiogroup"
       bordered
+      tooltip={tooltip}
       onTap={onChange ? undefined : null}
       style={{
         maxWidth: "fit-content",

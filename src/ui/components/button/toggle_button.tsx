@@ -27,6 +27,7 @@ export function ToggleButton({
     <Button
       manner={value ? "major" : "flat"}
       kind={kind}
+      tooltip={elbe.tooltip}
       onTap={onChange && (() => onChange(!value))}
       ariaLabel={elbe.ariaLabel ?? label}
       contentAlign="space-between"

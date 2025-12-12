@@ -8,6 +8,7 @@ import {
 } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 import { WithStateTheme } from "../base/state_builder";
+import { WithTooltip } from "../tooltip";
 
 export type IconChild = ElbeChild | ((_: any) => ElbeChild);
 
@@ -58,28 +59,30 @@ function _btn({
   );
 
   return (
-    <WithStateTheme theme={baseTheme} disabled={!onTap}>
-      <button
-        {...applyProps("icon_button", elbe, ["elbe_colored"], {
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "inherit",
-          backgroundColor: elbe.transparent ? "transparent" : undefined,
-          border: "none",
-          borderRadius: elbe.sharp ? 0 : "3rem",
-          height: "3rem",
-          width: "3rem",
-        })}
-        title={elbe.ariaLabel ?? undefined}
-        onClick={(e) => {
-          e.stopPropagation();
-          onTap && onTap(e);
-        }}
-      >
-        <Icon icon={icon} />
-      </button>
-    </WithStateTheme>
+    <WithTooltip tooltip={elbe.tooltip}>
+      <WithStateTheme theme={baseTheme} disabled={!onTap}>
+        <button
+          {...applyProps("icon_button", elbe, ["elbe_colored"], {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "inherit",
+            backgroundColor: elbe.transparent ? "transparent" : undefined,
+            border: "none",
+            borderRadius: elbe.sharp ? 0 : "3rem",
+            height: "3rem",
+            width: "3rem",
+          })}
+          title={elbe.tooltip ? undefined : elbe.ariaLabel ?? undefined}
+          onClick={(e) => {
+            e.stopPropagation();
+            onTap && onTap(e);
+          }}
+        >
+          <Icon icon={icon} />
+        </button>
+      </WithStateTheme>
+    </WithTooltip>
   );
 }
 

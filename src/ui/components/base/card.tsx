@@ -8,6 +8,7 @@ import {
   _Box,
 } from "../../..";
 import { useApp } from "../../app/app_ctxt";
+import { WithTooltip } from "../tooltip";
 
 export function elevatedShadow(dark: boolean) {
   return `0px 0px 1rem -.4rem ${dark ? "white" : "black"}`;
@@ -57,57 +58,59 @@ export function Card({
   }, [bordered, theme.color.isContrast]);
 
   return (
-    <_Box
-      mode={mode}
-      scheme={scheme}
-      kind={kind}
-      manner={manner}
-      padding={padding}
-      margin={margin}
-      state={state}
-      className={elbe.className}
-      flex={elbe.flex}
-      style={{
-        overflow: overflow,
-        boxShadow: elevated ? elevatedShadow(theme.color.isDark) : undefined,
-        borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
-        borderStyle: isBordered ? "solid" : undefined,
-        borderWidth: isBordered
-          ? `${theme.geometry.borderWidth}rem`
-          : undefined,
-        borderColor: isBordered
-          ? "var(--elbe-context-color-border, transparent)"
-          : undefined,
+    <WithTooltip tooltip={elbe.tooltip}>
+      <_Box
+        mode={mode}
+        scheme={scheme}
+        kind={kind}
+        manner={manner}
+        padding={padding}
+        margin={margin}
+        state={state}
+        className={elbe.className}
+        flex={elbe.flex}
+        style={{
+          overflow: overflow,
+          boxShadow: elevated ? elevatedShadow(theme.color.isDark) : undefined,
+          borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
+          borderStyle: isBordered ? "solid" : undefined,
+          borderWidth: isBordered
+            ? `${theme.geometry.borderWidth}rem`
+            : undefined,
+          borderColor: isBordered
+            ? "var(--elbe-context-color-border, transparent)"
+            : undefined,
 
-        backdropFilter: frosted ? "blur(10px)" : undefined,
-        opacity: onTap === null ? 0.5 : 1,
-        ...(elbe.style ?? {}),
-      }}
-      native={{
-        ...(onTap !== undefined
-          ? {
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (onTap === null) return;
-                onTap?.();
-              },
-            }
-          : {}),
-        ...(onLongTap !== undefined
-          ? {
-              onContextMenu: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (onLongTap === null) return;
-                onLongTap?.();
-              },
-            }
-          : {}),
-        ...(elbe.native ?? {}),
-      }}
-    >
-      {children}
-    </_Box>
+          backdropFilter: frosted ? "blur(10px)" : undefined,
+          opacity: onTap === null ? 0.5 : 1,
+          ...(elbe.style ?? {}),
+        }}
+        native={{
+          ...(onTap !== undefined
+            ? {
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onTap === null) return;
+                  onTap?.();
+                },
+              }
+            : {}),
+          ...(onLongTap !== undefined
+            ? {
+                onContextMenu: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onLongTap === null) return;
+                  onLongTap?.();
+                },
+              }
+            : {}),
+          ...(elbe.native ?? {}),
+        }}
+      >
+        {children}
+      </_Box>
+    </WithTooltip>
   );
 }

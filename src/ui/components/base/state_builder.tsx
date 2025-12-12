@@ -37,7 +37,7 @@ export function WithStateTheme(p: {
           setElState("hover");
         }}
         onMouseLeave={(e) => {
-          e.stopPropagation();
+          //e.stopPropagation();
           setElState("neutral");
         }}
         onMouseDown={(e) => {

@@ -6,6 +6,7 @@ import {
   styleBorderFromContext,
 } from "../base/box";
 import { WithStateTheme } from "../base/state_builder";
+import { WithTooltip } from "../tooltip";
 
 export function Checkbox(
   p: BooleanInputProps & ElbeActionProps & { manner?: "flat" | "plain" }
@@ -26,41 +27,42 @@ export function Checkbox(
 
   return _InputSpacer(
     p,
-
-    <div
-      {...applyProps(
-        "checkbox",
-        {
-          role: "checkbox",
-          ...p,
-        },
-        [],
-        {
-          display: "flex",
-          alignItems: "center",
-          gap: ".75rem",
-          filter: p.onChange ? "" : "grayscale(1)",
-          opacity: p.onChange ? "" : "0.5",
-        }
-      )}
-    >
-      <WithStateTheme theme={baseTheme} disabled={!p.onChange}>
-        <input
-          type="checkbox"
-          disabled={!p.onChange}
-          checked={p.value}
-          onClick={(e) => e.stopPropagation()}
-          onChange={(e) => p.onChange?.(e.currentTarget.checked)}
-          className="elbe_colored"
-          style={{
-            width: "1.8rem",
-            height: "1.8rem",
-            cursor: "inherit",
-            ...styleBorderFromContext,
-          }}
-        />
-      </WithStateTheme>
-      {p.label && <Text v={p.label} />}
-    </div>
+    <WithTooltip tooltip={p.tooltip}>
+      <div
+        {...applyProps(
+          "checkbox",
+          {
+            role: "checkbox",
+            ...p,
+          },
+          [],
+          {
+            display: "flex",
+            alignItems: "center",
+            gap: ".75rem",
+            filter: p.onChange ? "" : "grayscale(1)",
+            opacity: p.onChange ? "" : "0.5",
+          }
+        )}
+      >
+        <WithStateTheme theme={baseTheme} disabled={!p.onChange}>
+          <input
+            type="checkbox"
+            disabled={!p.onChange}
+            checked={p.value}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => p.onChange?.(e.currentTarget.checked)}
+            className="elbe_colored"
+            style={{
+              width: "1.8rem",
+              height: "1.8rem",
+              cursor: "inherit",
+              ...styleBorderFromContext,
+            }}
+          />
+        </WithStateTheme>
+        {p.label && <Text v={p.label} />}
+      </div>
+    </WithTooltip>
   );
 }

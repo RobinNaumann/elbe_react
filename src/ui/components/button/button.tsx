@@ -5,6 +5,7 @@ import { useToolbar } from "../../util/ctx_toolbar";
 import { ElbeChildren } from "../../util/types";
 import { applyProps, ElbeActionProps } from "../base/box";
 import { WithStateTheme } from "../base/state_builder";
+import { WithTooltip } from "../tooltip";
 import { Icon, type IconChild } from "./icon_button";
 
 export type ButtonProps = ElbeActionProps & {
@@ -61,55 +62,59 @@ function _Btn({
   );
 
   return label || icon || children ? (
-    <WithStateTheme theme={baseTheme} disabled={!onTap}>
-      <button
-        {...applyProps(
-          "button",
-          {
-            role: "button",
-            ...elbe,
-            flex: toolbarCtx?.isInOverflow ? 1 : elbe.flex,
-          },
-          ["elbe_colored"],
-          {
-            /*backgroundColor: elbe.transparent
+    <WithTooltip tooltip={elbe.tooltip}>
+      <WithStateTheme theme={baseTheme} disabled={!onTap}>
+        <button
+          {...applyProps(
+            "button",
+            {
+              role: "button",
+              ...elbe,
+              flex: toolbarCtx?.isInOverflow ? 1 : elbe.flex,
+            },
+            ["elbe_colored"],
+            {
+              /*backgroundColor: elbe.transparent
               ? "transparent"
               : usedTheme.theme.color.currentColor.back.asCss(),*/
-            cursor: "inherit",
-            padding: "0.25rem 1rem",
-            minHeight: "3rem",
-            border: "none",
-            backgroundColor: elbe.transparent ? "transparent" : undefined,
-            borderRadius: elbe.sharp
-              ? 0
-              : baseTheme.theme.geometry.radius + "rem",
-          }
-        )}
-        title={elbe.ariaLabel ?? label}
-        disabled={!onTap}
-        onClick={(e) => onTap && onTap(e)}
-      >
-        <Row
-          cross="center"
-          main={contentAlign ?? (toolbarCtx?.isInOverflow ? "start" : "center")}
-          gap={elbe.gap ?? 0.5}
-        >
-          <Icon icon={icon} />
-          {!toolbarCtx?.isInToolbar && label && (
-            <Text
-              bold
-              style={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-              v={label}
-            />
+              cursor: "inherit",
+              padding: "0.25rem 1rem",
+              minHeight: "3rem",
+              border: "none",
+              backgroundColor: elbe.transparent ? "transparent" : undefined,
+              borderRadius: elbe.sharp
+                ? 0
+                : baseTheme.theme.geometry.radius + "rem",
+            }
           )}
-          {children}
-        </Row>
-      </button>
-    </WithStateTheme>
+          title={elbe.tooltip ? undefined : elbe.ariaLabel ?? label}
+          disabled={!onTap}
+          onClick={(e) => onTap && onTap(e)}
+        >
+          <Row
+            cross="center"
+            main={
+              contentAlign ?? (toolbarCtx?.isInOverflow ? "start" : "center")
+            }
+            gap={elbe.gap ?? 0.5}
+          >
+            <Icon icon={icon} />
+            {!toolbarCtx?.isInToolbar && label && (
+              <Text
+                bold
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                v={label}
+              />
+            )}
+            {children}
+          </Row>
+        </button>
+      </WithStateTheme>
+    </WithTooltip>
   ) : (
     <div />
     //_ElbeErr("Button requires either an icon and or a label, or a child")

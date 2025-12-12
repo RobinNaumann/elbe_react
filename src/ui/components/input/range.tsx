@@ -20,6 +20,7 @@ export function Range(p: _RangeProps) {
       scheme="secondary"
       kind="accent"
       manner="minor"
+      tooltip={p.tooltip}
       style={{
         overflow: "unset",
         backgroundColor: "transparent",
