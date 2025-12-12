@@ -55,6 +55,7 @@ export function Checkbox(
           style={{
             width: "1.8rem",
             height: "1.8rem",
+            cursor: "inherit",
             ...styleBorderFromContext,
           }}
         />

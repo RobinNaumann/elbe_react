@@ -1,40 +1,46 @@
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import ReactDOM from "react-dom";
+import { Card, ColorSelection, KindAlertIcon } from "../../..";
+import { useApp } from "../../app/app_ctxt";
+import { getRootElement } from "../../util/root";
 import type { ElbeChildren } from "../../util/types";
-import { Padded } from "../base/padded";
 import { IconButton } from "../button/icon_button";
-import { Row } from "../layout/flex";
-import { Spaced } from "../layout/spaced";
+import { Column, Row } from "../layout/flex";
+import { Text } from "../text";
 
 export type ElbeDialogProps = {
   title: string;
   open: boolean;
   onClose: () => void;
-  children: ElbeChildren;
-  _style?: React.CSSProperties;
-  barrierDismissible?: boolean;
+  kind?: ColorSelection.KindsAlert;
+  dismissible?: "none" | "button" | "barrier";
   maxWidth?: number;
+  children?: ElbeChildren;
 };
 
-export function ElbeDialog({
-  title,
-  open,
-  onClose,
-  children,
-  _style,
-  barrierDismissible,
-  maxWidth,
-}: {
-  _style?: React.CSSProperties;
-  title: string;
-  open: boolean;
-  onClose: () => void;
-  children: ElbeChildren;
-  barrierDismissible?: boolean;
-  maxWidth?: number;
-}) {
+export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
+  const { appConfig } = useApp();
+  const theme = appConfig.themeContext.useTheme().useWith(
+    (c) => ({
+      color: {
+        ...c.color,
+        selection: {
+          ...c.color.selection,
+          scheme: "primary",
+          kind: "accent",
+          manner: "plain",
+          state: "neutral",
+        },
+      },
+    }),
+    []
+  );
+
+  const rootDOM = useMemo(() => getRootElement("elbe_dialog"), []);
+
   useEffect(() => {
-    if (open) {
+    if (p.open) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -42,52 +48,74 @@ export function ElbeDialog({
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [p.open]);
 
-  return (
-    <dialog
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (barrierDismissible) onClose();
-      }}
-      open={open}
-      style={{ textAlign: "start", ...(_style ?? {}) }}
-    >
+  if (!p.open) return null;
+
+  return ReactDOM.createPortal(
+    <appConfig.themeContext.WithTheme theme={theme}>
       <div
-        className="elbe_dialog_base primary card plain-opaque padding-none"
         style={{
-          maxWidth: `min(${maxWidth ?? 40}rem, 100%)`,
-          minWidth: "10rem",
+          position: "fixed",
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "100%",
+          background: theme.theme.color.currentColor.front.withAlpha(0.3).hex(),
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backdropFilter: "blur(2px)",
+        }}
+        className="elbe_dialog-base"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          if (dismissible === "barrier") p.onClose();
         }}
       >
-        <Padded.all amount={1}>
-          <Row cross="center" main="space-between">
-            <div className="body-l b">{title}</div>
-
-            <IconButton.plain
-              ariaLabel={"Close"}
-              icon={X}
-              onTap={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                onClose();
-              }}
-            />
-          </Row>
-        </Padded.all>
-        <Spaced amount={0.5} />
-        <Padded.all
-          amount={1}
+        <dialog
+          open={p.open}
           style={{
-            paddingTop: 0,
-            maxHeight: "80vh",
-            overflow: "auto",
+            position: "static",
+            display: "flex",
+            border: "none",
+            background: "transparent",
+            margin: 0,
+            padding: 0,
           }}
         >
-          {children}
-        </Padded.all>
+          <Card
+            padding={0.25}
+            bordered
+            elevated
+            kind={p.kind}
+            style={{
+              maxWidth: p.maxWidth ? `min(${p.maxWidth}rem, 90vw)` : "90%",
+              minWidth: "min(17rem, 90vw)",
+            }}
+          >
+            <Row cross="center" gap={1} style={{ marginLeft: "1rem" }}>
+              {p.kind && <KindAlertIcon kind={p.kind} />}
+              <Text.h4 v={p.title} flex style={{ marginRight: "1rem" }} />
+              {["button", "barrier"].includes(dismissible) && (
+                <IconButton.plain
+                  ariaLabel={"Close"}
+                  icon={X}
+                  onTap={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    p.onClose();
+                  }}
+                />
+              )}
+            </Row>
+            <Column style={{ padding: "1rem" }}>{p.children}</Column>
+          </Card>
+        </dialog>
+        ,
       </div>
-    </dialog>
+    </appConfig.themeContext.WithTheme>,
+    rootDOM
   );
 }

@@ -6,10 +6,10 @@ export type ScrollProps = ElbeProps & {
   height?: number;
   width?: number;
   children?: any;
+  noScrollbars?: boolean;
 };
 type _ScrollProps = ScrollProps & {
   axis: "vertical" | "horizontal";
-  noScrollbars?: boolean;
 };
 
 export class Scroll extends Component<_ScrollProps> {

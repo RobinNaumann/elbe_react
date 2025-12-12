@@ -51,7 +51,7 @@ export function WithStateTheme(p: {
         style={{
           display: "contents",
           pointerEvents: p.disabled ? "none" : undefined,
-          cursor: p.disabled ? "not-allowed" : "pointer",
+          cursor: p.disabled ? "auto" : "pointer",
         }} // preserves layout
       >
         {p.children}

@@ -5,11 +5,14 @@ export * as Wouter from "wouter";
 export * as wouter_hash from "wouter/use-hash-location";
 
 // exports
+export * from "./ui/util/root";
+
 export * from "./api/api_worker";
 export * from "./api/error";
 export * from "./api/errors";
 export * from "./bit/bit";
-export * from "./ui/util/confirm_dialog";
+export * from "./ui/components/dialog/dialog";
+export * from "./ui/components/dialog/dialog_ctx";
 export * from "./ui/util/ctx_toolbar";
 export * from "./ui/util/l10n/l10n";
 export * from "./ui/util/toast/toast_ctx";

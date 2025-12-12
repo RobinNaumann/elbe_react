@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   Card,
   Column,
-  ElbeDialog,
+  Dialog,
   ElbeError,
   Icon,
   Icons,
@@ -104,7 +104,7 @@ export function PrettyErrorView({
           {l10n?.inline(labels.home) ?? "go home"}
         </button>
       )}
-      <ElbeDialog
+      <Dialog
         title={l10n?.inline(labels.details) ?? "error details"}
         open={open}
         onClose={() => setOpen(false)}
@@ -112,7 +112,7 @@ export function PrettyErrorView({
         <pre className="card inverse">
           {`code: ${error.code}\n\n` + JSON.stringify(error.details, null, 2)}
         </pre>
-      </ElbeDialog>
+      </Dialog>
     </Column>
   );
 }

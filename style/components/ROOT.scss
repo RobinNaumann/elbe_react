@@ -45,7 +45,8 @@ body,
 
 
 
-#elbe-root {
+#elbe_app,#elbe_dialog,
+#elbe_tooltip, #elbe_toast {
 
   & *:focus-visible, .elbe-focussink:focus-within {
     position: relative;

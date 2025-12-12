@@ -5,7 +5,7 @@ import { WithStateTheme } from "./base/state_builder";
 
 export function Link(p: {
   label: string;
-  href: string;
+  href?: string;
   external?: boolean;
   manner?: ColorSelection.Manners;
   bold?: boolean;
@@ -28,7 +28,7 @@ export function Link(p: {
   );
 
   return (
-    <WithStateTheme theme={baseTheme}>
+    <WithStateTheme theme={baseTheme} disabled={p.href === undefined}>
       <a
         href={p.href}
         target={p.external ? "_blank" : undefined}
@@ -41,6 +41,7 @@ export function Link(p: {
           fontWeight: p.bold ? "bold" : "normal",
           padding: ".125rem .3rem",
           borderRadius: ".5rem",
+          cursor: "inherit",
           margin: ["major", "minor"].includes(p.manner ?? "flat")
             ? "-.125rem 0rem"
             : "-.125rem -.3rem",

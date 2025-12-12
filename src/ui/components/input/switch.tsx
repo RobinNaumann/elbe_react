@@ -55,6 +55,7 @@ export function Switch(
             padding: 0,
             display: "flex",
             alignItems: "center",
+            cursor: "inherit",
             transition: baseTheme.theme.motion.reduced
               ? "none"
               : "background-color 0.25s",

@@ -83,7 +83,7 @@ function _Text(p: TextProps & { variant?: ElbeTypeVariants }) {
         textAlign: align,
         textDecorationLine: striked ? "line-through" : "",
         // disable auto wrap for code blocks
-        whiteSpace: variant === "code" ? "pre-wrap" : undefined,
+        whiteSpace: "pre-wrap",
         fontSize: size ? size + "rem" : undefined,
         ...tVariant.asCss({ bold, italic, underline, size }),
       })}

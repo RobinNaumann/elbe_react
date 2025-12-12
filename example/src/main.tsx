@@ -1,10 +1,9 @@
-import { Wouter } from "elbe-ui";
+import { renderElbe, Wouter } from "elbe-ui";
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
 import { App } from "./app";
 import { ThemeBit } from "./util/b_theme";
 
-createRoot(document.getElementById("elbe-root")!).render(
+renderElbe(
   <StrictMode>
     <ThemeBit.Provider>
       <Wouter.Router>

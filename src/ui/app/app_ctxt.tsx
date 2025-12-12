@@ -18,6 +18,7 @@ export interface AppConfig {
     globalActions: ElbeChild[];
     footer: ElbeChildren | null;
   };
+  title?: string;
 }
 
 export interface AppState {

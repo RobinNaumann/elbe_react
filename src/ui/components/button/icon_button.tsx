@@ -64,6 +64,7 @@ function _btn({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          cursor: "inherit",
           backgroundColor: elbe.transparent ? "transparent" : undefined,
           border: "none",
           borderRadius: elbe.sharp ? 0 : "3rem",

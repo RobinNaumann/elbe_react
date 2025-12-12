@@ -52,7 +52,7 @@ function _Btn({
         ...color,
         selection: {
           ...color.selection,
-          kind: kind ?? "accent",
+          kind: kind ?? color.selection.kind,
           manner: manner,
         },
       },
@@ -75,8 +75,8 @@ function _Btn({
             /*backgroundColor: elbe.transparent
               ? "transparent"
               : usedTheme.theme.color.currentColor.back.asCss(),*/
-            cursor: onTap ? "pointer" : "not-allowed",
-            padding: "0.25rem 0.75rem",
+            cursor: "inherit",
+            padding: "0.25rem 1rem",
             minHeight: "3rem",
             border: "none",
             backgroundColor: elbe.transparent ? "transparent" : undefined,

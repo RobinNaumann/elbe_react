@@ -7,7 +7,7 @@ import {
   Checkbox,
   ChooseButton,
   Column,
-  ElbeDialog,
+  Dialog,
   Field,
   IconButton,
   Icons,
@@ -16,11 +16,11 @@ import {
   Range,
   Row,
   Select,
-  showConfirmDialog,
   Spinner,
   Switch,
   Text,
   ToggleButton,
+  useDialogs,
   useToast,
   type ColorSelection,
 } from "elbe-ui";
@@ -560,6 +560,7 @@ function _HRGroup() {
 
 function _LinkGroup() {
   const mannerSig = useConfigSignal("flat", true);
+  const enabledSig = useConfigSignal("enabled", true);
   const boldSig = useConfigSignal("bold", false);
   const underlineSig = useConfigSignal("underline", false);
   const externalSig = useConfigSignal("external", true);
@@ -568,7 +569,7 @@ function _LinkGroup() {
       title="Link"
       description="a convenience wrapper for 'a'"
       classes="column"
-      config={[mannerSig, boldSig, underlineSig, externalSig]}
+      config={[mannerSig, enabledSig, boldSig, underlineSig, externalSig]}
       code={`<Link href="https://robbb.in" label="this" external />`}
     >
       <span>
@@ -577,7 +578,7 @@ function _LinkGroup() {
           underline={underlineSig.signal.value}
           manner={mannerSig.signal.value ? "flat" : "plain"}
           bold={boldSig.signal.value}
-          href="https://robbb.in"
+          href={enabledSig.signal.value ? "https://robbb.in" : undefined}
           label="this"
           external={externalSig.signal.value}
         />{" "}
@@ -586,7 +587,7 @@ function _LinkGroup() {
           underline={underlineSig.signal.value}
           manner={mannerSig.signal.value ? "major" : "minor"}
           bold={boldSig.signal.value}
-          href="https://robbb.in"
+          href={enabledSig.signal.value ? "https://robbb.in" : undefined}
           label="link"
           external={externalSig.signal.value}
         />{" "}
@@ -661,6 +662,9 @@ function _TooltipGroup() {
 }*/
 
 function _ConfirmDialog() {
+  const { showConfirmDialog, showAlertDialog } = useDialogs();
+  const { showToast } = useToast();
+
   return (
     <ExampleGroup
       title="Confirm Dialog"
@@ -675,10 +679,23 @@ const v:boolean = await showConfirmDialog({
         label="show confirm dialog"
         onTap={async () => {
           const res = await showConfirmDialog({
+            kind: "error",
             title: "are you sure?",
             message: "this is a message",
           });
-          console.log("result", res);
+          showToast(`you selected: ${res}`);
+        }}
+      />
+      <Button.minor
+        ariaLabel="alert dialog"
+        label="show alert dialog"
+        onTap={async () => {
+          await showAlertDialog({
+            kind: "info",
+            title: "info",
+            message: "this is a message",
+          });
+          showToast(`dialog closed`);
         }}
       />
     </ExampleGroup>
@@ -692,32 +709,29 @@ function _DialogGroup() {
       title="Dialog"
       description="show a custom dialog"
       code={`
-<ElbeDialog title="custom dialog"
+<Dialog title="custom dialog"
   open={...} onClose={() => ...}>
   ...
-</ElbeDialog>`}
+</Dialog>`}
     >
       <Button.minor
         ariaLabel="dialog"
         label="show dialog"
         onTap={async () => setOpen(true)}
       />
-      <ElbeDialog
-        title="custom dialog"
-        open={open}
-        onClose={() => setOpen(false)}
-      >
+      <Dialog title="custom dialog" open={open} onClose={() => setOpen(false)}>
         <div className="column cross-center">
           <Icons.Leaf />
           <div>hello</div>
         </div>
-      </ElbeDialog>
+      </Dialog>
     </ExampleGroup>
   );
 }
 
 function _ToastGroup() {
   const { showToast } = useToast();
+
   return (
     <ExampleGroup
       title="Toast"

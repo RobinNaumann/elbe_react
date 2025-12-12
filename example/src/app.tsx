@@ -15,6 +15,7 @@ export function App() {
   return themeBit.mapUI(
     (ui) => (
       <ElbeApp
+        title="elbe Example"
         themeSeed={ui.seed}
         themeContext={_themeContext}
         view={{

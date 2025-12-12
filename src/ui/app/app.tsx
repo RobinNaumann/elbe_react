@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   Box,
+  DialogsProvider,
   ElbeRoute,
   isMenuRoute,
   MenuItem,
@@ -18,6 +19,10 @@ type AppProps = AppConfig & {
 };
 
 export function ElbeApp(p: AppProps) {
+  useMemo(() => {
+    if (p.title) document.title = p.title;
+  }, [p.title]);
+
   return <Wouter.Router>{<_App {...p} />}</Wouter.Router>;
 }
 
@@ -66,20 +71,22 @@ function _App(p: AppProps) {
         }}
       >
         <ToastProvider options={p.toast}>
-          <Box
-            typeLabel="app_base"
-            scheme="primary"
-            style={{
-              display: "flex",
-              width: "100%",
-              minHeight: "100vh",
-            }}
-          >
-            {menuItems.length > 0 && <Menu items={menuItems} />}
-            <div style={{ flex: 1, width: "0px" }}>
-              <Wouter.Switch>{p.children}</Wouter.Switch>
-            </div>
-          </Box>
+          <DialogsProvider>
+            <Box
+              typeLabel="app_base"
+              scheme="primary"
+              style={{
+                display: "flex",
+                width: "100%",
+                minHeight: "100vh",
+              }}
+            >
+              {menuItems.length > 0 && <Menu items={menuItems} />}
+              <div style={{ flex: 1, width: "0px" }}>
+                <Wouter.Switch>{p.children}</Wouter.Switch>
+              </div>
+            </Box>
+          </DialogsProvider>
         </ToastProvider>
       </AppContext.Provider>
     </config.themeContext.WithTheme>

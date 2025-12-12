@@ -4,7 +4,7 @@ import {
   ChooseButton,
   colors,
   Column,
-  ElbeDialog,
+  Dialog,
   Icons,
   LayerColor,
   Range,
@@ -34,15 +34,11 @@ export function ThemeEdit() {
           label="view seed"
           onTap={() => setOpen(true)}
         />
-        <ElbeDialog
-          title="Theme Seed"
-          open={open}
-          onClose={() => setOpen(false)}
-        >
+        <Dialog title="Theme Seed" open={open} onClose={() => setOpen(false)}>
           <div className="card inverse code">
             {JSON.stringify(v.seed, null, 2)}
           </div>
-        </ElbeDialog>
+        </Dialog>
       </Column>
     </Card>
   ));

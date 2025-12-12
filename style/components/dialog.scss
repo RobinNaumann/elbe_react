@@ -1,0 +1,18 @@
+/* AnimatedDialog.css */
+.elbe_dialog-base {
+  animation: elbe_dialog-fadeIn 0.3s;
+}
+
+.elbe_dialog-base dialog {
+  animation: elbe_dialog-scaleIn 0.3s;
+}
+
+@keyframes elbe_dialog-fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes elbe_dialog-scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
