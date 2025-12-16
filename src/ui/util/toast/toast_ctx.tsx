@@ -1,22 +1,12 @@
 // ToastContext.js
 import { createContext, useContext, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
+import { useApp } from "../../app/app_ctxt";
 import { IconChild } from "../../components/button/icon_button";
 import { ColorSelection } from "../../theme/subthemes/color/colors/colors";
 import { getRootElement } from "../root";
 import { ElbeChildren } from "../types";
 import { _Toast } from "./_toast";
-
-export type ToastThemeOptions = {
-  alignment?:
-    | "top_start"
-    | "top_center"
-    | "top_end"
-    | "bottom_start"
-    | "bottom_center"
-    | "bottom_end";
-  duration?: number;
-};
 
 /**
  * Options for showing a toast notification.
@@ -50,22 +40,30 @@ export function useToast() {
   return useContext(ToastContext);
 }
 
-export function ToastProvider(p: {
-  children: ElbeChildren;
-  options?: ToastThemeOptions;
-}) {
+/**
+ * must be inside of a theme provider (such as `WithTheme`)
+ * @returns a context provider for toast messages
+ */
+export function ToastProvider(p: { children: ElbeChildren }) {
+  const { _appThemeContext } = useApp();
+  const { theme } = _appThemeContext.useTheme();
+
   const rootDOM = useMemo(() => getRootElement("elbe_toast"), []);
   const [toasts, setToasts] = useState<_IdToast[]>([]);
 
-  const _align = (p.options?.alignment ?? "bottom_center").split("_");
-  const vert = _align.at(0);
-  const hori = _align.at(1);
+  const [vert, hori] = useMemo(() => {
+    const alignment = theme.toast.alignment ?? "bottom_center";
+    return alignment.split("_");
+  }, [theme.toast.alignment]);
 
   function addToast(toast: ToastModel) {
     const id = Date.now() + "";
     setToasts([...toasts, { ...toast, id }]);
     if (toast.duration === null && toast.dismissible === true) return;
-    setTimeout(() => removeToast(id), toast.duration ?? 3000);
+    setTimeout(
+      () => removeToast(id),
+      toast.duration ?? theme.toast.duration ?? 3000
+    );
   }
 
   function removeToast(id: string) {

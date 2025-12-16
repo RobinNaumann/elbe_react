@@ -53,8 +53,8 @@ export class Text extends React.Component<
 }
 
 function _Text(p: TextProps & { variant?: ElbeTypeVariants }) {
-  const { appConfig } = useApp();
-  const usedTheme = appConfig.themeContext.useTheme();
+  const { _appThemeContext } = useApp();
+  const usedTheme = _appThemeContext.useTheme();
 
   const tVariant = useMemo(() => {
     const v = usedTheme.theme.type[p.variant ?? "bodyM"];

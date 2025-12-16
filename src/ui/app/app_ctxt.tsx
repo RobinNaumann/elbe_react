@@ -4,33 +4,36 @@ import { ElbeThemeContext } from "../theme/theme_context";
 import { ElbeChild, ElbeChildren, int } from "../util/types";
 import { throwError, tryOrNull } from "../util/util";
 
-export interface AppConfig {
-  /**
-   * @private this field is only to be used within elbe components.
-   */
-  themeContext: ElbeThemeContext;
-  themeSeed?: Partial<
-    Parameters<AppConfig["themeContext"]["WithTheme"]>[0]["seed"]
-  >;
-  view: {
-    menuOpen: boolean;
-    icons: HeaderLogos;
-    globalActions: ElbeChild[];
-    footer: ElbeChildren | null;
-  };
+export type AppConfig = {
   title?: string;
-}
+  icons?: HeaderLogos;
+  globalActions?: ElbeChild[];
+  footer?: ElbeChildren | null;
+  routerConfig?: {
+    basePath?: string;
+  };
+};
+
+type _MenuState = {
+  isOpen: boolean;
+  setOpen: (s: boolean) => void;
+};
+
+type _RouterState = {
+  go: (path: string, replace?: int | "all") => void;
+  goBack: (steps?: number) => void;
+  history: string[];
+  location: string;
+};
 
 export interface AppState {
   appConfig: AppConfig;
-  setAppConfig: (updater: (config: AppConfig) => AppConfig) => void;
-  setAppView: (updater: (view: AppConfig["view"]) => AppConfig["view"]) => void;
-  router: {
-    go: (path: string, replace?: int | "all") => void;
-    goBack: (steps?: number) => void;
-    history: string[];
-    location: string;
-  };
+  router: _RouterState;
+  menu: _MenuState;
+  /**
+   * @private this field is only to be used within elbe components.
+   */
+  _appThemeContext: ElbeThemeContext;
 }
 
 export const AppContext = createContext<AppState | null>(null);

@@ -60,8 +60,8 @@ function _Field(
     | (InputFieldProps & { inputType: "area" })
 ) {
   {
-    const { appConfig } = useApp();
-    const usedTheme = appConfig.themeContext.useTheme();
+    const { _appThemeContext } = useApp();
+    const usedTheme = _appThemeContext.useTheme();
     const id = p.id ?? randomAlphaNum(8, "input_field_");
     const manner = p.manner ?? "plain";
 

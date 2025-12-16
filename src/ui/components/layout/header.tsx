@@ -28,17 +28,32 @@ export type HeaderProps = HeaderLogos & {
 };
 
 export function Header(p: HeaderProps) {
-  const { appConfig, setAppView } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
+  const { _appThemeContext, appConfig, menu } = useApp();
+  const { theme, useWith } = _appThemeContext.useTheme();
   const layoutMode = useLayoutMode();
   const scroll = useSiteScroll();
+  const secTheme = useWith(
+    (t) => ({
+      color: {
+        ...t.color,
+        selection: {
+          ...t.color.selection,
+          scheme: "secondary",
+          manner: "plain",
+        },
+      },
+    }),
+    [theme]
+  );
 
   return (
     <Card
       padding={0}
       scheme={p.scheme ?? "primary"}
-      bordered
+      manner={"plain"}
       frosted={!theme.color.isContrast}
+      //elevated={!!scroll}
+      bordered
       sharp
       style={{
         position: "sticky",
@@ -54,7 +69,10 @@ export function Header(p: HeaderProps) {
         borderLeftStyle: "none",
         borderRightStyle: "none",
         borderColor:
-          theme.color.isContrast || scroll ? undefined : "transparent",
+          theme.color.isContrast || scroll
+            ? theme.color.currentColor.border.withAlpha(0.25).asCss()
+            : "transparent",
+        borderWidth: theme.geometry.borderWidth + "rem",
         gap: "1rem",
         zIndex: 80,
       }}
@@ -64,7 +82,7 @@ export function Header(p: HeaderProps) {
         : !layoutMode.isWide && (
             <IconButton.plain
               ariaLabel="open/close menu"
-              onTap={() => setAppView((v) => ({ ...v, menuOpen: !v.menuOpen }))}
+              onTap={() => menu.setOpen(!menu.isOpen)}
               icon={MenuIcon}
             />
           )}
@@ -73,8 +91,8 @@ export function Header(p: HeaderProps) {
       {p.leading === "close" && <BackButton close />}
       {!layoutMode.isMobile && (
         <_Logo
-          logo={p.logo ?? appConfig.view.icons.logo}
-          logoDark={p.logoDark ?? appConfig.view.icons.logoDark}
+          logo={p.logo ?? appConfig?.icons?.logo}
+          logoDark={p.logoDark ?? appConfig?.icons?.logoDark}
           lMargin={0.5}
         />
       )}
@@ -83,15 +101,12 @@ export function Header(p: HeaderProps) {
       )}
       <_HeaderTitle title={p.title} center={p.centerTitle ?? false} />
       <_Toolbar
-        actions={[
-          ...(p.actions ?? []),
-          ...(appConfig.view?.globalActions ?? []),
-        ]}
+        actions={[...(p.actions ?? []), ...(appConfig?.globalActions ?? [])]}
       />
       {layoutMode.isWide && (
         <_Logo
-          logo={p.endLogo ?? appConfig.view?.icons.endLogo}
-          logoDark={p.endLogoDark ?? appConfig.view?.icons.endLogoDark}
+          logo={p.endLogo ?? appConfig?.icons?.endLogo}
+          logoDark={p.endLogoDark ?? appConfig?.icons?.endLogoDark}
           rMargin={0.5}
         />
       )}
@@ -106,8 +121,8 @@ export function _Logo(p: {
   lMargin?: number;
   rMargin?: number;
 }) {
-  const { appConfig, setAppView } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
+  const { _appThemeContext } = useApp();
+  const { theme } = _appThemeContext.useTheme();
   const [logo, setLogo] = useState(p.logo);
   useMemo(
     () => setLogo(theme.color.isDark ? p.logoDark ?? p.logo : p.logo),

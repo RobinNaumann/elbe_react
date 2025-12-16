@@ -45,9 +45,9 @@ function _Btn({
   manner: ColorSelection.Manners;
 }) {
   const toolbarCtx = useToolbar();
-  const { appConfig } = useApp();
+  const { _appThemeContext } = useApp();
 
-  const baseTheme = appConfig.themeContext.useTheme().useWith(
+  const baseTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
@@ -78,8 +78,9 @@ function _Btn({
               ? "transparent"
               : usedTheme.theme.color.currentColor.back.asCss(),*/
               cursor: "inherit",
-              padding: "0.25rem 1rem",
+              padding: "0.25rem .75rem",
               minHeight: "3rem",
+              minWidth: "3rem",
               border: "none",
               backgroundColor: elbe.transparent ? "transparent" : undefined,
               borderRadius: elbe.sharp

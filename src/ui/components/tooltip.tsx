@@ -9,8 +9,8 @@ export function WithTooltip(p: { tooltip?: string; children?: ElbeChildren }) {
   const timeoutRef = useRef<number | null>(null);
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0, top: false, left: false });
-  const { appConfig } = useApp();
-  const { theme } = appConfig.themeContext.useTheme().useWith(
+  const { _appThemeContext } = useApp();
+  const { theme } = _appThemeContext.useTheme().useWith(
     (c) => ({
       color: {
         ...c.color,
@@ -59,6 +59,7 @@ export function WithTooltip(p: { tooltip?: string; children?: ElbeChildren }) {
             style={{
               position: "fixed",
               pointerEvents: "none",
+              zIndex: 1001,
               top: coords.y + (coords.top ? -12 : 12), // offset below cursor
               left: coords.x + (coords.left ? -12 : 12), // offset right of cursor
               background: theme.color.currentColor.back

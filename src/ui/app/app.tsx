@@ -3,27 +3,44 @@ import {
   Box,
   DialogsProvider,
   ElbeRoute,
+  ElbeThemeContext,
   isMenuRoute,
   MenuItem,
   omit,
   ToastProvider,
-  ToastThemeOptions,
   Wouter,
 } from "../..";
 import { Menu } from "../components/layout/menu";
 import { AppConfig, AppContext } from "./app_ctxt";
 
-type AppProps = AppConfig & {
-  children: ElbeRoute | ElbeRoute[];
-  toast?: ToastThemeOptions;
+type _AppThemeConfig = {
+  themeContext: ElbeThemeContext;
+  themeSeed?: Partial<
+    Parameters<_AppThemeConfig["themeContext"]["WithTheme"]>[0]["seed"]
+  >;
 };
+
+type _AppProps = AppConfig & _AppThemeConfig;
+type AppProps = _AppProps & { children: ElbeRoute | ElbeRoute[] };
 
 export function ElbeApp(p: AppProps) {
   useMemo(() => {
     if (p.title) document.title = p.title;
   }, [p.title]);
 
-  return <Wouter.Router>{<_App {...p} />}</Wouter.Router>;
+  return (
+    <p.themeContext.WithTheme seed={p.themeSeed}>
+      <Wouter.Router base={p.routerConfig?.basePath}>
+        {
+          <_App
+            config={omit(p, "children", "themeContext", "themeSeed")}
+            themeContext={p.themeContext}
+            children={p.children}
+          />
+        }
+      </Wouter.Router>
+    </p.themeContext.WithTheme>
+  );
 }
 
 function _initialLocation() {
@@ -32,64 +49,68 @@ function _initialLocation() {
   );
 }
 
-function _App(p: AppProps) {
-  const [config, setConfig] = useState<AppConfig>(omit(p, "children"));
+function _App(p: {
+  config: AppConfig;
+  themeContext: ElbeThemeContext;
+  children: ElbeRoute | ElbeRoute[];
+}) {
   const menuItems = useMemo(() => {
     return _extractMenuItems(p.children);
   }, [p.children]);
   const [location, navigate] = Wouter.useLocation();
   const [history, setHistory] = useState<string[]>([_initialLocation()]);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   return (
-    <config.themeContext.WithTheme seed={p.themeSeed}>
-      <AppContext.Provider
-        value={{
-          appConfig: config,
-          setAppView: (updater) =>
-            setConfig({ ...config, view: updater(config.view) }),
-          setAppConfig: (updater) => setConfig(updater(config)),
-          router: {
-            goBack: (steps = 1) => {
-              if (history.length === 0) return;
-              const targetIndex = Math.max(0, history.length - 1 - steps);
-              const target = history[targetIndex];
-              setHistory((h) => h.slice(0, targetIndex + 1));
-              navigate(target, { replace: true });
-            },
-            go: (p, replace) => {
-              setHistory((h) => {
-                if (replace === "all") return [p];
-                const repl = Math.max(0, replace ?? 0);
-                if (repl === 0) return [...h, p];
-                return [...h.slice(0, -repl), p];
-              });
-              navigate(p, { replace: (replace ?? 0) !== 0 });
-            },
-            history: history,
-            location: location,
+    <AppContext.Provider
+      value={{
+        appConfig: p.config,
+        _appThemeContext: p.themeContext,
+        router: {
+          goBack: (steps = 1) => {
+            if (history.length === 0) return;
+            const targetIndex = Math.max(0, history.length - 1 - steps);
+            const target = history[targetIndex];
+            setHistory((h) => h.slice(0, targetIndex + 1));
+            navigate(target, { replace: true });
           },
-        }}
-      >
-        <ToastProvider options={p.toast}>
-          <DialogsProvider>
-            <Box
-              typeLabel="app_base"
-              scheme="primary"
-              style={{
-                display: "flex",
-                width: "100%",
-                minHeight: "100vh",
-              }}
-            >
-              {menuItems.length > 0 && <Menu items={menuItems} />}
-              <div style={{ flex: 1, width: "0px" }}>
-                <Wouter.Switch>{p.children}</Wouter.Switch>
-              </div>
-            </Box>
-          </DialogsProvider>
-        </ToastProvider>
-      </AppContext.Provider>
-    </config.themeContext.WithTheme>
+          go: (p, replace) => {
+            setHistory((h) => {
+              if (replace === "all") return [p];
+              const repl = Math.max(0, replace ?? 0);
+              if (repl === 0) return [...h, p];
+              return [...h.slice(0, -repl), p];
+            });
+            navigate(p, { replace: (replace ?? 0) !== 0 });
+          },
+          history: history,
+          location: location,
+        },
+        menu: {
+          isOpen: menuOpen,
+          setOpen: (s: boolean) => setMenuOpen(s),
+        },
+      }}
+    >
+      <ToastProvider>
+        <DialogsProvider>
+          <Box
+            typeLabel="app_base"
+            scheme="primary"
+            style={{
+              display: "flex",
+              width: "100%",
+              minHeight: "100vh",
+            }}
+          >
+            {menuItems.length > 0 && <Menu items={menuItems} />}
+            <div style={{ flex: 1, width: "0px" }}>
+              <Wouter.Switch>{p.children}</Wouter.Switch>
+            </div>
+          </Box>
+        </DialogsProvider>
+      </ToastProvider>
+    </AppContext.Provider>
   );
 }
 

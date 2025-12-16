@@ -24,8 +24,8 @@ export type LabeledInputProps = ElbeChildrenProps &
 export function LabeledInput(
   p: LabeledInputProps & { typeLabel: string; id: string }
 ) {
-  const { appConfig } = useApp();
-  const baseTheme = appConfig.themeContext.useTheme();
+  const { _appThemeContext } = useApp();
+  const baseTheme = _appThemeContext.useTheme();
 
   return (
     <WithTooltip tooltip={p.tooltip}>

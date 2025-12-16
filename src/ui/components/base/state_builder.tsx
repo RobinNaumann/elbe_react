@@ -10,7 +10,7 @@ export function WithStateTheme(p: {
   disabled?: boolean;
   children: ElbeChildren;
 }) {
-  const { appConfig } = useApp();
+  const { _appThemeContext } = useApp();
   const [elState, setElState] = useState<ColorSelection.States>("neutral");
   if (!p.theme) {
     console.error("WithStateTheme: No theme provided");
@@ -30,7 +30,7 @@ export function WithStateTheme(p: {
   );
 
   return (
-    <appConfig.themeContext.WithTheme theme={theme}>
+    <_appThemeContext.WithTheme theme={theme}>
       <div
         onMouseEnter={(e) => {
           e.stopPropagation();
@@ -56,6 +56,6 @@ export function WithStateTheme(p: {
       >
         {p.children}
       </div>
-    </appConfig.themeContext.WithTheme>
+    </_appThemeContext.WithTheme>
   );
 }

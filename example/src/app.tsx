@@ -1,6 +1,7 @@
 import { ElbeApp, makeThemeContext, Route } from "elbe-ui";
 //import "elbe-ui/dist/elbe.css";
 //import "elbe-ui/dist/elbe.css";
+import { AppDemo } from "./app_demo";
 import { Home } from "./home";
 import "./style.scss";
 import { ThemeBit } from "./util/b_theme";
@@ -18,15 +19,16 @@ export function App() {
         title="elbe Example"
         themeSeed={ui.seed}
         themeContext={_themeContext}
-        view={{
-          footer: null,
-          globalActions: [],
-          icons: {},
-          menuOpen: false,
-        }}
       >
         <Route path="/">
           <Home />
+        </Route>
+        <Route nest path="/app">
+          <AppDemo
+            goBack={() => {
+              window.history.pushState({}, "", "/");
+            }}
+          />
         </Route>
       </ElbeApp>
     ),

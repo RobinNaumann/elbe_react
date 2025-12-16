@@ -83,7 +83,7 @@ export const _seed: ColorThemeSeed = {
   base: LayerColor.fromBack(colors.white, {
     border: RGBAColor.fromHex("#ccc"),
   }) as LayerColor | HexColor,
-  accent: LayerColor.fromBack(colors.accent.red) as LayerColor | HexColor,
+  accent: LayerColor.fromBack(colors.accent.blue) as LayerColor | HexColor,
   info: LayerColor.fromBack(colors.blue) as LayerColor | HexColor,
   success: LayerColor.fromBack(colors.green) as LayerColor | HexColor,
   warning: LayerColor.fromBack(colors.yellow) as LayerColor | HexColor,

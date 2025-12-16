@@ -49,8 +49,8 @@ export class Badge extends React.Component<
 }
 
 function _Badge(p: BadgeProps & { kind: ColorSelection.Kinds }) {
-  const { appConfig } = useApp();
-  const theme = appConfig.themeContext.useTheme().useWith(
+  const { _appThemeContext } = useApp();
+  const theme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,

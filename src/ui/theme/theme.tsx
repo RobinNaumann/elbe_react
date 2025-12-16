@@ -1,6 +1,8 @@
 import "../../elbe.css";
 import { geometryThemeData } from "./subthemes/_theme_geometry";
+import { menuThemeData } from "./subthemes/_theme_menu";
 import { motionThemeData } from "./subthemes/_theme_motion";
+import { toastThemeData } from "./subthemes/_theme_toast";
 import { typeThemeData } from "./subthemes/_theme_type";
 import { colorThemeData } from "./subthemes/color/_theme_color";
 
@@ -37,7 +39,8 @@ export const elbeCoreThemes = {
   geometry: geometryThemeData,
   type: typeThemeData,
   color: colorThemeData,
-  with: typeThemeData,
+  toast: toastThemeData,
+  menu: menuThemeData,
 };
 
 export type ElbeThemeDefinitions<T extends ElbeThemeData> =

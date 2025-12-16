@@ -1,4 +1,4 @@
-/*import {
+import {
   Button,
   Card,
   Column,
@@ -7,25 +7,35 @@
   Header,
   IconButton,
   Icons,
+  makeThemeContext,
   MenuRoute,
   Page,
-  showToast,
-  type ElbeColorSchemes,
+  useToast,
+  type ColorSelection,
 } from "elbe-ui";
-import {
-  ChevronLeft,
-  LogOut,
-  SproutIcon,
-  TreePalm,
-  TreePine,
-} from "lucide-react";
+import { LogOut, SproutIcon, TreePalm, TreePine } from "lucide-react";
+import { useApp } from "../../dist/ui/app/app_ctxt";
 import { L10n, useL10n } from "../l10n";
+
+const _themeContext = makeThemeContext({});
+
 export function AppDemo(p: { goBack: () => void }) {
   return (
     <L10n>
       <ElbeApp
-        endLogo="./assets/elbe_dark.png"
-        endLogoDark="./assets/elbe_light.png"
+        themeContext={_themeContext}
+        footer={
+          <Footer
+            left={[
+              { label: "banana", href: "#" },
+              { label: "apple", href: "#" },
+            ]}
+            right={[{ label: "orange", href: "#" }]}
+            legal={{ label: "legal info", href: "#" }}
+            copyright="© 2025 elbe"
+            version="v1.2.3"
+          />
+        }
         globalActions={[
           <Button.plain
             ariaLabel="back to demo"
@@ -34,6 +44,10 @@ export function AppDemo(p: { goBack: () => void }) {
             icon={LogOut}
           />,
         ]}
+        icons={{
+          endLogo: "../assets/elbe_dark.png",
+          endLogoDark: "../assets/elbe_light.png",
+        }}
       >
         <MenuRoute label="Home" icon={TreePine} path="/">
           <_Home />
@@ -52,12 +66,13 @@ export function AppDemo(p: { goBack: () => void }) {
         >
           <_SettingsPage />
         </MenuRoute>
-      </AppBase>
+      </ElbeApp>
     </L10n>
   );
 }
 
 function _Home() {
+  const { showToast } = useToast();
   const l10n = useL10n();
   return (
     <>
@@ -97,7 +112,7 @@ function _Home() {
           "secondary",
         ].map((c) => (
           <Card
-            scheme={c as ElbeColorSchemes}
+            scheme={c as ColorSelection.Schemes}
             bordered
             className="centered"
             style={{
@@ -107,30 +122,21 @@ function _Home() {
           />
         ))}
       </Column>
-      <Footer
-        left={[
-          { label: "banana", href: "#" },
-          { label: "apple", href: "#" },
-        ]}
-        right={[{ label: "orange", href: "#" }]}
-        legal={{ label: "legal info", href: "#" }}
-        copyright="© 2025 elbe"
-        version="v1.2.3"
-      />
     </>
   );
 }
 
 function _SecondPage() {
-  const appBase = useAppBase();
+  const { router } = useApp();
   return (
     <Page
       title="Second"
       leading={
         <IconButton.plain
+          tooltip="go back to the first page"
           ariaLabel="back"
-          onTap={() => appBase.router.go("/", 1)}
-          icon={ChevronLeft}
+          onTap={() => router.go("/", 1)}
+          icon={Icons.House}
         />
       }
     >
@@ -140,6 +146,7 @@ function _SecondPage() {
 }
 
 function _SettingsPage() {
+  const { showToast } = useToast();
   return (
     <>
       <Page
@@ -159,4 +166,3 @@ function _SettingsPage() {
     </>
   );
 }
-*/

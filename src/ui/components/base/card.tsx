@@ -11,7 +11,7 @@ import { useApp } from "../../app/app_ctxt";
 import { WithTooltip } from "../tooltip";
 
 export function elevatedShadow(dark: boolean) {
-  return `0px 0px 1rem -.4rem ${dark ? "white" : "black"}`;
+  return `0px 0px .625rem -.125rem ${dark ? "#ffffff60" : "#00000060"}`;
 }
 
 export function Card({
@@ -50,8 +50,8 @@ export function Card({
 } & ElbeProps &
   ElbeStyleProps &
   ElbeChildrenProps) {
-  const { appConfig } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
+  const { _appThemeContext } = useApp();
+  const { theme } = _appThemeContext.useTheme();
 
   const isBordered = useMemo(() => {
     return (bordered ?? false) || theme.color.isContrast;

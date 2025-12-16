@@ -1,13 +1,36 @@
 import { X } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import ReactDOM from "react-dom";
-import { Card, ColorSelection, KindAlertIcon } from "../../..";
+import {
+  Card,
+  ColorSelection,
+  ElbeThemeComputed,
+  ElbeThemeData,
+  KindAlertIcon,
+} from "../../..";
 import { useApp } from "../../app/app_ctxt";
 import { getRootElement } from "../../util/root";
 import type { ElbeChildren } from "../../util/types";
 import { IconButton } from "../button/icon_button";
 import { Column, Row } from "../layout/flex";
 import { Text } from "../text";
+
+export function elevatedBackdropStyle(
+  open: boolean,
+  theme?: ElbeThemeComputed<ElbeThemeData>,
+  openMergeStyle?: React.CSSProperties
+): React.CSSProperties {
+  return {
+    transition: theme?.motion.reduced
+      ? undefined
+      : "background-color 200ms ease-in-out, backdrop-filter 200ms ease-in-out",
+    backgroundColor: open
+      ? theme?.color.currentColor.front.withAlpha(0.3).hex()
+      : "transparent",
+    backdropFilter: open ? "blur(2px)" : "none",
+    ...((open && openMergeStyle) || {}),
+  };
+}
 
 export type ElbeDialogProps = {
   title: string;
@@ -20,8 +43,8 @@ export type ElbeDialogProps = {
 };
 
 export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
-  const { appConfig } = useApp();
-  const theme = appConfig.themeContext.useTheme().useWith(
+  const { _appThemeContext } = useApp();
+  const theme = _appThemeContext.useTheme().useWith(
     (c) => ({
       color: {
         ...c.color,
@@ -53,7 +76,7 @@ export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
   if (!p.open) return null;
 
   return ReactDOM.createPortal(
-    <appConfig.themeContext.WithTheme theme={theme}>
+    <_appThemeContext.WithTheme theme={theme}>
       <div
         style={{
           position: "fixed",
@@ -61,11 +84,10 @@ export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
           top: 0,
           width: "100%",
           height: "100%",
-          background: theme.theme.color.currentColor.front.withAlpha(0.3).hex(),
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(2px)",
+          ...elevatedBackdropStyle(p.open, theme.theme),
         }}
         className="elbe_dialog-base"
         onClick={(e) => {
@@ -115,7 +137,7 @@ export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
         </dialog>
         ,
       </div>
-    </appConfig.themeContext.WithTheme>,
+    </_appThemeContext.WithTheme>,
     rootDOM
   );
 }

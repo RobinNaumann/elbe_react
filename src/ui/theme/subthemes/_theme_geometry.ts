@@ -4,7 +4,7 @@ const _data = {
   size: 16,
   radius: 0.75,
   padding: 1,
-  borderWidth: 0.75,
+  borderWidth: 0.125,
 };
 
 export const geometryThemeData: ElbeSubThemeData<typeof _data> = {

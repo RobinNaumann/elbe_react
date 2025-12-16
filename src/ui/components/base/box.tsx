@@ -146,8 +146,8 @@ export function _Box(
     scheme?: ColorSelection.Schemes;
   }
 ) {
-  const { appConfig } = useApp();
-  const usedTheme = appConfig.themeContext.useTheme().useWith(
+  const { _appThemeContext } = useApp();
+  const usedTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => {
       return {
         color: {
@@ -169,7 +169,7 @@ export function _Box(
   const { scheme, mode, padding, margin, children, ...elbe } = p;
 
   return (
-    <appConfig.themeContext.WithTheme theme={usedTheme}>
+    <_appThemeContext.WithTheme theme={usedTheme}>
       <div
         {...applyProps("box", elbe, [], {
           padding: `${padding}rem`,
@@ -183,6 +183,6 @@ export function _Box(
       >
         {children}
       </div>
-    </appConfig.themeContext.WithTheme>
+    </_appThemeContext.WithTheme>
   );
 }

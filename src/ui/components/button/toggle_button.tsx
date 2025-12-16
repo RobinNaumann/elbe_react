@@ -20,8 +20,8 @@ export function ToggleButton({
   label: string;
   icon?: IconChild;
 }) {
-  const { appConfig } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
+  const { _appThemeContext } = useApp();
+  const { theme } = _appThemeContext.useTheme();
 
   return (
     <Button

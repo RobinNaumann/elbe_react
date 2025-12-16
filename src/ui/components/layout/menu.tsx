@@ -1,47 +1,66 @@
 import { MenuIcon } from "lucide-react";
-import { _Logo, MenuItem, useLayoutMode } from "../../..";
+import { useMemo } from "react";
+import {
+  _Logo,
+  elevatedBackdropStyle,
+  MenuItem,
+  useLayoutMode,
+} from "../../..";
 import { useApp } from "../../app/app_ctxt";
-import { Card, elevatedShadow } from "../base/card";
+import { Card } from "../base/card";
 import { Button } from "../button/button";
 import { Column } from "./flex";
 
+type _TopBot = {
+  top: MenuItem[];
+  bottom: MenuItem[];
+};
+
 export function Menu(p: { items: MenuItem[] }) {
-  const { appConfig, setAppView } = useApp();
-  const { theme } = appConfig.themeContext.useTheme();
+  const { _appThemeContext, menu } = useApp();
+  const { theme } = _appThemeContext.useTheme();
   const layoutMode = useLayoutMode();
 
-  const topBot: {
-    top: MenuItem[];
-    bottom: MenuItem[];
-  } = { top: [], bottom: [] };
-  for (let i of p.items) {
-    if (i.bottom) topBot.bottom.push(i);
-    else topBot.top.push(i);
-  }
+  const isWideOrOpen = useMemo(() => {
+    return menu?.isOpen || layoutMode.isWide;
+  }, [menu?.isOpen, layoutMode.isWide]);
 
-  const wideOrOpen = () => appConfig.view.menuOpen || layoutMode.isWide;
+  const menuWidth = useMemo(
+    () =>
+      menu?.isOpen
+        ? layoutMode.isMobile
+          ? "100%"
+          : `17rem`
+        : layoutMode.isWide
+        ? `${3 + theme.geometry.borderWidth * 2}rem`
+        : "0",
+    [menu?.isOpen, layoutMode.mode, theme.geometry.borderWidth]
+  );
 
-  const menuWidth = () =>
-    appConfig.view.menuOpen
-      ? layoutMode.isMobile
-        ? "100%"
-        : `${17 + theme.geometry.borderWidth}rem`
-      : layoutMode.isWide
-      ? `${4 + theme.geometry.borderWidth}rem`
-      : "0";
+  const topBot = useMemo<_TopBot>(() => {
+    let topBot: _TopBot = { top: [], bottom: [] };
+    for (let i of p.items) {
+      if (i.bottom) topBot.bottom.push(i);
+      else topBot.top.push(i);
+    }
+    return topBot;
+  }, [p.items]);
 
   return (
     <>
       {layoutMode.isWide && (
         <div
+          key="menu_wide_spaceholder"
           style={{
-            width: menuWidth(),
-            minWidth: menuWidth(),
+            width: menuWidth,
+            minWidth: menuWidth,
+            marginRight: ".5rem",
           }}
         />
       )}
+
       <div
-        onClick={() => setAppView((v) => ({ ...v, menuOpen: false }))}
+        onClick={() => menu.setOpen(false)}
         style={{
           zIndex: 100,
 
@@ -50,103 +69,102 @@ export function Menu(p: { items: MenuItem[] }) {
           top: 0,
           width: 0,
           height: 0,
-          backgroundColor: "rgba(0,0,0,0)",
-          transition: "background-color 200ms ease-in-out",
-          ...(layoutMode.isNarrow && appConfig.view.menuOpen
-            ? {
-                backdropFilter: "blur(5px)",
-                backgroundColor: "rgba(0,0,0,.2)",
-                width: "100%",
-                height: "100%",
-              }
-            : {}),
+          ...elevatedBackdropStyle(layoutMode.isNarrow && menu?.isOpen, theme, {
+            width: "100%",
+            height: "100%",
+          }),
         }}
       />
-
-      <Card
-        onTap={() => {
-          if (layoutMode.isWide) return;
-          setAppView((v) => ({ ...v, menuOpen: false }));
-        }}
-        sharp={layoutMode.isMobile}
-        bordered
-        scheme="primary"
-        padding={wideOrOpen() ? 0.5 : 0}
-        style={{
-          zIndex: 101,
-          position: "fixed",
-          left: 0,
-          top: 0,
-          height: "100vh",
-          overflow: "hidden",
-
-          width: menuWidth(),
-          display: "flex",
-          //display: appBase.menuOpen || layoutMode == "wide" ? "flex" : "none",
-          flexDirection: "column",
-          justifyContent: "start",
-          alignItems: "stretch",
-          borderTopLeftRadius: 0,
-          borderBottomLeftRadius: 0,
-          borderLeftStyle: "none",
-          borderTopStyle: "none",
-          borderBottomStyle: "none",
-          borderColor: theme.color.isContrast ? undefined : "transparent",
-          gap: "1rem",
-          transition: theme.motion.reduced ? "none" : "width 200ms ease-in-out",
-
-          ...(layoutMode.isNarrow && appConfig.view.menuOpen
-            ? {
-                boxShadow: elevatedShadow(theme.color.isDark),
-              }
-            : {}),
-        }}
-      >
-        {wideOrOpen() && (
-          <>
-            <Button.plain
-              contentAlign="start"
-              ariaLabel="open/close menu"
-              onTap={() => setAppView((v) => ({ ...v, menuOpen: !v.menuOpen }))}
-              icon={MenuIcon}
-              style={{
-                marginBottom: ".5rem",
-                borderRadius: "3rem",
-              }}
-            >
-              {!layoutMode.isWide && (
-                <_Logo
-                  logo={appConfig.view?.icons.logo}
-                  logoDark={appConfig.view?.icons.logoDark}
-                  lMargin={0.5}
-                />
-              )}
-            </Button.plain>
-            <Column
-              flex={1}
-              scroll
-              noScrollbar
-              //style={{overflowY: "auto"}}
-            >
-              {topBot.top.map((i, index) => (
-                <_MenuItemView key={index} item={i} />
-              ))}
-            </Column>
-            {topBot.bottom.map((i, index) => (
-              <_MenuItemView key={index} item={i} />
-            ))}
-          </>
-        )}
-      </Card>
+      <_Menu topBot={topBot} wideOrOpen={isWideOrOpen} menuWidth={menuWidth} />
     </>
   );
 }
 
+function _Menu(p: { topBot: _TopBot; wideOrOpen: boolean; menuWidth: string }) {
+  const { _appThemeContext, menu, appConfig } = useApp();
+  const { theme } = _appThemeContext.useTheme();
+  const layoutMode = useLayoutMode();
+
+  return (
+    <Card
+      onTap={() => {
+        if (layoutMode.isWide) return;
+        menu.setOpen(false);
+      }}
+      sharp={theme.menu.sharp || !layoutMode.isWide}
+      bordered
+      scheme={theme.menu.scheme}
+      padding={0}
+      elevated={theme.menu.elevated || (layoutMode.isNarrow && menu?.isOpen)}
+      overflow="hidden"
+      style={{
+        zIndex: 101,
+        position: "fixed",
+        left: 0,
+        top: 0,
+        height: layoutMode.isWide ? "calc(100vh - 1rem)" : "100vh",
+        margin: layoutMode.isWide ? ".5rem" : 0,
+        padding: layoutMode.isWide || !menu.isOpen ? 0 : ".5rem",
+        borderWidth:
+          !layoutMode.isWide && !menu.isOpen
+            ? 0
+            : theme.geometry.borderWidth + "rem",
+        borderColor: theme.color.isContrast ? undefined : "transparent",
+        width: p.menuWidth,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "start",
+        alignItems: "stretch",
+
+        gap: "1rem",
+        transition: theme.motion.reduced ? "none" : "width 200ms ease-in-out",
+      }}
+    >
+      {p.wideOrOpen && (
+        <>
+          <Button.plain
+            sharp={layoutMode.isWide}
+            contentAlign="start"
+            ariaLabel="open/close menu"
+            onTap={() => menu.setOpen(!menu.isOpen)}
+            icon={MenuIcon}
+            style={{
+              marginBottom: ".5rem",
+            }}
+          >
+            {!layoutMode.isWide && (
+              <_Logo
+                logo={appConfig.icons?.logo}
+                logoDark={appConfig.icons?.logoDark}
+                lMargin={0.5}
+              />
+            )}
+          </Button.plain>
+          <Column
+            flex={1}
+            scroll
+            noScrollbar
+            //style={{overflowY: "auto"}}
+          >
+            {p.topBot.top.map((i, index) => (
+              <_MenuItemView key={index} item={i} />
+            ))}
+          </Column>
+          {p.topBot.bottom.map((i, index) => (
+            <_MenuItemView key={index} item={i} />
+          ))}
+        </>
+      )}
+    </Card>
+  );
+}
+
 function _MenuItemView({ item }: { item: MenuItem }) {
-  const { appConfig, router } = useApp();
+  const { menu, router } = useApp();
 
   return (
     <Button
+      //sharp
       ariaLabel={item.label}
       contentAlign="start"
       manner={
@@ -158,7 +176,10 @@ function _MenuItemView({ item }: { item: MenuItem }) {
           ? "major"
           : "plain"
       }
-      label={appConfig.view.menuOpen ? item.label : undefined}
+      style={{
+        transition: "background-color 200ms ease-in-out",
+      }}
+      label={menu.isOpen ? item.label : undefined}
       icon={item.icon}
       onTap={item.disabled ? undefined : () => router.go(item.path, "all")}
     />

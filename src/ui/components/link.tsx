@@ -15,8 +15,8 @@ export function Link(p: {
   color?: string;
   tooltip?: string;
 }) {
-  const { appConfig } = useApp();
-  const baseTheme = appConfig.themeContext.useTheme().useWith(
+  const { _appThemeContext } = useApp();
+  const baseTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {
         ...color,
