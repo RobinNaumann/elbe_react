@@ -110,15 +110,12 @@ function _Home() {
           "secondary",
           "primary",
           "secondary",
-        ].map((c) => (
+        ].map((c, i) => (
           <Card
+            key={i}
             scheme={c as ColorSelection.Schemes}
             bordered
-            className="centered"
-            style={{
-              height: "100px",
-              backgroundColor: c,
-            }}
+            padding={3}
           />
         ))}
       </Column>

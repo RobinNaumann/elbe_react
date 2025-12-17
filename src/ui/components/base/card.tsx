@@ -69,9 +69,10 @@ export function Card({
         state={state}
         className={elbe.className}
         flex={elbe.flex}
+        elevated={elevated}
+        frosted={frosted}
         style={{
           overflow: overflow,
-          boxShadow: elevated ? elevatedShadow(theme.color.isDark) : undefined,
           borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
           borderStyle: isBordered ? "solid" : undefined,
           borderWidth: isBordered
@@ -81,7 +82,6 @@ export function Card({
             ? "var(--elbe-context-color-border, transparent)"
             : undefined,
 
-          backdropFilter: frosted ? "blur(10px)" : undefined,
           opacity: onTap === null ? 0.5 : 1,
           ...(elbe.style ?? {}),
         }}

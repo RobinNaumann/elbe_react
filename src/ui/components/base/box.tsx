@@ -1,5 +1,5 @@
 import { Component, createElement } from "react";
-import { ColorSelection, ElbeChildren } from "../../..";
+import { ColorSelection, ElbeChildren, elevatedShadow } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 import { AriaRoles } from "./roles";
 
@@ -116,6 +116,9 @@ export type ElbeBoxProps = ElbeProps &
 
     padding?: number;
     margin?: number;
+
+    frosted?: boolean;
+    elevated?: boolean;
   };
 
 export class Box extends Component<
@@ -166,7 +169,16 @@ export function _Box(
     [p.scheme, p.mode, p.kind, p.manner, p.state]
   );
 
-  const { scheme, mode, padding, margin, children, ...elbe } = p;
+  const {
+    scheme,
+    mode,
+    padding,
+    margin,
+    frosted,
+    elevated,
+    children,
+    ...elbe
+  } = p;
 
   return (
     <_appThemeContext.WithTheme theme={usedTheme}>
@@ -174,7 +186,14 @@ export function _Box(
         {...applyProps("box", elbe, [], {
           padding: `${padding}rem`,
           margin: `${margin}rem`,
-          backgroundColor: usedTheme.theme.color.currentColor.back.asCss(),
+          backgroundColor: frosted
+            ? usedTheme.theme.color.currentColor.back.withAlpha(0.4).asCss()
+            : usedTheme.theme.color.currentColor.back.asCss(),
+          boxShadow: elevated
+            ? elevatedShadow(usedTheme.theme.color.isDark)
+            : undefined,
+          backdropFilter: frosted ? "blur(.5rem)" : undefined,
+
           transition: usedTheme.theme.motion.reduced
             ? undefined
             : "background 0.3s ease",
