@@ -1,6 +1,7 @@
 import { Component, createElement } from "react";
-import { ColorSelection, ElbeChildren, elevatedShadow } from "../../..";
+import { ColorSelection, ElbeChildren } from "../../..";
 import { useApp } from "../../app/app_ctxt";
+import { elevatedShadow } from "../../util/_util";
 import { AriaRoles } from "./roles";
 
 export const styleColorFromContext: React.CSSProperties = {

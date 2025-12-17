@@ -162,16 +162,17 @@ export function dictWithoutUndefined<T extends Dict<any>>(
   return res;
 }
 
-export function hashcode(v: any): number {
+/// A simple hash function to create a hash from any value
+export function hash(v: any): string {
   const s = JSON.stringify(v);
   let hash = 0,
     i,
     chr;
-  if (!s || s.length === 0) return hash;
+  if (s.length === 0) return hash.toString();
   for (i = 0; i < s.length; i++) {
     chr = s.charCodeAt(i);
     hash = (hash << 5) - hash + chr;
     hash |= 0; // Convert to 32bit integer
   }
-  return hash;
+  return hash.toString();
 }

@@ -10,10 +10,6 @@ import {
 import { useApp } from "../../app/app_ctxt";
 import { WithTooltip } from "../tooltip";
 
-export function elevatedShadow(dark: boolean) {
-  return `0px 0px .625rem -.125rem ${dark ? "#ffffff60" : "#00000060"}`;
-}
-
 export function Card({
   mode,
   scheme,
