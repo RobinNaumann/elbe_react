@@ -21,7 +21,7 @@ type _AppThemeConfig = {
 };
 
 type _AppProps = AppConfig & _AppThemeConfig;
-type AppProps = _AppProps & { children: ElbeRoute | ElbeRoute[] };
+type AppProps = _AppProps & { children?: ElbeRoute | ElbeRoute[] };
 
 export function ElbeApp(p: AppProps) {
   useMemo(() => {
@@ -52,7 +52,7 @@ function _initialLocation() {
 function _App(p: {
   config: AppConfig;
   themeContext: ElbeThemeContext;
-  children: ElbeRoute | ElbeRoute[];
+  children?: ElbeRoute | ElbeRoute[];
 }) {
   const menuItems = useMemo(() => {
     return _extractMenuItems(p.children);
@@ -114,7 +114,8 @@ function _App(p: {
   );
 }
 
-function _extractMenuItems(children: ElbeRoute | ElbeRoute[]): MenuItem[] {
+function _extractMenuItems(children?: ElbeRoute | ElbeRoute[]): MenuItem[] {
+  if (!children) return [];
   const childs = Array.isArray(children) ? children : [children];
   const items: MenuItem[] = [];
   for (const child of childs) {
