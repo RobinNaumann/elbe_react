@@ -1,5 +1,6 @@
 import { ColorSelection, KindAlertIcon, Text } from "../../../..";
 import { useApp } from "../../../app/app_ctxt";
+import { css } from "../../../util/_util";
 import { randomAlphaNum } from "../../../util/util";
 import { ElbeActionProps } from "../../base/box";
 import { Card } from "../../base/card";
@@ -90,7 +91,7 @@ function _Field(
             display: "flex",
             flexDirection: "column",
             alignItems: "stretch",
-            borderStyle: "none",
+            ...css.borderStyle("none"),
           }}
           kind={msg?.kind}
           padding={0}

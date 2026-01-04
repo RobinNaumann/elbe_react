@@ -46,6 +46,8 @@ export function Menu(p: { items: MenuItem[] }) {
     return topBot;
   }, [p.items]);
 
+  if (!menu) return null;
+
   return (
     <>
       {layoutMode.isWide && (
@@ -84,6 +86,8 @@ function _Menu(p: { topBot: _TopBot; wideOrOpen: boolean; menuWidth: string }) {
   const { _appThemeContext, menu, appConfig } = useApp();
   const { theme } = _appThemeContext.useTheme();
   const layoutMode = useLayoutMode();
+
+  if (!menu) return null;
 
   return (
     <Card
@@ -161,6 +165,8 @@ function _Menu(p: { topBot: _TopBot; wideOrOpen: boolean; menuWidth: string }) {
 
 function _MenuItemView({ item }: { item: MenuItem }) {
   const { menu, router } = useApp();
+
+  if (!menu) return null;
 
   return (
     <Button

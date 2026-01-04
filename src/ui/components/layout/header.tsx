@@ -79,7 +79,8 @@ export function Header(p: HeaderProps) {
     >
       {p.leading && p.leading !== "back" && p.leading !== "close"
         ? p.leading
-        : !layoutMode.isWide && (
+        : !layoutMode.isWide &&
+          menu && (
             <IconButton.plain
               ariaLabel="open/close menu"
               onTap={() => menu.setOpen(!menu.isOpen)}

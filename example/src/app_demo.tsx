@@ -45,8 +45,8 @@ export function AppDemo(p: { goBack: () => void }) {
           />,
         ]}
         icons={{
-          endLogo: "../assets/elbe_dark.png",
-          endLogoDark: "../assets/elbe_light.png",
+          endLogo: "./assets/elbe_dark.png",
+          endLogoDark: "./assets/elbe_light.png",
         }}
       >
         <MenuRoute label="Home" icon={TreePine} path="/">

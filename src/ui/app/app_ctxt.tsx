@@ -29,7 +29,7 @@ type _RouterState = {
 export interface AppState {
   appConfig: AppConfig;
   router: _RouterState;
-  menu: _MenuState;
+  menu?: _MenuState;
   /**
    * @private this field is only to be used within elbe components.
    */

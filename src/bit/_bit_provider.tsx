@@ -1,4 +1,4 @@
-import { Context, useEffect, useMemo, useState } from "react";
+import { Context, useEffect, useState } from "react";
 import {
   BitParams,
   BitUseInterface,
@@ -10,7 +10,7 @@ import {
   PromiseOr,
   Spinner,
 } from "..";
-import { _BitCtrlMaker, _BitProvider, _BitState, _isFn } from "./_bit_utils";
+import { _BitCtrlMaker, _BitProvider, _BitState, _isFn } from "./_bit_types";
 
 function _LoadView({}) {
   return (
@@ -183,7 +183,7 @@ export function _makeBitProvider<D, P, I>(
       };
     }
 
-    const ctrl: BitUseInterface<D, P, I> = useMemo(() => _make(), [state]);
+    const ctrl: BitUseInterface<D, P, I> = _make();
     useEffect(() => {
       ctrl.reload(true);
       return () => {
@@ -201,7 +201,9 @@ export function _makeBitProvider<D, P, I>(
     }, []);
 
     // ========== DEFINE THE JSX ELEMENT ==========
-    return <context.Provider value={ctrl}>{p.children}</context.Provider>;
+    return (
+      <context.Provider value={{ ...ctrl }}>{p.children}</context.Provider>
+    );
   }
 
   return _BitProvider;

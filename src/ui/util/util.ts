@@ -176,3 +176,21 @@ export function hash(v: any): string {
   }
   return hash.toString();
 }
+
+/**
+ * get the content of a metatag by its name. A metatag is like:
+ * `<meta name="name" content="content">`
+ * @param name the name of the metatag
+ * @returns the content of the metatag or null if not found
+ */
+export function metaTagContent(name: string): string | null {
+  const metas = document.getElementsByTagName("meta");
+
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute("name") === name) {
+      return metas[i].getAttribute("content");
+    }
+  }
+
+  return null;
+}

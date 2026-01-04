@@ -8,6 +8,7 @@ import {
   _Box,
 } from "../../..";
 import { useApp } from "../../app/app_ctxt";
+import { css } from "../../util/_util";
 import { WithTooltip } from "../tooltip";
 
 export function Card({
@@ -53,6 +54,15 @@ export function Card({
     return (bordered ?? false) || theme.color.isContrast;
   }, [bordered, theme.color.isContrast]);
 
+  const styles = {
+    radius: sharp ? 0 : `${theme.geometry.radius}rem`,
+    borderStyle: isBordered ? ("solid" as any) : undefined,
+    borderWidth: isBordered ? `${theme.geometry.borderWidth}rem` : undefined,
+    borderColor: isBordered
+      ? "var(--elbe-context-color-border, transparent)"
+      : undefined,
+  };
+
   return (
     <WithTooltip tooltip={elbe.tooltip}>
       <_Box
@@ -69,15 +79,10 @@ export function Card({
         frosted={frosted}
         style={{
           overflow: overflow,
-          borderRadius: sharp ? 0 : `${theme.geometry.radius}rem`,
-          borderStyle: isBordered ? "solid" : undefined,
-          borderWidth: isBordered
-            ? `${theme.geometry.borderWidth}rem`
-            : undefined,
-          borderColor: isBordered
-            ? "var(--elbe-context-color-border, transparent)"
-            : undefined,
-
+          ...css.borderRadius(styles.radius),
+          ...css.borderStyle(styles.borderStyle),
+          ...css.borderWidth(styles.borderWidth),
+          ...css.borderColor(styles.borderColor),
           opacity: onTap === null ? 0.5 : 1,
           ...(elbe.style ?? {}),
         }}

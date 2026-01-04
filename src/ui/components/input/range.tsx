@@ -1,4 +1,5 @@
 import { useApp } from "../../app/app_ctxt";
+import { css } from "../../util/_util";
 import { _ElbeErr } from "../../util/error_view";
 import { applyProps, ElbeActionProps } from "../base/box";
 import { Card } from "../base/card";
@@ -26,8 +27,8 @@ export function Range(p: _RangeProps) {
         backgroundColor: "transparent",
         padding: "0",
         margin: "0",
-        borderStyle: "none",
         width: "100%",
+        ...css.borderStyle("none"),
       }}
     >
       <_StyledRange {...p} />

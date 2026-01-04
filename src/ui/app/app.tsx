@@ -3,7 +3,9 @@ import {
   Box,
   DialogsProvider,
   ElbeRoute,
+  ElbeThemeConfig,
   ElbeThemeContext,
+  ElbeThemeData,
   isMenuRoute,
   MenuItem,
   omit,
@@ -18,6 +20,9 @@ type _AppThemeConfig = {
   themeSeed?: Partial<
     Parameters<_AppThemeConfig["themeContext"]["WithTheme"]>[0]["seed"]
   >;
+  themeSelector?: (
+    config: ElbeThemeConfig<ElbeThemeData>
+  ) => Partial<ElbeThemeConfig<ElbeThemeData>>;
 };
 
 type _AppProps = AppConfig & _AppThemeConfig;
@@ -28,13 +33,25 @@ export function ElbeApp(p: AppProps) {
     if (p.title) document.title = p.title;
   }, [p.title]);
 
+  const trueBase = useMemo(() => {
+    const path = p.routerConfig?.basePath ?? "/";
+    return path === "/" ? undefined : path;
+  }, [p.routerConfig?.basePath]);
+
   return (
     <p.themeContext.WithTheme seed={p.themeSeed}>
-      <Wouter.Router base={p.routerConfig?.basePath}>
+      <Wouter.Router base={trueBase}>
         {
           <_App
-            config={omit(p, "children", "themeContext", "themeSeed")}
+            config={omit(
+              p,
+              "children",
+              "themeContext",
+              "themeSeed",
+              "themeSelector"
+            )}
             themeContext={p.themeContext}
+            themeSelector={p.themeSelector}
             children={p.children}
           />
         }
@@ -51,6 +68,7 @@ function _initialLocation() {
 
 function _App(p: {
   config: AppConfig;
+  themeSelector?: _AppThemeConfig["themeSelector"];
   themeContext: ElbeThemeContext;
   children?: ElbeRoute | ElbeRoute[];
 }) {
@@ -60,6 +78,10 @@ function _App(p: {
   const [location, navigate] = Wouter.useLocation();
   const [history, setHistory] = useState<string[]>([_initialLocation()]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  /*const themeSelected = p.themeContext
+    .useTheme()
+    .useWith(p.themeSelector ?? (() => ({})), [p.config, p.themeSelector]);*/
 
   return (
     <AppContext.Provider
@@ -86,10 +108,13 @@ function _App(p: {
           history: history,
           location: location,
         },
-        menu: {
-          isOpen: menuOpen,
-          setOpen: (s: boolean) => setMenuOpen(s),
-        },
+        menu:
+          menuItems.length === 0
+            ? undefined
+            : {
+                isOpen: menuOpen,
+                setOpen: (s: boolean) => setMenuOpen(s),
+              },
       }}
     >
       <ToastProvider>

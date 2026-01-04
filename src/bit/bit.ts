@@ -7,7 +7,7 @@ import {
   _BitData,
   _BitGetInterface,
   _BitInterface,
-} from "./_bit_utils";
+} from "./_bit_types";
 
 export type BitStates = "loading" | "error" | "data";
 export type BitContext<D> = Context<_BitData<D> | null>;
@@ -45,6 +45,7 @@ export function createBit<D, P extends Object, I>({
   ...p
 }: BitParams<D, P, I>): _BitInterface<D, P, I> {
   const context = createContext<BitUseInterface<D, P, I>>(null as any);
+  context.displayName = p.debugLabel || "BitContext";
   {
     return {
       Provider: _makeBitProvider<D, P, I>(context, { ...p, control }),
