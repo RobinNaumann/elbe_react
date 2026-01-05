@@ -12,6 +12,8 @@ export type AppConfig = {
   routerConfig?: {
     basePath?: string;
   };
+  /** If true, global styles will not be applied. This can be useful for embedding Elbe in an existing app with its own styles. */
+  noGlobalStyles?: boolean;
 };
 
 type _MenuState = {

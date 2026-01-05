@@ -72,6 +72,21 @@ function _App(p: {
   themeContext: ElbeThemeContext;
   children?: ElbeRoute | ElbeRoute[];
 }) {
+  const theme = p.themeContext.useTheme();
+
+  const themeSelected = theme.useWith(p.themeSelector ?? (() => ({})), [
+    p.config,
+    p.themeSelector,
+  ]);
+
+  useMemo(() => {
+    if (p.config.noGlobalStyles) return;
+    // apply global background of html and body elements
+    const bg = themeSelected.theme.color.currentColor.back.asCss();
+    document.documentElement.style.backgroundColor = bg;
+    document.body.style.backgroundColor = bg;
+  }, [themeSelected, p.config.noGlobalStyles]);
+
   const menuItems = useMemo(() => {
     return _extractMenuItems(p.children);
   }, [p.children]);
@@ -79,63 +94,61 @@ function _App(p: {
   const [history, setHistory] = useState<string[]>([_initialLocation()]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-  /*const themeSelected = p.themeContext
-    .useTheme()
-    .useWith(p.themeSelector ?? (() => ({})), [p.config, p.themeSelector]);*/
-
   return (
-    <AppContext.Provider
-      value={{
-        appConfig: p.config,
-        _appThemeContext: p.themeContext,
-        router: {
-          goBack: (steps = 1) => {
-            if (history.length === 0) return;
-            const targetIndex = Math.max(0, history.length - 1 - steps);
-            const target = history[targetIndex];
-            setHistory((h) => h.slice(0, targetIndex + 1));
-            navigate(target, { replace: true });
+    <p.themeContext.WithTheme theme={themeSelected}>
+      <AppContext.Provider
+        value={{
+          appConfig: p.config,
+          _appThemeContext: p.themeContext,
+          router: {
+            goBack: (steps = 1) => {
+              if (history.length === 0) return;
+              const targetIndex = Math.max(0, history.length - 1 - steps);
+              const target = history[targetIndex];
+              setHistory((h) => h.slice(0, targetIndex + 1));
+              navigate(target, { replace: true });
+            },
+            go: (p, replace) => {
+              setHistory((h) => {
+                if (replace === "all") return [p];
+                const repl = Math.max(0, replace ?? 0);
+                if (repl === 0) return [...h, p];
+                return [...h.slice(0, -repl), p];
+              });
+              navigate(p, { replace: (replace ?? 0) !== 0 });
+            },
+            history: history,
+            location: location,
           },
-          go: (p, replace) => {
-            setHistory((h) => {
-              if (replace === "all") return [p];
-              const repl = Math.max(0, replace ?? 0);
-              if (repl === 0) return [...h, p];
-              return [...h.slice(0, -repl), p];
-            });
-            navigate(p, { replace: (replace ?? 0) !== 0 });
-          },
-          history: history,
-          location: location,
-        },
-        menu:
-          menuItems.length === 0
-            ? undefined
-            : {
-                isOpen: menuOpen,
-                setOpen: (s: boolean) => setMenuOpen(s),
-              },
-      }}
-    >
-      <ToastProvider>
-        <DialogsProvider>
-          <Box
-            typeLabel="app_base"
-            scheme="primary"
-            style={{
-              display: "flex",
-              width: "100%",
-              minHeight: "100vh",
-            }}
-          >
-            {menuItems.length > 0 && <Menu items={menuItems} />}
-            <div style={{ flex: 1, width: "0px" }}>
-              <Wouter.Switch>{p.children}</Wouter.Switch>
-            </div>
-          </Box>
-        </DialogsProvider>
-      </ToastProvider>
-    </AppContext.Provider>
+          menu:
+            menuItems.length === 0
+              ? undefined
+              : {
+                  isOpen: menuOpen,
+                  setOpen: (s: boolean) => setMenuOpen(s),
+                },
+        }}
+      >
+        <ToastProvider>
+          <DialogsProvider>
+            <Box
+              typeLabel="app_base"
+              scheme="primary"
+              style={{
+                display: "flex",
+                width: "100%",
+                minHeight: "100vh",
+              }}
+            >
+              {menuItems.length > 0 && <Menu items={menuItems} />}
+              <div style={{ flex: 1, width: "0px" }}>
+                <Wouter.Switch>{p.children}</Wouter.Switch>
+              </div>
+            </Box>
+          </DialogsProvider>
+        </ToastProvider>
+      </AppContext.Provider>
+    </p.themeContext.WithTheme>
   );
 }
 
