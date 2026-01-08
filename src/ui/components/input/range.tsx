@@ -12,12 +12,22 @@ type _RangeProps = ElbeActionProps & {
   onChange?: ((value: number) => void) | null;
 };
 
+/** * A range input component that allows users to select a value within a specified range by sliding a handle.
+ *
+ * **Properties:**
+ * - `value` (number): The current value of the range input.
+ * - `min` (number): The minimum value of the range. Default is 0.
+ * - `max` (number): The maximum value of the range. Default is 100.
+ * - `step` (number): The increment step for the range. Default is 1.
+ * - `onChange` (function | null): Callback function that receives the new value when the range changes. If null, the range is disabled.
+ */
 export function Range(p: _RangeProps) {
   return (p.min ?? 0) > (p.max ?? 100) ? (
-    _ElbeErr("Range: max is smaller than min")
+    <_ElbeErr msg="Range: max is smaller than min" />
   ) : (
     <Card
-      ariaLabel={null}
+      flex={p.flex}
+      ariaLabel={p.ariaLabel}
       scheme="secondary"
       kind="accent"
       manner="minor"
@@ -27,7 +37,6 @@ export function Range(p: _RangeProps) {
         backgroundColor: "transparent",
         padding: "0",
         margin: "0",
-        width: "100%",
         ...css.borderStyle("none"),
       }}
     >

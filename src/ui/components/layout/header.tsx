@@ -70,7 +70,9 @@ export function Header(p: HeaderProps) {
         borderRightStyle: "none",
         borderColor:
           theme.color.isContrast || scroll
-            ? theme.color.currentColor.border.withAlpha(0.25).asCss()
+            ? theme.color.currentColor.border
+                .withAlpha(theme.color.isContrast ? 1 : 0.25)
+                .asCss()
             : "transparent",
         borderWidth: theme.geometry.borderWidth + "rem",
         gap: "1rem",

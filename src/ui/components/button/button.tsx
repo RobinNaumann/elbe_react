@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ColorSelection, Row, Text } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 import { useToolbar } from "../../util/ctx_toolbar";
+import { _ElbeErr } from "../../util/error_view";
 import { ElbeChildren } from "../../util/types";
 import { applyProps, ElbeActionProps } from "../base/box";
 import { WithStateTheme } from "../base/state_builder";
@@ -117,7 +118,6 @@ function _Btn({
       </WithStateTheme>
     </WithTooltip>
   ) : (
-    <div />
-    //_ElbeErr("Button requires either an icon and or a label, or a child")
+    <_ElbeErr msg="Button requires either an icon and or a label, or a child" />
   );
 }

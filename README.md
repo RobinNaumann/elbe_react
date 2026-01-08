@@ -41,8 +41,8 @@ as of now, this is mainly a personal project for different stuff I built. So thi
 - [x] adjustable text size
 - [x] adjustable UI size
 - [x] responsive design
-- [ ] label fields with `label` tag
-- [ ] add `aria-*` attributes
-- [ ] add `role` attributes
-- [ ] add `tabindex` attributes
+- [x] label fields with `label` tag
+- [x] add `aria-*` attributes
+- [x] add `role` attributes
+- [ ] improve `tabindex` attributes
 - [ ] force alt text for images

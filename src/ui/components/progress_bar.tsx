@@ -1,6 +1,13 @@
 import { applyProps, clamp, ElbeProps } from "../..";
 import { useApp } from "../app/app_ctxt";
 
+/** * A progress bar component that visually represents a value within a specified range.
+ *
+ * **Properties:**
+ * - `value` (number): The current value of the progress bar.
+ * - `max` (number): The maximum value of the progress bar. Default is 100.
+ * - `manner` ("flat" | "plain"): The visual style of the progress bar.
+ */
 export function ProgressBar({
   value,
   max = 100,

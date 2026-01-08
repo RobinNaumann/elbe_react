@@ -1,4 +1,5 @@
 import { Column } from "../../..";
+import { useApp } from "../../app/app_ctxt";
 import { ElbeChild, ElbeChildren } from "../../util/types";
 import { Box } from "../base/box";
 import { Header, HeaderProps } from "./header";
@@ -24,11 +25,19 @@ function _hasMoreThan(p: { [key: string]: any }, expected: string[]) {
  * - `padding` will add padding around the content, defaulting to `1rem`.
  * - `leading` can be used to add a back or close button to the header. Setting it
  *   "back" or "close" will automatically show the button if there is history to go back to.
+ * - `title` sets the title of the page in the header.
+ * - `centerTitle` will center the title in the header.
+ * - `actions` can be used to add action buttons to the header.
+ * - `scheme` sets the color scheme of the page.
+ * - `footer` can be used to set a custom footer element. If not provided, the app's default
+ *   footer will be used. If set to `null`, no footer will be rendered.
  */
 export function Page(
   p: HeaderProps &
-    ContentBaseProps & { children?: ElbeChildren; footer?: ElbeChild }
+    ContentBaseProps & { children?: ElbeChildren; footer?: ElbeChild | null }
 ) {
+  const appConfig = useApp();
+
   const hasHeader = _hasMoreThan(p, [
     "children",
     "footer",
@@ -56,7 +65,7 @@ export function Page(
         narrow={p.narrow}
         children={p.children}
       />
-      {p.footer}
+      {p.footer === null ? null : p.footer ?? appConfig.appConfig.footer}
     </Box>
   );
 }

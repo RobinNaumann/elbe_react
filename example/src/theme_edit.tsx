@@ -61,8 +61,8 @@ function _RoundSelect() {
 
         <Range
           ariaLabel="set roundness"
-          style={{ flex: 1 }}
           value={d.seed?.geometry?.radius ?? 0}
+          flex
           onChange={(v) =>
             themeBit.setSeed(() => ({
               geometry: {
@@ -79,7 +79,7 @@ function _RoundSelect() {
         <Text v="border width" style={labelStyle} />
         <Range
           ariaLabel="set border width"
-          style={{ flex: 1 }}
+          flex
           value={d.seed?.geometry?.borderWidth ?? 0}
           onChange={(v) =>
             themeBit.setSeed(() => ({

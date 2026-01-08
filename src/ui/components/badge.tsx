@@ -16,6 +16,21 @@ export function TestBadge(p: BadgeProps) {
   return new Badge({ ...p, kind: "accent" });
 }
 
+/** * A badge component that displays a small count or label, typically used to indicate notifications or status.
+ *
+ * ### Properties:
+ * - `count` (number | undefined): The numeric count to display inside the badge. If not provided, the badge will display the `label` instead.
+ * - `label` (string | undefined): The text label to display inside the badge. Used when `count` is not provided.
+ * - `child` (ElbeChild | undefined): A single React node to which the badge will be attached.
+ * - `children` (ElbeChildren | undefined): Additional React nodes to be rendered alongside the badge.
+ * - `hidden` (boolean | undefined): If true, the badge will be hidden.
+ *
+ * ### Usage:
+ * ```tsx
+ * <Badge count={5} child={<Icon name="notifications" />} />
+ * <Badge label="New" child={<Button>Messages</Button>} />
+ * ```
+ */
 export class Badge extends React.Component<
   BadgeProps & { kind: ColorSelection.Kinds }
 > {

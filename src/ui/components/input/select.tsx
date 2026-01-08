@@ -6,6 +6,16 @@ import {
 } from "../base/box";
 import { LabeledInput, LabeledInputProps } from "./_labeled_input";
 
+/** * A select dropdown input component that allows users to choose one option from a list.
+ *
+ * **Properties:**
+ * - `options` (array): An array of option objects, each containing a `key` and a `label`.
+ * - `value` (T | undefined): The currently selected option's key.
+ * - `label` (string | undefined): The label text for the select input.
+ * - `hideLabel` (boolean | undefined): If true, the label is visually hidden.
+ * - `width` (number | undefined): The width of the select input in rem units.
+ * - `onChange` (function | undefined): Callback function that receives the selected option's key when the selection changes.
+ */
 export function Select<T>(
   p: ElbeActionProps &
     LabeledInputProps & {

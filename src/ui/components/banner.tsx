@@ -37,6 +37,23 @@ export function KindAlertIcon({
   return <Icon size={`${scale * 1.5}rem`} />;
 }
 
+/** A banner component to display important messages to the user.
+ *
+ * ### Properties:
+ * - `kind` (ColorSelection.KindsAlert): The kind of banner, which determines the icon and color scheme.
+ * - `manner` ("major" | "minor" | undefined): The manner of the banner, affecting its visual prominence. Default is "major".
+ * - `title` (string | undefined): An optional title for the banner.
+ * - `onDismiss` (function | undefined): An optional callback function that is called when the dismiss button is clicked.
+ * - `dismissIcon` (IconChild | undefined): An optional icon to use for the dismiss button. Default is XIcon.
+ * - `children` (React.ReactNode | undefined): The content of the banner.
+ *
+ * ### Usage:
+ * ```tsx
+ * <Banner kind="info" title="Information" onDismiss={() => {}}>
+ *   This is an informational banner.
+ * </Banner>
+ * ```
+ */
 export function Banner({
   kind,
   manner = "major",

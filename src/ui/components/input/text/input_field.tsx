@@ -1,4 +1,4 @@
-import { ColorSelection, KindAlertIcon, Text } from "../../../..";
+import { ColorSelection, KindAlertIcon, Text, UnixMS } from "../../../..";
 import { useApp } from "../../../app/app_ctxt";
 import { css } from "../../../util/_util";
 import { randomAlphaNum } from "../../../util/util";
@@ -6,6 +6,7 @@ import { ElbeActionProps } from "../../base/box";
 import { Card } from "../../base/card";
 import { Row } from "../../layout/flex";
 import { LabeledInput, LabeledInputProps } from "../_labeled_input";
+import { dateInputToUnixMs, unixMsToDateInput } from "./_datepicker";
 import { _MultiLineField } from "./multi_line";
 import { _SingleLineField, SLInputFieldProps } from "./single_line";
 
@@ -18,47 +19,121 @@ type _InputTypes =
   | "email"
   | "area";
 
-export type InputFieldProps = ElbeActionProps &
+export type InputFieldProps<T> = ElbeActionProps &
   LabeledInputProps & {
     hint?: string;
-    value: string | number;
-    onInput?: (value: string) => void;
+    value: T;
+    onInput?: (value: T) => void;
     infoMessage?: string;
     warningMessage?: string;
     errorMessage?: string;
     successMessage?: string;
   };
 
-type SingleLineInputFieldProps = InputFieldProps & SLInputFieldProps;
+type SingleLineInputFieldProps<T> = InputFieldProps<T> & SLInputFieldProps<T>;
 
 export namespace Field {
-  export function text(p: SingleLineInputFieldProps) {
+  /**
+   * A single-line text input field.
+   *
+   * **Properties:**
+   * - `value` (string): The current text value of the input field.
+   * - `onInput` (function): Callback function that receives the new text value when the input changes.
+   */
+  export function text(p: SingleLineInputFieldProps<string>) {
     return <_Field {...p} inputType="text" />;
   }
-  export function number(p: SingleLineInputFieldProps) {
-    return <_Field {...p} inputType="number" />;
+
+  /**
+   * A number input field.
+   *
+   * **Properties:**
+   * - `value` (number): The current numeric value of the input field.
+   * - `onInput` (function): Callback function that receives the new numeric value when the input changes.
+   */
+  export function number(p: SingleLineInputFieldProps<number>) {
+    return (
+      <_Field
+        {...p}
+        inputType="number"
+        transformerToString={(v) => `${v}`}
+        transformerFromString={(s) => Number(s)}
+      />
+    );
   }
-  export function password(p: SingleLineInputFieldProps) {
+
+  /**
+   * A password input field.
+   *
+   * **Properties:**
+   * - `value` (string): The current password value of the input field.
+   * - `onInput` (function): Callback function that receives the new password value when the input changes.
+   */
+  export function password(p: SingleLineInputFieldProps<string>) {
     return <_Field {...p} inputType="password" />;
   }
-  export function date(p: SingleLineInputFieldProps) {
-    return <_Field {...p} inputType="date" />;
+
+  /**
+   * A date input field that handles UnixMS values.
+   *
+   * **Properties:**
+   * - `value` (UnixMS): The current value of the date input field in Unix milliseconds.
+   * - `onInput` (function): Callback function that receives the new UnixMS value when the input changes.
+   */
+  export function date(p: SingleLineInputFieldProps<UnixMS>) {
+    return (
+      <_Field<UnixMS>
+        {...p}
+        inputType="date"
+        transformerToString={(v) => unixMsToDateInput(v)}
+        transformerFromString={(s) => dateInputToUnixMs(s) ?? 0}
+      />
+    );
   }
-  export function time(p: SingleLineInputFieldProps) {
+
+  /**
+   * A time input field.
+   *
+   * **Properties:**
+   * - `value` (string): The current time value of the input field in "HH:MM" format.
+   * - `onInput` (function): Callback function that receives the new time value when the input changes.
+   */
+  export function time(p: SingleLineInputFieldProps<string>) {
     return <_Field {...p} inputType="time" />;
   }
-  export function email(p: SingleLineInputFieldProps) {
+  /**
+   * An email input field.
+   *
+   * **Properties:**
+   * - `value` (string): The current email value of the input field.
+   * - `onInput` (function): Callback function that receives the new email value when the input changes.
+   */
+  export function email(p: SingleLineInputFieldProps<string>) {
     return <_Field {...p} inputType="email" />;
   }
-  export function multiLine(p: InputFieldProps) {
+
+  /**
+   * A multi-line text area input field.
+   *
+   * **Properties:**
+   * - `value` (string): The current text value of the text area.
+   * - `onInput` (function): Callback function that receives the new text value when the input changes.
+   */
+  export function multiLine(p: InputFieldProps<string>) {
     return <_Field {...p} inputType="area" />;
   }
 }
 
-function _Field(
-  p:
-    | (SingleLineInputFieldProps & { inputType: Exclude<_InputTypes, "area"> })
-    | (InputFieldProps & { inputType: "area" })
+function _Field<T>(
+  p: (
+    | (SingleLineInputFieldProps<T> & {
+        inputType: Exclude<_InputTypes, "area">;
+      })
+    | (InputFieldProps<string> & { inputType: "area" })
+  ) & {
+    transformerToString?: (v: T) => string;
+    transformerFromString?: (s: string) => T;
+  }
 ) {
   {
     const { _appThemeContext } = useApp();
@@ -117,11 +192,15 @@ function _Field(
                 onLeadingTap={p.onLeadingTap}
                 onTrailingTap={p.onTrailingTap}
                 onInput={p.onInput}
-                value={String(p.value)}
+                value={p.value}
                 hint={p.hint}
                 inputType={p.inputType}
                 message={msg}
                 manner={manner}
+                transformerFromString={
+                  p.transformerFromString ?? ((v) => v as any)
+                }
+                transformerToString={p.transformerToString ?? ((v) => v as any)}
               />
             )}
           </Card>

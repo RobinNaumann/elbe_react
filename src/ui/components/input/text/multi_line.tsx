@@ -1,7 +1,7 @@
 import { applyProps } from "../../base/box";
 import { InputFieldProps } from "./input_field";
 
-export interface MLInputFieldProps extends InputFieldProps {
+export interface MLInputFieldProps extends InputFieldProps<string> {
   rows?: number;
   maxLength?: number;
   notResizable?: boolean;

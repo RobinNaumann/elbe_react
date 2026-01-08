@@ -1,6 +1,7 @@
 import { icons } from "lucide-react";
 import { useState } from "react";
 import {
+  Button,
   Card,
   Column,
   Dialog,
@@ -8,11 +9,18 @@ import {
   Icon,
   Icons,
   L10nInlinePlain,
+  Text,
   toElbeError,
-  Wouter,
 } from "../..";
 import { _maybeL10n } from "../util/l10n/_l10n_util";
 
+/** * A component to display error messages in a user-friendly manner.
+ *
+ * **Properties:**
+ * - `error` (any): The error object to be displayed.
+ * - `retry` (function | undefined): An optional callback function to retry the failed operation.
+ * - `debug` (boolean | undefined): If true, displays detailed error information for debugging purposes.
+ */
 export function ErrorView({
   error,
   retry,
@@ -81,35 +89,39 @@ export function PrettyErrorView({
 }) {
   const l10n = _maybeL10n();
   const [open, setOpen] = useState(false);
-  const [loc, navigate] = Wouter.useLocation();
 
   return (
     <Column cross="center" style={{ margin: "1rem 0", padding: "1rem" }}>
       <Icon icon={error.icon ?? icons.OctagonAlert} />
-      <h4 style={{ margin: 0 }}>{l10n?.inline(error.message) ?? "error"}</h4>
-      <span className="pointer" onClick={() => setOpen(true)}>
-        {l10n?.inline(error.description) ?? ""}
-      </span>
+      <Text.h4 v={l10n?.inline(error.message) ?? "error"} />
+      <Text
+        align="center"
+        v={l10n?.inline(error.description) ?? ""}
+        style={{ cursor: "pointer" }}
+        native={{ onClick: () => setOpen(true) }}
+      />
       {retry && (
-        <button className="action" onClick={() => retry()}>
-          <Icons.RotateCcw /> {l10n?.inline(labels.retry) ?? "retry"}
-        </button>
+        <Button.flat
+          ariaLabel={l10n?.inline(labels.retry) ?? "retry"}
+          label={l10n?.inline(labels.retry) ?? "retry"}
+          icon={Icons.RotateCcw}
+          onTap={() => retry()}
+        />
       )}
       {error.code === 404 && (
-        <button
-          className="action"
-          onClick={() => navigate("/", { replace: true })}
-        >
-          <Icons.House />
-          {l10n?.inline(labels.home) ?? "go home"}
-        </button>
+        <Button.flat
+          ariaLabel={l10n?.inline(labels.home) ?? "go home"}
+          label={l10n?.inline(labels.home) ?? "go home"}
+          icon={Icons.House}
+          onTap={() => (window.location.href = "/")}
+        />
       )}
       <Dialog
         title={l10n?.inline(labels.details) ?? "error details"}
         open={open}
         onClose={() => setOpen(false)}
       >
-        <pre className="card inverse">
+        <pre>
           {`code: ${error.code}\n\n` + JSON.stringify(error.details, null, 2)}
         </pre>
       </Dialog>

@@ -12,6 +12,18 @@ export type BooleanInputProps = {
   onChange?: ((checked: boolean) => void) | null;
 };
 
+/** * A switch (toggle) input component that allows users to toggle between two states: on and off.
+ *
+ * **Alternatives:**
+ * - Use a Checkbox component for a more traditional checkbox input.
+ *
+ * **Properties:**
+ * - `value` (boolean): The current state of the switch; true for "on" and false for "off".
+ * - `label` (string | undefined): The label text for the switch input.
+ * - `compact` (boolean | undefined): If true, the switch is rendered in a compact style.
+ * - `onChange` (function | null): Callback function that receives the new state when the switch is toggled. If null, the switch is disabled.
+ * - `manner` ("flat" | "plain" | undefined): The visual style of the switch when it is off.
+ */
 export function Switch(
   p: BooleanInputProps & ElbeActionProps & { manner?: "flat" | "plain" }
 ) {
@@ -81,12 +93,14 @@ export function Switch(
             {p.value ? (
               <CheckIcon
                 color="var(--elbe-context-color-front)"
-                strokeWidth="0.25rem"
+                strokeWidth="0.20rem"
+                size="1rem"
               />
             ) : (
               <XIcon
                 color="var(--elbe-context-color-front)"
-                strokeWidth="0.25rem"
+                strokeWidth="0.20rem"
+                size="1rem"
               />
             )}
           </div>

@@ -4,6 +4,20 @@ import { ColorSelection } from "../theme/subthemes/color/colors/colors";
 import { WithStateTheme } from "./base/state_builder";
 import { WithTooltip } from "./tooltip";
 
+/**
+ * A link component that can be used for internal or external navigation.
+ *
+ * **Properties:**
+ * - `label` (string): The text to display for the link.
+ * - `href` (string | undefined): The URL the link points to. If undefined, the link is disabled.
+ * - `external` (boolean): If true, the link opens in a new tab and shows an external link icon.
+ * - `manner` (ColorSelection.Manners): The visual style of the link.
+ * - `bold` (boolean): If true, the link text is bold.
+ * - `noIcon` (boolean): If true, the external link icon is not shown for external links.
+ * - `underline` (boolean): If true, the link text is underlined.
+ * - `color` (string): Custom color for the link text.
+ * - `tooltip` (string): Tooltip text to display on hover.
+ */
 export function Link(p: {
   label: string;
   href?: string;

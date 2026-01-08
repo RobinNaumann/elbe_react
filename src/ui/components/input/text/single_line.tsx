@@ -11,21 +11,23 @@ type _InputMsg = {
   msg: string;
 };
 
-export type SLInputFieldProps = {
+export type SLInputFieldProps<T> = {
   leading?: IconChild;
   onLeadingTap?: () => void;
   trailing?: IconChild;
   onTrailingTap?: () => void;
-  onInput?: (value: string) => void;
-  value: string;
+  onInput?: (value: T) => void;
+  value: T;
   hint?: string;
   manner?: ColorSelection.Manners;
   message?: _InputMsg | null;
 };
 
-export function _SingleLineField(
-  p: SLInputFieldProps & {
+export function _SingleLineField<T>(
+  p: SLInputFieldProps<T> & {
     inputType: string;
+    transformerToString: (v: T) => string;
+    transformerFromString: (s: string) => T;
   }
 ) {
   return (
@@ -50,8 +52,10 @@ export function _SingleLineField(
         }}
         size={5}
         placeholder={p.hint}
-        value={p.value}
-        onInput={(e) => p.onInput && p.onInput(e.currentTarget.value)}
+        value={p.transformerToString(p.value)}
+        onInput={(e) =>
+          p.onInput && p.onInput(p.transformerFromString(e.currentTarget.value))
+        }
         readOnly={p.onInput ? false : true}
       />
       <_Supplement

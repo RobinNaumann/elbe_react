@@ -47,11 +47,15 @@ export * from "./ui/components/input/text/input_field";
 export * from "./ui/components/badge";
 export * from "./ui/components/banner";
 export * from "./ui/components/dialog/dialog";
+export * from "./ui/components/draggable";
 export * from "./ui/components/error_view";
+export * from "./ui/components/fileinput";
 export * from "./ui/components/footer";
 export * from "./ui/components/link";
 export * from "./ui/components/progress_bar";
+export * from "./ui/components/section_card";
 export * from "./ui/components/spinner";
+export * from "./ui/components/table";
 export * from "./ui/components/text";
 
 export * from "./ui/app/app";

@@ -17,6 +17,17 @@ export type FooterLink = {
   icon?: IconChild;
 };
 
+/**
+ * Footer component. Can contain links, copyright info, version and legal link.
+ *
+ * **Properties:**
+ * - `left` (FooterLink | React.ReactNode)[]: An array of links or React nodes to display on the left side of the footer.
+ * - `right` (FooterLink | React.ReactNode)[]: An array of links or React nodes to display on the right side of the footer.
+ * - `copyright` (string | React.ReactNode): Copyright information to display in the footer.
+ * - `version` (string): Version information to display in the footer.
+ * - `legal` (FooterLink): A link to legal information to display in the footer.
+ * - `marginTop` (number): Margin top in rem units to add space above the footer.
+ */
 export function Footer({
   left,
   right,

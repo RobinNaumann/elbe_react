@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { useApp } from "../../app/app_ctxt";
 import { IconChild } from "../../components/button/icon_button";
 import { ColorSelection } from "../../theme/subthemes/color/colors/colors";
+import { ToolbarContext } from "../ctx_toolbar";
 import { getRootElement } from "../root";
 import { ElbeChildren } from "../types";
 import { _Toast } from "./_toast";
@@ -79,45 +80,47 @@ export function ToastProvider(p: { children: ElbeChildren }) {
     >
       {p.children}
       {ReactDOM.createPortal(
-        <div
-          className="elbe"
-          style={{
-            background: "transparent",
-            position: "fixed",
-            zIndex: 2001,
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: vert === "top" ? "start" : "end",
-            alignItems: hori,
-            pointerEvents: "none",
-          }}
-        >
+        <ToolbarContext.Provider value={null}>
           <div
+            className="elbe"
             style={{
+              background: "transparent",
+              position: "fixed",
+              zIndex: 2001,
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
               display: "flex",
-              gap: ".5rem",
-
-              flexDirection: vert === "top" ? "column-reverse" : "column",
-              alignItems: "stretch",
-              width: "40rem",
-              margin: "1rem 2rem",
+              flexDirection: "column",
+              justifyContent: vert === "top" ? "start" : "end",
+              alignItems: hori,
+              pointerEvents: "none",
             }}
           >
-            {toasts.map((toast) => (
-              <_Toast
-                key={toast.id}
-                model={toast}
-                onClose={
-                  toast.dismissible ? () => removeToast(toast.id) : undefined
-                }
-              />
-            ))}
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+
+                flexDirection: vert === "top" ? "column-reverse" : "column",
+                alignItems: "stretch",
+                width: "40rem",
+                margin: "1rem 2rem",
+              }}
+            >
+              {toasts.map((toast) => (
+                <_Toast
+                  key={toast.id}
+                  model={toast}
+                  onClose={
+                    toast.dismissible ? () => removeToast(toast.id) : undefined
+                  }
+                />
+              ))}
+            </div>
           </div>
-        </div>,
+        </ToolbarContext.Provider>,
         rootDOM
       )}
     </ToastContext.Provider>

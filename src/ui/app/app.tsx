@@ -28,6 +28,48 @@ type _AppThemeConfig = {
 type _AppProps = AppConfig & _AppThemeConfig;
 type AppProps = _AppProps & { children?: ElbeRoute | ElbeRoute[] };
 
+/** The main application component that sets up the application context, theme, and routing.
+ * Render this component at the root of your application to initialize Elbe UI features:
+ *
+ * ```tsx
+ * renderElbe(<MyApp/>);
+ * ```
+ *
+ * ### Properties:
+ * - `title` (string | undefined): The title of the application, which will be set as the document title.
+ * - `themeSeed` (Partial<ElbeThemeData["seed"]> | undefined): An optional seed to customize the theme.
+ * - `themeContext` (ElbeThemeContext): The theme context to be used for theming the application.
+ * - `themeSelector` (function | undefined): An optional function to further customize the theme based on the current theme configuration.
+ * - `routerConfig` (object | undefined): Configuration options for the router, such as basePath.
+ * - `noGlobalStyles` (boolean | undefined): If true, global styles will not be applied to the document. Useful if you have multiple Elbe apps on the same page.
+ * - `children` (ElbeRoute | ElbeRoute[] | undefined): The route components to be rendered within the application.
+ * - `globalActions` (ElbeChild[] | undefined): An array of global action components to be displayed in the application header.
+ * - `footer` (ElbeChild | undefined): A footer component to be displayed at the bottom of the application.
+ *
+ * ### Context:
+ * This component provides the application context to its children, including routing and theming information.
+ * Access the context using the `useApp` hook from `elbe-ui`:
+ * ```tsx
+ * import { useApp } from "elbe-ui";
+ * const app = useApp();
+ * ```
+ *
+ * ### Usage:
+ * ```tsx
+ * <ElbeApp
+ *  title="My App"
+ *  themeSeed={{ color: { primary: { scheme: "dark" } } }}
+ *  themeContext={myThemeContext}
+ *  routerConfig={{ basePath: "/app" }}>
+ *   <Route path="/home">
+ *     <HomePage />
+ *   </Route>
+ *   <Route path="/about">
+ *     <AboutPage />
+ *   </Route>
+ * </ElbeApp>
+ * ```
+ */
 export function ElbeApp(p: AppProps) {
   useMemo(() => {
     if (p.title) document.title = p.title;

@@ -8,16 +8,20 @@ import {
   ChooseButton,
   Column,
   Dialog,
+  Draggable,
   Field,
+  FileInput,
   IconButton,
   Icons,
   Link,
   ProgressBar,
   Range,
   Row,
+  SectionCard,
   Select,
   Spinner,
   Switch,
+  Table,
   Text,
   ToggleButton,
   useDialogs,
@@ -49,9 +53,11 @@ export function ComponentsSection() {
         <_BannerGroup />
         <_SpinnerGroup />
         <_ProgressBarGroup />
+        <_DraggableGroup />
         <_CheckBoxGroup />
         <_SwitchGroup />
         <_TextInputGroup />
+        <_FileInputGroup />
       </ExampleSection>
       <ExampleSection title="Modals" anchor="modals">
         <_DialogGroup />
@@ -62,8 +68,80 @@ export function ComponentsSection() {
       <ExampleSection title="Layout" anchor="layout">
         <_RowColGroup />
         <_RowColGroup column />
+        <_SectionCardGroup />
+        <_TableGroup />
       </ExampleSection>
     </>
+  );
+}
+
+function _FileInputGroup() {
+  const { showToast } = useToast();
+  //const enabledSig = useConfigSignal("enabled", true);
+  const onlyImagesSig = useConfigSignal("only images", true);
+
+  return (
+    <ExampleGroup
+      title="File Input"
+      description="a file input component"
+      classes="column cross-stretch"
+      config={[onlyImagesSig]}
+      code={`<FileInput
+  label="Select File"
+  accept={[".png", ".jpg"]}
+  onInput={({blob, filename}) => ...} />`}
+    >
+      <FileInput
+        label="Select File"
+        clearable
+        accept={onlyImagesSig.signal.value ? [".png", ".jpg"] : []}
+        onInput={({ filename }) =>
+          showToast(`selected file: ${filename ?? "none"}`)
+        }
+      />
+    </ExampleGroup>
+  );
+}
+
+function _DraggableGroup() {
+  const { showToast } = useToast();
+  const enabledSig = useConfigSignal("enabled", true);
+  const snapToGridSig = useConfigSignal("snap to grid", false);
+  const [position, setPosition] = useState({ x: 1, y: 2 });
+
+  return (
+    <ExampleGroup
+      title="Draggable"
+      description="a draggable component wrapper"
+      config={[enabledSig, snapToGridSig]}
+      code={`<Draggable 
+        disabled={false}
+        gridSize={1}
+        bounds={{ x: [1, 15], y: [1, 7] }}
+        onMove={(p) => ...}
+        > ... </Draggable>`}
+    >
+      <Card
+        scheme="secondary"
+        overflow="hidden"
+        style={{
+          position: "relative",
+          width: "20rem",
+          height: "10rem",
+        }}
+      >
+        <Draggable
+          position={position}
+          gridSize={snapToGridSig.signal.value ? 2 : undefined}
+          onMove={enabledSig.signal.value ? (p) => setPosition(p) : undefined}
+          onMoveDone={() => showToast("drag completed")}
+          bounds={{ x: [1, 15], y: [1, 7] }}
+          disabled={!enabledSig.signal.value}
+        >
+          <b style={{ textWrap: "nowrap" }}>drag me!</b>
+        </Draggable>
+      </Card>
+    </ExampleGroup>
   );
 }
 
@@ -75,7 +153,7 @@ function _TextInputGroup() {
   const msgSig = useConfigSignal("message", false);
   const hideLabelSig = useConfigSignal("hide label", false);
   const flexSig = useConfigSignal("flex", false);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(Date.now());
   const [val, setVal] = useState("");
 
   return (
@@ -702,6 +780,40 @@ const v:boolean = await showConfirmDialog({
   );
 }
 
+function _TableGroup() {
+  const stickyHeaderSig = useConfigSignal("sticky header", true);
+  const fixedHeightSig = useConfigSignal("fixed height", true);
+
+  return (
+    <ExampleGroup
+      title="Table"
+      description="a table component for displaying tabular data"
+      config={[stickyHeaderSig, fixedHeightSig]}
+      code={`
+<Table columns={[{ key: "name", label: "Name" }]} data={[{ name: "Robin" }]} />`}
+    >
+      <Table
+        height={fixedHeightSig.signal.value ? 10 : undefined}
+        stickyHeader={stickyHeaderSig.signal.value}
+        columns={[
+          { key: "name", label: "Name" },
+          { key: "age", label: "Age" },
+        ]}
+        entries={[
+          { name: "Robin", age: 99 },
+          { name: "Alice", age: 25 },
+          { name: "Bob", age: 28 },
+          { name: "Charlie", age: 32 },
+          { name: "Diana", age: 45 },
+          { name: "Eve", age: 29 },
+          { name: "Frank", age: 33 },
+          { name: "Grace", age: 27 },
+        ]}
+      />
+    </ExampleGroup>
+  );
+}
+
 function _DialogGroup() {
   const [open, setOpen] = useState(false);
   return (
@@ -769,6 +881,36 @@ function _TooltipGroup() {
       <Card scheme="secondary" tooltip="this is a tooltip">
         hover here
       </Card>
+    </ExampleGroup>
+  );
+}
+
+function _SectionCardGroup() {
+  const borderedSig = useConfigSignal("bordered", true);
+  const collabsableSig = useConfigSignal("collapsable", false);
+
+  return (
+    <ExampleGroup
+      title="Section Card"
+      description="a card with header for sectioning content. They can also provide Markdown hints."
+      config={[borderedSig, collabsableSig]}
+      code={`
+<SectionCard title="section title" hint="you can also use **Markdown** here"
+  bordered={true} collapsable={false}>
+  ...
+</SectionCard>`}
+    >
+      <Column style={{ width: "100%" }}>
+        <SectionCard
+          bordered={borderedSig.signal.value}
+          collapsed={collabsableSig.signal.value ? false : undefined}
+          title="An Example Section"
+          hint={"you can also use **Markdown** here"}
+        >
+          <Icons.Leaf />
+          <div>section content</div>
+        </SectionCard>
+      </Column>
     </ExampleGroup>
   );
 }

@@ -7,6 +7,7 @@ import {
   ElbeThemeComputed,
   ElbeThemeData,
   KindAlertIcon,
+  ToolbarContext,
 } from "../../..";
 import { useApp } from "../../app/app_ctxt";
 import { getRootElement } from "../../util/root";
@@ -42,6 +43,33 @@ export type ElbeDialogProps = {
   children?: ElbeChildren;
 };
 
+/** A modal dialog component that displays content in a centered overlay with an optional title and close functionality.
+ * ### Properties:
+ * - `title` (string): The title of the dialog, displayed at the top.
+ * - `open` (boolean): Controls whether the dialog is visible.
+ * - `onClose` (function): Callback function invoked when the dialog is requested to be closed.
+ * - `kind` (ColorSelection.KindsAlert | undefined): An optional kind to display an alert icon next to the title.
+ * - `dismissible` ("none" | "button" | "barrier" | undefined): Controls how the dialog can be dismissed.
+ *    - "none": The dialog cannot be dismissed by user actions.
+ *    - "button": A close button is provided in the title bar. (**DEFAULT**)
+ *    - "barrier": Clicking outside the dialog will close it.
+ *    Default is "button".
+ * - `maxWidth` (number | undefined): The maximum width of the dialog in rem units. Defaults to 90vw if not provided.
+ * - `children` (ElbeChildren | undefined): The content to be displayed within the dialog.
+ *
+ * ### Usage:
+ * ```tsx
+ * <ElbeDialog
+ *   title="My Dialog"
+ *   open={isDialogOpen}
+ *   onClose={() => setDialogOpen(false)}
+ *   kind="warning"
+ *   dismissible="barrier"
+ * >
+ *   <p>This is the content of the dialog.</p>
+ * </ElbeDialog>
+ * ```
+ */
 export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
   const { _appThemeContext } = useApp();
   const theme = _appThemeContext.useTheme().useWith(
@@ -76,68 +104,69 @@ export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
   if (!p.open) return null;
 
   return ReactDOM.createPortal(
-    <_appThemeContext.WithTheme theme={theme}>
-      <div
-        style={{
-          position: "fixed",
-          left: 0,
-          top: 0,
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          ...elevatedBackdropStyle(p.open, theme.theme),
-        }}
-        className="elbe_dialog-base"
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          if (dismissible === "barrier") p.onClose();
-        }}
-      >
-        <dialog
-          open={p.open}
+    <ToolbarContext.Provider value={null}>
+      <_appThemeContext.WithTheme theme={theme}>
+        <div
           style={{
-            position: "static",
+            position: "fixed",
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
             display: "flex",
-            border: "none",
-            background: "transparent",
-            margin: 0,
-            padding: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            ...elevatedBackdropStyle(p.open, theme.theme),
+          }}
+          className="elbe_dialog-base"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (dismissible === "barrier") p.onClose();
           }}
         >
-          <Card
-            padding={0.25}
-            bordered
-            elevated
-            kind={p.kind}
+          <dialog
+            open={p.open}
             style={{
-              maxWidth: p.maxWidth ? `min(${p.maxWidth}rem, 90vw)` : "90%",
-              minWidth: "min(17rem, 90vw)",
+              position: "static",
+              display: "flex",
+              border: "none",
+              background: "transparent",
+              margin: 0,
+              padding: 0,
             }}
           >
-            <Row cross="center" gap={1} style={{ marginLeft: "1rem" }}>
-              {p.kind && <KindAlertIcon kind={p.kind} />}
-              <Text.h4 v={p.title} flex style={{ marginRight: "1rem" }} />
-              {["button", "barrier"].includes(dismissible) && (
-                <IconButton.plain
-                  ariaLabel={"Close"}
-                  icon={X}
-                  onTap={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    p.onClose();
-                  }}
-                />
-              )}
-            </Row>
-            <Column style={{ padding: "1rem" }}>{p.children}</Column>
-          </Card>
-        </dialog>
-        ,
-      </div>
-    </_appThemeContext.WithTheme>,
+            <Card
+              padding={0.25}
+              bordered
+              elevated
+              kind={p.kind}
+              style={{
+                maxWidth: p.maxWidth ? `min(${p.maxWidth}rem, 90vw)` : "90vw",
+                minWidth: "min(17rem, 90vw)",
+              }}
+            >
+              <Row cross="center" gap={1} style={{ marginLeft: "1rem" }}>
+                {p.kind && <KindAlertIcon kind={p.kind} />}
+                <Text.h4 v={p.title} flex style={{ marginRight: "1rem" }} />
+                {["button", "barrier"].includes(dismissible) && (
+                  <IconButton.plain
+                    ariaLabel={"Close"}
+                    icon={X}
+                    onTap={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      p.onClose();
+                    }}
+                  />
+                )}
+              </Row>
+              <Column style={{ padding: "1rem" }}>{p.children}</Column>
+            </Card>
+          </dialog>
+        </div>
+      </_appThemeContext.WithTheme>
+    </ToolbarContext.Provider>,
     rootDOM
   );
 }

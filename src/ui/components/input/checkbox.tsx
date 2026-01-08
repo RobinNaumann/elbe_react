@@ -8,6 +8,18 @@ import {
 import { WithStateTheme } from "../base/state_builder";
 import { WithTooltip } from "../tooltip";
 
+/** * A checkbox input component that allows users to select or deselect an option.
+ *
+ * **Alternatives:**
+ * - Use a Switch component for a toggle-style input.
+ *
+ * **Properties:**
+ * - `value` (boolean): The current state of the checkbox; true for checked and false for unchecked.
+ * - `label` (string | undefined): The label text for the checkbox input.
+ * - `compact` (boolean | undefined): If true, the checkbox is rendered in a compact style.
+ * - `onChange` (function | null): Callback function that receives the new state when the checkbox is toggled. If null, the checkbox is disabled.
+ * - `manner` ("flat" | "plain" | undefined): The visual style of the checkbox when it is unchecked.
+ */
 export function Checkbox(
   p: BooleanInputProps & ElbeActionProps & { manner?: "flat" | "plain" }
 ) {

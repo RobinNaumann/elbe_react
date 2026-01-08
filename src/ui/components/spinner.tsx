@@ -24,6 +24,12 @@ export type SpinnerProps = {
   padding?: number;
 };
 
+/** A spinner component that indicates loading or ongoing processes.
+ *
+ * **Properties:**
+ * - `padding` (number | undefined): The padding around the spinner in rem units. Default is 1.
+ * - `manner` ("flat" | "plain" | undefined): The visual style of the spinner.
+ */
 export function Spinner(p: { manner?: "flat" | "plain" } & SpinnerProps) {
   const [x, setX] = useState(0);
   const { _appThemeContext } = useApp();
