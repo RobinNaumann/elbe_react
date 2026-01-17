@@ -23,7 +23,7 @@ import { WithTooltip } from "../tooltip";
 export function Checkbox(
   p: BooleanInputProps & ElbeActionProps & { manner?: "flat" | "plain" }
 ) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const baseTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {

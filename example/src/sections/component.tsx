@@ -905,7 +905,9 @@ function _SectionCardGroup() {
           bordered={borderedSig.signal.value}
           collapsed={collabsableSig.signal.value ? false : undefined}
           title="An Example Section"
-          hint={"you can also use **Markdown** here"}
+          hint={
+            "you can use **Markdown** here. Use this dialog to provide the user with in-context help about this section."
+          }
         >
           <Icons.Leaf />
           <div>section content</div>

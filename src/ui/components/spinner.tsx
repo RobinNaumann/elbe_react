@@ -32,7 +32,7 @@ export type SpinnerProps = {
  */
 export function Spinner(p: { manner?: "flat" | "plain" } & SpinnerProps) {
   const [x, setX] = useState(0);
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const theme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {

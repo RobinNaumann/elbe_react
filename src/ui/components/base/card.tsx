@@ -47,7 +47,7 @@ export function Card({
 } & ElbeProps &
   ElbeStyleProps &
   ElbeChildrenProps) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme();
 
   const isBordered = useMemo(() => {
@@ -77,6 +77,7 @@ export function Card({
         flex={elbe.flex}
         elevated={elevated}
         frosted={frosted}
+        typeLabel={elbe.typeLabel}
         style={{
           overflow: overflow,
           ...css.borderRadius(styles.radius),

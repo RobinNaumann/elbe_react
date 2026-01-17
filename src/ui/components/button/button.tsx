@@ -46,7 +46,7 @@ function _Btn({
   manner: ColorSelection.Manners;
 }) {
   const toolbarCtx = useToolbar();
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
 
   const baseTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({

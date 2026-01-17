@@ -29,7 +29,7 @@ export function Link(p: {
   color?: string;
   tooltip?: string;
 }) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const baseTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {

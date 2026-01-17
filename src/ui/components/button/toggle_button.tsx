@@ -20,7 +20,7 @@ export function ToggleButton({
   label: string;
   icon?: IconChild;
 }) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme();
 
   return (

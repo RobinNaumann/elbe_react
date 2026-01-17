@@ -13,3 +13,5 @@ export type ElbeChildren = ReactNode; //ElbeChild[] | ElbeChild;
 export type s = string;
 export type n = number;
 export type b = boolean;
+
+export type remSize = float;

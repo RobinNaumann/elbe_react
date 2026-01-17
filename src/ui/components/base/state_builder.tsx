@@ -10,7 +10,7 @@ export function WithStateTheme(p: {
   disabled?: boolean;
   children: ElbeChildren;
 }) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const [elState, setElState] = useState<ColorSelection.States>("neutral");
   if (!p.theme) {
     console.error("WithStateTheme: No theme provided");

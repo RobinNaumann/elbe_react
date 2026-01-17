@@ -27,7 +27,7 @@ export type BooleanInputProps = {
 export function Switch(
   p: BooleanInputProps & ElbeActionProps & { manner?: "flat" | "plain" }
 ) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const baseTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {

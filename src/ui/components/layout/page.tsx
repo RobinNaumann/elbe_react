@@ -36,7 +36,7 @@ export function Page(
   p: HeaderProps &
     ContentBaseProps & { children?: ElbeChildren; footer?: ElbeChild | null }
 ) {
-  const appConfig = useApp();
+  const appConfig = useApp({ useFallback: true });
 
   const hasHeader = _hasMoreThan(p, [
     "children",

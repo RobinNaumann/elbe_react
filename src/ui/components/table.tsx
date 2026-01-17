@@ -47,7 +47,7 @@ export function Table(
     emptyView?: ElbeChild;
   } & ElbeProps
 ) {
-  const _app = useApp();
+  const _app = useApp({ useFallback: true });
   const _appTheme = _app._appThemeContext.useTheme();
 
   const themeSec = _appTheme.useWith(

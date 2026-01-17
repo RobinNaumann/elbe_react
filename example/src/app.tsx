@@ -1,14 +1,6 @@
-import {
-  Button,
-  ElbeApp,
-  Icons,
-  makeThemeContext,
-  metaTagContent,
-  Route,
-} from "elbe-ui";
+import { ElbeApp, makeThemeContext, metaTagContent, Route } from "elbe-ui";
 //import "elbe-ui/dist/elbe.css";
 //import "elbe-ui/dist/elbe.css";
-import { useState } from "react";
 import { AppDemo } from "./app_demo";
 import { Home } from "./home";
 import "./style.scss";
@@ -22,7 +14,6 @@ export const { useTheme, WithTheme } = _themeContext;
 
 export function App() {
   const themeBit = ThemeBit.use();
-  const [darkMode, setDarkMode] = useState(false);
 
   return themeBit.mapUI(
     (ui) => (
@@ -31,23 +22,16 @@ export function App() {
         themeSeed={ui.seed}
         themeContext={_themeContext}
         routerConfig={{ basePath: _basePath }}
-        themeSelector={(c) => ({
-          color: {
-            ...c.color,
-            selection: {
-              ...c.color.selection,
-              mode: darkMode ? "dark" : "light",
-            },
-          },
-        })}
-        globalActions={[
-          <Button.major
+        globalActions={
+          [
+            /*<Button.major
             ariaLabel="toogle dark mode"
             label="dark"
             icon={Icons.Moon}
             onTap={() => setDarkMode(!darkMode)}
-          />,
-        ]}
+          />*/
+          ]
+        }
       >
         <Route path="/">
           <Home />

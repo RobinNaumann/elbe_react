@@ -1,6 +1,6 @@
 {
   "name": "elbe-ui",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "author": "Robin Naumann",
   "license": "MIT",
   "repository": {
@@ -23,7 +23,7 @@
     "build:dts": "tsc --declaration",
     "build:css": "sass -q style/elbe-util.scss dist/elbe.css",
     "build": "rm -rf ./dist && bun run build:ts && bun run build:dts && bun run build:css ",
-    "dev": "bun run build && (cd example && bun run dev)",
+    "serve": "bun run build && (cd example && bun run dev)",
     "pub": "npm login && bun run build && npm publish && bun run pub:example",
     "pub:example": "bun run build && (cd example && bun run build) && open example/dist"
   },

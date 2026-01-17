@@ -53,7 +53,7 @@ function _StyledRange({
   onChange,
   ...elbe
 }: _RangeProps) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme().useWith(
     (c) => ({
       color: {

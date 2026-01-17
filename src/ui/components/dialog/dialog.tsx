@@ -71,7 +71,7 @@ export type ElbeDialogProps = {
  * ```
  */
 export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const theme = _appThemeContext.useTheme().useWith(
     (c) => ({
       color: {

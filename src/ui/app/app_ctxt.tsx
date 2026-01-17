@@ -1,12 +1,12 @@
 import { createContext, useContext } from "react";
 import { HeaderLogos } from "../components/layout/header";
-import { ElbeThemeContext } from "../theme/theme_context";
+import { ElbeThemeContext, makeThemeContext } from "../theme/theme_context";
 import { ElbeChild, ElbeChildren, int } from "../util/types";
 import { throwError, tryOrNull } from "../util/util";
 
 export type AppConfig = {
   title?: string;
-  icons?: HeaderLogos;
+  branding?: HeaderLogos;
   globalActions?: ElbeChild[];
   footer?: ElbeChildren | null;
   routerConfig?: {
@@ -40,12 +40,25 @@ export interface AppState {
 
 export const AppContext = createContext<AppState | null>(null);
 
-export function useApp() {
+const _fallbackAppContext: AppState = {
+  appConfig: {},
+  router: {
+    go: () => {},
+    goBack: () => {},
+    history: [],
+    location: "/",
+  },
+  _appThemeContext: makeThemeContext({}),
+};
+
+export function useApp({ useFallback = false } = {}): AppState {
   return (
     tryOrNull(() => useContext(AppContext)) ??
-    throwError(
-      "useApp must be used within an ElbeApp context. try using useMaybeApp()"
-    )
+    (useFallback
+      ? _fallbackAppContext
+      : throwError(
+          "useApp must be used within an ElbeApp context. try using useMaybeApp() or useApp({ useFallback: true }) instead."
+        ))
   );
 }
 

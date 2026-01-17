@@ -10,6 +10,7 @@ import {
   Text,
   useLayoutMode,
 } from "../..";
+import { useApp } from "../app/app_ctxt";
 
 export type FooterLink = {
   label: string;
@@ -43,6 +44,8 @@ export function Footer({
   legal?: FooterLink;
   marginTop?: number;
 }) {
+  const app = useApp({ useFallback: true });
+  const { theme } = app._appThemeContext.useTheme();
   const layoutMode = useLayoutMode();
 
   return (
@@ -55,9 +58,14 @@ export function Footer({
         borderLeftStyle: "none",
         borderRightStyle: "none",
         borderBottomStyle: "none",
-        borderTopLeftRadius: layoutMode.isWide ? "var(--g-radius)" : undefined,
-        color: "color-mix(in srgb, var(--c-context-front) 60%, transparent)",
+        borderTopLeftRadius: layoutMode.isWide
+          ? `${theme.geometry.radius}rem`
+          : undefined,
+        /*color: theme.color.currentColor.front
+          .inter(theme.color.currentColor.back, 0.6)
+          .asCss(),*/
         marginTop: `${marginTop ?? 0}rem`,
+        marginLeft: layoutMode.isWide && !!app.menu ? "1rem" : undefined,
       }}
     >
       <Column gap={1}>

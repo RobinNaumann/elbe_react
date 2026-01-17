@@ -42,7 +42,7 @@ function _btn({
 }: IconButtonProps & {
   manner: ColorSelection.Manners;
 }) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
 
   const baseTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({

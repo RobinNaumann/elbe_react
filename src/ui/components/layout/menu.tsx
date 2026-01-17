@@ -17,7 +17,7 @@ type _TopBot = {
 };
 
 export function Menu(p: { items: MenuItem[] }) {
-  const { _appThemeContext, menu } = useApp();
+  const { _appThemeContext, menu } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme();
   const layoutMode = useLayoutMode();
 
@@ -83,7 +83,7 @@ export function Menu(p: { items: MenuItem[] }) {
 }
 
 function _Menu(p: { topBot: _TopBot; wideOrOpen: boolean; menuWidth: string }) {
-  const { _appThemeContext, menu, appConfig } = useApp();
+  const { _appThemeContext, menu, appConfig } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme();
   const layoutMode = useLayoutMode();
 
@@ -137,11 +137,7 @@ function _Menu(p: { topBot: _TopBot; wideOrOpen: boolean; menuWidth: string }) {
             }}
           >
             {!layoutMode.isWide && (
-              <_Logo
-                logo={appConfig.icons?.logo}
-                logoDark={appConfig.icons?.logoDark}
-                lMargin={0.5}
-              />
+              <_Logo logo={appConfig.branding?.logo} lMargin={0.5} />
             )}
           </Button.plain>
           <Column
@@ -164,7 +160,7 @@ function _Menu(p: { topBot: _TopBot; wideOrOpen: boolean; menuWidth: string }) {
 }
 
 function _MenuItemView({ item }: { item: MenuItem }) {
-  const { menu, router } = useApp();
+  const { menu, router } = useApp({ useFallback: true });
 
   if (!menu) return null;
 

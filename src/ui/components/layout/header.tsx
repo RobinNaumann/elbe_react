@@ -1,10 +1,12 @@
 import { ChevronLeft, MenuIcon, XIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   Card,
   ColorSelection,
   ElbeChild,
   IconButton,
+  metaTagContent,
+  remSize,
   Text,
   useLayoutMode,
   useSiteScroll,
@@ -12,11 +14,14 @@ import {
 import { useApp } from "../../app/app_ctxt";
 import { _Toolbar } from "./toolbar";
 
+/**
+ * props for the Header component. Provide logos to the application.
+ *
+ * You can provide either a custom ElbeChild component or use the AssetLogo component to display an image logo.
+ */
 export type HeaderLogos = {
-  logo?: string | ElbeChild;
-  logoDark?: string | ElbeChild;
-  endLogo?: string | ElbeChild;
-  endLogoDark?: string | ElbeChild;
+  logo?: ElbeChild;
+  endLogo?: ElbeChild;
 };
 
 export type HeaderProps = HeaderLogos & {
@@ -28,26 +33,15 @@ export type HeaderProps = HeaderLogos & {
 };
 
 export function Header(p: HeaderProps) {
-  const { _appThemeContext, appConfig, menu } = useApp();
-  const { theme, useWith } = _appThemeContext.useTheme();
+  const gap = 1;
+  const { _appThemeContext, appConfig, menu } = useApp({ useFallback: true });
+  const { theme } = _appThemeContext.useTheme();
   const layoutMode = useLayoutMode();
   const scroll = useSiteScroll();
-  const secTheme = useWith(
-    (t) => ({
-      color: {
-        ...t.color,
-        selection: {
-          ...t.color.selection,
-          scheme: "secondary",
-          manner: "plain",
-        },
-      },
-    }),
-    [theme]
-  );
 
   return (
     <Card
+      typeLabel="elbe_header"
       padding={0}
       scheme={p.scheme ?? "primary"}
       manner={"plain"}
@@ -68,71 +62,127 @@ export function Header(p: HeaderProps) {
         borderTopStyle: "none",
         borderLeftStyle: "none",
         borderRightStyle: "none",
-        borderColor:
+        borderBottomColor:
           theme.color.isContrast || scroll
             ? theme.color.currentColor.border
                 .withAlpha(theme.color.isContrast ? 1 : 0.25)
                 .asCss()
             : "transparent",
-        borderWidth: theme.geometry.borderWidth + "rem",
-        gap: "1rem",
+        borderBottomWidth: theme.geometry.borderWidth + "rem",
+        gap: `${gap}rem`,
         zIndex: 80,
       }}
     >
-      {p.leading && p.leading !== "back" && p.leading !== "close"
-        ? p.leading
-        : !layoutMode.isWide &&
-          menu && (
-            <IconButton.plain
-              ariaLabel="open/close menu"
-              onTap={() => menu.setOpen(!menu.isOpen)}
-              icon={MenuIcon}
-            />
-          )}
+      <_LeadingIcon
+        leading={p.leading ?? null}
+        isWide={layoutMode.isWide}
+        gap={gap}
+      />
 
-      {p.leading === "back" && <BackButton />}
-      {p.leading === "close" && <BackButton close />}
       {!layoutMode.isMobile && (
-        <_Logo
-          logo={p.logo ?? appConfig?.icons?.logo}
-          logoDark={p.logoDark ?? appConfig?.icons?.logoDark}
-          lMargin={0.5}
-        />
+        <_Logo logo={p.logo ?? appConfig?.branding?.logo} />
       )}
-      {(!appConfig || layoutMode.isWide) && (
-        <div style={{ margin: "-1rem", width: "1.5rem" }} />
-      )}
+
       <_HeaderTitle title={p.title} center={p.centerTitle ?? false} />
       <_Toolbar
         actions={[...(p.actions ?? []), ...(appConfig?.globalActions ?? [])]}
       />
       {layoutMode.isWide && (
-        <_Logo
-          logo={p.endLogo ?? appConfig?.icons?.endLogo}
-          logoDark={p.endLogoDark ?? appConfig?.icons?.endLogoDark}
-          rMargin={0.5}
-        />
+        <_Logo logo={p.endLogo ?? appConfig?.branding?.endLogo} rMargin={0.5} />
       )}
     </Card>
   );
 }
 
+function _LeadingIcon(p: {
+  leading: ElbeChild | "back" | "close";
+  isWide: boolean;
+  gap: number;
+}) {
+  const { router, menu } = useApp({ useFallback: true });
+  const canGoBack = (router.history?.length ?? 0) < 2;
+  // if leading is custom component, just return it
+  if (p.leading && typeof p.leading !== "string") return p.leading;
+
+  // if you can go back and leading is "back" or "close", show it
+  if ((p.leading === "back" || p.leading === "close") && canGoBack) {
+    return <BackButton close={p.leading === "close"} />;
+  }
+
+  // if the layout is not wide and there is a menu, show menu button
+  if (!p.isWide && menu) {
+    return (
+      <IconButton.plain
+        ariaLabel="open/close menu"
+        onTap={() => menu!.setOpen(!menu?.isOpen)}
+        icon={MenuIcon}
+      />
+    );
+  }
+  // return a spacer so content is not squeezed to the left if there is no icon
+  return (
+    <div
+      style={{
+        marginRight: `-${p.gap}rem`,
+        width: ".5rem",
+      }}
+    />
+  );
+}
+/**
+ * Component to display an image logo from asset files.
+ *
+ * Props:
+ * - src: string - The source path for the light theme logo image.
+ * - srcDark?: string - Optional source path for the dark theme logo image.
+ * - onTap?: () => void - Optional callback function to be called when the logo is clicked.
+ * - height?: remSize - Optional height of the logo in rem units (default is 1.25rem).
+ *
+ * Example usage:
+ * ```tsx
+ * <AssetLogo
+ *   src="/assets/logo_light.png"
+ *   srcDark="/assets/logo_dark.png"
+ *   onTap={() => window.open("https://example.com", "_blank")}
+ *   height={2}
+ * />
+ * ```
+ */
+export function AssetLogo(p: {
+  src: string;
+  srcDark?: string;
+  onTap?: () => void;
+  height?: remSize;
+}) {
+  const { _appThemeContext } = useApp({ useFallback: true });
+  const { theme } = _appThemeContext.useTheme();
+  const trueSrc = getTrueSrc(
+    theme.color.isDark && p.srcDark ? p.srcDark : p.src
+  );
+
+  return (
+    <img
+      src={trueSrc}
+      onClick={(e) => {
+        p.onTap?.();
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      style={{
+        cursor: p.onTap ? "pointer" : "default",
+        height: `${p.height ?? 1.25}rem`,
+      }}
+    />
+  );
+}
+
 export function _Logo(p: {
   flex?: boolean;
-  logo: string | ElbeChild;
-  logoDark?: string | ElbeChild | null;
+  logo: ElbeChild;
   lMargin?: number;
   rMargin?: number;
 }) {
-  const { _appThemeContext } = useApp();
-  const { theme } = _appThemeContext.useTheme();
-  const [logo, setLogo] = useState(p.logo);
-  useMemo(
-    () => setLogo(theme.color.isDark ? p.logoDark ?? p.logo : p.logo),
-    [theme]
-  );
-
-  return !logo ? null : (
+  return !p.logo ? null : (
     <div
       style={{
         flex: p.flex ? 1 : undefined,
@@ -143,22 +193,13 @@ export function _Logo(p: {
         marginRight: `${p.rMargin ?? 0}rem`,
       }}
     >
-      {typeof logo === "string" ? (
-        <img
-          src={logo}
-          style={{
-            height: "1.25rem",
-          }}
-        />
-      ) : (
-        logo
-      )}
+      {p.logo}
     </div>
   );
 }
 
 export function BackButton(p: { close?: boolean }) {
-  const { router } = useApp();
+  const { router } = useApp({ useFallback: true });
   const hidden = (router.history?.length ?? 0) < 2;
   return hidden ? null : (
     <IconButton.plain
@@ -206,4 +247,12 @@ export function _HeaderTitle(p: {
       </div>
     </div>
   );
+}
+
+function getTrueSrc(src: string): string {
+  const _basePath = metaTagContent("basepath") ?? "/";
+
+  return src.startsWith("./") && typeof window !== "undefined"
+    ? window.location.origin + _basePath + src.slice(2)
+    : src;
 }

@@ -48,7 +48,7 @@ export function _Toolbar(p: { actions: ElbeChild[] }) {
 }
 
 export function OverflowMenu(p: { items: ElbeChild[] }) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme();
   const [open, setOpen] = useState(false);
 

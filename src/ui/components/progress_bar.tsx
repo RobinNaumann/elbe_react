@@ -18,7 +18,7 @@ export function ProgressBar({
   max?: number;
   manner: "flat" | "plain";
 } & ElbeProps) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const theme = _appThemeContext.useTheme().useWith(
     ({ color }) => ({
       color: {

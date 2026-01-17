@@ -1,4 +1,5 @@
 import {
+  AssetLogo,
   Button,
   Card,
   Column,
@@ -20,6 +21,7 @@ import { L10n, useL10n } from "../l10n";
 const _themeContext = makeThemeContext({});
 
 export function AppDemo(p: { goBack: () => void }) {
+  const { showToast } = useToast();
   return (
     <L10n>
       <ElbeApp
@@ -44,28 +46,36 @@ export function AppDemo(p: { goBack: () => void }) {
             icon={LogOut}
           />,
         ]}
-        icons={{
-          endLogo: "./assets/elbe_dark.png",
-          endLogoDark: "./assets/elbe_light.png",
+        branding={{
+          endLogo: (
+            <AssetLogo
+              src="./assets/elbe_dark.png"
+              onTap={() => {
+                showToast("you clicked the endLogo");
+              }}
+            />
+          ),
         }}
       >
-        <MenuRoute label="Home" icon={TreePine} path="/">
-          <_Home />
-        </MenuRoute>
-        <MenuRoute label="Second" icon={SproutIcon} path="/second">
-          <_SecondPage />
-        </MenuRoute>
-        <MenuRoute disabled label="Third" icon={TreePalm} path="/third">
-          none
-        </MenuRoute>
-        <MenuRoute
-          label="Settings"
-          icon={Icons.Settings}
-          bottom
-          path="/settings"
-        >
-          <_SettingsPage />
-        </MenuRoute>
+        <>
+          <MenuRoute label="Home" icon={TreePine} path="/">
+            <_Home />
+          </MenuRoute>
+          <MenuRoute label="Second" icon={SproutIcon} path="/second">
+            <_SecondPage />
+          </MenuRoute>
+          <MenuRoute disabled label="Third" icon={TreePalm} path="/third">
+            none
+          </MenuRoute>
+          <MenuRoute
+            label="Settings"
+            icon={Icons.Settings}
+            bottom
+            path="/settings"
+          >
+            <_SettingsPage />
+          </MenuRoute>
+        </>
       </ElbeApp>
     </L10n>
   );

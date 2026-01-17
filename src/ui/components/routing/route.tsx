@@ -40,7 +40,11 @@ export function MenuRoute(p: _MenuRouteProps) {
 export const Route = Wouter.Route;
 
 export function isMenuRoute(
-  r: ElbeRoute
+  r: React.ReactNode
 ): r is React.ReactElement<_MenuRouteProps> {
-  return "path" in r.props && "label" in r.props && "icon" in r.props;
+  // check if r is a React element with props path, label and icon
+  if (!React.isValidElement(r)) return false;
+  const rEl = r as React.ReactElement;
+  if (!rEl.props || typeof rEl.props !== "object") return false;
+  return "path" in rEl.props && "label" in rEl.props && "icon" in rEl.props;
 }

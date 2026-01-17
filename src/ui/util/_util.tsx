@@ -49,3 +49,15 @@ export namespace css {
     };
   }
 }
+
+export function isFragment(child: any): child is React.ReactElement {
+  return React.isValidElement(child) && child.type === React.Fragment;
+}
+
+export function unwrapFragments(children: React.ReactNode): React.ReactNode[] {
+  return React.Children.toArray(children).flatMap((child) =>
+    isFragment(child)
+      ? React.Children.toArray((child.props as any)?.["children"] ?? [])
+      : child
+  );
+}

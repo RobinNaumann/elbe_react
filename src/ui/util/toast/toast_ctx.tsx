@@ -46,7 +46,7 @@ export function useToast() {
  * @returns a context provider for toast messages
  */
 export function ToastProvider(p: { children: ElbeChildren }) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme();
 
   const rootDOM = useMemo(() => getRootElement("elbe_toast"), []);

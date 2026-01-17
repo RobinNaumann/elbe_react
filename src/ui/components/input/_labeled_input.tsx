@@ -24,7 +24,7 @@ export type LabeledInputProps = ElbeChildrenProps &
 export function LabeledInput(
   p: LabeledInputProps & { typeLabel: string; id: string }
 ) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const baseTheme = _appThemeContext.useTheme();
 
   return (

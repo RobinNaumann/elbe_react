@@ -150,7 +150,7 @@ export function _Box(
     scheme?: ColorSelection.Schemes;
   }
 ) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const usedTheme = _appThemeContext.useTheme().useWith(
     ({ color }) => {
       return {

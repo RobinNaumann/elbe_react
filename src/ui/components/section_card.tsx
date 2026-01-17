@@ -45,7 +45,7 @@ export function SectionCard(p: {
   bordered?: boolean;
   collapsed?: boolean | undefined;
 }) {
-  const _app = useApp();
+  const _app = useApp({ useFallback: true });
   const _appTheme = _app._appThemeContext.useTheme();
   const [collapsed, setCollapsed] = useState<boolean | undefined>(p.collapsed);
   const [hintOpen, setHintOpen] = useState(false);
@@ -62,6 +62,7 @@ export function SectionCard(p: {
       <Dialog
         title={p.title + " - Info"}
         open={hintOpen}
+        maxWidth={35}
         onClose={() => setHintOpen(false)}
       >
         {typeof p.hint === "string" ? (

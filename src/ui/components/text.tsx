@@ -53,7 +53,7 @@ export class Text extends React.Component<
 }
 
 function _Text(p: TextProps & { variant?: ElbeTypeVariants }) {
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const usedTheme = _appThemeContext.useTheme();
 
   const tVariant = useMemo(() => {

@@ -136,7 +136,7 @@ function _Field<T>(
   }
 ) {
   {
-    const { _appThemeContext } = useApp();
+    const { _appThemeContext } = useApp({ useFallback: true });
     const usedTheme = _appThemeContext.useTheme();
     const id = p.id ?? randomAlphaNum(8, "input_field_");
     const manner = p.manner ?? "plain";

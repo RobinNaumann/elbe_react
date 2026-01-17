@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   Box,
   DialogsProvider,
+  ElbeChild,
   ElbeRoute,
   ElbeThemeConfig,
   ElbeThemeContext,
@@ -13,6 +14,7 @@ import {
   Wouter,
 } from "../..";
 import { Menu } from "../components/layout/menu";
+import { unwrapFragments } from "../util/_util";
 import { AppConfig, AppContext } from "./app_ctxt";
 
 type _AppThemeConfig = {
@@ -42,7 +44,8 @@ type AppProps = _AppProps & { children?: ElbeRoute | ElbeRoute[] };
  * - `themeSelector` (function | undefined): An optional function to further customize the theme based on the current theme configuration.
  * - `routerConfig` (object | undefined): Configuration options for the router, such as basePath.
  * - `noGlobalStyles` (boolean | undefined): If true, global styles will not be applied to the document. Useful if you have multiple Elbe apps on the same page.
- * - `children` (ElbeRoute | ElbeRoute[] | undefined): The route components to be rendered within the application.
+ * - `children` (ElbeRoute | ElbeRoute[] | undefined): The route components to be rendered within the application. Pass
+ *   `MenuRoute` components here to define the application's routes and menu items. You may also wrap the menu routes Fragments (<></>).
  * - `globalActions` (ElbeChild[] | undefined): An array of global action components to be displayed in the application header.
  * - `footer` (ElbeChild | undefined): A footer component to be displayed at the bottom of the application.
  *
@@ -129,12 +132,19 @@ function _App(p: {
     document.body.style.backgroundColor = bg;
   }, [themeSelected, p.config.noGlobalStyles]);
 
-  const menuItems = useMemo(() => {
-    return _extractMenuItems(p.children);
-  }, [p.children]);
   const [location, navigate] = Wouter.useLocation();
   const [history, setHistory] = useState<string[]>([_initialLocation()]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const { children, menuItems } = useMemo(() => {
+    const childsOrFrags = Array.isArray(p.children)
+      ? p.children
+      : p.children
+      ? [p.children]
+      : [];
+    const children = unwrapFragments(childsOrFrags);
+    const menuItems = _extractMenuItems(children);
+    return { children, menuItems };
+  }, [p.children]);
 
   return (
     <p.themeContext.WithTheme theme={themeSelected}>
@@ -184,7 +194,7 @@ function _App(p: {
             >
               {menuItems.length > 0 && <Menu items={menuItems} />}
               <div style={{ flex: 1, width: "0px" }}>
-                <Wouter.Switch>{p.children}</Wouter.Switch>
+                <Wouter.Switch>{children}</Wouter.Switch>
               </div>
             </Box>
           </DialogsProvider>
@@ -194,11 +204,11 @@ function _App(p: {
   );
 }
 
-function _extractMenuItems(children?: ElbeRoute | ElbeRoute[]): MenuItem[] {
+function _extractMenuItems(children: (ElbeRoute | ElbeChild)[]): MenuItem[] {
   if (!children) return [];
-  const childs = Array.isArray(children) ? children : [children];
+
   const items: MenuItem[] = [];
-  for (const child of childs) {
+  for (const child of children) {
     if (!isMenuRoute(child)) continue;
     items.push(child.props);
   }

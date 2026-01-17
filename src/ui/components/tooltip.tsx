@@ -9,7 +9,7 @@ export function WithTooltip(p: { tooltip?: string; children?: ElbeChildren }) {
   const timeoutRef = useRef<number | null>(null);
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0, top: false, left: false });
-  const { _appThemeContext } = useApp();
+  const { _appThemeContext } = useApp({ useFallback: true });
   const { theme } = _appThemeContext.useTheme().useWith(
     (c) => ({
       color: {
