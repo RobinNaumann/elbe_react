@@ -1,4 +1,4 @@
-import { Context, useEffect, useState } from "react";
+import { Context, useEffect, useRef, useState } from "react";
 import {
   BitParams,
   BitUseInterface,
@@ -27,7 +27,7 @@ export function _makeBitProvider<D, P, I>(
   },
 ): _BitProvider<P> {
   function _BitProvider(p: { children?: Maybe<ElbeChildren> } & P) {
-    const [streamCancel, setStreamCancel] = useState<Maybe<() => void>>(null);
+    const streamCancelRef = useRef<Maybe<() => void>>(null);
     const [state, setState] = useState<{
       v: _BitState<D>;
       history: D[];
@@ -103,9 +103,13 @@ export function _makeBitProvider<D, P, I>(
         if (_bit.stream) {
           try {
             if (!silent) _partCtrl.setLoading();
-            if (streamCancel) streamCancel();
+            const prevCancel = streamCancelRef.current;
+            streamCancelRef.current = null;
+            if (prevCancel) prevCancel();
             const cancel = _bit.stream(p, _partCtrl);
-            setStreamCancel(() => cancel());
+            streamCancelRef.current = () => {
+              cancel();
+            };
             return;
           } catch (e) {
             console.error("[BIT] Error in stream preparation:", e);
@@ -187,7 +191,9 @@ export function _makeBitProvider<D, P, I>(
     useEffect(() => {
       ctrl.reload(true);
       return () => {
-        if (streamCancel) streamCancel();
+        const cancel = streamCancelRef.current;
+        streamCancelRef.current = null;
+        if (cancel) cancel();
 
         // call dispose if exists
         const d = (ctrl as any).dispose;

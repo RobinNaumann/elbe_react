@@ -69,7 +69,6 @@ export function WithTooltip(p: {
         );
       }}
       onMouseLeave={() => {
-        console.log("leave");
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
           timeoutRef.current = null;
