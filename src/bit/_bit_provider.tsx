@@ -24,7 +24,7 @@ export function _makeBitProvider<D, P, I>(
   context: Context<BitUseInterface<D, P, I>>,
   bitP: BitParams<D, P, I> & {
     control: _BitCtrlMaker<D, P, I>;
-  }
+  },
 ): _BitProvider<P> {
   function _BitProvider(p: { children?: Maybe<ElbeChildren> } & P) {
     const [streamCancel, setStreamCancel] = useState<Maybe<() => void>>(null);
@@ -82,7 +82,7 @@ export function _makeBitProvider<D, P, I>(
       async function _worker(
         fn: () => PromiseOr<D>,
         silent?: boolean,
-        reset?: boolean
+        reset?: boolean,
       ) {
         if (!silent) _partCtrl.setLoading();
         try {
@@ -105,7 +105,7 @@ export function _makeBitProvider<D, P, I>(
             if (!silent) _partCtrl.setLoading();
             if (streamCancel) streamCancel();
             const cancel = _bit.stream(p, _partCtrl);
-            setStreamCancel(() => cancel);
+            setStreamCancel(() => cancel());
             return;
           } catch (e) {
             console.error("[BIT] Error in stream preparation:", e);
@@ -125,25 +125,25 @@ export function _makeBitProvider<D, P, I>(
       function map<T>(
         onData: ((d: D) => T) | T,
         onError?: ((e: any) => T) | Maybe<T>,
-        onLoading?: (() => T) | Maybe<T>
+        onLoading?: (() => T) | Maybe<T>,
       ): T | null {
         if (state.v.type === "data") {
           return _isFn(onData)
             ? onData(state.v.value)
-            : (onData as any) ?? null;
+            : ((onData as any) ?? null);
         }
         if (state.v.type === "error") {
           return _isFn(onError)
             ? onError(state.v.value)
-            : (onError as any) ?? null;
+            : ((onError as any) ?? null);
         }
-        return _isFn(onLoading) ? onLoading() : (onLoading as any) ?? null;
+        return _isFn(onLoading) ? onLoading() : ((onLoading as any) ?? null);
       }
 
       function mapUI(
         onData: (d: D) => ElbeChildren,
         onError?: Maybe<(e: any) => ElbeChildren>,
-        onLoading?: Maybe<() => ElbeChildren>
+        onLoading?: Maybe<() => ElbeChildren>,
       ): ElbeChildren {
         return map(
           (d) => onData(d),
@@ -152,7 +152,7 @@ export function _makeBitProvider<D, P, I>(
               onError ??
               ((e) => <ErrorView error={e} retry={() => _reload(false)} />)
             )(e),
-          () => (onLoading ?? (() => <_LoadView />))()
+          () => (onLoading ?? (() => <_LoadView />))(),
         );
       }
 

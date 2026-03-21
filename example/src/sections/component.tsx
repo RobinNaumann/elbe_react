@@ -141,6 +141,14 @@ function _DraggableGroup() {
           <b style={{ textWrap: "nowrap" }}>drag me!</b>
         </Draggable>
       </Card>
+      <Button.minor
+        icon={Icons.ExternalLink}
+        ariaLabel="open drag demo"
+        onTap={() => {
+          window.location.href = "http://localhost:5173/app/drag-demo";
+        }}
+        label="open drag demo"
+      />
     </ExampleGroup>
   );
 }

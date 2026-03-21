@@ -77,7 +77,7 @@ export function applyProps(
   typeLabel: string,
   p: ElbeProps,
   classes?: string | null | (string | false | null | undefined)[],
-  style?: React.CSSProperties
+  style?: React.CSSProperties,
 ): { [key: string]: any } {
   const eNonNative = { ...p, native: undefined };
   const eNative = p.native ?? {};
@@ -148,7 +148,7 @@ export class Box extends Component<
 export function _Box(
   p: ElbeBoxProps & {
     scheme?: ColorSelection.Schemes;
-  }
+  },
 ) {
   const { _appThemeContext } = useApp({ useFallback: true });
   const usedTheme = _appThemeContext.useTheme().useWith(
@@ -167,7 +167,7 @@ export function _Box(
         },
       };
     },
-    [p.scheme, p.mode, p.kind, p.manner, p.state]
+    [p.scheme, p.mode, p.kind, p.manner, p.state],
   );
 
   const {

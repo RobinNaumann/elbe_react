@@ -11,12 +11,13 @@ import {
   makeThemeContext,
   MenuRoute,
   Page,
+  useApp,
   useToast,
   type ColorSelection,
 } from "elbe-ui";
 import { LogOut, SproutIcon, TreePalm, TreePine } from "lucide-react";
-import { useApp } from "../../dist/ui/app/app_ctxt";
 import { L10n, useL10n } from "../l10n";
+import { DragDemoPage } from "./drag_demo";
 
 const _themeContext = makeThemeContext({});
 
@@ -63,6 +64,9 @@ export function AppDemo(p: { goBack: () => void }) {
           </MenuRoute>
           <MenuRoute label="Second" icon={SproutIcon} path="/second">
             <_SecondPage />
+          </MenuRoute>
+          <MenuRoute label="Drag Demo" icon={SproutIcon} path="/drag-demo">
+            <DragDemoPage />
           </MenuRoute>
           <MenuRoute disabled label="Third" icon={TreePalm} path="/third">
             none

@@ -78,6 +78,7 @@ export function PrettyErrorView({
       pt: "detalhes do erro",
     },
   },
+  flex = false,
 }: {
   error: ElbeError;
   retry?: () => any;
@@ -86,12 +87,18 @@ export function PrettyErrorView({
     home?: L10nInlinePlain;
     details: L10nInlinePlain;
   };
+  flex?: boolean;
 }) {
   const l10n = _maybeL10n();
   const [open, setOpen] = useState(false);
 
   return (
-    <Column cross="center" style={{ margin: "1rem 0", padding: "1rem" }}>
+    <Column
+      cross="center"
+      main="center"
+      flex={flex}
+      style={{ margin: "1rem 0", padding: "1rem" }}
+    >
       <Icon icon={error.icon ?? icons.OctagonAlert} />
       <Text.h4 v={l10n?.inline(error.message) ?? "error"} />
       <Text

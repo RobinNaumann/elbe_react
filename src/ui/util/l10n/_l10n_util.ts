@@ -8,7 +8,7 @@ export type _L10nData = { [key: string]: any };
 
 export function _bestMatch(
   selection: _L10nSelection,
-  locales: _LocaleIDEasy[]
+  locales: _LocaleIDEasy[],
 ): _LocaleIDEasy | null {
   if (locales.length === 0) return null;
   const loc = _locale(selection.locale.replaceAll("-", "_"));

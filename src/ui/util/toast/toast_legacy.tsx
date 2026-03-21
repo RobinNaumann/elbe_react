@@ -4,11 +4,11 @@
  */
 export function showToast(message: string) {
   // find the 'elbe' element
-  const elbe = document.getElementById("elbe-app");
+  const elbe = document.getElementById("elbe_app");
 
   if (!elbe) {
     console.warn(
-      "could not show legacy toast, no base element with '#elbe-app' found"
+      "could not show legacy toast, no base element with '#elbe_app' found",
     );
     return;
   }

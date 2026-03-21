@@ -57,8 +57,10 @@ export * from "./ui/components/section_card";
 export * from "./ui/components/spinner";
 export * from "./ui/components/table";
 export * from "./ui/components/text";
+export * from "./ui/components/tooltip";
 
 export * from "./ui/app/app";
+export * from "./ui/app/app_ctxt";
 
 export * from "./ui/components/dev/todo";
 

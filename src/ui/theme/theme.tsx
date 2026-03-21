@@ -9,7 +9,7 @@ import { colorThemeData } from "./subthemes/color/_theme_color";
 export type ElbeSubThemeData<
   Computed extends Dict<any>,
   Seed extends Dict<any> = Computed,
-  Config extends Dict<any> = Computed
+  Config extends Dict<any> = Computed,
 > = {
   seed: Seed;
   _configType: Config;
@@ -68,6 +68,6 @@ export type ElbeThemeContextData<T extends ElbeThemeData> = {
   theme: ElbeThemeComputed<T>;
   useWith: (
     worker: (config: ElbeThemeConfig<T>) => Partial<ElbeThemeConfig<T>>,
-    dependencies: any[]
+    dependencies: any[],
   ) => ElbeThemeContextData<T>;
 };

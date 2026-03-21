@@ -40,7 +40,7 @@ export function Column({
     false,
     { gap, main, cross, scroll, noScrollbar, children },
     p,
-    false
+    false,
   );
 }
 
@@ -58,7 +58,7 @@ export function Row({
     true,
     { gap, main, cross, scroll, noScrollbar, children },
     p,
-    wrap
+    wrap,
   );
 }
 
@@ -77,7 +77,7 @@ export function FlexLayout({
     direction !== "column",
     { gap, main, cross, scroll, noScrollbar, children },
     p,
-    wrap
+    wrap,
   );
 }
 
@@ -85,7 +85,7 @@ function _FlexLayout(
   row: boolean,
   p: FlexProps,
   elbe: ElbeProps,
-  wraps: boolean
+  wraps: boolean,
 ) {
   return (
     <div
@@ -98,7 +98,9 @@ function _FlexLayout(
         gap: `${p.gap ?? 1}rem`,
         overflowX: !row ? undefined : p.scroll ? "auto" : undefined,
         overflowY: row ? undefined : p.scroll ? "auto" : undefined,
-        flex: elbe.flex ?? p.scroll ? 1 : undefined,
+        flex: (elbe.flex ?? p.scroll) ? 1 : undefined,
+        minWidth: 0,
+        minHeight: 0,
       })}
     >
       {p.children}

@@ -7,10 +7,14 @@ import {
   ElbeThemeConfig,
   ElbeThemeContext,
   ElbeThemeData,
+  Icons,
   isMenuRoute,
   MenuItem,
   omit,
+  PrettyErrorView,
+  Route,
   ToastProvider,
+  WithL10nOrDefault,
   Wouter,
 } from "../..";
 import { Menu } from "../components/layout/menu";
@@ -23,7 +27,7 @@ type _AppThemeConfig = {
     Parameters<_AppThemeConfig["themeContext"]["WithTheme"]>[0]["seed"]
   >;
   themeSelector?: (
-    config: ElbeThemeConfig<ElbeThemeData>
+    config: ElbeThemeConfig<ElbeThemeData>,
   ) => Partial<ElbeThemeConfig<ElbeThemeData>>;
 };
 
@@ -93,7 +97,7 @@ export function ElbeApp(p: AppProps) {
               "children",
               "themeContext",
               "themeSeed",
-              "themeSelector"
+              "themeSelector",
             )}
             themeContext={p.themeContext}
             themeSelector={p.themeSelector}
@@ -139,8 +143,8 @@ function _App(p: {
     const childsOrFrags = Array.isArray(p.children)
       ? p.children
       : p.children
-      ? [p.children]
-      : [];
+        ? [p.children]
+        : [];
     const children = unwrapFragments(childsOrFrags);
     const menuItems = _extractMenuItems(children);
     return { children, menuItems };
@@ -148,58 +152,70 @@ function _App(p: {
 
   return (
     <p.themeContext.WithTheme theme={themeSelected}>
-      <AppContext.Provider
-        value={{
-          appConfig: p.config,
-          _appThemeContext: p.themeContext,
-          router: {
-            goBack: (steps = 1) => {
-              if (history.length === 0) return;
-              const targetIndex = Math.max(0, history.length - 1 - steps);
-              const target = history[targetIndex];
-              setHistory((h) => h.slice(0, targetIndex + 1));
-              navigate(target, { replace: true });
+      <WithL10nOrDefault>
+        <AppContext.Provider
+          value={{
+            appConfig: p.config,
+            _appThemeContext: p.themeContext,
+            router: {
+              goBack: (steps = 1) => {
+                if (history.length === 0) return;
+                const targetIndex = Math.max(0, history.length - 1 - steps);
+                const target = history[targetIndex];
+                setHistory((h) => h.slice(0, targetIndex + 1));
+                navigate(target, { replace: true });
+              },
+              go: (p, replace) => {
+                setHistory((h) => {
+                  if (replace === "all") return [p];
+                  const repl = Math.max(0, replace ?? 0);
+                  if (repl === 0) return [...h, p];
+                  return [...h.slice(0, -repl), p];
+                });
+                navigate(p, { replace: (replace ?? 0) !== 0 });
+              },
+              history: history,
+              location: location,
             },
-            go: (p, replace) => {
-              setHistory((h) => {
-                if (replace === "all") return [p];
-                const repl = Math.max(0, replace ?? 0);
-                if (repl === 0) return [...h, p];
-                return [...h.slice(0, -repl), p];
-              });
-              navigate(p, { replace: (replace ?? 0) !== 0 });
-            },
-            history: history,
-            location: location,
-          },
-          menu:
-            menuItems.length === 0
-              ? undefined
-              : {
-                  isOpen: menuOpen,
-                  setOpen: (s: boolean) => setMenuOpen(s),
-                },
-        }}
-      >
-        <ToastProvider>
-          <DialogsProvider>
-            <Box
-              typeLabel="app_base"
-              scheme="primary"
-              style={{
-                display: "flex",
-                width: "100%",
-                minHeight: "100vh",
-              }}
-            >
-              {menuItems.length > 0 && <Menu items={menuItems} />}
-              <div style={{ flex: 1, width: "0px" }}>
-                <Wouter.Switch>{children}</Wouter.Switch>
-              </div>
-            </Box>
-          </DialogsProvider>
-        </ToastProvider>
-      </AppContext.Provider>
+            menu:
+              menuItems.length === 0
+                ? undefined
+                : {
+                    isOpen: menuOpen,
+                    setOpen: (s: boolean) => setMenuOpen(s),
+                  },
+          }}
+        >
+          <ToastProvider>
+            <DialogsProvider>
+              <Box
+                typeLabel="app_base"
+                scheme="primary"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  minHeight: "100vh",
+                }}
+              >
+                {menuItems.length > 0 && <Menu items={menuItems} />}
+                <div
+                  style={{
+                    flex: 1,
+                    width: "0px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Wouter.Switch>
+                    {children},
+                    <_404Route />
+                  </Wouter.Switch>
+                </div>
+              </Box>
+            </DialogsProvider>
+          </ToastProvider>
+        </AppContext.Provider>
+      </WithL10nOrDefault>
     </p.themeContext.WithTheme>
   );
 }
@@ -213,4 +229,24 @@ function _extractMenuItems(children: (ElbeRoute | ElbeChild)[]): MenuItem[] {
     items.push(child.props);
   }
   return items;
+}
+
+function _404Route() {
+  return (
+    <Route path="*">
+      <PrettyErrorView
+        flex
+        error={{
+          icon: Icons.Frown,
+          code: "404",
+          message: "404 - Not Found",
+          description: "The requested page could not be found.",
+        }}
+        retry={() => {
+          //set browser location to / manuall:
+          window.location.href = "/";
+        }}
+      />
+    </Route>
+  );
 }

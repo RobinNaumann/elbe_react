@@ -85,7 +85,10 @@ export function SectionCard(p: {
             padding={1}
             className={collapsed === undefined ? undefined : "hoverable_card"}
             style={{
-              border: "none",
+              borderLeftStyle: "none",
+              borderTopStyle: "none",
+              borderRightStyle: "none",
+              borderBottomStyle: "none",
               display: "flex",
               alignItems: "center",
               backgroundColor: "transparent",

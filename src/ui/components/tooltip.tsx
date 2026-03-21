@@ -4,7 +4,13 @@ import { useApp } from "../app/app_ctxt";
 import { getRootElement } from "../util/root";
 import { ElbeChildren } from "../util/types";
 
-export function WithTooltip(p: { tooltip?: string; children?: ElbeChildren }) {
+export function WithTooltip(p: {
+  tooltip?: string | ElbeChildren;
+  delay?: number;
+  alignHorizontal?: "left" | "center" | "right" | "auto";
+  alignVertical?: "top" | "center" | "bottom" | "auto";
+  children?: ElbeChildren;
+}) {
   const rootDOM = useMemo(() => getRootElement("elbe_tooltip"), []);
   const timeoutRef = useRef<number | null>(null);
   const [visible, setVisible] = useState(false);
@@ -23,14 +29,44 @@ export function WithTooltip(p: { tooltip?: string; children?: ElbeChildren }) {
         },
       },
     }),
-    []
+    [],
   );
+
+  const align = useMemo(() => {
+    let xVals = { xOffset: -12, xTransform: "-100%" };
+    let yVals = { yOffset: -12, yTransform: "-100%" };
+    let xAlign = p.alignHorizontal ?? "auto";
+    let yAlign = p.alignVertical ?? "auto";
+
+    // if center-center, align above cursor to avoid covering it
+    if (xAlign === "center" && yAlign === "center") {
+      console.warn(
+        "Center-Center alignment may cause the tooltip" +
+          " to cover the cursor. Aligning to top-center instead.",
+      );
+      yAlign = "top";
+    }
+
+    if (xAlign === "auto") xAlign = coords.left ? "right" : "left";
+    if (yAlign === "auto") yAlign = coords.top ? "bottom" : "top";
+
+    if (xAlign === "center") xVals = { xOffset: 0, xTransform: "-50%" };
+    if (xAlign === "right") xVals = { xOffset: 12, xTransform: "0%" };
+
+    if (yAlign === "center") yVals = { yOffset: 0, yTransform: "-50%" };
+    if (yAlign === "bottom") yVals = { yOffset: 12, yTransform: "0%" };
+
+    return { ...xVals, ...yVals };
+  }, [p.alignHorizontal, coords.left]);
 
   if (!p.tooltip) return <>{p.children}</>;
   return (
     <span
       onMouseEnter={() => {
-        timeoutRef.current = window.setTimeout(() => setVisible(true), 1000);
+        timeoutRef.current = window.setTimeout(
+          () => setVisible(true),
+          p.delay ?? 1000,
+        );
       }}
       onMouseLeave={() => {
         console.log("leave");
@@ -60,22 +96,24 @@ export function WithTooltip(p: { tooltip?: string; children?: ElbeChildren }) {
               position: "fixed",
               pointerEvents: "none",
               zIndex: 1001,
-              top: coords.y + (coords.top ? -12 : 12), // offset below cursor
-              left: coords.x + (coords.left ? -12 : 12), // offset right of cursor
-              background: theme.color.currentColor.back
-                .inter(theme.color.currentColor.front, 0.2)
-                .asCss(),
-              color: theme.color.currentColor.front.asCss(),
-              padding: ".125rem .3rem",
-              borderRadius: ".25rem",
-              transform: `translate(${coords.left ? "-100%" : "0"}, ${
-                coords.top ? "-100%" : "0"
-              })`,
+              top: coords.y + align.yOffset, // offset below cursor
+              left: coords.x + align.xOffset, // offset right of cursor
+              transform: `translate(${align.xTransform}, ${align.yTransform})`,
+              ...(typeof p.tooltip === "string"
+                ? {
+                    background: theme.color.currentColor.back
+                      .inter(theme.color.currentColor.front, 0.2)
+                      .asCss(),
+                    color: theme.color.currentColor.front.asCss(),
+                    padding: ".125rem .3rem",
+                    borderRadius: ".25rem",
+                  }
+                : {}),
             }}
           >
             {p.tooltip}
           </div>,
-          rootDOM
+          rootDOM,
         )}
     </span>
   );

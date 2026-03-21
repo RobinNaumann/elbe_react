@@ -46,6 +46,6 @@ export function App() {
       </ElbeApp>
     ),
     undefined,
-    () => <button onClick={() => themeBit.reload()}>Load Theme</button>
+    () => <button onClick={() => themeBit.reload()}>Load Theme</button>,
   );
 }

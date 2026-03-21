@@ -18,7 +18,7 @@ const _styleSel: SeedStyleSelector = ({ base, style }) => {
 
   return style.interLayerLayer(
     LayerColor.fromBack(bL > 0.5 ? colors.black : colors.white),
-    0.1
+    0.1,
   );
 };
 
@@ -29,7 +29,7 @@ const _makeSecondary: SeedSelector = ({ base, seed }) =>
     back: base.back
       .inter(
         LayerColor.fromBack(seed.accent).back,
-        base.back.luminance() < 0.3 ? 0.2 : 0.1
+        base.back.luminance() < 0.3 ? 0.2 : 0.1,
       )
       .desaturated(0.5),
     front: base.front,
@@ -38,7 +38,7 @@ const _makeSecondary: SeedSelector = ({ base, seed }) =>
 
 const _makeInverse: SeedSelector = ({ base }) => base.mirrorBrightnessLayer();
 
-const _makeMajor: SeedStyleSelector = ({ style, path }) => {
+const _makeMajor: SeedStyleSelector = ({ style }) => {
   return LayerColor.fromBack(style.back, { border: style.back });
 };
 
@@ -62,8 +62,8 @@ const _makeFlat: SeedFlatSelector = ({ path, style, base }) => {
   const front = !style
     ? base.front
     : base.back.hasWCAGContrast(style?.back)
-    ? style?.back
-    : style?.back.inter(base.front, 0.6);
+      ? style?.back
+      : style?.back.inter(base.front, 0.6);
 
   const isDark = base.back.luminance() < 0.3;
 

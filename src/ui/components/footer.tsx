@@ -58,9 +58,10 @@ export function Footer({
         borderLeftStyle: "none",
         borderRightStyle: "none",
         borderBottomStyle: "none",
-        borderTopLeftRadius: layoutMode.isWide
-          ? `${theme.geometry.radius}rem`
-          : undefined,
+        borderTopLeftRadius:
+          layoutMode.isWide && !theme.color.isContrast
+            ? `${theme.geometry.radius}rem`
+            : undefined,
         /*color: theme.color.currentColor.front
           .inter(theme.color.currentColor.back, 0.6)
           .asCss(),*/
@@ -74,14 +75,14 @@ export function Footer({
             {left && (
               <Column gap={0.5} flex={1} cross="start">
                 {left.map((item: any, i) =>
-                  item.label ? <_Link key={i} {...item} /> : item
+                  item.label ? <_Link key={i} {...item} /> : item,
                 )}
               </Column>
             )}
             {right && (
               <Column gap={0.5} flex={1} cross="end">
                 {right.map((item: any, i) =>
-                  item.label ? <_Link key={i} {...item} /> : item
+                  item.label ? <_Link key={i} {...item} /> : item,
                 )}
               </Column>
             )}

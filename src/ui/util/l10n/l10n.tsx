@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ElbeChildren } from "../types";
 import { Maybe } from "../util";
 import {
@@ -9,6 +9,7 @@ import {
   _L10nState,
   _LocaleID,
   _LocaleIDEasy,
+  _maybeL10n,
   _useL10n,
 } from "./_l10n_util";
 
@@ -30,7 +31,7 @@ export function makeL10n<T extends _L10nData>(
   fallback: { [locale: _LocaleIDEasy]: T },
   supported: {
     [locale: _LocaleIDEasy]: Partial<T>;
-  }
+  },
 ): {
   L10n: React.FunctionComponent<_L10nProps>;
   useL10n: () => _L10nState<T>;
@@ -92,4 +93,11 @@ function _l10nInlineResolver(locale: _L10nSelection) {
 
     return value[bestMatch ?? anyEnglish] ?? value[locales[0]] ?? "";
   };
+}
+
+export function WithL10nOrDefault(p: { children: ElbeChildren }) {
+  const l10n = useMemo(() => makeL10n({ en: {} }, {}), []);
+  const existing = _maybeL10n();
+  if (!!existing) return <>{p.children}</>;
+  return <l10n.L10n>{p.children}</l10n.L10n>;
 }

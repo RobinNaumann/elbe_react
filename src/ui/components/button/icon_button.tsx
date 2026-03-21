@@ -55,7 +55,7 @@ function _btn({
         },
       },
     }),
-    [elbe.kind, manner]
+    [elbe.kind, manner],
   );
 
   return (
@@ -73,7 +73,7 @@ function _btn({
             height: "3rem",
             width: "3rem",
           })}
-          title={elbe.tooltip ? undefined : elbe.ariaLabel ?? undefined}
+          title={elbe.tooltip ? undefined : (elbe.ariaLabel ?? undefined)}
           onClick={(e) => {
             e.stopPropagation();
             onTap && onTap(e);
