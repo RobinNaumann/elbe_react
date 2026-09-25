@@ -19,7 +19,7 @@ import { Text } from "../text";
 export function elevatedBackdropStyle(
   open: boolean,
   theme?: ElbeThemeComputed<ElbeThemeData>,
-  openMergeStyle?: React.CSSProperties
+  openMergeStyle?: React.CSSProperties,
 ): React.CSSProperties {
   return {
     transition: theme?.motion.reduced
@@ -85,7 +85,7 @@ export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
         },
       },
     }),
-    []
+    [],
   );
 
   const rootDOM = useMemo(() => getRootElement("elbe_dialog"), []);
@@ -161,12 +161,23 @@ export function Dialog({ dismissible = "button", ...p }: ElbeDialogProps) {
                   />
                 )}
               </Row>
-              <Column style={{ padding: "1rem" }}>{p.children}</Column>
+              <Column
+                style={{
+                  padding: "1rem",
+                  maxHeight: "calc(100vh - 10rem)",
+                  minWidth: "min(20rem, 90vw)",
+                  overflowY: "auto",
+                  overflowX: "hidden",
+                  scrollbarWidth: "none",
+                }}
+              >
+                {p.children}
+              </Column>
             </Card>
           </dialog>
         </div>
       </_appThemeContext.WithTheme>
     </ToolbarContext.Provider>,
-    rootDOM
+    rootDOM,
   );
 }

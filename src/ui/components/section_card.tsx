@@ -3,7 +3,6 @@ import Markdown from "react-markdown";
 import {
   Card,
   Column,
-  Dialog,
   ElbeChild,
   ElbeChildren,
   IconButton,
@@ -11,6 +10,7 @@ import {
   MarkdownString,
   Row,
   Text,
+  useDialogs,
 } from "../..";
 import { useApp } from "../app/app_ctxt";
 
@@ -47,8 +47,8 @@ export function SectionCard(p: {
 }) {
   const _app = useApp({ useFallback: true });
   const _appTheme = _app._appThemeContext.useTheme();
+  const { showDialog } = useDialogs();
   const [collapsed, setCollapsed] = useState<boolean | undefined>(p.collapsed);
-  const [hintOpen, setHintOpen] = useState(false);
 
   return (
     <Card
@@ -59,20 +59,6 @@ export function SectionCard(p: {
         }rem`,
       }}
     >
-      <Dialog
-        title={p.title + " - Info"}
-        open={hintOpen}
-        maxWidth={35}
-        onClose={() => setHintOpen(false)}
-      >
-        {typeof p.hint === "string" ? (
-          <div className="elbe-hint-markdown">
-            <Markdown children={p.hint} allowElement={() => true} />
-          </div>
-        ) : (
-          p.hint
-        )}
-      </Dialog>
       {
         <Column>
           <Card
@@ -108,7 +94,28 @@ export function SectionCard(p: {
               <IconButton.plain
                 icon={Icons.Info}
                 ariaLabel="show information about this section"
-                onTap={() => setHintOpen(true)}
+                onTap={() =>
+                  showDialog(
+                    {
+                      onClose: () => null,
+                      children: () =>
+                        typeof p.hint === "string" ? (
+                          <div className="elbe-hint-markdown">
+                            <Markdown
+                              children={p.hint}
+                              allowElement={() => true}
+                            />
+                          </div>
+                        ) : (
+                          p.hint
+                        ),
+                    },
+                    {
+                      title: p.title + " - Info",
+                      maxWidth: 35,
+                    },
+                  )
+                }
               />
               {p.collapsed === undefined ? null : (
                 <IconButton.plain

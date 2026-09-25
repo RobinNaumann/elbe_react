@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { ElbeChildren } from "../..";
 import { deepMerge } from "../util/merge_deep";
-import { dictMap, throwError, tryOrNull } from "../util/util";
+import { Dict, dictMap, throwError, tryOrNull } from "../util/util";
 import {
   elbeCoreThemes,
   ElbeThemeConfig,
@@ -31,7 +31,7 @@ export function makeThemeContext<T extends ElbeThemeData = {}>(p: {
       ...(p.definitions ?? ({} as any)),
     },
     p.config ?? {},
-    p.seed ?? {}
+    p.seed ?? {},
   );
 
   const computedContext = _computeContext(allDefinitions, config);
@@ -59,7 +59,7 @@ export function makeThemeContext<T extends ElbeThemeData = {}>(p: {
         const newConfig = _configFromSeed(
           allDefinitions,
           {}, //p.themeConfig ?? theme.themeConfig,
-          p.seed
+          p.seed,
         );
         return _computeContext(allDefinitions, newConfig);
       }
@@ -77,7 +77,7 @@ export function makeThemeContext<T extends ElbeThemeData = {}>(p: {
         const subCss = def.asCss(newTheme.theme[key] ?? {});
         const subCssContext = _toCssVars(
           def.asCssContext?.(newTheme.theme[key] ?? {}),
-          key
+          key,
         );
         css = { ...css, ...subCss, ...subCssContext };
       }
@@ -108,7 +108,7 @@ export type ElbeThemeContext = ReturnType<typeof makeThemeContext>;
 function _configFromSeed<T extends ElbeThemeData>(
   defs: ElbeThemeDefinitions<T>,
   config: Partial<ElbeThemeConfig<T>>,
-  seed: Partial<ElbeThemeSeed<T>>
+  seed: Partial<ElbeThemeSeed<T>>,
 ): ElbeThemeConfig<T> {
   const conf: any = {};
 
@@ -127,7 +127,7 @@ function _configFromSeed<T extends ElbeThemeData>(
 function _with<T extends ElbeThemeData>(
   definitions: ElbeThemeDefinitions<T>,
   config: ElbeThemeConfig<T>,
-  worker: (data: ElbeThemeConfig<T>) => Partial<ElbeThemeConfig<T>>
+  worker: (data: ElbeThemeConfig<T>) => Partial<ElbeThemeConfig<T>>,
 ): ElbeThemeContextData<T> {
   const partConf = worker({ ...config });
   const newConf = { ...config, ...partConf };
@@ -136,7 +136,7 @@ function _with<T extends ElbeThemeData>(
 
 function _computeContext<T extends ElbeThemeData>(
   definitions: ElbeThemeDefinitions<T>,
-  config: ElbeThemeConfig<T>
+  config: ElbeThemeConfig<T>,
 ): ElbeThemeContextData<T> {
   return {
     themeDefinitions: definitions,

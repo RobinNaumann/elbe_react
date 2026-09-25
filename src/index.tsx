@@ -1,4 +1,5 @@
 import * as Lucide from "lucide-react";
+//@ts-ignore
 import "./elbe.css";
 
 export * as Wouter from "wouter";

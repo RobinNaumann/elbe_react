@@ -42,7 +42,7 @@ export function toElbeError(e: any): ElbeError {
 export function httpErrorFromCode(code: number, e?: any): ElbeError {
   const err =
     Object.values(errors.http).find(
-      (e) => e.code.toString().split("_")[1] === code.toString()
+      (e) => e.code.toString().split("_")[1] === code.toString(),
     ) ?? errors.unknown;
 
   return {
@@ -63,4 +63,8 @@ export function rethrow(e: any, base: ElbeError = errors.unknown): void {
     message: e instanceof Error ? e.message : base.message,
     details: e,
   };
+}
+
+export function elbeError(e: ElbeError): ElbeError {
+  return toElbeError(e);
 }

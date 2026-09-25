@@ -8,6 +8,7 @@ type _Params = {
 };
 
 export const showConfirmDialog: DialogsConfig<_Params, boolean> = {
+  maxWidth: 28,
   onClose: (value) => value ?? false,
   children: ({ highlight = "no", ...p }, close) => (
     <Column gap={2}>

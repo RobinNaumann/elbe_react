@@ -1,4 +1,4 @@
-import { dictMap, dictWithoutUndefined } from "../../util/util";
+import { Dict, dictMap, dictWithoutUndefined } from "../../util/util";
 import { ElbeSubThemeData } from "../theme";
 
 export type TypeStyle<T extends Dict<any> = {}> = T & {
@@ -10,7 +10,7 @@ export type TypeStyle<T extends Dict<any> = {}> = T & {
 };
 
 export function typeStyleAsCss(
-  style: TypeStyle | undefined
+  style: TypeStyle | undefined,
 ): React.CSSProperties {
   if (!style) return {};
   return {
@@ -26,7 +26,7 @@ type _VariantSelector<T> = (style: TypeStyle, variant: T) => TypeStyle;
 
 const _headingVariants: _VariantSelector<1 | 2 | 3 | 4 | 5 | 6> = (
   style,
-  variant
+  variant,
 ) => {
   const reg = 1;
   const diff = style.size - reg;

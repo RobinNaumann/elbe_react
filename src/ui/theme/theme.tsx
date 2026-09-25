@@ -1,3 +1,5 @@
+import { Dict } from "../..";
+//@ts-ignore
 import "../../elbe.css";
 import { geometryThemeData } from "./subthemes/_theme_geometry";
 import { menuThemeData } from "./subthemes/_theme_menu";

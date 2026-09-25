@@ -6,6 +6,7 @@ type _Params = {
 };
 
 export const showAlertDialog: DialogsConfig<_Params, null> = {
+  maxWidth: 28,
   onClose: () => null,
   children: (p, close) => (
     <Column gap={2}>

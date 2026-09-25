@@ -10,7 +10,7 @@ export function clamp(value: number, min: number, max: number): number {
 }
 
 export function classString(
-  classes: (string | false | null | undefined)[]
+  classes: (string | false | null | undefined)[],
 ): string {
   return classes.filter((c) => c).join(" ");
 }
@@ -22,7 +22,7 @@ export function classString(
  */
 export function share(
   data: { title: string; text?: string; url: string },
-  toastMsg = "copied to clipboard. Share it with others."
+  toastMsg = "copied to clipboard. Share it with others.",
 ) {
   const msg = `${data.title}\n${data.text ?? ""}\n\n${data.url}`;
 
@@ -40,7 +40,7 @@ export function share(
  */
 export function copyToClipboard(
   text: string,
-  toastMsg = "copied to clipboard"
+  toastMsg = "copied to clipboard",
 ) {
   navigator.clipboard.writeText(text);
   if (toastMsg) showToast(toastMsg);
@@ -140,7 +140,7 @@ export function omit<T extends Dict<any>>(obj: T, ...keys: string[]): T {
 
 export function dictMap<T extends Dict<any>, U extends Dict<any>>(
   obj: T,
-  f: (v: T[keyof T], k: keyof T) => U[keyof U] | undefined
+  f: (v: T[keyof T], k: keyof T) => U[keyof U] | undefined,
 ): U {
   const res: any = {};
   for (const key in obj) {
@@ -151,7 +151,7 @@ export function dictMap<T extends Dict<any>, U extends Dict<any>>(
 }
 
 export function dictWithoutUndefined<T extends Dict<any>>(
-  obj?: T
+  obj?: T,
 ): { [key in keyof T]: Exclude<T[key], undefined> } {
   if (!obj) return {} as any;
   const res: any = {};
@@ -193,4 +193,10 @@ export function metaTagContent(name: string): string | null {
   }
 
   return null;
+}
+
+export type Dict<T> = { [key: string]: T };
+
+export function cloned<T>(obj: T): T {
+  return JSON.parse(JSON.stringify(obj)) as T;
 }

@@ -1,5 +1,5 @@
 // ToastContext.js
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
 import { useApp } from "../../app/app_ctxt";
 import { IconChild } from "../../components/button/icon_button";
@@ -31,6 +31,7 @@ export type ToastCtrl = {
 
 type _IdToast = ToastModel & {
   id: string;
+  createdAt: number;
 };
 
 const ToastContext = createContext<ToastCtrl>({
@@ -52,18 +53,37 @@ export function ToastProvider(p: { children: ElbeChildren }) {
   const rootDOM = useMemo(() => getRootElement("elbe_toast"), []);
   const [toasts, setToasts] = useState<_IdToast[]>([]);
 
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      const now = Date.now();
+      setToasts((current) =>
+        current.filter((toast) => {
+          if (toast.duration === null && toast.dismissible === true) {
+            return true;
+          }
+
+          const duration = toast.duration ?? theme.toast.duration ?? 3000;
+          return now - toast.createdAt < duration;
+        }),
+      );
+    }, 15000);
+
+    return () => window.clearInterval(interval);
+  }, [theme.toast.duration]);
+
   const [vert, hori] = useMemo(() => {
     const alignment = theme.toast.alignment ?? "bottom_center";
     return alignment.split("_");
   }, [theme.toast.alignment]);
 
   function addToast(toast: ToastModel) {
-    const id = Date.now() + "";
-    setToasts([...toasts, { ...toast, id }]);
+    const now = Date.now();
+    const id = now + Math.random().toString(36).substring(2, 9);
+    setToasts((current) => [...current, { ...toast, id, createdAt: now }]);
     if (toast.duration === null && toast.dismissible === true) return;
     setTimeout(
       () => removeToast(id),
-      toast.duration ?? theme.toast.duration ?? 3000
+      toast.duration ?? theme.toast.duration ?? 3000,
     );
   }
 
@@ -121,7 +141,7 @@ export function ToastProvider(p: { children: ElbeChildren }) {
             </div>
           </div>
         </ToolbarContext.Provider>,
-        rootDOM
+        rootDOM,
       )}
     </ToastContext.Provider>
   );

@@ -1,7 +1,9 @@
+import { Dict } from "../../../../..";
+
 export type ElbeColor<
   T extends string,
   Data extends Dict<any>,
-  Computed extends Dict<any>
+  Computed extends Dict<any>,
 > = {
   type: [T, ...string[]];
 } & Data &
@@ -13,7 +15,7 @@ export function defineColor<
   Computed extends Dict<any>,
   Parent extends Dict<any>,
   T extends ElbeColor<Name, Data, Omit<Computed & Parent, "type">>,
-  Static extends Dict<any> = {}
+  Static extends Dict<any> = {},
 >(p: {
   type: Name;
   static: Static;

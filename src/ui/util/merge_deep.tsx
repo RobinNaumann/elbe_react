@@ -1,7 +1,9 @@
+import { Dict } from "./util";
+
 export function deepMerge<T extends Dict<any>>(
   original: T,
   toMerge: Partial<T>,
-  depth: number = 5000
+  depth: number = 5000,
 ): T {
   const output: Dict<any> = {};
   const keys = Object.keys(toMerge ?? {}).concat(Object.keys(original ?? {}));
@@ -18,7 +20,7 @@ export function deepMerge<T extends Dict<any>>(
       output[key] = deepMerge(
         vOriginal as Dict<any>,
         vToMerge as Dict<any>,
-        depth - 1
+        depth - 1,
       );
     } else {
       output[key] = vToMerge !== undefined ? vToMerge : vOriginal;

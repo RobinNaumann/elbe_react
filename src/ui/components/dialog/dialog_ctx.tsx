@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import {
   ColorSelection,
   Dialog,
+  Dict,
   dictMap,
   ElbeChildren,
   getRootElement,
@@ -24,10 +25,11 @@ type AllDialogParams = {
 };
 
 export type DialogsConfig<I extends Dict<any>, O> = {
+  maxWidth?: number;
   onClose: (value: O | null) => O;
   children: (
     p: AllDialogParams & I,
-    close: (t: O | null) => void
+    close: (t: O | null) => void,
   ) => ElbeChildren;
 };
 
@@ -39,7 +41,7 @@ type _DialogModel<I extends AllDialogParams & Dict<any>, O> = {
 };
 
 type _DialogsType<T extends DialogsConfig<any, any>> = (
-  p: AllDialogParams & (T extends DialogsConfig<infer I, any> ? I : never)
+  p: AllDialogParams & (T extends DialogsConfig<infer I, any> ? I : never),
 ) => Promise<ReturnType<T["onClose"]>>;
 
 export type DialogsCtrl = {
@@ -47,7 +49,7 @@ export type DialogsCtrl = {
 } & {
   showDialog: <I extends AllDialogParams & Dict<any>, O>(
     config: DialogsConfig<I, O>,
-    params: I
+    params: I,
   ) => Promise<O>;
 };
 
@@ -63,7 +65,7 @@ export function DialogsProvider(p: { children: ElbeChildren }) {
 
   function showDialog<I extends AllDialogParams & Dict<any>, O>(
     dialog: DialogsConfig<I, O>,
-    params: I
+    params: I,
   ): Promise<O> {
     return new Promise<O>((resolve) => {
       const id = Date.now() + "";
@@ -89,9 +91,9 @@ export function DialogsProvider(p: { children: ElbeChildren }) {
     () =>
       dictMap(
         _dialogs,
-        (config) => (p: any) => showDialog(config as any, p)
+        (config) => (p: any) => showDialog(config as any, p),
       ) as any,
-    [dialogs]
+    [dialogs],
   );
 
   return (
@@ -105,17 +107,19 @@ export function DialogsProvider(p: { children: ElbeChildren }) {
               title={dialog.params.title}
               open={true}
               dismissible={dialog.params.dismissible ?? "button"}
-              maxWidth={dialog.params.maxWidth ?? undefined}
+              maxWidth={
+                dialog.params.maxWidth ?? dialog.config.maxWidth ?? undefined
+              }
               onClose={() => _closeDialog(dialog.id, null)}
               kind={dialog.params.kind}
             >
               {dialog.config.children(dialog.params, (value) =>
-                _closeDialog(dialog.id, value)
+                _closeDialog(dialog.id, value),
               )}
             </Dialog>
           ))}
         </div>,
-        rootDOM
+        rootDOM,
       )}
     </_DialogsContext.Provider>
   );
